@@ -2,14 +2,16 @@ import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ProductsService } from './state/products.service';
 import { ThemeService } from './shared/theme.service';
-import { fetchApiProvider } from './shared/fetch';
+import { fetchMockApiProvider } from './shared/fetch';
 import { ProductsApi } from './api/products-api.service';
 
 @Component({
   selector: 'ec-root',
   standalone: true,
   imports: [RouterOutlet],
-  providers: [fetchApiProvider, ProductsApi, ProductsService],
+  // Substitute "fetchMockApiProvider" with "fetchApiProvider"
+  // in order to perform actual network requests via the Fetch API
+  providers: [fetchMockApiProvider, ProductsApi, ProductsService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
