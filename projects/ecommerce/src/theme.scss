@@ -1,0 +1,47 @@
+// This files keeps all CSS variable for the light and dark themes.
+
+// Light color variables
+$lightColorBg: #f4f5f8;
+$lightColorForeground: #222428;
+
+// Dark colors variables
+$darkColorBg: #222428;
+$darkColorForeground: #f4f5f8;
+
+// TODO: Colors to implement - primary, secondary, tertiary, success, warning, danger
+
+/*
+ * Light theme setup
+ * _________________
+ */
+
+// System preference
+:root {
+  --color-bg: #{$lightColorBg};
+  --color-foreground: #{$lightColorForeground};
+}
+
+// User-selected
+:root.ec-light-theme {
+  --color-bg: #{$lightColorBg};
+  --color-foreground: #{$lightColorForeground};
+}
+
+/*
+ * Dark theme setup
+ * ________________
+ */
+
+// System preference
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #{$darkColorBg};
+    --color-foreground: #{$darkColorForeground};
+  }
+}
+
+// User-selected
+:root.ec-dark-theme {
+  --color-bg: #{$darkColorBg};
+  --color-foreground: #{$darkColorForeground};
+}

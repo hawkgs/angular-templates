@@ -14,6 +14,6 @@ export class ProductsService {
 
   async loadProducts() {
     const products = await this._productsApi.getProducts();
-    this._products.set(products);
+    this._products.update((v) => v.concat(products));
   }
 }

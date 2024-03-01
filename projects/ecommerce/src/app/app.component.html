@@ -1,6 +1,11 @@
 <p>App running</p>
 <button (click)="getProducts()">Get products</button>
 
+<p>Change theme</p>
+<button (click)="theme.setTheme('dark')">Dark</button>
+<button (click)="theme.setTheme('light')">Light</button>
+<button (click)="theme.setTheme('system')">System</button>
+
 @for (p of products.products(); track $index) {
 <ul>
   <li>Name: {{ p.name }}</li>

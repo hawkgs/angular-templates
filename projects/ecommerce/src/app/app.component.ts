@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ApiModule } from './api/api.module';
 import { ProductsService } from './state/products.service';
+import { ThemeService } from './shared/theme.service';
 
 @Component({
   selector: 'ec-root',
@@ -12,8 +13,8 @@ import { ProductsService } from './state/products.service';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'ecommerce';
   products = inject(ProductsService);
+  theme = inject(ThemeService);
 
   getProducts() {
     this.products.loadProducts();
