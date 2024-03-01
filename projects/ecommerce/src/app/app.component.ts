@@ -1,14 +1,15 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ApiModule } from './api/api.module';
 import { ProductsService } from './state/products.service';
 import { ThemeService } from './shared/theme.service';
+import { fetchApiProvider } from './shared/fetch';
+import { ProductsApi } from './api/products-api.service';
 
 @Component({
   selector: 'ec-root',
   standalone: true,
-  imports: [RouterOutlet, ApiModule],
-  providers: [ProductsService],
+  imports: [RouterOutlet],
+  providers: [fetchApiProvider, ProductsApi, ProductsService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
