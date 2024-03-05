@@ -8,8 +8,9 @@
 
 @for (p of products.value(); track $index) {
 <ul>
+  <li>ID: {{ p.id }}</li>
   <li>Name: {{ p.name }}</li>
-  <li>Category: {{ p.category }}</li>
-  <li>Image: {{ p.image }}</li>
+  <li>Category: {{ categories.value().get(p.categoryId)?.name }}</li>
+  <li>Image: {{ p.images.toJS() }}</li>
 </ul>
 }

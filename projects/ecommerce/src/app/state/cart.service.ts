@@ -2,6 +2,9 @@ import { signal } from '@angular/core';
 import { Map } from 'immutable';
 import { Product } from '../models';
 
+/**
+ * Cart state.
+ */
 export class CartService {
   private _cart = signal<Map<string, number>>(Map([]));
 

@@ -24,12 +24,13 @@ export class ProductParameter extends productParameterRecord {
  * Product
  */
 
+// Note(Georgi): Think about a "isComplete" flag
 interface ProductConfig {
   id: string;
   name: string;
   description: string;
-  category: string;
-  image: string;
+  categoryId: string;
+  images: List<string>;
   price: number;
   discountPrice: number;
   availableQuantity: number;
@@ -40,8 +41,8 @@ const productRecord = Record<ProductConfig>({
   id: '',
   name: '',
   description: '',
-  category: '',
-  image: '',
+  categoryId: '',
+  images: List([]),
   price: 0,
   discountPrice: 0,
   availableQuantity: 0,

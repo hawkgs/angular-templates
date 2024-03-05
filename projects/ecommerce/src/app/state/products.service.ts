@@ -9,6 +9,7 @@ import { ProductsApi } from '../api/products-api.service';
 @Injectable()
 export class ProductsService {
   private _productsApi = inject(ProductsApi);
+  // TODO(Georgi): Change to Map
   private _products = signal<List<Product>>(List([]));
 
   readonly value = this._products.asReadonly();
