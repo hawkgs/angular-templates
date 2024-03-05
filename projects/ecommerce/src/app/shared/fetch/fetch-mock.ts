@@ -2,6 +2,8 @@
 // Change the provider in app.component.ts
 // in order to use the native fetch.
 
+import Data from '../../../assets/mock-data/data.json';
+
 const REQUEST_DELAY = 500;
 
 // A delayed promise response
@@ -29,26 +31,11 @@ export function fetchMock(url: string, init?: RequestInit): Promise<Response> {
   let response = {};
 
   if (url.endsWith('products')) {
-    response = [
-      {
-        id: '1',
-        name: 'Tshirt',
-        category: 'clothes',
-        image: 'https://i.imgur.com/QkIa5tT.jpeg',
-      },
-      {
-        id: '2',
-        name: 'Sweatshirt',
-        category: 'clothes',
-        image: 'https://i.imgur.com/cSytoSD.jpeg',
-      },
-      {
-        id: '3',
-        name: 'Sofa',
-        category: 'furniture',
-        image: 'https://i.imgur.com/Qphac99.jpeg',
-      },
-    ];
+    response = Data.products;
+  }
+
+  if (url.endsWith('categories')) {
+    response = Data.categories;
   }
 
   return simulateRequest(response, init?.signal);
