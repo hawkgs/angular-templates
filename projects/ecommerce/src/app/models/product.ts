@@ -9,6 +9,17 @@ interface ProductParameterConfig {
   value: string;
 }
 
+const productParameterRecord = Record<ProductParameterConfig>({
+  name: '',
+  value: '',
+});
+
+export class ProductParameter extends productParameterRecord {
+  constructor(config: ProductParameterConfig) {
+    super(config);
+  }
+}
+
 /**
  * Product
  */
@@ -22,7 +33,7 @@ interface ProductConfig {
   price: number;
   discountPrice: number;
   availableQuantity: number;
-  parameters: List<Record<ProductParameterConfig>>;
+  parameters: List<ProductParameter>;
 }
 
 const productRecord = Record<ProductConfig>({
