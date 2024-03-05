@@ -6,7 +6,7 @@
 <button (click)="theme.setTheme('light')">Light</button>
 <button (click)="theme.setTheme('system')">System</button>
 
-@for (p of products.products(); track $index) {
+@for (p of products.value(); track $index) {
 <ul>
   <li>Name: {{ p.name }}</li>
   <li>Category: {{ p.category }}</li>

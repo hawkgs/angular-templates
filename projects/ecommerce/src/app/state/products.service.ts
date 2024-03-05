@@ -10,7 +10,8 @@ import { ProductsApi } from '../api/products-api.service';
 export class ProductsService {
   private _productsApi = inject(ProductsApi);
   private _products = signal<List<Product>>(List([]));
-  readonly products = this._products.asReadonly();
+
+  readonly value = this._products.asReadonly();
 
   async loadProducts() {
     const products = await this._productsApi.getProducts();
