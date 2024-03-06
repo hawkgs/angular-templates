@@ -20,7 +20,7 @@
       "description": "Lorem ipsum",
       "category_id": "merch",
       "images": [
-        "https://i.imgur.com/QkIa5tT.jpeg"
+        "/assets/mock-data/imgs/6631-1.png"
       ],
       "price": 25,
       "discount_price": 19,
@@ -32,7 +32,7 @@
       "description": "Lorem ipsum",
       "category_id": "merch",
       "images": [
-        "https://i.imgur.com/QkIa5tT.jpeg"
+        "/assets/mock-data/imgs/2372-1.png"
       ],
       "price": 39,
       "discount_price": 0,
@@ -44,7 +44,7 @@
       "description": "Lorem ipsum",
       "category_id": "merch",
       "images": [
-        "https://i.imgur.com/Qphac99.jpeg"
+        "/assets/mock-data/imgs/3936-1.png"
       ],
       "price": 5.99,
       "discount_price": 0,
@@ -62,7 +62,7 @@
       "description": "Lorem ipsum",
       "category_id": "merch",
       "images": [
-        "https://i.imgur.com/Qphac99.jpeg"
+        "/assets/mock-data/imgs/1002-1.png"
       ],
       "price": 9,
       "discount_price": 0,
@@ -74,7 +74,7 @@
       "description": "Lorem ipsum",
       "category_id": "merch",
       "images": [
-        "https://i.imgur.com/QkIa5tT.jpeg"
+        "/assets/mock-data/imgs/9925-1.png"
       ],
       "price": 25,
       "discount_price": 0,
@@ -86,7 +86,7 @@
       "description": "Lorem ipsum",
       "category_id": "merch",
       "images": [
-        "https://i.imgur.com/QkIa5tT.jpeg"
+        "/assets/mock-data/imgs/1202-1.png"
       ],
       "price": 39,
       "discount_price": 29,
@@ -94,11 +94,11 @@
     },
     {
       "id": "5395",
-      "name": "Google Stickers",
+      "name": "Google I/O Stickers",
       "description": "Lorem ipsum",
       "category_id": "merch",
       "images": [
-        "https://i.imgur.com/Qphac99.jpeg"
+        "/assets/mock-data/imgs/5395-1.png"
       ],
       "price": 5.99,
       "discount_price": 0,
@@ -116,7 +116,7 @@
       "description": "Lorem ipsum",
       "category_id": "merch",
       "images": [
-        "https://i.imgur.com/Qphac99.jpeg"
+        "/assets/mock-data/imgs/7649-1.png"
       ],
       "price": 9,
       "discount_price": 0,
@@ -128,7 +128,9 @@
       "description": "Lorem ipsum",
       "category_id": "tech",
       "images": [
-        "https://i.imgur.com/Qphac99.jpeg"
+        "/assets/mock-data/imgs/5551-1.png",
+        "/assets/mock-data/imgs/5551-2.png",
+        "/assets/mock-data/imgs/5551-3.png"
       ],
       "price": 999,
       "discount_price": 0,
@@ -150,7 +152,9 @@
       "description": "Lorem ipsum",
       "category_id": "tech",
       "images": [
-        "https://i.imgur.com/Qphac99.jpeg"
+        "/assets/mock-data/imgs/7263-1.png",
+        "/assets/mock-data/imgs/7263-2.png",
+        "/assets/mock-data/imgs/7263-3.png"
       ],
       "price": 699,
       "discount_price": 0,
@@ -162,7 +166,7 @@
         },
         {
           "name": "Color",
-          "value": "Grey"
+          "value": "Hazel"
         }
       ]
     },
@@ -172,7 +176,8 @@
       "description": "Lorem ipsum",
       "category_id": "tech",
       "images": [
-        "https://i.imgur.com/Qphac99.jpeg"
+        "/assets/mock-data/imgs/7891-1.png",
+        "/assets/mock-data/imgs/7891-2.png"
       ],
       "price": 349.99,
       "discount_price": 0,
@@ -190,7 +195,8 @@
       "description": "Lorem ipsum",
       "category_id": "tech",
       "images": [
-        "https://i.imgur.com/Qphac99.jpeg"
+        "/assets/mock-data/imgs/9125-1.png",
+        "/assets/mock-data/imgs/9125-2.png"
       ],
       "price": 199.99,
       "discount_price": 0,
@@ -208,7 +214,8 @@
       "description": "Lorem ipsum",
       "category_id": "tech",
       "images": [
-        "https://i.imgur.com/Qphac99.jpeg"
+        "/assets/mock-data/imgs/2008-1.png",
+        "/assets/mock-data/imgs/2008-2.png"
       ],
       "price": 159.95,
       "discount_price": 0,
@@ -226,7 +233,8 @@
       "description": "Lorem ipsum",
       "category_id": "tech",
       "images": [
-        "https://i.imgur.com/Qphac99.jpeg"
+        "/assets/mock-data/imgs/3103-1.png",
+        "/assets/mock-data/imgs/3103-2.png"
       ],
       "price": 199.99,
       "discount_price": 0,
@@ -238,7 +246,7 @@
       "description": "Lorem ipsum",
       "category_id": "tech",
       "images": [
-        "https://i.imgur.com/Qphac99.jpeg"
+        "/assets/mock-data/imgs/4427-1.png"
       ],
       "price": 29.99,
       "discount_price": 0,
@@ -250,7 +258,9 @@
       "description": "Lorem ipsum",
       "category_id": "tech",
       "images": [
-        "https://i.imgur.com/Qphac99.jpeg"
+        "/assets/mock-data/imgs/5024-1.png",
+        "/assets/mock-data/imgs/5024-2.png",
+        "/assets/mock-data/imgs/5024-3.png"
       ],
       "price": 499,
       "discount_price": 0,
@@ -268,7 +278,7 @@
       "description": "Lorem ipsum",
       "category_id": "giftcard",
       "images": [
-        "https://i.imgur.com/Qphac99.jpeg"
+        "/assets/mock-data/imgs/8013-1.png"
       ],
       "price": 25,
       "discount_price": 0,
@@ -280,7 +290,7 @@
       "description": "Lorem ipsum",
       "category_id": "giftcard",
       "images": [
-        "https://i.imgur.com/Qphac99.jpeg"
+        "/assets/mock-data/imgs/8013-1.png"
       ],
       "price": 50,
       "discount_price": 0,
@@ -292,7 +302,7 @@
       "description": "Lorem ipsum",
       "category_id": "giftcard",
       "images": [
-        "https://i.imgur.com/Qphac99.jpeg"
+        "/assets/mock-data/imgs/8013-1.png"
       ],
       "price": 100,
       "discount_price": 0,
@@ -304,7 +314,7 @@
       "description": "Lorem ipsum",
       "category_id": "giftcard",
       "images": [
-        "https://i.imgur.com/Qphac99.jpeg"
+        "/assets/mock-data/imgs/8013-1.png"
       ],
       "price": 200,
       "discount_price": 0,
