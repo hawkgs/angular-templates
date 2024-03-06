@@ -4,7 +4,7 @@ import { List } from 'immutable';
 import { Category } from '../models';
 import { FETCH_API } from '../shared/fetch';
 import { environment } from '../../environments/environment';
-import { mapCategories } from './mappers';
+import { mapCategories } from './utils/mappers';
 
 @Injectable()
 export class CategoriesApi {

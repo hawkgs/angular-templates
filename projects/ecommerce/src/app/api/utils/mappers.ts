@@ -1,5 +1,5 @@
 import { List } from 'immutable';
-import { Category, Product, ProductParameter } from '../models';
+import { Category, Product, ProductParameter } from '../../models';
 import { ApiCategory, ApiProduct } from './api-types';
 
 // Mappers add an aditional layer between the API call and the state update.
