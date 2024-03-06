@@ -1,12 +1,13 @@
 <p>App running</p>
 <button (click)="getProducts()">Get products</button>
+<button (click)="getProduct()">Get Pixel 8 Pro</button>
 
 <p>Change theme</p>
 <button (click)="theme.setTheme('dark')">Dark</button>
 <button (click)="theme.setTheme('light')">Light</button>
 <button (click)="theme.setTheme('system')">System</button>
 
-@for (p of products.value(); track $index) {
+@for (p of products.value().toList(); track $index) {
 <hr />
 <ul>
   <li>ID: {{ p.id }}</li>
@@ -18,5 +19,6 @@
     <img [src]="img" width="50" height="50" alt="" />
     }
   </li>
+  <li>Description: {{ p.description || 'empty' }}</li>
 </ul>
 }

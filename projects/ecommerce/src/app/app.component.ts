@@ -35,4 +35,8 @@ export class AppComponent implements OnInit {
   getProducts() {
     this.products.loadProducts();
   }
+
+  getProduct() {
+    this.products.loadProduct('5551');
+  }
 }

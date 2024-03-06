@@ -1,5 +1,5 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { List } from 'immutable';
+import { Map } from 'immutable';
 import { Product } from '../models';
 import { ProductsApi } from '../api/products-api.service';
 
@@ -10,12 +10,24 @@ import { ProductsApi } from '../api/products-api.service';
 export class ProductsService {
   private _productsApi = inject(ProductsApi);
   // TODO(Georgi): Change to Map
-  private _products = signal<List<Product>>(List([]));
+  private _products = signal<Map<string, Product>>(Map([]));
 
   readonly value = this._products.asReadonly();
 
   async loadProducts() {
-    const products = await this._productsApi.getProducts();
-    this._products.update((v) => v.concat(products));
+    const products = await this._productsApi.getProducts({
+      categoryId: 'tech',
+    });
+    this._products.update((map) => {
+      products.forEach((p) => {
+        map = map.set(p.id, p);
+      });
+      return map;
+    });
+  }
+
+  async loadProduct(id: string) {
+    const product = await this._productsApi.getProduct(id);
+    this._products.update((map) => map.set(product.id, product));
   }
 }
