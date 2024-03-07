@@ -1,7 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ProductsService } from './state/products.service';
-import { ThemeService } from './shared/theme.service';
 import { fetchMockApiProvider } from './shared/fetch';
 import { ProductsApi } from './api/products-api.service';
 import { CategoriesApi } from './api/categories-api.service';
@@ -25,18 +24,8 @@ import { CategoriesService } from './state/categories.service';
 })
 export class AppComponent implements OnInit {
   categories = inject(CategoriesService);
-  products = inject(ProductsService);
-  theme = inject(ThemeService);
 
   ngOnInit(): void {
     this.categories.loadCategories();
-  }
-
-  getProducts() {
-    this.products.loadProducts();
-  }
-
-  getProduct() {
-    this.products.loadProduct('5551');
   }
 }

@@ -1,6 +1,6 @@
 import { signal } from '@angular/core';
 import { Map } from 'immutable';
-import { Product } from '../models';
+import { Product } from './models';
 
 /**
  * Cart state.

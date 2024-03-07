@@ -1,6 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Map } from 'immutable';
-import { Product } from '../models';
+import { Product } from './models';
 import { ProductsApi } from '../api/products-api.service';
 
 /**

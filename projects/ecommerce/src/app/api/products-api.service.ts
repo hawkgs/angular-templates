@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { List } from 'immutable';
 
-import { Product } from '../models';
+import { Product } from '../state/models';
 import { FETCH_API, fetchAbort } from '../shared/fetch';
 import { environment } from '../../environments/environment';
 import { mapProduct, mapProducts } from './utils/mappers';
