@@ -30,8 +30,8 @@
               "projects/ecommerce/src/assets"
             ],
             "styles": [
-              "projects/ecommerce/src/styles.scss",
-              "projects/ecommerce/src/theme.scss"
+              "projects/ecommerce/src/styles/global.scss",
+              "projects/ecommerce/src/styles/theme.scss"
             ],
             "scripts": [],
             "server": "projects/ecommerce/src/main.server.ts",

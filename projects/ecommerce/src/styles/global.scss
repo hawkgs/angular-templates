@@ -1,5 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import './typography';
+@import './colors';
+
 // Variables
 
 :root {
@@ -16,7 +19,7 @@ body {
 body {
   background-color: var(--color-bg);
   color: var(--color-foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: $font-family;
   font-size: 16px;
   margin: 0;
 }

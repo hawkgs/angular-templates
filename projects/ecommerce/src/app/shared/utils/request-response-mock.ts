@@ -1,8 +1,8 @@
-const DEFAULT_PAGE_SIZE = 3;
-const DEFAULT_PAGE = 1;
-
 import Data from '../../../assets/mock-data/data.json';
 import { ApiProduct } from '../../api/utils/api-types';
+
+const DEFAULT_PAGE_SIZE = 3;
+const DEFAULT_PAGE = 1;
 
 /**
  * Returns mocked data based on a request URL
