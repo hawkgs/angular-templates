@@ -14,14 +14,16 @@ export class CategoriesService {
   readonly value = this._categories.asReadonly();
 
   async loadCategories() {
+    if (this._categories().size) {
+      return;
+    }
+
     const categories = await this._categoriesApi.getCategories();
 
     let map = Map<string, Category>([]);
     categories.forEach((c: Category) => {
       map = map.set(c.id, c);
     });
-
-    console.log(map);
 
     this._categories.set(map);
   }

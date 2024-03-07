@@ -1,11 +1,11 @@
 // API response types (JSON)
 
-export interface ApiCategory {
+export type ApiCategory = {
   id: string;
   name: string;
-}
+};
 
-export interface ApiProduct {
+export type ApiProduct = {
   id: string;
   name: string;
   description: string;
@@ -15,4 +15,4 @@ export interface ApiProduct {
   discount_price: number;
   available_quantity: number;
   parameters: { name: string; value: string }[];
-}
+};
