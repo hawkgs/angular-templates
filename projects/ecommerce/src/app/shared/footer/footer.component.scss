@@ -1,0 +1,12 @@
+:host {
+  display: block;
+  border-top: 1px solid #ccc;
+  height: 100px;
+
+  footer {
+    position: relative;
+    max-width: var(--app-max-width);
+    margin: 0 auto;
+    padding: 24px 16px;
+  }
+}

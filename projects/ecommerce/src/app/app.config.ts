@@ -8,6 +8,7 @@ import { CategoriesApi } from './api/categories-api.service';
 import { ProductsApi } from './api/products-api.service';
 import { CategoriesService } from './state/categories.service';
 import { ProductsService } from './state/products.service';
+import { CartService } from './state/cart.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,5 +21,6 @@ export const appConfig: ApplicationConfig = {
     ProductsApi,
     CategoriesService,
     ProductsService,
+    CartService,
   ],
 };

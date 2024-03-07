@@ -1,0 +1,17 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  main {
+    position: relative;
+    margin: 0 auto;
+    max-width: var(--app-max-width);
+    width: 100%;
+    flex: 1 0 auto;
+  }
+
+  ec-footer {
+    flex-shrink: 0;
+  }
+}
