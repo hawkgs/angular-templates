@@ -1,55 +1,18 @@
-// Represents a Fetch API mock created
-// purely for demo purposes.
-//
-// Change the provider in app.component.ts
-// in order to use the native fetch.
-//
-// The mock, along with the mock data in /assets, can be
-// safely deleted afterwards.
+const DEFAULT_PAGE_SIZE = 3;
+const DEFAULT_PAGE = 1;
 
 import Data from '../../../assets/mock-data/data.json';
 import { ApiProduct } from '../../api/utils/api-types';
 
-const REQUEST_DELAY = 500;
-const DEFAULT_PAGE_SIZE = 3;
-const DEFAULT_PAGE = 1;
-const LOGGING_ENABLED = true;
-
-// Used for logging the operation in the console
-const log = (msg: string, obj?: object) => {
-  if (LOGGING_ENABLED) {
-    console.log('Fetch API Mock:', msg, obj || '');
-  }
-};
-
-// A delayed promise response
-const simulateRequest = (
-  jsonData: object,
-  abortSignal?: AbortSignal | null,
-): Promise<Response> => {
-  let timeout: ReturnType<typeof setTimeout>;
-
-  // Abort the request if a signal is provided
-  abortSignal?.addEventListener('abort', () => {
-    clearTimeout(timeout);
-  });
-
-  return new Promise((res) => {
-    timeout = setTimeout(() => {
-      log('Responding with data', jsonData);
-
-      res({
-        json: () => Promise.resolve(jsonData),
-      } as Response);
-    }, REQUEST_DELAY);
-  });
-};
-
-export function fetchMock(url: string, init?: RequestInit): Promise<Response> {
+/**
+ * Returns mocked data based on a request URL
+ *
+ * @param url Request URL
+ * @returns
+ */
+export function requestResponseMock(url: string): object {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let response: any = {};
-
-  log('Executing request ' + url);
 
   // Return a list of products
   if (/products\??[\w=\-&]*$/.test(url)) {
@@ -102,5 +65,5 @@ export function fetchMock(url: string, init?: RequestInit): Promise<Response> {
     response = Data.categories;
   }
 
-  return simulateRequest(response, init?.signal);
+  return response;
 }

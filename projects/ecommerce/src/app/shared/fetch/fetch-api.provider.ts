@@ -1,5 +1,5 @@
 import { InjectionToken, Provider } from '@angular/core';
-import { fetchMock } from './fetch-mock';
+import { fetchMock } from '../utils/fetch-mock';
 
 export type Fetch = (
   input: string | URL | Request,
