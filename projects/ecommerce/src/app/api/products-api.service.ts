@@ -23,6 +23,9 @@ export class ProductsApi {
       pageSize: number;
       page: number;
       name: string;
+      sortBy: 'price_asc' | 'price_desc';
+      fromPrice: number;
+      toPrice: number;
     }>,
   ): Promise<List<Product>> {
     const signal = this._abortIfInProgress(this.getProducts.name);

@@ -16,7 +16,9 @@ export class ProductsService {
 
   async loadProducts() {
     const products = await this._productsApi.getProducts({
-      categoryId: 'tech',
+      pageSize: 30,
+      fromPrice: 300,
+      toPrice: 800,
     });
     this._products.update((map) => {
       products.forEach((p) => {

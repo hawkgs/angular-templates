@@ -13,8 +13,17 @@ const DEFAULT_PAGE = 1;
 export function requestResponseMock(url: string): object {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let response: any = {};
+  const queryParamsStr = url.split('?').pop();
 
-  // Return a list of products
+  // Filter by the provided query params, if any
+  const queryParams: { [key: string]: string } = queryParamsStr
+    ? queryParamsStr
+        .split('&')
+        .map((pair) => pair.split('='))
+        .reduce((obj, [key, val]) => ({ ...obj, [key]: val }), {})
+    : {};
+
+  // PRODUCTS – Return a list of products
   if (/products\??[\w=\-\\+&]*$/.test(url)) {
     // Do not return the complete data for a product
     let products = Data.products.map(
@@ -29,22 +38,15 @@ export function requestResponseMock(url: string): object {
           images: [p.images[0]],
         } as ApiProduct),
     );
-    const queryParamsStr = url.split('?').pop();
 
-    // Filter by the provided query params, if any
-    const queryParams: { [key: string]: string } = queryParamsStr
-      ? queryParamsStr
-          .split('&')
-          .map((pair) => pair.split('='))
-          .reduce((obj, [key, val]) => ({ ...obj, [key]: val }), {})
-      : {};
-
+    // Filter by category
     if (queryParams['categoryId']) {
       products = products.filter(
         (p) => p.category_id === queryParams['categoryId'],
       );
     }
 
+    // Filter by name
     if (queryParams['name']) {
       const param = queryParams['name'].toLowerCase().replace(/\+/g, '');
       products = products.filter((p) =>
@@ -52,6 +54,53 @@ export function requestResponseMock(url: string): object {
       );
     }
 
+    // Filter by "from price"
+    if (queryParams['fromPrice']) {
+      const price = ~~queryParams['fromPrice'];
+
+      products = products.filter((p) => {
+        // Discount price has a priority, if it exists
+        const productPrice = p.discount_price || p.price;
+        return productPrice >= price;
+      });
+    }
+
+    // Filter by "to price"
+    if (queryParams['toPrice']) {
+      const price = ~~queryParams['toPrice'];
+
+      products = products.filter((p) => {
+        // Discount price has a priority, if it exists
+        const productPrice = p.discount_price || p.price;
+        return productPrice <= price;
+      });
+    }
+
+    // By default the products are sorted by date of creation.
+    // Providing a "sortBy" param changes this.
+    if (queryParams['sortBy']) {
+      const sortBy = queryParams['sortBy'];
+
+      switch (sortBy) {
+        case 'price_asc':
+          products.sort((a, b) => {
+            const pA = a.discount_price || a.price;
+            const pB = b.discount_price || b.price;
+            return pA - pB;
+          });
+          break;
+
+        case 'price_desc':
+          products.sort((a, b) => {
+            const pA = a.discount_price || a.price;
+            const pB = b.discount_price || b.price;
+            return pB - pA;
+          });
+          break;
+      }
+    }
+
+    // Perform paging
     const page = ~~queryParams['page'] || DEFAULT_PAGE;
     const pageSize = ~~queryParams['pageSize'] || DEFAULT_PAGE_SIZE;
     const idx = (page - 1) * pageSize;
@@ -61,13 +110,13 @@ export function requestResponseMock(url: string): object {
     response = products;
   }
 
-  // Return a single product (with complete data)
+  // PRODUCT – Return a single product (with complete data)
   if (/products\/[0-9]+/.test(url)) {
     const id = url.split('/').pop();
     response = Data.products.find((p) => p.id === id);
   }
 
-  // Return all categories
+  // CATEGORIES – Return all categories
   if (url.endsWith('categories')) {
     response = Data.categories;
   }
