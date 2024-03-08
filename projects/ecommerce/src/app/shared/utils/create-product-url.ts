@@ -1,4 +1,4 @@
-import { Product } from '../../state/models';
+import { Product } from '../../../models';
 
 /**
  * Create a Product URL (Angular route array).

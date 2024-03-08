@@ -1,11 +1,21 @@
 import { Injectable, inject } from '@angular/core';
 import { List } from 'immutable';
 
-import { Product } from '../state/models';
+import { Product } from '../../models';
 import { FETCH_API, fetchAbort } from '../shared/fetch';
 import { environment } from '../../environments/environment';
 import { mapProduct, mapProducts } from './utils/mappers';
 import { buildQueryParamsString } from './utils/query-params-builder';
+
+export type GetProductsParams = Partial<{
+  categoryId: string;
+  pageSize: number;
+  page: number;
+  name: string;
+  sortBy: 'price_asc' | 'price_desc';
+  fromPrice: number;
+  toPrice: number;
+}>;
 
 @Injectable()
 export class ProductsApi {
@@ -17,17 +27,7 @@ export class ProductsApi {
    *
    * @returns A products list that matches the given criteria
    */
-  async getProducts(
-    params?: Partial<{
-      categoryId: string;
-      pageSize: number;
-      page: number;
-      name: string;
-      sortBy: 'price_asc' | 'price_desc';
-      fromPrice: number;
-      toPrice: number;
-    }>,
-  ): Promise<List<Product>> {
+  async getProducts(params?: GetProductsParams): Promise<List<Product>> {
     const signal = this._abortIfInProgress(this.getProducts.name);
     const queryParams = buildQueryParamsString(params);
 

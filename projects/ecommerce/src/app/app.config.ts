@@ -6,9 +6,9 @@ import { APP_ROUTES } from './app.routes';
 import { fetchMockApiProvider } from './shared/fetch';
 import { CategoriesApi } from './api/categories-api.service';
 import { ProductsApi } from './api/products-api.service';
-import { CategoriesService } from './state/categories.service';
-import { ProductsService } from './state/products.service';
-import { CartService } from './state/cart.service';
+import { CategoriesService } from './data-access/categories.service';
+import { ProductsService } from './data-access/products.service';
+import { CartService } from './data-access/cart.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [

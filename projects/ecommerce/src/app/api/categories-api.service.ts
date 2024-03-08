@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { List } from 'immutable';
 
-import { Category } from '../state/models';
+import { Category } from '../../models';
 import { FETCH_API } from '../shared/fetch';
 import { environment } from '../../environments/environment';
 import { mapCategories } from './utils/mappers';

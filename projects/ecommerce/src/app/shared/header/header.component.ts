@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CartService } from '../../state/cart.service';
+import { CartService } from '../../data-access/cart.service';
 
 @Component({
   selector: 'ec-header',

@@ -4,7 +4,7 @@ import { List } from 'immutable';
 
 import { SearchInputComponent } from '../search-input/search-input.component';
 import { ProductsApi } from '../../api/products-api.service';
-import { Product } from '../../state/models';
+import { Product } from '../../../models';
 import { createProductUrl } from '../utils/create-product-url';
 
 // Max results shown in the list

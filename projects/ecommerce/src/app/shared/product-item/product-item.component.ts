@@ -9,8 +9,8 @@ import {
 import { RouterModule } from '@angular/router';
 import { NgOptimizedImage } from '@angular/common';
 
-import { Product } from '../../state/models';
-import { CategoriesService } from '../../state/categories.service';
+import { Product } from '../../../models';
+import { CategoriesService } from '../../data-access/categories.service';
 import { environment } from '../../../environments/environment';
 import { createProductUrl } from '../utils/create-product-url';
 

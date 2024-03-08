@@ -10,7 +10,7 @@
   </ul>
 </div>
 <section>
-  @for (p of products(); track p.id) {
+  @for (p of productsList.value(); track p.id) {
   <ec-product-item [product]="p"></ec-product-item>
   }
 </section>
