@@ -7,7 +7,7 @@ import { Product } from '../../../models';
  * @returns An Angular route
  */
 export const createProductUrl = (p: Product): string[] => [
-  'products',
+  '/products',
   p.id,
   p.name
     .toLowerCase()
