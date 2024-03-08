@@ -22,6 +22,7 @@ export class ProductsApi {
       categoryId: string;
       pageSize: number;
       page: number;
+      name: string;
     }>,
   ): Promise<List<Product>> {
     const signal = this._abortIfInProgress(this.getProducts.name);

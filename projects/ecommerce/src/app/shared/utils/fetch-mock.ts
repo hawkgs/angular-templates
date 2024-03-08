@@ -13,11 +13,11 @@ const REQUEST_DELAY = 500;
 const LOGGING_ENABLED = true;
 
 // Used for logging the operation in the console
-function log(msg: string, obj?: object) {
+const log = (msg: string, obj?: object) => {
   if (LOGGING_ENABLED) {
     console.log('Fetch API Mock:', msg, obj || '');
   }
-}
+};
 
 // A delayed promise response
 function simulateRequest(

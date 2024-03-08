@@ -15,7 +15,7 @@ export function requestResponseMock(url: string): object {
   let response: any = {};
 
   // Return a list of products
-  if (/products\??[\w=\-&]*$/.test(url)) {
+  if (/products\??[\w=\-\\+&]*$/.test(url)) {
     // Do not return the complete data for a product
     let products = Data.products.map(
       (p) =>
@@ -42,6 +42,13 @@ export function requestResponseMock(url: string): object {
     if (queryParams['categoryId']) {
       products = products.filter(
         (p) => p.category_id === queryParams['categoryId'],
+      );
+    }
+
+    if (queryParams['name']) {
+      const param = queryParams['name'].toLowerCase().replace(/\+/g, '');
+      products = products.filter((p) =>
+        p.name.toLowerCase().replace(/\s/g, '').includes(param),
       );
     }
 
