@@ -1,19 +1,8 @@
-<p>App running</p>
-<button (click)="getProducts()">Get products</button>
-<button (click)="getProduct()">Get Pixel 8 Pro</button>
+<button (click)="products.loadProducts()">Get products</button>
+<button (click)="products.loadProduct('5551')">Get Pixel 8 Pro</button>
 
-@for (p of products.value().toList(); track p.id) {
-<hr />
-<ul>
-  <li>ID: {{ p.id }}</li>
-  <li>Name: {{ p.name }}</li>
-  <li>Category: {{ categories.value().get(p.categoryId)?.name }}</li>
-  <li>
-    <span>Images:</span>
-    @for (img of p.images; track $index) {
-    <img [src]="img" width="50" height="50" alt="" />
-    }
-  </li>
-  <li>Description: {{ p.description || 'empty' }}</li>
-</ul>
-}
+<div class="products">
+  @for (p of products.value().toList(); track p.id) {
+  <ec-product-item [product]="p"></ec-product-item>
+  }
+</div>
