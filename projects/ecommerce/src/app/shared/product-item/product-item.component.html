@@ -1,5 +1,6 @@
 <a [routerLink]="productUrl()">
-  <img [src]="product().images.first()" width="50" height="50" alt="" />
+  <!-- Todo(Georgi): Change to a ngSrc -->
+  <img [src]="product().images.first()" width="100" [alt]="product().name" />
   <div class="data">
     <p>
       <strong>{{ product().name }}</strong>

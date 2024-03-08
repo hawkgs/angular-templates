@@ -7,6 +7,7 @@ import {
   input,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { NgOptimizedImage } from '@angular/common';
 
 import { Product } from '../../state/models';
 import { CategoriesService } from '../../state/categories.service';
@@ -16,7 +17,7 @@ import { createProductUrl } from '../utils/create-product-url';
 @Component({
   selector: 'ec-product-item',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, NgOptimizedImage],
   templateUrl: './product-item.component.html',
   styleUrl: './product-item.component.scss',
 })

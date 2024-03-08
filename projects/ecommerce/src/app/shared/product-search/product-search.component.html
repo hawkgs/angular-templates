@@ -1,0 +1,9 @@
+<ec-search-input (search)="onProductSearch($event)"></ec-search-input>
+<ul>
+  @for (p of products(); track p.id) {
+  <li>
+    <img [src]="p.images.first()" width="20" height="20" [alt]="p.name" />
+    <a [routerLink]="createUrl(p)">{{ p.name }}</a>
+  </li>
+  }
+</ul>
