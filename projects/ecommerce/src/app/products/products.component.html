@@ -1,1 +1,16 @@
-<p>products works!</p>
+<div class="sidebar">
+  <ec-product-search></ec-product-search>
+  <hr />
+  <ul>
+    @for (c of categories(); track c.id) {
+    <li>
+      <button (click)="onCategorySelect(c.id)">{{ c.name }}</button>
+    </li>
+    }
+  </ul>
+</div>
+<section>
+  @for (p of products(); track p.id) {
+  <ec-product-item [product]="p"></ec-product-item>
+  }
+</section>

@@ -1,0 +1,14 @@
+:host {
+  display: flex;
+
+  .sidebar {
+    border-right: 1px dashed #555;
+    flex: 0 0 200px;
+  }
+
+  section {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+  }
+}

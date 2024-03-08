@@ -9,12 +9,17 @@ import { ProductsApi } from '../api/products-api.service';
 @Injectable()
 export class ProductsService {
   private _productsApi = inject(ProductsApi);
+
+  // TODO(Georgi): Refactor state management
   private _products = signal<Map<string, Product>>(Map([]));
 
   readonly value = this._products.asReadonly();
 
-  async loadProducts() {
-    const products = await this._productsApi.getProducts();
+  async loadProducts(options?: Partial<{ categoryId: string }>) {
+    const products = await this._productsApi.getProducts({
+      categoryId: options?.categoryId,
+      pageSize: 20,
+    });
     this._products.update((map) => {
       products.forEach((p) => {
         map = map.set(p.id, p);
