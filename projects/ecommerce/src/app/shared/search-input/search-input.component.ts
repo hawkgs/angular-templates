@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 
+// Input debounce time
 const INPUT_DEBOUNCE = 250;
 
 @Component({

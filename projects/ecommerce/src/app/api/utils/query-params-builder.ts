@@ -1,3 +1,5 @@
+// Drop ?, =, & signs from the query parameter value
+// and then replace spaces with a plus
 const filterParamValue = (paramVal: string | number) =>
   typeof paramVal === 'string'
     ? paramVal.replace(/\?|=|&/g, '').replace(/\s/g, '+')
