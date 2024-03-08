@@ -2,11 +2,6 @@
 <button (click)="getProducts()">Get products</button>
 <button (click)="getProduct()">Get Pixel 8 Pro</button>
 
-<p>Change theme</p>
-<button (click)="theme.setTheme('dark')">Dark</button>
-<button (click)="theme.setTheme('light')">Light</button>
-<button (click)="theme.setTheme('system')">System</button>
-
 @for (p of products.value().toList(); track p.id) {
 <hr />
 <ul>

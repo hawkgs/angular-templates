@@ -1,1 +1,9 @@
-<footer>Angular (c) 2024</footer>
+<footer>
+  <span>Angular (c) 2024</span>
+  <div>
+    <p>Change theme</p>
+    <button (click)="theme.setTheme('dark')">Dark</button>
+    <button (click)="theme.setTheme('light')">Light</button>
+    <button (click)="theme.setTheme('system')">System</button>
+  </div>
+</footer>

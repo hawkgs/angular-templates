@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { ProductsService } from '../state/products.service';
-import { ThemeService } from '../shared/theme.service';
 import { CategoriesService } from '../state/categories.service';
 
 @Component({
@@ -13,7 +12,6 @@ import { CategoriesService } from '../state/categories.service';
 export class HomeComponent {
   products = inject(ProductsService);
   categories = inject(CategoriesService);
-  theme = inject(ThemeService);
 
   getProducts() {
     this.products.loadProducts();
