@@ -9,7 +9,7 @@
 
 import { requestResponseMock } from './request-response-mock';
 
-const REQUEST_DELAY = 500;
+const REQUEST_DELAY = 200;
 const LOGGING_ENABLED = true;
 
 // Used for logging the operation in the console

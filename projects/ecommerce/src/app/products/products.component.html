@@ -1,5 +1,5 @@
 <div class="sidebar">
-  <ec-product-search></ec-product-search>
+  <ec-search-input (search)="onProductSearch($event)"></ec-search-input>
   <hr />
   <ul>
     @for (c of categories(); track c.id) {

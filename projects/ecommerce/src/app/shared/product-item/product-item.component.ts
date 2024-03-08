@@ -23,10 +23,11 @@ import { createProductUrl } from '../utils/create-product-url';
 })
 export class ProductItemComponent {
   private _categories = inject(CategoriesService);
+
+  product = input.required<Product>();
   @Output() productClick = new EventEmitter<Product>();
 
   env = environment;
-  product = input.required<Product>();
 
   category = computed(() =>
     this._categories.value().get(this.product().categoryId),

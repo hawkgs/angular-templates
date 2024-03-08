@@ -21,7 +21,9 @@ export function buildQueryParamsString(params?: {
   const paramParts = [];
 
   for (const key in params) {
-    paramParts.push(`${key}=${filterParamValue(params[key])}`);
+    if (params[key]) {
+      paramParts.push(`${key}=${filterParamValue(params[key])}`);
+    }
   }
 
   return '?' + paramParts.join('&');

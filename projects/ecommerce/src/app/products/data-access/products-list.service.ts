@@ -17,10 +17,15 @@ export class ProductsListService {
 
   async loadProducts(options?: GetProductsParams) {
     const products = await this._productsApi.getProducts(options);
-    if (options?.categoryId !== this._lastOptions.categoryId) {
+    // Todo(Georgi): Improve check
+    if (
+      options?.categoryId !== this._lastOptions.categoryId ||
+      options?.name !== this._lastOptions.name
+    ) {
       this._products.set(products);
     } else {
       this._products.update((list) => list.concat(products));
     }
+    this._lastOptions = options || {};
   }
 }
