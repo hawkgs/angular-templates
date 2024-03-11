@@ -1,5 +1,8 @@
 <div class="sidebar">
-  <ec-search-input (search)="onProductSearch($event)"></ec-search-input>
+  <form [formGroup]="searchForm" (ngSubmit)="onProductSearch()">
+    <input formControlName="searchString" />
+    <button type="button">Search</button>
+  </form>
   <hr />
   <ul>
     @for (c of categories.categoriesList(); track c.id) {

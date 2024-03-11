@@ -5,20 +5,27 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { CategoriesService } from '../data-access/categories.service';
 import { ProductItemComponent } from '../shared/product-item/product-item.component';
 import { ProductsListService } from './data-access/products-list.service';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { SearchInputComponent } from '../shared/search-input/search-input.component';
 
 @Component({
   selector: 'ec-products',
   standalone: true,
-  imports: [SearchInputComponent, ProductItemComponent],
+  imports: [ProductItemComponent, SearchInputComponent, ReactiveFormsModule],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',
 })
 export class ProductsComponent {
   productsList = inject(ProductsListService);
   categories = inject(CategoriesService);
+
+  private _formBuilder = inject(FormBuilder);
   private _router = inject(Router);
   private _route = inject(ActivatedRoute);
+
+  searchForm = this._formBuilder.group({
+    searchString: [''],
+  });
 
   private _categoryId = '';
   private _searchString = '';
@@ -43,7 +50,9 @@ export class ProductsComponent {
     this._updateQueryParams({ category: id }, false);
   }
 
-  onProductSearch(searchString: string) {
+  onProductSearch() {
+    const searchString = this.searchForm.value.searchString || '';
+
     if (searchString.length) {
       this._updateQueryParams({ search: searchString });
     } else {
