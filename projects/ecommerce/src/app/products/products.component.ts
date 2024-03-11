@@ -9,7 +9,6 @@ import { SearchInputComponent } from '../shared/search-input/search-input.compon
   selector: 'ec-products',
   standalone: true,
   imports: [SearchInputComponent, ProductItemComponent],
-  providers: [ProductsListService],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',
 })
