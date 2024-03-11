@@ -2,7 +2,7 @@
   <ec-search-input (search)="onProductSearch($event)"></ec-search-input>
   <hr />
   <ul>
-    @for (c of categories(); track c.id) {
+    @for (c of categories.categoriesList(); track c.id) {
     <li>
       <button (click)="onCategorySelect(c.id)">{{ c.name }}</button>
     </li>

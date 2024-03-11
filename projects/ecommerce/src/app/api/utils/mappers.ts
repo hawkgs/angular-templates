@@ -9,6 +9,7 @@ export const mapCategory = (c: ApiCategory): Category =>
   new Category({
     id: c.id,
     name: c.name,
+    order: c.order,
   });
 
 export const mapCategories = (categories: ApiCategory[]) =>

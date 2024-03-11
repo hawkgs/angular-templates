@@ -1,4 +1,4 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
 import { Map } from 'immutable';
 import { Category } from '../../models';
 import { CategoriesApi } from '../api/categories-api.service';
@@ -12,6 +12,13 @@ export class CategoriesService {
   private _categories = signal<Map<string, Category>>(Map([]));
 
   readonly value = this._categories.asReadonly();
+
+  // Computed
+  readonly categoriesList = computed(() =>
+    this._categories()
+      .toList()
+      .sort((a, b) => a.order - b.order),
+  );
 
   async loadCategories() {
     if (this._categories().size) {

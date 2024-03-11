@@ -14,14 +14,12 @@ import { SearchInputComponent } from '../shared/search-input/search-input.compon
 })
 export class ProductsComponent implements OnInit {
   productsList = inject(ProductsListService);
-  private _categories = inject(CategoriesService);
+  categories = inject(CategoriesService);
   private _router = inject(Router);
   private _route = inject(ActivatedRoute);
 
   private _categoryId = '';
   private _searchString = '';
-
-  categories = computed(() => this._categories.value().toList().sort());
 
   constructor() {
     const categoryId = this._route.snapshot.queryParamMap.get('category');

@@ -2,15 +2,18 @@
   "categories": [
     {
       "id": "merch",
-      "name": "Merchandise"
+      "name": "Merchandise",
+      "order": 1
     },
     {
       "id": "tech",
-      "name": "Technology"
+      "name": "Technology",
+      "order": 2
     },
     {
       "id": "giftcard",
-      "name": "Gift Cards"
+      "name": "Gift Cards",
+      "order": 3
     }
   ],
   "products": [
