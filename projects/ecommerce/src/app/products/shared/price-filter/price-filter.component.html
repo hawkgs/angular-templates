@@ -1,0 +1,13 @@
+<input
+  placeholder="From"
+  type="number"
+  [value]="range().from"
+  (blur)="onFromChangeEnd($event)"
+/>
+-
+<input
+  placeholder="To"
+  type="number"
+  [value]="range().to"
+  (blur)="onToChangeEnd($event)"
+/>

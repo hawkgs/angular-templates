@@ -1,4 +1,4 @@
-import { Component, effect, inject } from '@angular/core';
+import { Component, effect, inject, signal, untracked } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -7,17 +7,30 @@ import { ProductItemComponent } from '../shared/product-item/product-item.compon
 import { ProductsListService } from './data-access/products-list.service';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { SearchInputComponent } from '../shared/search-input/search-input.component';
+import {
+  PriceFilterComponent,
+  PriceRange,
+} from './shared/price-filter/price-filter.component';
+
+const MAX_PRICE_RANGE = 10000;
 
 @Component({
   selector: 'ec-products',
   standalone: true,
-  imports: [ProductItemComponent, SearchInputComponent, ReactiveFormsModule],
+  imports: [
+    ReactiveFormsModule,
+    ProductItemComponent,
+    SearchInputComponent,
+    PriceFilterComponent,
+  ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',
 })
 export class ProductsComponent {
   productsList = inject(ProductsListService);
   categories = inject(CategoriesService);
+
+  priceRange = signal<PriceRange>({ from: 0, to: MAX_PRICE_RANGE });
 
   private _formBuilder = inject(FormBuilder);
   private _router = inject(Router);
@@ -60,8 +73,25 @@ export class ProductsComponent {
     }
   }
 
+  onPriceRangeChange() {
+    const { from, to } = this.priceRange();
+
+    if (from !== 0 || to !== MAX_PRICE_RANGE) {
+      this._updateQueryParams({ price: `${from}-${to}` });
+    } else {
+      this._updateQueryParams({ price: null });
+    }
+  }
+
   private _loadProducts() {
+    const { from, to } = this.priceRange();
+    const priceParams =
+      from !== 0 || to !== MAX_PRICE_RANGE
+        ? { fromPrice: from, toPrice: to }
+        : {};
+
     this.productsList.loadProducts({
+      ...priceParams,
       categoryId: this._categoryId,
       name: this._searchString,
     });
@@ -76,10 +106,28 @@ export class ProductsComponent {
   }
 
   private _updateParamsPropsFromRoute() {
-    const categoryId = this._route.snapshot.queryParamMap.get('category');
-    const searchString = this._route.snapshot.queryParamMap.get('search');
+    const categoryId = this._route.snapshot.queryParamMap.get('category') || '';
+    const searchString = this._route.snapshot.queryParamMap.get('search') || '';
+    const priceRange = this._route.snapshot.queryParamMap.get('price') || '';
 
-    this._categoryId = categoryId || '';
-    this._searchString = searchString || '';
+    this._categoryId = categoryId;
+    this._searchString = searchString;
+
+    const range = priceRange.split('-');
+
+    if (range.length === 2) {
+      const from = parseInt(range[0], 10);
+      const to = parseInt(range[1], 10);
+
+      if (typeof from === 'number' && typeof to === 'number') {
+        // Since the method is executed in an effect
+        // and priceRange should not be threated as a
+        // dependency, we use untracted in order to
+        // point that it should be ignored.
+        untracked(() => {
+          this.priceRange.set({ from, to });
+        });
+      }
+    }
   }
 }

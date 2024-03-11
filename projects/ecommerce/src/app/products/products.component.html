@@ -11,6 +11,11 @@
     </li>
     }
   </ul>
+  <hr />
+  <ec-price-filter
+    [(range)]="priceRange"
+    (rangeChange)="onPriceRangeChange()"
+  ></ec-price-filter>
 </div>
 <section>
   @for (p of productsList.value(); track p.id) {
