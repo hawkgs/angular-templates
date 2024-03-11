@@ -1,7 +1,9 @@
-import { Component, OnInit, computed, inject } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+
 import { CategoriesService } from '../data-access/categories.service';
 import { ProductItemComponent } from '../shared/product-item/product-item.component';
-import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsListService } from './data-access/products-list.service';
 import { SearchInputComponent } from '../shared/search-input/search-input.component';
 
@@ -12,7 +14,7 @@ import { SearchInputComponent } from '../shared/search-input/search-input.compon
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',
 })
-export class ProductsComponent implements OnInit {
+export class ProductsComponent {
   productsList = inject(ProductsListService);
   categories = inject(CategoriesService);
   private _router = inject(Router);
@@ -22,23 +24,23 @@ export class ProductsComponent implements OnInit {
   private _searchString = '';
 
   constructor() {
-    const categoryId = this._route.snapshot.queryParamMap.get('category');
-    const searchString = this._route.snapshot.queryParamMap.get('search');
+    const routerEvents = toSignal(this._router.events);
 
-    this._categoryId = categoryId || '';
-    this._searchString = searchString || '';
-  }
-
-  ngOnInit() {
-    this._loadProducts();
+    // Each query param change results in a state update.
+    // This way we only rely on a single point of change
+    // rather than manually updating the state on user
+    // interation (e.g. click). Also, makes route change
+    // state update straightforward.
+    effect(() => {
+      if (routerEvents() instanceof NavigationEnd) {
+        this._updateParamsPropsFromRoute();
+        this._loadProducts();
+      }
+    });
   }
 
   onCategorySelect(id: string) {
     this._updateQueryParams({ category: id }, false);
-
-    this._categoryId = id;
-    this._searchString = '';
-    this._loadProducts();
   }
 
   onProductSearch(searchString: string) {
@@ -47,9 +49,6 @@ export class ProductsComponent implements OnInit {
     } else {
       this._updateQueryParams({ search: null });
     }
-
-    this._searchString = searchString;
-    this._loadProducts();
   }
 
   private _loadProducts() {
@@ -65,5 +64,13 @@ export class ProductsComponent implements OnInit {
       queryParams: params,
       ...(merge ? { queryParamsHandling: 'merge' } : {}),
     });
+  }
+
+  private _updateParamsPropsFromRoute() {
+    const categoryId = this._route.snapshot.queryParamMap.get('category');
+    const searchString = this._route.snapshot.queryParamMap.get('search');
+
+    this._categoryId = categoryId || '';
+    this._searchString = searchString || '';
   }
 }
