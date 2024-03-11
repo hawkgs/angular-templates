@@ -42,6 +42,7 @@ export class ProductsComponent {
 
   private _categoryId = '';
   private _searchString = '';
+  private _page = 1;
 
   constructor() {
     const routerEvents = toSignal(this._router.events);
@@ -54,7 +55,8 @@ export class ProductsComponent {
     effect(() => {
       if (routerEvents() instanceof NavigationEnd) {
         this._updateParamsPropsFromRoute();
-        this._loadProducts();
+        this._loadProducts(1);
+        this._page = 1;
       }
     });
   }
@@ -83,7 +85,12 @@ export class ProductsComponent {
     }
   }
 
-  private _loadProducts() {
+  onNextPage() {
+    this._page += 1;
+    this._loadProducts(this._page);
+  }
+
+  private _loadProducts(page: number) {
     const { from, to } = this.priceRange();
     const priceParams =
       from !== 0 || to !== MAX_PRICE_RANGE
@@ -94,6 +101,7 @@ export class ProductsComponent {
       ...priceParams,
       categoryId: this._categoryId,
       name: this._searchString,
+      page,
     });
   }
 

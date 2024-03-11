@@ -18,7 +18,12 @@
   ></ec-price-filter>
 </div>
 <section>
-  @for (p of productsList.value(); track p.id) {
-  <ec-product-item [product]="p"></ec-product-item>
+  <div class="list">
+    @for (p of productsList.value(); track p.id) {
+    <ec-product-item [product]="p"></ec-product-item>
+    }
+  </div>
+  @if (!productsList.isComplete()) {
+  <button (click)="onNextPage()">LOAD MORE</button>
   }
 </section>

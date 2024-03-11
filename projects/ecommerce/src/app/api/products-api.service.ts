@@ -29,7 +29,10 @@ export class ProductsApi {
    */
   async getProducts(params?: GetProductsParams): Promise<List<Product>> {
     const signal = this._abortIfInProgress(this.getProducts.name);
-    const queryParams = buildQueryParamsString(params);
+    const queryParams = buildQueryParamsString({
+      ...params,
+      pageSize: environment.productsListPageSize,
+    } as GetProductsParams);
 
     const response = await this._fetch(
       `${environment.apiUrl}/products${queryParams}`,
