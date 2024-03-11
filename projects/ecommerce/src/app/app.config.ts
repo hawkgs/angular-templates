@@ -1,5 +1,5 @@
 import { ApplicationConfig } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { RouteReuseStrategy, provideRouter } from '@angular/router';
 import { provideClientHydration } from '@angular/platform-browser';
 
 import { APP_ROUTES } from './app.routes';
@@ -9,6 +9,7 @@ import { ProductsApi } from './api/products-api.service';
 import { CategoriesService } from './data-access/categories.service';
 import { ProductsService } from './data-access/products.service';
 import { CartService } from './data-access/cart.service';
+import { CachedRouteReuseStrategy } from './shared/cached-route-reuse-strategy.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,5 +23,9 @@ export const appConfig: ApplicationConfig = {
     CategoriesService,
     ProductsService,
     CartService,
+    // {
+    //   provide: RouteReuseStrategy,
+    //   useClass: CachedRouteReuseStrategy,
+    // },
   ],
 };
