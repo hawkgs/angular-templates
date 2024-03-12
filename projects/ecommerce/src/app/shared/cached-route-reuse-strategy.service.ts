@@ -2,30 +2,32 @@ import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   DetachedRouteHandle,
-  Route,
   RouteReuseStrategy,
 } from '@angular/router';
 
-const LOGGING = true;
+const getReuseFromRoutes = (route: ActivatedRouteSnapshot): string[] =>
+  route.routeConfig?.data ? route.routeConfig.data['reuseFrom'] : [];
 
-const devLog = (...args: unknown[]) => {
-  if (LOGGING) {
-    console.log('> CRRS:', ...args);
-  }
-};
+const isReusable = (route: ActivatedRouteSnapshot): boolean =>
+  !!getReuseFromRoutes(route).length;
 
-const isReusable = (route: ActivatedRouteSnapshot) =>
-  route.routeConfig?.data && route.routeConfig.data['reuse'];
+const getRoutePath = (route: ActivatedRouteSnapshot): string =>
+  route.pathFromRoot
+    .filter((r) => !!r.routeConfig)
+    .map((r) => r.routeConfig!.path)
+    .filter((s) => !!s)
+    .join('/');
 
-const getStoreKey = (route: ActivatedRouteSnapshot) =>
-  route.routeConfig as Route;
+const getStoreKey = (route: ActivatedRouteSnapshot) => getRoutePath(route);
 
 @Injectable()
 export class CachedRouteReuseStrategy implements RouteReuseStrategy {
-  private _cached: Map<Route, DetachedRouteHandle> = new Map();
+  private _cached: Map<string, DetachedRouteHandle> = new Map();
+  private _lastRoutePath: string = '';
 
   shouldDetach(route: ActivatedRouteSnapshot): boolean {
-    devLog('SHOULD_DETACH');
+    this._lastRoutePath = getRoutePath(route);
+
     return isReusable(route);
   }
 
@@ -33,19 +35,23 @@ export class CachedRouteReuseStrategy implements RouteReuseStrategy {
     route: ActivatedRouteSnapshot,
     handle: DetachedRouteHandle | null,
   ): void {
+    const key = getStoreKey(route);
+
     if (handle) {
-      this._cached.set(getStoreKey(route), handle);
+      this._cached.set(key, handle);
+    } else {
+      this._cached.delete(key);
     }
-    devLog('STORE', this._cached);
   }
 
   shouldAttach(route: ActivatedRouteSnapshot): boolean {
-    devLog('SHOULD_ATTACH');
-    return this._cached.has(getStoreKey(route));
+    const reuseFromRoutes = getReuseFromRoutes(route);
+    const shouldReuse = reuseFromRoutes.includes(this._lastRoutePath);
+
+    return shouldReuse && this._cached.has(getStoreKey(route));
   }
 
   retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle | null {
-    devLog('RETRIEVE', getStoreKey(route));
     return this._cached.get(getStoreKey(route)) || null;
   }
 
@@ -53,7 +59,6 @@ export class CachedRouteReuseStrategy implements RouteReuseStrategy {
     future: ActivatedRouteSnapshot,
     curr: ActivatedRouteSnapshot,
   ): boolean {
-    devLog('SHOULD_REUSE_ROUTE');
-    return isReusable(future);
+    return future.routeConfig === curr.routeConfig;
   }
 }

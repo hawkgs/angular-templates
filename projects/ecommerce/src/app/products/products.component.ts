@@ -11,9 +11,9 @@ import {
   PriceRange,
 } from './shared/price-filter/price-filter.component';
 import {
-  SORT_VALUES,
   SortSelectorComponent,
   SortType,
+  isOfSortType,
 } from './shared/sort-selector/sort-selector.component';
 
 const DEFAULT_PRICE_RANGE = { from: 0, to: 10000 };
@@ -28,6 +28,7 @@ const DEFAULT_PRICE_RANGE = { from: 0, to: 10000 };
     PriceFilterComponent,
     SortSelectorComponent,
   ],
+  providers: [ProductsListService],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',
 })
@@ -151,7 +152,7 @@ export class ProductsComponent implements OnInit {
     this._categoryId = categoryId;
     this._searchString = searchString;
 
-    if (SORT_VALUES.includes(sortType as SortType)) {
+    if (isOfSortType(sortType)) {
       this.sortType.set(sortType as SortType);
     }
 

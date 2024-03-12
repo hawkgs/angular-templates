@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { ProductsListService } from './products/data-access/products-list.service';
 
 export const APP_ROUTES: Routes = [
   {
@@ -15,7 +14,6 @@ export const APP_ROUTES: Routes = [
         path: 'products',
         loadChildren: () =>
           import('./products/products.routes').then((rt) => rt.PRODUCTS_ROUTES),
-        providers: [ProductsListService],
       },
       {
         path: 'cart',

@@ -2,7 +2,9 @@ import { Component, model } from '@angular/core';
 
 export type SortType = 'default' | 'price_asc' | 'price_desc';
 
-export const SORT_VALUES: SortType[] = ['default', 'price_asc', 'price_desc'];
+const SORT_VALUES = new Set<SortType>(['default', 'price_asc', 'price_desc']);
+
+export const isOfSortType = (s: string) => SORT_VALUES.has(s as SortType);
 
 enum SortTypeEnum {
   Default = 'default',

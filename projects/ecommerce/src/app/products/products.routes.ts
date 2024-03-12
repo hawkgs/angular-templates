@@ -6,7 +6,7 @@ export const PRODUCTS_ROUTES: Routes = [
     path: '',
     component: ProductsComponent,
     data: {
-      reuse: true,
+      reuseFrom: ['products/:id/:slug'],
     },
   },
   {
