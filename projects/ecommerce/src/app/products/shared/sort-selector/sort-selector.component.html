@@ -1,0 +1,5 @@
+<select [value]="value()" (change)="onSortTypeChange($event)">
+  <option [value]="SortTypeEnum.Default">Default</option>
+  <option [value]="SortTypeEnum.PriceAsc">Price - ASC</option>
+  <option [value]="SortTypeEnum.PriceDesc">Price - DESC</option>
+</select>

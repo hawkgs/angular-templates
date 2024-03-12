@@ -11,8 +11,13 @@ import {
   PriceFilterComponent,
   PriceRange,
 } from './shared/price-filter/price-filter.component';
+import {
+  SORT_VALUES,
+  SortSelectorComponent,
+  SortType,
+} from './shared/sort-selector/sort-selector.component';
 
-const MAX_PRICE_RANGE = 10000;
+const DEFAULT_PRICE_RANGE = { from: 0, to: 10000 };
 
 @Component({
   selector: 'ec-products',
@@ -22,6 +27,7 @@ const MAX_PRICE_RANGE = 10000;
     ProductItemComponent,
     SearchInputComponent,
     PriceFilterComponent,
+    SortSelectorComponent,
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',
@@ -30,7 +36,8 @@ export class ProductsComponent {
   productsList = inject(ProductsListService);
   categories = inject(CategoriesService);
 
-  priceRange = signal<PriceRange>({ from: 0, to: MAX_PRICE_RANGE });
+  priceRange = signal<PriceRange>(DEFAULT_PRICE_RANGE);
+  sortType = signal<SortType>('default');
 
   private _formBuilder = inject(FormBuilder);
   private _router = inject(Router);
@@ -63,6 +70,8 @@ export class ProductsComponent {
 
   onCategorySelect(id: string) {
     this._updateQueryParams({ category: id }, false);
+    this.sortType.set('default');
+    this.priceRange.set(DEFAULT_PRICE_RANGE);
   }
 
   onProductSearch() {
@@ -75,13 +84,21 @@ export class ProductsComponent {
     }
   }
 
-  onPriceRangeChange() {
-    const { from, to } = this.priceRange();
+  onPriceRangeChange(priceRange: PriceRange) {
+    const { from, to } = priceRange;
 
-    if (from !== 0 || to !== MAX_PRICE_RANGE) {
+    if (from !== 0 || to !== DEFAULT_PRICE_RANGE.to) {
       this._updateQueryParams({ price: `${from}-${to}` });
     } else {
       this._updateQueryParams({ price: null });
+    }
+  }
+
+  onSort(sortType: SortType) {
+    if (sortType !== 'default') {
+      this._updateQueryParams({ sort: sortType });
+    } else {
+      this._updateQueryParams({ sort: null });
     }
   }
 
@@ -93,14 +110,18 @@ export class ProductsComponent {
   private _loadProducts(page: number) {
     const { from, to } = this.priceRange();
     const priceParams =
-      from !== 0 || to !== MAX_PRICE_RANGE
+      from !== 0 || to !== DEFAULT_PRICE_RANGE.to
         ? { fromPrice: from, toPrice: to }
         : {};
+    const sortBy = (
+      this.sortType() !== 'default' ? this.sortType() : undefined
+    ) as 'price_asc' | 'price_desc';
 
     this.productsList.loadProducts({
       ...priceParams,
       categoryId: this._categoryId,
       name: this._searchString,
+      sortBy,
       page,
     });
   }
@@ -114,12 +135,20 @@ export class ProductsComponent {
   }
 
   private _updateParamsPropsFromRoute() {
-    const categoryId = this._route.snapshot.queryParamMap.get('category') || '';
-    const searchString = this._route.snapshot.queryParamMap.get('search') || '';
-    const priceRange = this._route.snapshot.queryParamMap.get('price') || '';
+    const { queryParamMap } = this._route.snapshot;
+    const categoryId = queryParamMap.get('category') || '';
+    const searchString = queryParamMap.get('search') || '';
+    const priceRange = queryParamMap.get('price') || '';
+    const sortType = queryParamMap.get('sort') || '';
 
     this._categoryId = categoryId;
     this._searchString = searchString;
+
+    untracked(() => {
+      if (SORT_VALUES.includes(sortType as SortType)) {
+        this.sortType.set(sortType as SortType);
+      }
+    });
 
     const range = priceRange.split('-');
 

@@ -14,10 +14,16 @@
   <hr />
   <ec-price-filter
     [(range)]="priceRange"
-    (rangeChange)="onPriceRangeChange()"
+    (rangeChange)="onPriceRangeChange($event)"
   ></ec-price-filter>
 </div>
 <section>
+  <div class="top-bar">
+    <ec-sort-selector
+      [(value)]="sortType"
+      (valueChange)="onSort($event)"
+    ></ec-sort-selector>
+  </div>
   <div class="list">
     @for (p of productsList.value(); track p.id) {
     <ec-product-item [product]="p"></ec-product-item>
