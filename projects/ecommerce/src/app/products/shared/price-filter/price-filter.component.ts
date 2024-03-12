@@ -1,4 +1,4 @@
-import { Component, model } from '@angular/core';
+import { Component, input, model } from '@angular/core';
 
 export type PriceRange = {
   from: number;
@@ -13,15 +13,30 @@ export type PriceRange = {
   styleUrl: './price-filter.component.scss',
 })
 export class PriceFilterComponent {
-  range = model<PriceRange>({ from: 0, to: 10000 });
+  default = input.required<PriceRange>();
+  range = model<PriceRange>({ from: 0, to: 0 });
 
   onFromChangeEnd(e: Event) {
     const input = e.target as HTMLInputElement;
-    this.range.update((r) => ({ ...r, from: parseInt(input.value, 10) }));
+
+    this.range.update((r) => ({
+      ...r,
+      from: Math.min(
+        parseInt(input.value, 10) || this.default().from,
+        this.range().to,
+      ),
+    }));
   }
 
   onToChangeEnd(e: Event) {
     const input = e.target as HTMLInputElement;
-    this.range.update((r) => ({ ...r, to: parseInt(input.value, 10) }));
+
+    this.range.update((r) => ({
+      ...r,
+      to: Math.max(
+        this.range().from,
+        parseInt(input.value, 10) || this.default().to,
+      ),
+    }));
   }
 }

@@ -36,6 +36,7 @@ export class ProductsComponent {
   productsList = inject(ProductsListService);
   categories = inject(CategoriesService);
 
+  DEFAULT_PRICE_RANGE = DEFAULT_PRICE_RANGE;
   priceRange = signal<PriceRange>(DEFAULT_PRICE_RANGE);
   sortType = signal<SortType>('default');
 

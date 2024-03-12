@@ -13,6 +13,7 @@
   </ul>
   <hr />
   <ec-price-filter
+    [default]="DEFAULT_PRICE_RANGE"
     [(range)]="priceRange"
     (rangeChange)="onPriceRangeChange($event)"
   ></ec-price-filter>
