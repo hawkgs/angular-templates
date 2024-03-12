@@ -29,8 +29,10 @@ export class ProductItemComponent {
 
   env = environment;
 
-  category = computed(() =>
-    this._categories.value().get(this.product().categoryId),
+  categories = computed(() =>
+    this.product().categoryIds.map(
+      (cId) => this._categories.value().get(cId)?.name,
+    ),
   );
 
   productUrl = computed(() => createProductUrl(this.product()));

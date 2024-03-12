@@ -20,7 +20,7 @@ export const mapProduct = (p: ApiProduct): Product =>
     id: p.id,
     name: p.name,
     description: p.description,
-    categoryId: p.category_id,
+    categoryIds: List(p.category_ids),
     images: List(p.images),
     price: p.price,
     discountPrice: p.discount_price,

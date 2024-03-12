@@ -29,7 +29,7 @@ interface ProductConfig {
   id: string;
   name: string;
   description: string;
-  categoryId: string;
+  categoryIds: List<string>;
   images: List<string>;
   price: number;
   discountPrice: number;
@@ -41,7 +41,7 @@ const productRecord = Record<ProductConfig>({
   id: '',
   name: '',
   description: '',
-  categoryId: '',
+  categoryIds: List([]),
   images: List([]),
   price: 0,
   discountPrice: 0,

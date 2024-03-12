@@ -5,7 +5,7 @@
     <p>
       <strong>{{ product().name }}</strong>
     </p>
-    <span>Category: {{ category()?.name }}</span>
+    <span>Categories: {{ categories().toArray() }}</span>
     <div>{{ env.currency }} {{ product().price }}</div>
   </div>
 </a>

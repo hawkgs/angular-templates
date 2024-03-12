@@ -10,7 +10,7 @@ export type ApiProduct = {
   id: string;
   name: string;
   description: string;
-  category_id: string;
+  category_ids: string[];
   images: string[];
   price: number;
   discount_price: number;

@@ -34,15 +34,15 @@ export function requestResponseMock(url: string): object {
           price: p.price,
           discount_price: p.discount_price,
           available_quantity: p.available_quantity,
-          category_id: p.category_id,
+          category_ids: p.category_ids,
           images: [p.images[0]],
         } as ApiProduct),
     );
 
     // Filter by category
     if (queryParams['categoryId']) {
-      products = products.filter(
-        (p) => p.category_id === queryParams['categoryId'],
+      products = products.filter((p) =>
+        p.category_ids.includes(queryParams['categoryId']),
       );
     }
 
