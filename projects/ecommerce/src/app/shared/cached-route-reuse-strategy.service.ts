@@ -6,7 +6,7 @@ import {
   RouteReuseStrategy,
 } from '@angular/router';
 
-const LOGGING = false;
+const LOGGING = true;
 
 const devLog = (...args: unknown[]) => {
   if (LOGGING) {

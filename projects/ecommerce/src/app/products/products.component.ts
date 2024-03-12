@@ -1,6 +1,5 @@
-import { Component, effect, inject, signal, untracked } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, OnInit, inject, signal } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { CategoriesService } from '../data-access/categories.service';
 import { ProductItemComponent } from '../shared/product-item/product-item.component';
@@ -32,17 +31,17 @@ const DEFAULT_PRICE_RANGE = { from: 0, to: 10000 };
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',
 })
-export class ProductsComponent {
+export class ProductsComponent implements OnInit {
   productsList = inject(ProductsListService);
   categories = inject(CategoriesService);
-
-  DEFAULT_PRICE_RANGE = DEFAULT_PRICE_RANGE;
-  priceRange = signal<PriceRange>(DEFAULT_PRICE_RANGE);
-  sortType = signal<SortType>('default');
 
   private _formBuilder = inject(FormBuilder);
   private _router = inject(Router);
   private _route = inject(ActivatedRoute);
+
+  DEFAULT_PRICE_RANGE = DEFAULT_PRICE_RANGE;
+  priceRange = signal<PriceRange>(DEFAULT_PRICE_RANGE);
+  sortType = signal<SortType>('default');
 
   searchForm = this._formBuilder.group({
     searchString: [''],
@@ -52,37 +51,35 @@ export class ProductsComponent {
   private _searchString = '';
   private _page = 1;
 
-  constructor() {
-    const routerEvents = toSignal(this._router.events);
-
-    // Each query param change results in a state update.
-    // This way we only rely on a single point of change
-    // rather than manually updating the state on user
-    // interation (e.g. click). Also, makes route change
-    // state update straightforward.
-    effect(() => {
-      if (routerEvents() instanceof NavigationEnd) {
-        this._updateParamsPropsFromRoute();
-        this._loadProducts(1);
-        this._page = 1;
-      }
-    });
+  ngOnInit(): void {
+    this._updateParamPropsFromRoute();
+    this._reloadList();
   }
 
   onCategorySelect(id: string) {
     this._updateQueryParams({ category: id }, false);
+
     this.sortType.set('default');
     this.priceRange.set(DEFAULT_PRICE_RANGE);
+    this._searchString = '';
+    this._categoryId = id;
+
+    this._reloadList();
   }
 
-  onProductSearch() {
+  onProductSearch(e: Event) {
+    e.preventDefault();
+
     const searchString = this.searchForm.value.searchString || '';
+    this._searchString = searchString;
 
     if (searchString.length) {
       this._updateQueryParams({ search: searchString });
     } else {
       this._updateQueryParams({ search: null });
     }
+
+    this._reloadList();
   }
 
   onPriceRangeChange(priceRange: PriceRange) {
@@ -93,6 +90,8 @@ export class ProductsComponent {
     } else {
       this._updateQueryParams({ price: null });
     }
+
+    this._reloadList();
   }
 
   onSort(sortType: SortType) {
@@ -101,10 +100,17 @@ export class ProductsComponent {
     } else {
       this._updateQueryParams({ sort: null });
     }
+
+    this._reloadList();
   }
 
   onNextPage() {
     this._page += 1;
+    this._loadProducts(this._page);
+  }
+
+  private _reloadList() {
+    this._page = 1;
     this._loadProducts(this._page);
   }
 
@@ -135,7 +141,7 @@ export class ProductsComponent {
     });
   }
 
-  private _updateParamsPropsFromRoute() {
+  private _updateParamPropsFromRoute() {
     const { queryParamMap } = this._route.snapshot;
     const categoryId = queryParamMap.get('category') || '';
     const searchString = queryParamMap.get('search') || '';
@@ -145,11 +151,9 @@ export class ProductsComponent {
     this._categoryId = categoryId;
     this._searchString = searchString;
 
-    untracked(() => {
-      if (SORT_VALUES.includes(sortType as SortType)) {
-        this.sortType.set(sortType as SortType);
-      }
-    });
+    if (SORT_VALUES.includes(sortType as SortType)) {
+      this.sortType.set(sortType as SortType);
+    }
 
     const range = priceRange.split('-');
 
@@ -158,13 +162,7 @@ export class ProductsComponent {
       const to = parseInt(range[1], 10);
 
       if (typeof from === 'number' && typeof to === 'number') {
-        // Since the method is executed in an effect
-        // and priceRange should not be threated as a
-        // dependency, we use untracted in order to
-        // point that it should be ignored.
-        untracked(() => {
-          this.priceRange.set({ from, to });
-        });
+        this.priceRange.set({ from, to });
       }
     }
   }

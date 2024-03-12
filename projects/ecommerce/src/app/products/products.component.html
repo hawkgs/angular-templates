@@ -1,7 +1,7 @@
 <div class="sidebar">
-  <form [formGroup]="searchForm" (ngSubmit)="onProductSearch()">
+  <form [formGroup]="searchForm" (ngSubmit)="onProductSearch($event)">
     <input formControlName="searchString" />
-    <button type="button">Search</button>
+    <button>Search</button>
   </form>
   <hr />
   <ul>

@@ -23,9 +23,9 @@ export const appConfig: ApplicationConfig = {
     CategoriesService,
     ProductsService,
     CartService,
-    // {
-    //   provide: RouteReuseStrategy,
-    //   useClass: CachedRouteReuseStrategy,
-    // },
+    {
+      provide: RouteReuseStrategy,
+      useClass: CachedRouteReuseStrategy,
+    },
   ],
 };
