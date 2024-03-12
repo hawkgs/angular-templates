@@ -6,6 +6,8 @@ export const PRODUCTS_ROUTES: Routes = [
     path: '',
     component: ProductsComponent,
     data: {
+      // We want to reuse the ProductsComponent when navigating back from product details.
+      // See CachedRouteReuseStrategy for more details.
       reuseFrom: ['products/:id/:slug'],
     },
   },

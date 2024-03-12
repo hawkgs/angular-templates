@@ -1,10 +1,18 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  Component,
+  OnInit,
+  effect,
+  inject,
+  signal,
+  untracked,
+} from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { CategoriesService } from '../data-access/categories.service';
 import { ProductItemComponent } from '../shared/product-item/product-item.component';
 import { ProductsListService } from './data-access/products-list.service';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { SearchInputComponent } from '../shared/search-input/search-input.component';
 import {
   PriceFilterComponent,
@@ -15,6 +23,7 @@ import {
   SortType,
   isOfSortType,
 } from './shared/sort-selector/sort-selector.component';
+import { getRoutePath } from './shared/utils';
 
 const DEFAULT_PRICE_RANGE = { from: 0, to: 10000 };
 
@@ -51,36 +60,50 @@ export class ProductsComponent implements OnInit {
   private _categoryId = '';
   private _searchString = '';
   private _page = 1;
+  private _lastEvent?: NavigationEnd;
+
+  constructor() {
+    const routerEvents = toSignal(this._router.events);
+
+    // Each query param change results in a state update.
+    // This way we only rely on a single point of change
+    // rather than manually updating the state on user
+    // interation (e.g. click). Also, makes route change
+    // state update straightforward.
+    effect(() => {
+      const event = routerEvents();
+
+      if (event instanceof NavigationEnd) {
+        // The initial data load is delegated to ngOnInit.
+        // Any other subsequent change that results in
+        // a update of the product list is handled by
+        // this piece of code.
+        if (getRoutePath(event) === getRoutePath(this._lastEvent)) {
+          this._reloadList();
+        }
+        this._lastEvent = event;
+      }
+    });
+  }
 
   ngOnInit(): void {
-    this._updateParamPropsFromRoute();
     this._reloadList();
   }
 
   onCategorySelect(id: string) {
     this._updateQueryParams({ category: id }, false);
-
-    this.sortType.set('default');
-    this.priceRange.set(DEFAULT_PRICE_RANGE);
-    this._searchString = '';
-    this._categoryId = id;
-
-    this._reloadList();
   }
 
   onProductSearch(e: Event) {
     e.preventDefault();
 
     const searchString = this.searchForm.value.searchString || '';
-    this._searchString = searchString;
 
     if (searchString.length) {
       this._updateQueryParams({ search: searchString });
     } else {
       this._updateQueryParams({ search: null });
     }
-
-    this._reloadList();
   }
 
   onPriceRangeChange(priceRange: PriceRange) {
@@ -91,8 +114,6 @@ export class ProductsComponent implements OnInit {
     } else {
       this._updateQueryParams({ price: null });
     }
-
-    this._reloadList();
   }
 
   onSort(sortType: SortType) {
@@ -101,8 +122,6 @@ export class ProductsComponent implements OnInit {
     } else {
       this._updateQueryParams({ sort: null });
     }
-
-    this._reloadList();
   }
 
   onNextPage() {
@@ -111,10 +130,17 @@ export class ProductsComponent implements OnInit {
   }
 
   private _reloadList() {
+    this._updateParamPropsFromRoute();
+    this._loadProducts(1);
     this._page = 1;
-    this._loadProducts(this._page);
   }
 
+  /**
+   * Load products in the state based on the
+   * currently selected params.
+   *
+   * @param page
+   */
   private _loadProducts(page: number) {
     const { from, to } = this.priceRange();
     const priceParams =
@@ -134,6 +160,12 @@ export class ProductsComponent implements OnInit {
     });
   }
 
+  /**
+   * Update the current route query paramters.
+   *
+   * @param params
+   * @param merge
+   */
   private _updateQueryParams(params: object, merge: boolean = true) {
     this._router.navigate([], {
       relativeTo: this._route,
@@ -142,6 +174,10 @@ export class ProductsComponent implements OnInit {
     });
   }
 
+  /**
+   * Update all of the component plain properties or signals
+   * based on the current route query parameters.
+   */
   private _updateParamPropsFromRoute() {
     const { queryParamMap } = this._route.snapshot;
     const categoryId = queryParamMap.get('category') || '';
@@ -153,7 +189,13 @@ export class ProductsComponent implements OnInit {
     this._searchString = searchString;
 
     if (isOfSortType(sortType)) {
-      this.sortType.set(sortType as SortType);
+      // Since the method is executed in an effect
+      // and sortType should not be threated as a
+      // dependency, we use untracted in order to
+      // point that it should be ignored.
+      untracked(() => this.sortType.set(sortType as SortType));
+    } else {
+      untracked(() => this.sortType.set('default'));
     }
 
     const range = priceRange.split('-');
@@ -163,8 +205,11 @@ export class ProductsComponent implements OnInit {
       const to = parseInt(range[1], 10);
 
       if (typeof from === 'number' && typeof to === 'number') {
-        this.priceRange.set({ from, to });
+        // Same for priceRange
+        untracked(() => this.priceRange.set({ from, to }));
       }
+    } else {
+      untracked(() => this.priceRange.set(DEFAULT_PRICE_RANGE));
     }
   }
 }

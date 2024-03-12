@@ -28,6 +28,8 @@
   <div class="list">
     @for (p of productsList.value(); track p.id) {
     <ec-product-item [product]="p"></ec-product-item>
+    } @empty {
+    <p>No results</p>
     }
   </div>
   @if (!productsList.isComplete()) {
