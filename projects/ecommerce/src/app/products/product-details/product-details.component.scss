@@ -8,5 +8,12 @@
   .details {
     border-left: 1px dashed #666;
     flex: 0 0 300px;
+
+    .categories {
+      span {
+        background-color: blue;
+        color: white;
+      }
+    }
   }
 }

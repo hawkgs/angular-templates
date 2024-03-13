@@ -7,12 +7,11 @@ import { Product } from '../../models';
  */
 export class CartService {
   private _cart = signal<Map<string, number>>(Map([]));
-
   readonly value = this._cart.asReadonly();
 
-  addToCart(product: Product) {
-    const quantity = this._cart().get(product.id) || 0;
-    this._cart.update((m) => m.set(product.id, quantity + 1));
+  addToCart(product: Product, quantity: number = 1) {
+    const currQuantity = this._cart().get(product.id) || 0;
+    this._cart.update((m) => m.set(product.id, currQuantity + quantity));
   }
 
   removeFromCart(product: Product) {

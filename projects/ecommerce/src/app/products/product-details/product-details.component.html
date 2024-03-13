@@ -1,10 +1,29 @@
-@if (product()) {
 <section class="preview">
-  <ec-image-gallery [product]="product()!"></ec-image-gallery>
+  <ec-image-gallery [product]="product()"></ec-image-gallery>
 </section>
 <section class="details">
-  <h3>{{ product()!.name }}</h3>
+  <h3>{{ product().name }}</h3>
+  @if (!product().availableQuantity) {
+  <strong>UNAVAILABLE</strong>
+  }
+  <p class="categories">
+    @for (category of categories(); track category) {
+    <span>{{ category }}</span>
+    }
+  </p>
+  <ec-price-tag [product]="product()"></ec-price-tag>
+  <ec-add-to-cart-btn [product]="product()"></ec-add-to-cart-btn>
+  <hr />
+  <p class="description">{{ product().description }}</p>
+  @if (product().parameters.size) {
+  <hr />
+  <table>
+    @for (p of product().parameters; track $index) {
+    <tr>
+      <td>{{ p.name }}</td>
+      <td>{{ p.value }}</td>
+    </tr>
+    }
+  </table>
+  }
 </section>
-} @else {
-<p>Loading ...</p>
-}

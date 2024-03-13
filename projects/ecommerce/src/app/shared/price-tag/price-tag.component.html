@@ -1,0 +1,6 @@
+@if (product().discountPrice) {
+<s>{{ product().price | currency }}</s>
+<span>{{ product().discountPrice | currency }}</span>
+} @else {
+<span>{{ product().price | currency }}</span>
+}
