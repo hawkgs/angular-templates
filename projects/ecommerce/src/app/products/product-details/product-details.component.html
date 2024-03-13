@@ -3,9 +3,11 @@
 </section>
 <section class="details">
   <h3>{{ product().name }}</h3>
-  @if (!product().availableQuantity) {
+  @switch (product().availability) { @case ('none') {
   <strong>UNAVAILABLE</strong>
-  }
+  } @case ('low') {
+  <strong>LAST ITEMS</strong>
+  } }
   <p class="categories">
     @for (category of categories(); track category) {
     <span>{{ category }}</span>

@@ -1,6 +1,6 @@
 // Common environment variables
 export interface CommonEnv {
-  currency: 'usd' | 'eur';
+  currency: 'USD' | 'EUR';
   productsListPageSize: number;
 }
 

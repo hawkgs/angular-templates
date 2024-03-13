@@ -33,7 +33,7 @@ interface ProductConfig {
   images: List<string>;
   price: number;
   discountPrice: number;
-  availableQuantity: number;
+  availability: 'none' | 'low' | 'normal';
   parameters: List<ProductParameter>;
 }
 
@@ -45,7 +45,7 @@ const productRecord = Record<ProductConfig>({
   images: List([]),
   price: 0,
   discountPrice: 0,
-  availableQuantity: 0,
+  availability: 'normal',
   parameters: List([]),
 });
 

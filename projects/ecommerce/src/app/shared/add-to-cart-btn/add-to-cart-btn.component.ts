@@ -1,7 +1,15 @@
-import { Component, OnInit, inject, input } from '@angular/core';
+import { Component, OnInit, computed, inject, input } from '@angular/core';
 import { Product } from '../../../models';
 import { CartService } from '../../data-access/cart.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+
+type Availability = Product['availability'];
+
+const AVAILABILITY_MAX_RESTRICTION: { [key in Availability]: number } = {
+  ['normal']: 100,
+  ['low']: 10,
+  ['none']: 0,
+};
 
 @Component({
   selector: 'ec-add-to-cart-btn',
@@ -15,15 +23,17 @@ export class AddToCartBtnComponent implements OnInit {
   private _formBuilder = inject(FormBuilder);
 
   product = input.required<Product>();
+  isUnavailable = computed(() => this.product().availability === 'none');
 
   form = this._formBuilder.group({
     quantity: [1, [Validators.min(1)]],
   });
 
   ngOnInit() {
-    this.form.controls.quantity.addValidators(
-      Validators.max(this.product().availableQuantity),
-    );
+    const { availability } = this.product();
+    const max = AVAILABILITY_MAX_RESTRICTION[availability];
+
+    this.form.controls.quantity.addValidators(Validators.max(max));
   }
 
   addToCart() {

@@ -1,8 +1,6 @@
 <form [formGroup]="form" (ngSubmit)="addToCart()">
-  <fieldset [disabled]="!product().availableQuantity">
+  <fieldset [disabled]="isUnavailable()">
     <input type="number" formControlName="quantity" />
   </fieldset>
-  <button [disabled]="!form.valid || !product().availableQuantity">
-    Add to Cart
-  </button>
+  <button [disabled]="!form.valid || isUnavailable()">Add to Cart</button>
 </form>

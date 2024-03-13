@@ -14,6 +14,6 @@ export type ApiProduct = {
   images: string[];
   price: number;
   discount_price: number;
-  available_quantity: number;
+  availability: 'none' | 'low' | 'normal';
   parameters: { name: string; value: string }[];
 };

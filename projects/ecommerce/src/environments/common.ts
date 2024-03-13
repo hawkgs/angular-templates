@@ -2,6 +2,6 @@ import { CommonEnv } from './env-types';
 
 // Common environment variables
 export const Common: CommonEnv = {
-  currency: 'usd',
+  currency: 'USD',
   productsListPageSize: 4,
 };

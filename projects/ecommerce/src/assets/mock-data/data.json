@@ -27,7 +27,7 @@
       ],
       "price": 25,
       "discount_price": 19,
-      "available_quantity": 10,
+      "availability": "normal",
       "created_at": "2024-03-08T12:00"
     },
     {
@@ -40,7 +40,7 @@
       ],
       "price": 39,
       "discount_price": 0,
-      "available_quantity": 10,
+      "availability": "normal",
       "created_at": "2024-03-07T12:00"
     },
     {
@@ -53,7 +53,7 @@
       ],
       "price": 5.99,
       "discount_price": 0,
-      "available_quantity": 10,
+      "availability": "normal",
       "parameters": [
         {
           "name": "Count",
@@ -72,7 +72,7 @@
       ],
       "price": 9,
       "discount_price": 0,
-      "available_quantity": 10,
+      "availability": "normal",
       "created_at": "2024-03-06T12:00"
     },
     {
@@ -85,7 +85,7 @@
       ],
       "price": 25,
       "discount_price": 0,
-      "available_quantity": 10,
+      "availability": "normal",
       "created_at": "2024-03-05T12:00"
     },
     {
@@ -98,7 +98,7 @@
       ],
       "price": 39,
       "discount_price": 29,
-      "available_quantity": 10,
+      "availability": "normal",
       "created_at": "2024-03-04T12:00"
     },
     {
@@ -111,7 +111,7 @@
       ],
       "price": 5.99,
       "discount_price": 0,
-      "available_quantity": 10,
+      "availability": "normal",
       "parameters": [
         {
           "name": "Count",
@@ -130,7 +130,7 @@
       ],
       "price": 9,
       "discount_price": 0,
-      "available_quantity": 10,
+      "availability": "low",
       "created_at": "2024-03-03T11:00"
     },
     {
@@ -145,7 +145,7 @@
       ],
       "price": 999,
       "discount_price": 0,
-      "available_quantity": 10,
+      "availability": "normal",
       "parameters": [
         {
           "name": "Space",
@@ -170,7 +170,7 @@
       ],
       "price": 699,
       "discount_price": 0,
-      "available_quantity": 10,
+      "availability": "normal",
       "parameters": [
         {
           "name": "Space",
@@ -194,7 +194,7 @@
       ],
       "price": 349.99,
       "discount_price": 0,
-      "available_quantity": 10,
+      "availability": "normal",
       "parameters": [
         {
           "name": "Color",
@@ -214,7 +214,7 @@
       ],
       "price": 199.99,
       "discount_price": 0,
-      "available_quantity": 10,
+      "availability": "normal",
       "parameters": [
         {
           "name": "Color",
@@ -234,7 +234,7 @@
       ],
       "price": 159.95,
       "discount_price": 0,
-      "available_quantity": 10,
+      "availability": "normal",
       "parameters": [
         {
           "name": "Color",
@@ -254,7 +254,7 @@
       ],
       "price": 199.99,
       "discount_price": 0,
-      "available_quantity": 10,
+      "availability": "normal",
       "created_at": "2024-03-02T10:00"
     },
     {
@@ -267,7 +267,7 @@
       ],
       "price": 29.99,
       "discount_price": 0,
-      "available_quantity": 10,
+      "availability": "normal",
       "created_at": "2024-03-02T09:00"
     },
     {
@@ -282,7 +282,7 @@
       ],
       "price": 499,
       "discount_price": 0,
-      "available_quantity": 0,
+      "availability": "none",
       "parameters": [
         {
           "name": "Color",
@@ -301,7 +301,7 @@
       ],
       "price": 25,
       "discount_price": 0,
-      "available_quantity": 10,
+      "availability": "normal",
       "created_at": "2024-03-02T07:00"
     },
     {
@@ -314,7 +314,7 @@
       ],
       "price": 50,
       "discount_price": 0,
-      "available_quantity": 10,
+      "availability": "normal",
       "created_at": "2024-03-01T12:00"
     },
     {
@@ -327,7 +327,7 @@
       ],
       "price": 100,
       "discount_price": 0,
-      "available_quantity": 10,
+      "availability": "normal",
       "created_at": "2024-03-01T11:00"
     },
     {
@@ -340,7 +340,7 @@
       ],
       "price": 200,
       "discount_price": 0,
-      "available_quantity": 10,
+      "availability": "normal",
       "created_at": "2024-03-01T10:00"
     }
   ]

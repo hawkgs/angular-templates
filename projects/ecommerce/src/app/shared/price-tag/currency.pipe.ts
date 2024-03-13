@@ -1,12 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { environment as env } from '../../../environments/environment';
-import { Common as EnvCommonTypes } from '../../../environments/common';
+import { Common as CommonEnv } from '../../../environments/common';
 
-type CurrencyType = typeof EnvCommonTypes.currency;
+type CurrencyType = typeof CommonEnv.currency;
 
 const CURRENCY_SYMBOL: { [key in CurrencyType]: string } = {
-  ['usd']: '$',
-  ['eur']: '€',
+  ['USD']: '$',
+  ['EUR']: '€',
 };
 
 const round = (a: number) => Math.round(a * 100) / 100;

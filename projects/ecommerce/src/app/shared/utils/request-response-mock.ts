@@ -33,7 +33,7 @@ export function requestResponseMock(url: string): object {
           name: p.name,
           price: p.price,
           discount_price: p.discount_price,
-          available_quantity: p.available_quantity,
+          availability: p.availability,
           category_ids: p.category_ids,
           images: [p.images[0]],
         } as ApiProduct),

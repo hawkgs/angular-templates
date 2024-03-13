@@ -24,7 +24,7 @@ export const mapProduct = (p: ApiProduct): Product =>
     images: List(p.images),
     price: p.price,
     discountPrice: p.discount_price,
-    availableQuantity: p.available_quantity,
+    availability: p.availability,
     parameters: List(
       (p.parameters || []).map(
         (pm) =>
