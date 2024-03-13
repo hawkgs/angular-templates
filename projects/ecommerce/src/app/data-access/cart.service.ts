@@ -1,6 +1,8 @@
 import {
   AfterRenderPhase,
+  Injectable,
   afterNextRender,
+  computed,
   effect,
   inject,
   signal,
@@ -9,19 +11,24 @@ import {
 import { Map } from 'immutable';
 import { Product } from '../../models';
 import { LocalStorage } from '../shared/local-storage.service';
+import { ProductsApi } from '../api/products-api.service';
 
 const CART_LS_KEY = 'ec-cart';
 
 /**
  * Cart state.
  */
+@Injectable()
 export class CartService {
   private _storage = inject(LocalStorage);
+  private _productsApi = inject(ProductsApi);
 
   private _cart = signal<Map<string, number>>(Map([]));
   private _products = signal<Map<string, Product>>(Map([]));
 
-  readonly value = this._cart.asReadonly();
+  readonly products = computed(() => this._products().toList());
+  readonly quantities = this._cart.asReadonly();
+  readonly size = computed(() => this._cart().size);
 
   constructor() {
     // _loadCartInState uses browser API; hence, we need
@@ -35,6 +42,23 @@ export class CartService {
     effect(() => {
       this._storage.setJSON(CART_LS_KEY, this._cart().toJSON());
     });
+  }
+
+  async loadCartProducts() {
+    const missingFromState = this._cart()
+      .filter((_, id) => !this._products().has(id))
+      .toArray()
+      .map(([key]) => key);
+
+    if (missingFromState.length) {
+      const products = await this._productsApi.getProducts({
+        batchIds: missingFromState,
+      });
+
+      products.forEach((p: Product) => {
+        this._products.update((m) => m.set(p.id, p));
+      });
+    }
   }
 
   addToCart(product: Product, quantity: number = 1) {
