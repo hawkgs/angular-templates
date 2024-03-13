@@ -24,7 +24,7 @@ export function requestResponseMock(url: string): object {
     : {};
 
   // PRODUCTS – Return a list of products
-  if (/products\??[\w=\-\\+&]*$/.test(url)) {
+  if (/products\??[\w,=\-\\+&]*$/.test(url)) {
     // Do not return the complete data for a product
     let products = Data.products.map(
       (p) =>
@@ -38,6 +38,17 @@ export function requestResponseMock(url: string): object {
           images: [p.images[0]],
         } as ApiProduct),
     );
+
+    // If batchIds is provided, the rest of the filters
+    // are ignored
+    if (queryParams['batchIds']) {
+      products = queryParams['batchIds']
+        .split(',')
+        .map((id) => products.find((p) => p.id === id))
+        .filter((p) => !!p) as ApiProduct[];
+
+      return products;
+    }
 
     // Filter by category
     if (queryParams['categoryId']) {

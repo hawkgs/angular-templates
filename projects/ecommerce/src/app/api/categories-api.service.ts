@@ -6,7 +6,7 @@ import { FETCH_API } from '../shared/fetch';
 import { environment } from '../../environments/environment';
 import { mapCategories } from './utils/mappers';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CategoriesApi {
   private _fetch = inject(FETCH_API);
 

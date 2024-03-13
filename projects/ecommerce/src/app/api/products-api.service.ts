@@ -15,9 +15,10 @@ export type GetProductsParams = Partial<{
   sortBy: 'price_asc' | 'price_desc';
   fromPrice: number;
   toPrice: number;
+  batchIds: string[];
 }>;
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ProductsApi {
   private _abortIfInProgress = fetchAbort();
   private _fetch = inject(FETCH_API);
