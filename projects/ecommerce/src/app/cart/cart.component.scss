@@ -1,0 +1,15 @@
+:host {
+  display: flex;
+
+  .items {
+    flex: 1;
+    ec-cart-item {
+      margin-bottom: 1px;
+    }
+  }
+
+  .checkout {
+    flex: 0 0 300px;
+    border-left: 1px dashed #333;
+  }
+}

@@ -67,7 +67,7 @@ export class CartService {
 
   updateQuantity(
     product: Product,
-    quantity: number = 1,
+    quantity: number,
     relativeQuantity: boolean = true,
   ) {
     const currQuantity = relativeQuantity

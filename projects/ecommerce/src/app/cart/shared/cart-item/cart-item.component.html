@@ -1,0 +1,12 @@
+<img
+  [src]="product().images.first()"
+  width="100"
+  height="100"
+  [alt]="product().name"
+/>
+<span
+  ><a [routerLink]="productUrl()">{{ product().name }}</a></span
+>
+&nbsp;
+<strong>{{ quantity() }}</strong>
+<button (click)="delete.emit()">delete</button>
