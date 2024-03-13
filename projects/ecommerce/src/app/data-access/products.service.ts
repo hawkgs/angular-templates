@@ -15,6 +15,10 @@ export class ProductsService {
 
   async loadProduct(id: string) {
     const product = await this._productsApi.getProduct(id);
-    this._products.update((map) => map.set(product.id, product));
+
+    // If the product doesn't exist, the Product object will be empty; hence, the ID.
+    if (product.id) {
+      this._products.update((map) => map.set(product.id, product));
+    }
   }
 }

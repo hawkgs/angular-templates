@@ -1,0 +1,23 @@
+:host {
+  display: block;
+  border: 1px dashed #333;
+
+  .selected {
+    width: 500px;
+
+    img {
+      width: inherit;
+    }
+  }
+
+  .images {
+    button {
+      background-color: transparent;
+      border: none;
+    }
+
+    .highlight {
+      border: 1px solid green;
+    }
+  }
+}

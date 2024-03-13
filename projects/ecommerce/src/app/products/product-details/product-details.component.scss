@@ -1,0 +1,12 @@
+:host {
+  display: flex;
+
+  .preview {
+    flex: 1;
+  }
+
+  .details {
+    border-left: 1px dashed #666;
+    flex: 0 0 300px;
+  }
+}

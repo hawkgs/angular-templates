@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { ProductsComponent } from './products.component';
+import { canActivateProductDetails } from './product-details/product-details.guard';
 
 export const PRODUCTS_ROUTES: Routes = [
   {
@@ -13,6 +14,7 @@ export const PRODUCTS_ROUTES: Routes = [
   },
   {
     path: ':id/:slug',
+    canActivate: [canActivateProductDetails],
     loadComponent: () =>
       import('./product-details/product-details.component').then(
         (cmp) => cmp.ProductDetailsComponent,

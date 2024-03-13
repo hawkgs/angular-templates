@@ -1,24 +1,23 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
+import { ImageGalleryComponent } from './shared/image-gallery/image-gallery.component';
+import { ProductsService } from '../../data-access/products.service';
+import { Product } from '../../../models';
 
 @Component({
   selector: 'ec-product-details',
   standalone: true,
-  imports: [],
+  imports: [ImageGalleryComponent],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.scss',
 })
-export class ProductDetailsComponent implements OnInit {
-  route = inject(ActivatedRoute);
+export class ProductDetailsComponent {
+  private _route = inject(ActivatedRoute);
+  private _products = inject(ProductsService);
 
-  id = signal<string | null>(null);
-  slug = signal<string | null>(null);
-
-  ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    const slug = this.route.snapshot.paramMap.get('slug');
-
-    this.id.set(id);
-    this.slug.set(slug);
-  }
+  // We assume that the product will exist in the state
+  // given that we have a route guard that ensures that.
+  id = signal<string>(this._route.snapshot.paramMap.get('id')!);
+  product = computed<Product>(() => this._products.value().get(this.id())!);
 }

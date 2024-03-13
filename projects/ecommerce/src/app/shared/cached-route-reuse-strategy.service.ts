@@ -32,6 +32,8 @@ export class CachedRouteReuseStrategy implements RouteReuseStrategy {
   private _store: Map<string, DetachedRouteHandle> = new Map();
   private _newRoutePath: string = '';
 
+  // Note that shouldDetach is called after shouldAttach on
+  // route change; therefore, we are checking the new path.
   shouldDetach(route: ActivatedRouteSnapshot): boolean {
     const reuseFromRoutes = getReuseFromRoutes(route);
     const shouldReuse = reuseFromRoutes.includes(this._newRoutePath);

@@ -1,4 +1,4 @@
-<div class="sidebar">
+<section class="sidebar">
   <form [formGroup]="searchForm" (ngSubmit)="onProductSearch($event)">
     <input formControlName="searchString" />
     <button>Search</button>
@@ -17,8 +17,8 @@
     [(range)]="priceRange"
     (rangeChange)="onPriceRangeChange($event)"
   ></ec-price-filter>
-</div>
-<section>
+</section>
+<section class="main">
   <div class="top-bar">
     <ec-sort-selector
       [(value)]="sortType"

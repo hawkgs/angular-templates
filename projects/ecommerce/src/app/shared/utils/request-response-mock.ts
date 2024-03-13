@@ -113,7 +113,7 @@ export function requestResponseMock(url: string): object {
   // PRODUCT – Return a single product (with complete data)
   if (/products\/[0-9]+/.test(url)) {
     const id = url.split('/').pop();
-    response = Data.products.find((p) => p.id === id);
+    response = Data.products.find((p) => p.id === id) || {};
   }
 
   // CATEGORIES – Return all categories
