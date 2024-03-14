@@ -5,5 +5,5 @@ export const Common: CommonEnv = {
   currency: 'USD',
   productsListPageSize: 4,
   shippingCost: 5,
-  taxPercentage: 0.1,
+  taxPercentage: 0.05,
 };

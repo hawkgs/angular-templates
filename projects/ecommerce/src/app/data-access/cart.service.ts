@@ -29,6 +29,12 @@ export class CartService {
   readonly products = computed(() => this._products().toList());
   readonly quantities = this._cart.asReadonly();
   readonly size = computed(() => this._cart().size);
+  readonly total = computed(() =>
+    this._products()
+      .map((p) => (this._cart().get(p.id) || 1) * (p.discountPrice || p.price))
+      .toList()
+      .reduce((p, c) => p + c, 0),
+  );
 
   constructor() {
     // _loadCartInState uses browser API; hence, we need

@@ -8,5 +8,11 @@
   ><a [routerLink]="productUrl()">{{ product().name }}</a></span
 >
 &nbsp;
-<strong>{{ quantity() }}</strong>
+<button (click)="updateQuantity(-1)" [disabled]="quantity() === 1">-</button>
+<input type="number" [value]="quantity()" (blur)="onInputBlur($event)" />
+<button (click)="updateQuantity(1)">+</button>
 <button (click)="delete.emit()">delete</button>
+<p>
+  <ec-price-tag [product]="product()"></ec-price-tag>x {{ quantity() }} =
+  {{ total() | currency }}
+</p>

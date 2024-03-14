@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
 import { Product } from '../../../models';
-import { CurrencyPipe } from './currency.pipe';
+import { CurrencyPipe } from '../pipes/currency.pipe';
 
 @Component({
   selector: 'ec-price-tag',

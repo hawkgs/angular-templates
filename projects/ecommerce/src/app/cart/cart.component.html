@@ -4,10 +4,16 @@
     [product]="product"
     [quantity]="cart.quantities().get(product.id) || 1"
     (delete)="onItemDelete(product)"
-    (updateQuantity)="onItemQuanityUpdate(product, $event)"
+    (quantityChange)="onItemQuanityUpdate(product, $event)"
   ></ec-cart-item>
   }
 </section>
 <section class="checkout">
+  <div>Your total is: {{ total() | currency }}</div>
+  <hr />
+  <p>Subtotal: {{ subtotal() | currency }}</p>
+  <p>Shipping: {{ shipping | currency }}</p>
+  <p>Taxes: {{ taxes() | currency }}</p>
+  <hr />
   <a>Checkout</a>
 </section>
