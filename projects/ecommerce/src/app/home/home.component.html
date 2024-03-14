@@ -1,2 +1,8 @@
-<ec-product-search></ec-product-search>
-<a routerLink="products">Go to Products page</a>
+<section class="search">
+  <h2>Lorem ipsum</h2>
+  <p>A title</p>
+  <ec-product-search></ec-product-search>
+</section>
+@for (category of categories(); track category.id) {
+<ec-category-reel [category]="category"></ec-category-reel>
+}

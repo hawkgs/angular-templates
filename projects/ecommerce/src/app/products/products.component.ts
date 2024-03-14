@@ -6,7 +6,12 @@ import {
   signal,
   untracked,
 } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+  RouterModule,
+} from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
@@ -37,7 +42,7 @@ const DEFAULT_PRICE_RANGE = { from: 0, to: 10000 };
     PriceFilterComponent,
     SortSelectorComponent,
   ],
-  providers: [ProductsListService],
+  providers: [RouterModule, ProductsListService],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',
 })

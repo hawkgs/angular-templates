@@ -28,8 +28,13 @@ export class ProductsApi {
    *
    * @returns A products list that matches the given criteria
    */
-  async getProducts(params?: GetProductsParams): Promise<List<Product>> {
-    const signal = this._abortIfInProgress(this.getProducts.name);
+  async getProducts(
+    params?: GetProductsParams,
+    abortIfInProgress: boolean = true,
+  ): Promise<List<Product>> {
+    const signal = abortIfInProgress
+      ? this._abortIfInProgress(this.getProducts.name)
+      : null;
     const queryParams = buildQueryParamsString({
       ...params,
       pageSize: environment.productsListPageSize,

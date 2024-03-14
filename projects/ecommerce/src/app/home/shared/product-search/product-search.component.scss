@@ -1,0 +1,10 @@
+:host {
+  position: relative;
+  display: block;
+
+  ul {
+    position: absolute;
+    border: 1px solid blue;
+    background: #000;
+  }
+}

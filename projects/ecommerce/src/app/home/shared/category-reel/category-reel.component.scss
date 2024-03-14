@@ -1,0 +1,10 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.products {
+  display: flex;
+  flex-wrap: wrap;
+}

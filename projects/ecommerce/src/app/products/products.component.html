@@ -5,6 +5,9 @@
   </form>
   <hr />
   <ul>
+    <li>
+      <a routerLink="products">Show all</a>
+    </li>
     @for (c of categories.categoriesList(); track c.id) {
     <li>
       <button (click)="onCategorySelect(c.id)">{{ c.name }}</button>

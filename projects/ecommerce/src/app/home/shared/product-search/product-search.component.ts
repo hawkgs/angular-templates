@@ -2,10 +2,10 @@ import { Component, inject, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { List } from 'immutable';
 
-import { SearchInputComponent } from '../search-input/search-input.component';
-import { ProductsApi } from '../../api/products-api.service';
-import { Product } from '../../../models';
-import { createProductUrl } from '../utils/create-product-url';
+import { SearchInputComponent } from '../../../shared/search-input/search-input.component';
+import { ProductsApi } from '../../../api/products-api.service';
+import { Product } from '../../../../models';
+import { createProductUrl } from '../../../shared/utils/create-product-url';
 
 // Max results shown in the list
 const MAX_RESULTS = 5;

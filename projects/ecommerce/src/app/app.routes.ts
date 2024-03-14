@@ -9,6 +9,11 @@ export const APP_ROUTES: Routes = [
         path: '',
         pathMatch: 'full',
         component: HomeComponent,
+        data: {
+          // We want to reuse the HomeComponent when navigating back from product details.
+          // See CachedRouteReuseStrategy for more details.
+          reuseFrom: ['products/:id/:slug'],
+        },
       },
       {
         path: 'products',

@@ -1,0 +1,11 @@
+<div class="header">
+  <h3>{{ category().name }}</h3>
+  <a routerLink="products" [queryParams]="{ category: category().id }"
+    >View more -></a
+  >
+</div>
+<div class="products">
+  @for (product of products(); track product.id) {
+  <ec-product-item [product]="product"></ec-product-item>
+  }
+</div>
