@@ -6,6 +6,12 @@
       <strong>{{ product().name }}</strong>
     </p>
     <span>Categories: {{ categories().toArray() }}</span>
-    <div>{{ env.currency }} {{ product().price }}</div>
+    @if (product().availability === 'low') {
+    <div>LAST ITEMS</div>
+    } @if (product().availability !== 'none') {
+    <div><ec-price-tag [product]="product()"></ec-price-tag></div>
+    } @else {
+    <div>Unavailable</div>
+    }
   </div>
 </a>

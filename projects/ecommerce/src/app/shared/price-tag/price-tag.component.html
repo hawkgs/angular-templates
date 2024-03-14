@@ -1,4 +1,7 @@
 @if (product().discountPrice) {
+<strong
+  >{{ 1 - product().discountPrice / product().price | percent }} Off</strong
+>
 <s>{{ product().price | currency }}</s>
 <span>{{ product().discountPrice | currency }}</span>
 } @else {

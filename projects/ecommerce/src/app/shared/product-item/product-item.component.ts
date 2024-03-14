@@ -11,13 +11,13 @@ import { NgOptimizedImage } from '@angular/common';
 
 import { Product } from '../../../models';
 import { CategoriesService } from '../../data-access/categories.service';
-import { environment } from '../../../environments/environment';
 import { createProductUrl } from '../utils/create-product-url';
+import { PriceTagComponent } from '../price-tag/price-tag.component';
 
 @Component({
   selector: 'ec-product-item',
   standalone: true,
-  imports: [RouterModule, NgOptimizedImage],
+  imports: [RouterModule, NgOptimizedImage, PriceTagComponent],
   templateUrl: './product-item.component.html',
   styleUrl: './product-item.component.scss',
 })
@@ -26,8 +26,6 @@ export class ProductItemComponent {
 
   product = input.required<Product>();
   @Output() productClick = new EventEmitter<Product>();
-
-  env = environment;
 
   categories = computed(() =>
     this.product().categoryIds.map(
