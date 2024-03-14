@@ -2,5 +2,5 @@
   <fieldset [disabled]="isUnavailable()">
     <input type="number" formControlName="quantity" />
   </fieldset>
-  <button [disabled]="!form.valid || isUnavailable()">Add to Cart</button>
+  <button [disabled]="form.invalid || isUnavailable()">Add to Cart</button>
 </form>

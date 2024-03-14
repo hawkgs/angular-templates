@@ -64,7 +64,7 @@ export class ProductsComponent implements OnInit {
     searchString: [''],
   });
 
-  private _searchString = '';
+  private _searchTerm = '';
   private _page = 1;
   private _lastEvent?: NavigationEnd;
 
@@ -156,7 +156,7 @@ export class ProductsComponent implements OnInit {
     this.productsList.loadProducts({
       ...priceParams,
       categoryId: this.categoryId(),
-      name: this._searchString,
+      name: this._searchTerm,
       sortBy,
       page,
     });
@@ -183,11 +183,11 @@ export class ProductsComponent implements OnInit {
   private _updateParamPropsFromRoute() {
     const { queryParamMap } = this._route.snapshot;
     const categoryId = queryParamMap.get('category') || '';
-    const searchString = queryParamMap.get('search') || '';
+    const searchTerm = queryParamMap.get('search') || '';
     const priceRange = queryParamMap.get('price') || '';
     const sortType = queryParamMap.get('sort') || '';
 
-    this._searchString = searchString;
+    this._searchTerm = searchTerm;
 
     // Since the method is executed in an effect
     // and categoryId should not be threated as a

@@ -1,6 +1,12 @@
 .search {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: calc(100vw - 10px);
+  border-bottom: 1px dashed #666;
+  height: 300px;
+  left: -50vw;
+  margin-left: 50%;
 }

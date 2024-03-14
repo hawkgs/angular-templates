@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { List } from 'immutable';
 
 import { SearchInputComponent } from '../../../shared/search-input/search-input.component';
@@ -16,21 +17,45 @@ const SEARCH_AFTER_CHAR = 3;
 @Component({
   selector: 'ec-product-search',
   standalone: true,
-  imports: [RouterModule, SearchInputComponent],
+  imports: [RouterModule, ReactiveFormsModule, SearchInputComponent],
   templateUrl: './product-search.component.html',
   styleUrl: './product-search.component.scss',
 })
 export class ProductSearchComponent {
-  products = signal<List<Product>>(List([]));
   productsApi = inject(ProductsApi);
+  private _router = inject(Router);
+  private _formBuilder = inject(FormBuilder);
+
+  form = this._formBuilder.group({
+    search: [
+      '',
+      [Validators.required, Validators.minLength(SEARCH_AFTER_CHAR)],
+    ],
+  });
+
+  products = signal<List<Product>>(List([]));
+
   createUrl = createProductUrl;
 
-  async onProductSearch(searchStr: string) {
-    if (!searchStr.length) {
+  onSearch() {
+    const search = this.form.value.search || '';
+
+    this._router.navigate(['products'], {
+      queryParams: { search },
+    });
+  }
+
+  /**
+   * Handle auto-completion.
+   */
+  async onSearchFieldChange() {
+    const searchTerm = this.form.value.search || '';
+
+    if (!searchTerm.length) {
       this.products.set(List([]));
-    } else if (searchStr.length >= SEARCH_AFTER_CHAR) {
+    } else if (searchTerm.length >= SEARCH_AFTER_CHAR) {
       const products = await this.productsApi.getProducts({
-        name: searchStr,
+        name: searchTerm,
         pageSize: MAX_RESULTS,
       });
       this.products.set(products);

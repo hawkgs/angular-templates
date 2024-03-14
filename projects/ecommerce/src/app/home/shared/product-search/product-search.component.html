@@ -1,4 +1,11 @@
-<ec-search-input (search)="onProductSearch($event)"></ec-search-input>
+<form class="search" [formGroup]="form" (ngSubmit)="onSearch()">
+  <ec-search-input
+    formControlName="search"
+    (ngModelChange)="onSearchFieldChange()"
+  ></ec-search-input>
+  <button [disabled]="form.invalid">Search</button>
+</form>
+@if (products().size) {
 <ul>
   @for (p of products(); track p.id) {
   <li>
@@ -7,3 +14,4 @@
   </li>
   }
 </ul>
+}

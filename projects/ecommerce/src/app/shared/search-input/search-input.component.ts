@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, forwardRef, signal } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 // Input debounce time
 const INPUT_DEBOUNCE = 250;
@@ -9,10 +10,22 @@ const INPUT_DEBOUNCE = 250;
   imports: [],
   templateUrl: './search-input.component.html',
   styleUrl: './search-input.component.scss',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => SearchInputComponent),
+      multi: true,
+    },
+  ],
 })
-export class SearchInputComponent {
-  @Output() search = new EventEmitter<string>();
+export class SearchInputComponent implements ControlValueAccessor {
   private _timeout?: ReturnType<typeof setTimeout>;
+
+  value = signal<string>('');
+  disabled = signal<boolean>(false);
+
+  private _onChange!: (v: string) => void;
+  private _onTouched!: () => void;
 
   onSearch(e: Event) {
     if (this._timeout) {
@@ -21,7 +34,24 @@ export class SearchInputComponent {
 
     this._timeout = setTimeout(() => {
       const input = e.target as HTMLInputElement;
-      this.search.emit(input.value);
+      this._onChange(input.value);
+      this._onTouched();
     }, INPUT_DEBOUNCE);
+  }
+
+  writeValue(value: string): void {
+    this.value.set(value);
+  }
+
+  registerOnChange(fn: (v: string) => void): void {
+    this._onChange = fn;
+  }
+
+  registerOnTouched(fn: () => void) {
+    this._onTouched = fn;
+  }
+
+  setDisabledState?(isDisabled: boolean) {
+    this.disabled.set(isDisabled);
   }
 }
