@@ -8,7 +8,7 @@ import {
   signal,
   untracked,
 } from '@angular/core';
-import { Map } from 'immutable';
+import { Map, Set } from 'immutable';
 import { Product } from '../../models';
 import { LocalStorage } from '../shared/local-storage.service';
 import { ProductsApi } from '../api/products-api.service';
@@ -50,6 +50,8 @@ export class CartService {
       .toArray()
       .map(([key]) => key);
 
+    // If there are missing products in the state,
+    // load them.
     if (missingFromState.length) {
       const products = await this._productsApi.getProducts({
         batchIds: missingFromState,
@@ -57,6 +59,18 @@ export class CartService {
 
       products.forEach((p: Product) => {
         this._products.update((m) => m.set(p.id, p));
+      });
+
+      // If there are products that don't exist
+      // in the database anymore, remove them
+      // from the local storage.
+      const existingProductsSet = Set<string>(products.map((p) => p.id));
+      const nonExistentProducts = this._cart()
+        .toArray()
+        .filter(([id]) => !existingProductsSet.has(id));
+
+      nonExistentProducts.forEach(([id]) => {
+        this._cart.update((m) => m.delete(id));
       });
     }
   }
@@ -92,6 +106,10 @@ export class CartService {
     this._products.update((m) => m.delete(product.id));
   }
 
+  /**
+   * Load cart products from the local storage
+   * to the in-memory state.
+   */
   private _loadCartInState() {
     const cart = this._storage.getJSON(CART_LS_KEY) as {
       [key: string]: number;
