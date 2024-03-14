@@ -68,9 +68,11 @@ export class CartService {
       });
 
       // If there are products that don't exist
-      // in the database anymore, remove them
-      // from the local storage.
-      const existingProductsSet = Set<string>(products.map((p) => p.id));
+      // in the database anymore or are unavailable,
+      // remove them from the local storage.
+      const existingProductsSet = Set<string>(
+        products.filter((p) => p.availability !== 'none').map((p) => p.id),
+      );
       const nonExistentProducts = this._cart()
         .toArray()
         .filter(([id]) => !existingProductsSet.has(id));
