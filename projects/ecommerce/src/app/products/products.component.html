@@ -4,13 +4,18 @@
     <button>Search</button>
   </form>
   <hr />
-  <ul>
+  <ul class="categories">
     <li>
-      <a routerLink="products">Show all</a>
+      <a routerLink="/products" [class.selected]="!categoryId()">Show all</a>
     </li>
     @for (c of categories.categoriesList(); track c.id) {
     <li>
-      <button (click)="onCategorySelect(c.id)">{{ c.name }}</button>
+      <a
+        routerLink="/products"
+        [queryParams]="{ category: c.id }"
+        [class.selected]="categoryId() === c.id"
+        >{{ c.name }}</a
+      >
     </li>
     }
   </ul>

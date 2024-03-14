@@ -4,6 +4,19 @@
   .sidebar {
     border-right: 1px dashed #555;
     flex: 0 0 200px;
+
+    .categories {
+      a {
+        margin: 10px 0;
+        font-size: 16px;
+        display: block;
+
+        &.selected {
+          font-weight: bold;
+          text-transform: uppercase;
+        }
+      }
+    }
   }
 
   .main {

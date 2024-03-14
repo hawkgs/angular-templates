@@ -41,8 +41,9 @@ const DEFAULT_PRICE_RANGE = { from: 0, to: 10000 };
     SearchInputComponent,
     PriceFilterComponent,
     SortSelectorComponent,
+    RouterModule,
   ],
-  providers: [RouterModule, ProductsListService],
+  providers: [ProductsListService],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',
 })
@@ -57,12 +58,12 @@ export class ProductsComponent implements OnInit {
   DEFAULT_PRICE_RANGE = DEFAULT_PRICE_RANGE;
   priceRange = signal<PriceRange>(DEFAULT_PRICE_RANGE);
   sortType = signal<SortType>('default');
+  categoryId = signal<string>('');
 
   searchForm = this._formBuilder.group({
     searchString: [''],
   });
 
-  private _categoryId = '';
   private _searchString = '';
   private _page = 1;
   private _lastEvent?: NavigationEnd;
@@ -93,10 +94,6 @@ export class ProductsComponent implements OnInit {
 
   ngOnInit(): void {
     this._reloadList();
-  }
-
-  onCategorySelect(id: string) {
-    this._updateQueryParams({ category: id }, false);
   }
 
   onProductSearch(e: Event) {
@@ -158,7 +155,7 @@ export class ProductsComponent implements OnInit {
 
     this.productsList.loadProducts({
       ...priceParams,
-      categoryId: this._categoryId,
+      categoryId: this.categoryId(),
       name: this._searchString,
       sortBy,
       page,
@@ -171,11 +168,11 @@ export class ProductsComponent implements OnInit {
    * @param params
    * @param merge
    */
-  private _updateQueryParams(params: object, merge: boolean = true) {
+  private _updateQueryParams(params: object) {
     this._router.navigate([], {
       relativeTo: this._route,
       queryParams: params,
-      ...(merge ? { queryParamsHandling: 'merge' } : {}),
+      queryParamsHandling: 'merge',
     });
   }
 
@@ -190,14 +187,16 @@ export class ProductsComponent implements OnInit {
     const priceRange = queryParamMap.get('price') || '';
     const sortType = queryParamMap.get('sort') || '';
 
-    this._categoryId = categoryId;
     this._searchString = searchString;
 
+    // Since the method is executed in an effect
+    // and categoryId should not be threated as a
+    // dependency, we use untracted in order to
+    // point that it should be ignored.
+    untracked(() => this.categoryId.set(categoryId));
+
     if (isOfSortType(sortType)) {
-      // Since the method is executed in an effect
-      // and sortType should not be threated as a
-      // dependency, we use untracted in order to
-      // point that it should be ignored.
+      // Same for sortType
       untracked(() => this.sortType.set(sortType as SortType));
     } else {
       untracked(() => this.sortType.set('default'));
