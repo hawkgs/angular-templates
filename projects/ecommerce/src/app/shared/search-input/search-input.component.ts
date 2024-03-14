@@ -1,4 +1,10 @@
-import { Component, forwardRef, signal } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Output,
+  forwardRef,
+  signal,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 // Input debounce time
@@ -19,11 +25,11 @@ const INPUT_DEBOUNCE = 250;
   ],
 })
 export class SearchInputComponent implements ControlValueAccessor {
-  private _timeout?: ReturnType<typeof setTimeout>;
-
   value = signal<string>('');
   disabled = signal<boolean>(false);
+  @Output() focused = new EventEmitter<boolean>();
 
+  private _timeout?: ReturnType<typeof setTimeout>;
   private _onChange!: (v: string) => void;
   private _onTouched!: () => void;
 

@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { List } from 'immutable';
@@ -26,6 +26,8 @@ export class ProductSearchComponent {
   private _router = inject(Router);
   private _formBuilder = inject(FormBuilder);
 
+  searchInput = viewChild<SearchInputComponent>('searchInput');
+
   form = this._formBuilder.group({
     search: [
       '',
@@ -34,6 +36,7 @@ export class ProductSearchComponent {
   });
 
   products = signal<List<Product>>(List([]));
+  isSearchFocused = signal<boolean>(false);
 
   createUrl = createProductUrl;
 

@@ -1,1 +1,6 @@
-<input [value]="value()" (input)="onSearch($event)" />
+<input
+  [value]="value()"
+  (input)="onSearch($event)"
+  (focus)="focused.emit(true)"
+  (blur)="focused.emit(false)"
+/>

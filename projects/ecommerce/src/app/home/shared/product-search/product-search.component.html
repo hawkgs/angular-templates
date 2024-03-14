@@ -1,11 +1,13 @@
 <form class="search" [formGroup]="form" (ngSubmit)="onSearch()">
   <ec-search-input
+    #searchInput
     formControlName="search"
+    (focused)="isSearchFocused.set($event)"
     (ngModelChange)="onSearchFieldChange()"
   ></ec-search-input>
   <button [disabled]="form.invalid">Search</button>
 </form>
-@if (products().size) {
+@if (products().size && isSearchFocused()) {
 <ul>
   @for (p of products(); track p.id) {
   <li>
