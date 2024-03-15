@@ -1,12 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import './typography';
-@import './colors';
 
 // Variables
 
 :root {
-  --app-max-width: 1000px;
+  --app-max-width: 1024px;
 }
 
 // Styles
@@ -18,9 +17,9 @@ body {
 
 body {
   background-color: var(--color-bg);
-  color: var(--color-foreground);
+  color: var(--color-text);
   font-family: $font-family;
-  font-size: 16px;
+  font-size: 0.875rem;
   margin: 0;
 }
 
@@ -29,5 +28,11 @@ p {
 }
 
 a {
-  color: $link;
+  color: var(--color-quaternary);
+  transition: color 300ms ease;
+  text-decoration: none;
+
+  &:hover {
+    color: var(--color-primary);
+  }
 }

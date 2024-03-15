@@ -1,30 +1,54 @@
 // This files keeps all CSS variable for the light and dark themes.
 
-// Light color variables
-$lightColorBg: #f4f5f8;
-$lightColorForeground: #222428;
+// Colors
+:root {
+  --grey-1000: #0f0f11;
+  --grey-900: #151417;
+  --grey-800: #232125;
+  --grey-700: #413e46;
+  --grey-600: #55505b;
+  --grey-500: #746e7c;
+  --grey-400: #a39fa9;
+  --grey-300: #ccc9cf;
+  --grey-200: #e4e3e6;
+  --grey-100: #f6f5f6;
+  --grey-50: #fbfbfb;
+  --white: #fff;
 
-// Dark colors variables
-$darkColorBg: #222428;
-$darkColorForeground: #f4f5f8;
-
-// TODO: Colors to implement - primary, secondary, tertiary, success, warning, danger
+  --gradient-magenta-to-light-purple: linear-gradient(
+    90deg,
+    rgba(225, 27, 172, 1) 0%,
+    rgba(211, 68, 248, 1) 40%,
+    rgba(217, 96, 253, 1) 70%,
+    rgb(139, 10, 186) 100%
+  );
+  --gradient-pink-to-violet: linear-gradient(90deg, #f637e3 0%, #8514f5 100%);
+}
 
 /*
  * Light theme setup
  * _________________
  */
 
-// System preference
-:root {
-  --color-bg: #{$lightColorBg};
-  --color-foreground: #{$lightColorForeground};
+// Setup
+@mixin light-theme-colors-setup {
+  --color-bg: var(--white);
+  --color-text: var(--grey-900);
+
+  --color-primary: var(--grey-900);
+  --color-secondary: var(--grey-800);
+  --color-tertiary: var(--grey-700);
+  --color-quaternary: var(--grey-500);
+  --color-quinary: var(--grey-300);
+  --color-senary: var(--grey-200);
+  --color-septenary: var(--grey-100);
+  --color-octonary: var(--grey-50);
 }
 
-// User-selected
+// System preference / User-selected
+:root,
 :root.ec-light-theme {
-  --color-bg: #{$lightColorBg};
-  --color-foreground: #{$lightColorForeground};
+  @include light-theme-colors-setup;
 }
 
 /*
@@ -32,16 +56,29 @@ $darkColorForeground: #f4f5f8;
  * ________________
  */
 
+// Setup
+@mixin dark-theme-colors-setup {
+  --color-bg: var(--grey-1000);
+  --color-text: var(--grey-50);
+
+  --color-primary: var(--grey-50);
+  --color-secondary: var(--grey-300);
+  --color-tertiary: var(--grey-300);
+  --color-quaternary: var(--grey-400);
+  --color-quinary: var(--grey-500);
+  --color-senary: var(--grey-700);
+  --color-septenary: var(--grey-800);
+  --color-octonary: var(--grey-900);
+}
+
 // System preference
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-bg: #{$darkColorBg};
-    --color-foreground: #{$darkColorForeground};
+    @include dark-theme-colors-setup;
   }
 }
 
 // User-selected
 :root.ec-dark-theme {
-  --color-bg: #{$darkColorBg};
-  --color-foreground: #{$darkColorForeground};
+  @include dark-theme-colors-setup;
 }

@@ -1,1 +1,17 @@
-$font-family: Arial, Helvetica, sans-serif;
+$font-family: 'Inter', Arial, sans-serif;
+
+%heading-200 {
+  font-size: 2rem;
+  font-style: normal;
+  margin-block-end: 0.5rem;
+}
+
+%body-short-01 {
+  font-size: 0.875rem;
+  font-style: normal;
+  line-height: 1.4rem;
+}
+
+%button-text {
+  font-family: $font-family;
+}
