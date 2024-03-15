@@ -3,7 +3,16 @@ $font-family: 'Inter', Arial, sans-serif;
 %heading-200 {
   font-size: 2rem;
   font-style: normal;
-  margin-block-end: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+%heading-600 {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-top: 0.5rem;
+  margin-bottom: 1.75rem;
+  letter-spacing: -0.00875rem;
 }
 
 %body-short-01 {
@@ -12,6 +21,21 @@ $font-family: 'Inter', Arial, sans-serif;
   line-height: 1.4rem;
 }
 
+%body-short-03 {
+  font-weight: 300;
+  font-size: 0.75rem;
+}
+
+%nav-menu-text {
+  font-size: 0.8125rem;
+}
+
 %button-text {
   font-family: $font-family;
+}
+
+%caption-text {
+  text-transform: uppercase;
+  font-size: 0.625rem;
+  letter-spacing: 0.125rem;
 }

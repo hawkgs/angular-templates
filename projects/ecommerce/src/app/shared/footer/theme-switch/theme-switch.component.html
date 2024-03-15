@@ -1,0 +1,4 @@
+<button (click)="onThemeSwitch()" title="Change the current theme">
+  <span>{{ currentTheme() | themeLabel }}</span>
+  <ec-icon [name]="THEME_TO_ICON[currentTheme()]" size="xlg"></ec-icon>
+</button>

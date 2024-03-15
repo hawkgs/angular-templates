@@ -1,9 +1,45 @@
 <footer>
-  <span>Angular (c) 2024</span>
-  <div>
-    <p>Change theme</p>
-    <button (click)="theme.setTheme('dark')">Dark</button>
-    <button (click)="theme.setTheme('light')">Light</button>
-    <button (click)="theme.setTheme('system')">System</button>
+  <div class="content">
+    <div class="nav">
+      <nav class="nav-section">
+        <h6>Product Categories</h6>
+        <ul>
+          @for (category of categories.categoriesList(); track category.id) {
+          <li>
+            <a
+              routerLink="/products"
+              [queryParams]="{ category: category.id }"
+              >{{ category.name }}</a
+            >
+          </li>
+          }
+        </ul>
+      </nav>
+      <nav class="nav-section">
+        <h6>Company</h6>
+        <ul>
+          <li>
+            <a>Contact</a>
+          </li>
+          <li>
+            <a>About</a>
+          </li>
+          <li>
+            <a>Terms of Use</a>
+          </li>
+          <li>
+            <a>Privacy Policy</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <ec-theme-switch></ec-theme-switch>
   </div>
+  <p class="copyright-and-info">
+    <span>© 2024 Angular Store. All rights reserved.</span>
+    <span>
+      Powered by <ec-icon name="Angular" size="sm"></ec-icon> Angular. Code
+      licensed under <a href="" target="_blank">MIT License</a>.
+    </span>
+  </p>
 </footer>

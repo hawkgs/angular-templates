@@ -2,9 +2,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation, input } from '@angular/core';
 
-export type IconName = 'Cart';
+export type IconName =
+  | 'Angular'
+  | 'Cart'
+  | 'LightMode'
+  | 'DarkMode'
+  | 'Routine';
 export type IconSize = 'sm' | 'md' | 'lg' | 'xlg' | 'xxlg';
 
+// Powered by Material Symbols
 @Component({
   selector: 'ec-icon',
   standalone: true,

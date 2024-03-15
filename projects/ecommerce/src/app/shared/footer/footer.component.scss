@@ -1,15 +1,59 @@
+@import '../../../styles/typography';
+
 :host {
   display: block;
-  border-top: 1px solid #ccc;
-  height: 100px;
+  margin-top: 64px;
+  background-color: var(--color-septenary);
 
   footer {
+    @extend %body-short-03;
     position: relative;
     max-width: var(--app-max-width);
     margin: 0 auto;
-    padding: 0 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    padding: 32px 16px 64px 16px;
+    color: var(--color-quaternary);
+
+    .content {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+
+      .nav {
+        display: flex;
+        align-items: flex-start;
+
+        .nav-section {
+          margin-right: 4rem;
+
+          h6 {
+            @extend %heading-600;
+            color: var(--color-primary);
+          }
+
+          ul {
+            @extend %nav-menu-text;
+
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+
+            li {
+              margin: 1rem 0;
+            }
+          }
+        }
+      }
+    }
+
+    .copyright-and-info {
+      margin-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+
+      ec-icon {
+        display: inline-block;
+        vertical-align: bottom;
+      }
+    }
   }
 }

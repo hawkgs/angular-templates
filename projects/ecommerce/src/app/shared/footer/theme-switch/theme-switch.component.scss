@@ -1,0 +1,27 @@
+@import '../../../../styles/typography';
+
+:host {
+  display: block;
+
+  button {
+    @extend %caption-text;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: auto;
+    height: auto;
+    border: none;
+    background: transparent;
+    padding: 0;
+    color: var(--color-quaternary);
+    transition: color 300ms ease;
+
+    span {
+      margin-right: 0.25rem;
+    }
+
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+}

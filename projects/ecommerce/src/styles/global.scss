@@ -31,8 +31,17 @@ a {
   color: var(--color-quaternary);
   transition: color 300ms ease;
   text-decoration: none;
+  cursor: pointer;
+
+  &[target='_blank'] {
+    text-decoration: underline;
+  }
 
   &:hover {
     color: var(--color-primary);
   }
+}
+
+button {
+  cursor: pointer;
 }

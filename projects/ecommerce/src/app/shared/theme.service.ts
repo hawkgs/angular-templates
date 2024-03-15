@@ -1,10 +1,17 @@
 import { DOCUMENT } from '@angular/common';
-import { Injectable, Renderer2, RendererFactory2, inject } from '@angular/core';
+import {
+  Injectable,
+  Renderer2,
+  RendererFactory2,
+  Signal,
+  inject,
+  signal,
+} from '@angular/core';
 import { LocalStorage } from './local-storage.service';
 
 const THEME_LS_KEY = 'ec-theme';
 type LsThemeType = 'light' | 'dark';
-type ThemeType = LsThemeType | 'system';
+export type ThemeType = LsThemeType | 'system';
 
 const getThemeClass = (t: ThemeType) => `ec-${t}-theme`;
 
@@ -18,10 +25,20 @@ export class ThemeService {
   private _storage = inject(LocalStorage);
 
   private _renderer: Renderer2;
-  private _current: ThemeType | null = null;
+  private _current = signal<ThemeType | null>(null);
 
   constructor(rendererFactory: RendererFactory2) {
     this._renderer = rendererFactory.createRenderer(null, null);
+  }
+
+  /**
+   * Returns a read-only Signal with the current theme.
+   *
+   * @returns
+   */
+  getTheme(): Signal<ThemeType> {
+    this._initSignal();
+    return this._current.asReadonly() as Signal<ThemeType>;
   }
 
   /**
@@ -30,15 +47,12 @@ export class ThemeService {
    * @param theme
    */
   setTheme(theme: ThemeType) {
-    if (!this._current) {
-      const current = this._storage.get(THEME_LS_KEY) as LsThemeType | null;
-      this._current = current ? current : 'system';
-    }
+    this._initSignal();
 
     const doc = this._doc.documentElement;
 
-    if (this._current !== 'system') {
-      this._renderer.removeClass(doc, getThemeClass(this._current));
+    if (this._current() !== 'system') {
+      this._renderer.removeClass(doc, getThemeClass(this._current()!));
       this._storage.remove(THEME_LS_KEY);
     }
     if (theme !== 'system') {
@@ -46,6 +60,16 @@ export class ThemeService {
       this._storage.set(THEME_LS_KEY, theme);
     }
 
-    this._current = theme;
+    this._current.set(theme);
+  }
+
+  /**
+   * Initialize the current theme signal from the local storage, if null.
+   */
+  private _initSignal() {
+    if (!this._current()) {
+      const current = this._storage.get(THEME_LS_KEY) as LsThemeType | null;
+      this._current.set(current ? current : 'system');
+    }
   }
 }
