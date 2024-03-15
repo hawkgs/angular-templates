@@ -1,4 +1,10 @@
 <header>
-  <a routerLink="/" class="logo">Angular Store</a>
-  <a routerLink="cart">Cart ({{ cart.size() }})</a>
+  <a routerLink="/" class="logo">
+    <div class="ng-logo"></div>
+    <span class="text">Angular Store</span>
+  </a>
+  <a class="cart" routerLink="cart">
+    <ec-icon name="Cart" size="md"></ec-icon>
+    Cart ({{ cart.size() }})
+  </a>
 </header>

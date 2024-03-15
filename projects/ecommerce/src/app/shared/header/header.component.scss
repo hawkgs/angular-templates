@@ -1,16 +1,55 @@
 :host {
   width: 100%;
-  border-bottom: 1px solid #ccc;
+  border-block-end: 1px solid var(--color-septenary);
   display: block;
+  backdrop-filter: blur(16px);
 
   header {
     position: relative;
     max-width: var(--app-max-width);
-    height: 64px;
     margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 16px;
+    padding: 1rem;
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 24px;
+      font-weight: 500;
+      text-decoration: none;
+
+      .ng-logo {
+        background: url('../../../assets/logo.svg') no-repeat;
+        width: 30px;
+        height: 32px;
+        margin-right: 12px;
+      }
+
+      .text {
+        background: var(--gradient-magenta-to-light-purple);
+        -webkit-background-clip: text;
+        background-size: 140% 140%;
+        background-clip: text;
+        color: transparent;
+        transition: background-position-x 500ms ease;
+      }
+
+      &:hover {
+        .text {
+          background-position-x: 80%;
+        }
+      }
+    }
+
+    .cart {
+      display: inline-flex;
+      align-items: flex-end;
+
+      ec-icon {
+        margin-right: 0.125rem;
+      }
+    }
   }
 }
