@@ -42,6 +42,11 @@ a {
   }
 }
 
-button {
+button:not([disabled]) {
   cursor: pointer;
+}
+
+input,
+button {
+  font-family: $font-family;
 }

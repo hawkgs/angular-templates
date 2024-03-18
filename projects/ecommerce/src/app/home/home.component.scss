@@ -1,12 +1,68 @@
+@import '../../styles/typography';
+
 .search {
   position: relative;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
   width: calc(100vw - 10px);
-  border-bottom: 1px dashed #666;
-  height: 300px;
+  height: 288px;
   left: -50vw;
   margin-left: 50%;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url(../../assets/gradient.jpg) no-repeat;
+    background-size: 100%;
+    animation: bg-movement 10s infinite ease;
+    opacity: 0.8;
+  }
+
+  .content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: var(--app-max-width);
+    text-align: center;
+    padding: 0 1rem;
+
+    h2 {
+      @extend %heading-100;
+      color: var(--white);
+    }
+
+    h3 {
+      @extend %heading-300;
+      margin-bottom: 2rem;
+      color: var(--white);
+    }
+
+    ec-product-search {
+      width: 60%;
+    }
+  }
+}
+
+@keyframes bg-movement {
+  0% {
+    background-position: 0 0;
+  }
+  25% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 50% 50%;
+  }
+  75% {
+    background-position: 50% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
 }

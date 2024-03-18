@@ -23,6 +23,18 @@
     rgb(139, 10, 186) 100%
   );
   --gradient-pink-to-violet: linear-gradient(90deg, #f637e3 0%, #8514f5 100%);
+  // --gradient-orange-to-violet: linear-gradient(
+  //   90deg,
+  //   #fa2c05 0%,
+  //   #f637e3 50%,
+  //   #8514f5 100%
+  // );
+  --gradient-orange-to-violet: linear-gradient(
+    90deg,
+    #f97960 0%,
+    #f785ec 50%,
+    #af67f6 100%
+  );
 }
 
 /*
@@ -43,6 +55,9 @@
   --color-senary: var(--grey-200);
   --color-septenary: var(--grey-100);
   --color-octonary: var(--grey-50);
+
+  // Color mix
+  --color-french-violet: #8001c6;
 }
 
 // System preference / User-selected
@@ -60,6 +75,7 @@
 @mixin dark-theme-colors-setup {
   --color-bg: var(--grey-1000);
   --color-text: var(--grey-50);
+  --full-contrast: var(--white);
 
   --color-primary: var(--grey-50);
   --color-secondary: var(--grey-300);
@@ -69,6 +85,8 @@
   --color-senary: var(--grey-700);
   --color-septenary: var(--grey-800);
   --color-octonary: var(--grey-900);
+
+  --color-french-violet: #c97bf4;
 }
 
 // System preference

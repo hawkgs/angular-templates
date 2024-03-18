@@ -2,18 +2,31 @@
   <ec-search-input
     #searchInput
     formControlName="search"
+    placeholder="Search for a product"
     (focused)="onInputFocus($event)"
     (ngModelChange)="onSearchFieldChange()"
   ></ec-search-input>
-  <button [disabled]="form.invalid">Search</button>
+  <button ec-button btnType="tertiary" [disabled]="form.invalid">Search</button>
 </form>
-@if (products().size && showResults()) {
-<ul #results>
-  @for (p of products(); track p.id) {
-  <li>
-    <img [src]="p.images.first()" width="20" height="20" [alt]="p.name" />
-    <a [routerLink]="createUrl(p)">{{ p.name }}</a>
-  </li>
+@if (showResults()) {
+<div class="results-cont">
+  @if (products().size) {
+  <ul #results class="results">
+    @for (p of products(); track p.id) {
+    <li>
+      <a [routerLink]="createUrl(p)">
+        <div class="img">
+          <img [src]="p.images.first()" width="32" height="32" [alt]="p.name" />
+        </div>
+        <span>
+          {{ p.name }}
+        </span>
+      </a>
+    </li>
+    }
+  </ul>
+  } @else {
+  <p class="no-results">No results ...</p>
   }
-</ul>
+</div>
 }

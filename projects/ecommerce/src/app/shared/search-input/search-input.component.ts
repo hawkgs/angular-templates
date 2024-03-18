@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Output,
   forwardRef,
+  input,
   signal,
   viewChild,
 } from '@angular/core';
@@ -31,6 +32,8 @@ export class SearchInputComponent implements ControlValueAccessor {
   value = signal<string>('');
   disabled = signal<boolean>(false);
   @Output() focused = new EventEmitter<boolean>();
+
+  placeholder = input<string>('');
 
   private _timeout?: ReturnType<typeof setTimeout>;
   private _onChange!: (v: string) => void;

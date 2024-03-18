@@ -25,7 +25,7 @@
         .nav-section {
           margin-right: 4rem;
 
-          h6 {
+          .title {
             @extend %heading-600;
             color: var(--color-primary);
           }
