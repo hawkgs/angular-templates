@@ -44,7 +44,7 @@
   &.tertiary-btn {
     border: 1px solid var(--color-senary);
     color: var(--color-tertiary);
-    transition: border-color 300ms ease;
+    transition: border-color 300ms ease, color 300ms ease;
     background-color: var(--color-bg);
 
     &:not([disabled]):hover {

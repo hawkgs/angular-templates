@@ -1,5 +1,9 @@
 import { ApplicationConfig } from '@angular/core';
-import { RouteReuseStrategy, provideRouter } from '@angular/router';
+import {
+  RouteReuseStrategy,
+  provideRouter,
+  withViewTransitions,
+} from '@angular/router';
 import { provideClientHydration } from '@angular/platform-browser';
 
 import { APP_ROUTES } from './app.routes';
@@ -11,7 +15,7 @@ import { CachedRouteReuseStrategy } from './shared/cached-route-reuse-strategy.s
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(APP_ROUTES),
+    provideRouter(APP_ROUTES, withViewTransitions()),
     provideClientHydration(),
     // Substitute "fetchMockApiProvider" with "fetchApiProvider"
     // in order to perform actual network requests via the Fetch API
