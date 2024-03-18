@@ -37,7 +37,8 @@ a {
     text-decoration: underline;
   }
 
-  &:hover {
+  &:hover,
+  &:focus {
     color: var(--color-primary);
   }
 }

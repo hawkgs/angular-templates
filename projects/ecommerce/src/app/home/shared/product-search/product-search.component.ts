@@ -7,18 +7,18 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { List } from 'immutable';
 
 import { SearchInputComponent } from '../../../shared/search-input/search-input.component';
 import { ProductsApi } from '../../../api/products-api.service';
 import { Product } from '../../../../models';
-import { createProductUrl } from '../../../shared/utils/create-product-url';
-import { ButtonComponent } from '../../../shared/button/button.component';
+import { IconComponent } from '../../../shared/icon/icon.component';
+import { SearchItemComponent } from '../search-item/search-item.component';
 
 // Max results shown in the list
-const MAX_RESULTS = 5;
+const MAX_RESULTS = 4;
 
 // Request search results after the Nth typed character
 const SEARCH_AFTER_CHAR = 3;
@@ -27,10 +27,10 @@ const SEARCH_AFTER_CHAR = 3;
   selector: 'ec-product-search',
   standalone: true,
   imports: [
-    RouterModule,
     ReactiveFormsModule,
     SearchInputComponent,
-    ButtonComponent,
+    IconComponent,
+    SearchItemComponent,
   ],
   templateUrl: './product-search.component.html',
   styleUrl: './product-search.component.scss',
@@ -39,7 +39,7 @@ export class ProductSearchComponent {
   productsApi = inject(ProductsApi);
   private _router = inject(Router);
   private _formBuilder = inject(FormBuilder);
-  createUrl = createProductUrl;
+  noop = () => {};
 
   searchInput = viewChild<SearchInputComponent>('searchInput');
   results = viewChild<ElementRef>('results');
@@ -54,6 +54,7 @@ export class ProductSearchComponent {
   private _inFocus = signal<boolean>(false);
   private _searchActive = signal<boolean>(false);
   products = signal<List<Product>>(List([]));
+  focusedResult = signal<number>(-1);
   showResults = computed(() => this._inFocus() && this._searchActive());
 
   onSearch() {
@@ -75,6 +76,27 @@ export class ProductSearchComponent {
     }
   }
 
+  @HostListener('document:keydown', ['$event'])
+  onDocumentKeydown(e: KeyboardEvent) {
+    if (!this.showResults() || !this.products().size) {
+      return;
+    }
+
+    if (['ArrowUp', 'ArrowDown'].includes(e.key)) {
+      e.preventDefault();
+      const move = e.key === 'ArrowDown' ? 1 : -1;
+      const newIdx = this.focusedResult() + move;
+
+      this.focusedResult.set(
+        newIdx >= 0 ? newIdx % this.products().size : this.products().size - 1,
+      );
+    }
+  }
+
+  onResultsHover() {
+    this.focusedResult.set(-1);
+  }
+
   onInputFocus(focused: boolean) {
     if (focused) {
       this._inFocus.set(true);
@@ -86,6 +108,7 @@ export class ProductSearchComponent {
    */
   async onSearchFieldChange() {
     const searchTerm = this.form.value.search || '';
+    this.focusedResult.set(-1);
 
     if (!searchTerm.length) {
       this.products.set(List([]));

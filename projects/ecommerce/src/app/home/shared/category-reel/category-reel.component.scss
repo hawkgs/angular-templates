@@ -1,10 +1,15 @@
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+:host {
+  display: block;
+  // padding: 0 1rem;
 
-.products {
-  display: flex;
-  flex-wrap: wrap;
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .products {
+    display: flex;
+    flex-wrap: wrap;
+  }
 }

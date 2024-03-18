@@ -7,7 +7,9 @@ export type IconName =
   | 'Cart'
   | 'LightMode'
   | 'DarkMode'
-  | 'Routine';
+  | 'Routine'
+  | 'Search';
+
 export type IconSize = 'sm' | 'md' | 'lg' | 'xlg' | 'xxlg';
 
 // Powered by Material Symbols

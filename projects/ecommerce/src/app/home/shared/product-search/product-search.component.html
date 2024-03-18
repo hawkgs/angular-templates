@@ -1,4 +1,4 @@
-<form class="search" [formGroup]="form" (ngSubmit)="onSearch()">
+<form class="search-form" [formGroup]="form" (ngSubmit)="onSearch()">
   <ec-search-input
     #searchInput
     formControlName="search"
@@ -6,22 +6,25 @@
     (focused)="onInputFocus($event)"
     (ngModelChange)="onSearchFieldChange()"
   ></ec-search-input>
-  <button ec-button btnType="tertiary" [disabled]="form.invalid">Search</button>
+  <button
+    class="search-btn"
+    btnType="tertiary"
+    [disabled]="form.invalid"
+    data-text="Search"
+  >
+    <ec-icon name="Search" size="lg"></ec-icon>
+  </button>
 </form>
 @if (showResults()) {
 <div class="results-cont">
   @if (products().size) {
-  <ul #results class="results">
-    @for (p of products(); track p.id) {
+  <ul #results class="results" (focus)="noop()" (mouseover)="onResultsHover()">
+    @for (p of products(); track p.id; let idx = $index) {
     <li>
-      <a [routerLink]="createUrl(p)">
-        <div class="img">
-          <img [src]="p.images.first()" width="32" height="32" [alt]="p.name" />
-        </div>
-        <span>
-          {{ p.name }}
-        </span>
-      </a>
+      <ec-search-item
+        [focused]="focusedResult() === idx"
+        [product]="p"
+      ></ec-search-item>
     </li>
     }
   </ul>

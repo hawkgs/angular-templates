@@ -4,17 +4,48 @@
   display: block;
   width: 400px;
 
-  .search {
-    display: flex;
-
-    ec-search-input,
-    [ec-button] {
-      box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.2);
-    }
+  .search-form {
+    position: relative;
+    box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.2);
 
     ec-search-input {
-      flex: 1;
-      margin-right: 0.25rem;
+      --search-input-padding: 0.75rem 6rem 0.75rem 1rem;
+    }
+
+    .search-btn {
+      position: absolute;
+      right: 1rem;
+      top: 0.75rem;
+      padding: 0;
+      border: none;
+      background-color: transparent;
+      color: var(--color-quaternary);
+      display: flex;
+      align-items: center;
+      transition: color 300ms ease;
+
+      &::after {
+        content: attr(data-text);
+        font-size: 0.875rem;
+        font-weight: 600;
+        margin-left: 0.25rem;
+        overflow: hidden;
+        max-width: 3rem;
+        transition: max-width 300ms ease;
+      }
+
+      &:not([disabled]):hover,
+      &:not([disabled]):focus {
+        color: var(--color-secondary);
+      }
+
+      &[disabled] {
+        color: var(--color-senary);
+
+        &::after {
+          max-width: 0;
+        }
+      }
     }
   }
 
@@ -39,36 +70,6 @@
       padding: 0;
       box-sizing: border-box;
       list-style-type: none;
-
-      a {
-        @extend %body-short-01;
-        display: flex;
-        padding: 0.75rem;
-        transition: background-color 200ms ease;
-        align-items: center;
-        font-weight: 600;
-
-        .img {
-          border-radius: 0.25rem;
-          background-color: var(--color-septenary);
-          width: 36px;
-          height: 36px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-right: 0.75rem;
-        }
-
-        span {
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          overflow: hidden;
-        }
-
-        &:hover {
-          background-color: var(--color-senary);
-        }
-      }
     }
 
     .no-results {
