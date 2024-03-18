@@ -1,4 +1,11 @@
-import { Component, inject, signal, viewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  inject,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { List } from 'immutable';
@@ -27,6 +34,7 @@ export class ProductSearchComponent {
   private _formBuilder = inject(FormBuilder);
 
   searchInput = viewChild<SearchInputComponent>('searchInput');
+  results = viewChild<ElementRef>('results');
 
   form = this._formBuilder.group({
     search: [
@@ -36,7 +44,7 @@ export class ProductSearchComponent {
   });
 
   products = signal<List<Product>>(List([]));
-  isSearchFocused = signal<boolean>(false);
+  showResults = signal<boolean>(false);
 
   createUrl = createProductUrl;
 
@@ -46,6 +54,23 @@ export class ProductSearchComponent {
     this._router.navigate(['products'], {
       queryParams: { search },
     });
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(e: Event) {
+    const t = e.target;
+    if (
+      t !== this.results()?.nativeElement &&
+      t !== this.searchInput()?.inputRef()?.nativeElement
+    ) {
+      this.showResults.set(false);
+    }
+  }
+
+  onInputFocus(focused: boolean) {
+    if (focused) {
+      this.showResults.set(true);
+    }
   }
 
   /**

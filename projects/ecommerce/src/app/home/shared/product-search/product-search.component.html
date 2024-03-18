@@ -2,13 +2,13 @@
   <ec-search-input
     #searchInput
     formControlName="search"
-    (focused)="isSearchFocused.set($event)"
+    (focused)="onInputFocus($event)"
     (ngModelChange)="onSearchFieldChange()"
   ></ec-search-input>
   <button [disabled]="form.invalid">Search</button>
 </form>
-@if (products().size && isSearchFocused()) {
-<ul>
+@if (products().size && showResults()) {
+<ul #results>
   @for (p of products(); track p.id) {
   <li>
     <img [src]="p.images.first()" width="20" height="20" [alt]="p.name" />
