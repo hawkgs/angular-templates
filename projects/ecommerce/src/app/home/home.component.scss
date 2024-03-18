@@ -1,13 +1,19 @@
 @import '../../styles/typography';
 
+.search,
+.spacer {
+  height: 288px;
+}
+
 .search {
-  position: relative;
+  position: absolute;
   display: flex;
   justify-content: center;
-  width: calc(100vw - 10px);
-  height: 288px;
-  left: -50vw;
-  margin-left: 50%;
+  // width: calc(100vw - 10px);
+  // left: -50vw;
+  // margin-left: 50%;
+  left: 0;
+  right: 0;
 
   &::before {
     content: '';
