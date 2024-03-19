@@ -36,8 +36,8 @@ export class ProductsApi {
       ? this._abortIfInProgress(this.getProducts.name)
       : null;
     const queryParams = buildQueryParamsString({
-      ...params,
       pageSize: environment.productsListPageSize,
+      ...params,
     } as GetProductsParams);
 
     const response = await this._fetch(
