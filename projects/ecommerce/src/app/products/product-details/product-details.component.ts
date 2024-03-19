@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { ImageGalleryComponent } from './shared/image-gallery/image-gallery.component';
@@ -7,6 +7,7 @@ import { Product } from '../../../models';
 import { CategoriesService } from '../../data-access/categories.service';
 import { PriceTagComponent } from '../../shared/price-tag/price-tag.component';
 import { AddToCartBtnComponent } from '../../shared/add-to-cart-btn/add-to-cart-btn.component';
+import { LoaderService } from '../../shared/loader.service';
 
 @Component({
   selector: 'ec-product-details',
@@ -15,10 +16,15 @@ import { AddToCartBtnComponent } from '../../shared/add-to-cart-btn/add-to-cart-
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.scss',
 })
-export class ProductDetailsComponent {
+export class ProductDetailsComponent implements OnInit {
   private _route = inject(ActivatedRoute);
   private _products = inject(ProductsService);
   private _categories = inject(CategoriesService);
+  private _loader = inject(LoaderService);
+
+  ngOnInit() {
+    this._loader.hideLoader();
+  }
 
   // We assume that the product will exist in the state
   // given that we have a route guard that ensures that.

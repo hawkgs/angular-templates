@@ -73,6 +73,7 @@ export class ProductSearchComponent {
       t !== this.searchInput()?.inputRef()?.nativeElement
     ) {
       this._inFocus.set(false);
+      this.focusedResult.set(-1);
     }
   }
 
