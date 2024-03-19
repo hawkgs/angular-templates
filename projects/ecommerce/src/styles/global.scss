@@ -5,7 +5,7 @@
 // Variables
 
 :root {
-  --app-max-width: 1024px;
+  --app-max-width: 1280px;
 }
 
 // Global styles
@@ -58,14 +58,16 @@ button:not([disabled]) {
 }
 
 input,
-button {
+button,
+select {
   font-family: $font-family;
 }
 
-input {
+input,
+select {
   border-radius: 0.25rem;
   font-weight: 300;
-  padding: 0.5rem 0.5rem;
+  padding: 0.5rem;
   border: 1px solid var(--color-senary);
   background-color: var(--color-bg);
   color: var(--color-tertiary);

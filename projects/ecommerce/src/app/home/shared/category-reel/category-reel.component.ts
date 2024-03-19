@@ -6,7 +6,7 @@ import { ProductItemComponent } from '../../../shared/product-item/product-item.
 import { Category, Product } from '../../../../models';
 import { ProductsApi } from '../../../api/products-api.service';
 
-const REEL_SIZE = 4;
+const REEL_SIZE = 5;
 
 @Component({
   selector: 'ec-category-reel',

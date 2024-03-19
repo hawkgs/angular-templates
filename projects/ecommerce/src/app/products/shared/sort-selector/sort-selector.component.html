@@ -1,5 +1,10 @@
-<select [value]="value()" (change)="onSortTypeChange($event)">
+<label for="sort-selector">Sort by</label>
+<select
+  id="sort-selector"
+  [value]="value()"
+  (change)="onSortTypeChange($event)"
+>
   <option [value]="SortTypeEnum.Default">Default</option>
-  <option [value]="SortTypeEnum.PriceAsc">Price - ASC</option>
-  <option [value]="SortTypeEnum.PriceDesc">Price - DESC</option>
+  <option [value]="SortTypeEnum.PriceAsc">Price (Asc.)</option>
+  <option [value]="SortTypeEnum.PriceDesc">Price (Desc.)</option>
 </select>

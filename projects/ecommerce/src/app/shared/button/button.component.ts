@@ -22,6 +22,7 @@ type ButtonType = 'primary' | 'secondary' | 'tertiary';
 })
 export class ButtonComponent {
   btnType = input.required<ButtonType>();
+  size = input<'compact' | 'large'>('compact');
 
   constructor(elRef: ElementRef, renderer: Renderer2) {
     renderer.setAttribute(
@@ -29,6 +30,11 @@ export class ButtonComponent {
       'data-text',
       elRef.nativeElement.innerText,
     );
+  }
+
+  @HostBinding('class.large-size-btn')
+  get isLarge() {
+    return this.size() === 'large';
   }
 
   @HostBinding('class.primary-btn')

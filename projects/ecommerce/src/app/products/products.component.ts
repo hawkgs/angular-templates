@@ -31,6 +31,7 @@ import {
 } from './shared/sort-selector/sort-selector.component';
 import { getRoutePath } from './shared/utils';
 import { ButtonComponent } from '../shared/button/button.component';
+import { IconComponent } from '../shared/icon/icon.component';
 
 const DEFAULT_PRICE_RANGE = { from: 0, to: 10000 };
 
@@ -44,6 +45,7 @@ const DEFAULT_PRICE_RANGE = { from: 0, to: 10000 };
     PriceFilterComponent,
     SortSelectorComponent,
     ButtonComponent,
+    IconComponent,
     RouterModule,
   ],
   providers: [ProductsListService],

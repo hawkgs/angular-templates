@@ -1,0 +1,12 @@
+@import '../../../../styles/typography';
+
+:host {
+  display: flex;
+  align-items: center;
+
+  label {
+    @extend %caption-text;
+    margin-right: 0.5rem;
+    color: var(--color-tertiary);
+  }
+}
