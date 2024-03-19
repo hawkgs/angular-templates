@@ -1,9 +1,12 @@
+@import '../../styles/typography';
+
 :host {
+  padding-top: 2rem;
   display: flex;
 
   .sidebar {
-    border-right: 1px dashed #555;
     flex: 0 0 150px;
+    margin-right: 1rem;
 
     .categories {
       a {
@@ -22,12 +25,35 @@
   .main {
     flex: 1;
 
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+
+      .category-name {
+        @extend %heading-200;
+        margin-top: 0;
+      }
+
+      .search-title {
+        @extend %heading-600;
+        margin-bottom: 0;
+        color: var(--color-quaternary);
+      }
+    }
+
     .list {
       display: grid;
       justify-items: center;
       grid-template-columns: repeat(4, 1fr);
       grid-column-gap: 0.75rem;
       grid-row-gap: 0.75rem;
+    }
+
+    .no-results {
+      @extend %heading-400;
+      color: var(--color-quaternary);
     }
   }
 }

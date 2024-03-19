@@ -4,20 +4,7 @@
   input {
     display: block;
     width: 100%;
-    border-radius: 0.25rem;
-    padding: 0.2rem;
     font-size: 1rem;
-    font-weight: 300;
     padding: var(--search-input-padding, 0.75rem 1rem);
-    border: 1px solid var(--color-senary);
-    background-color: var(--color-bg);
-    color: var(--color-tertiary);
-    box-sizing: border-box;
-    transition: border-color 300ms ease;
-
-    &:focus {
-      outline: none;
-      border-color: var(--color-french-violet);
-    }
   }
 }

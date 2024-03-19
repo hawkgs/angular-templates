@@ -1,7 +1,7 @@
 <section class="sidebar">
   <form [formGroup]="searchForm" (ngSubmit)="onProductSearch($event)">
-    <input formControlName="searchString" />
-    <button>Search</button>
+    <input formControlName="searchString" placeholder="Search for a product" />
+    <button ec-button btnType="primary">Search</button>
   </form>
   <hr />
   <ul class="categories">
@@ -28,19 +28,26 @@
 </section>
 <section class="main">
   <div class="top-bar">
+    <div class="title">
+      <h2 class="category-name">{{ categoryName() }}</h2>
+      @if (searchTerm().length) {
+      <p class="search-title">Search results for "{{ searchTerm() }}"</p>
+      }
+    </div>
     <ec-sort-selector
       [(value)]="sortType"
       (valueChange)="onSort($event)"
     ></ec-sort-selector>
   </div>
+  <hr />
   <div class="list">
     @for (p of productsList.value(); track p.id) {
     <ec-product-item [product]="p"></ec-product-item>
-    } @empty {
-    <p>No results</p>
     }
   </div>
-  @if (!productsList.isComplete()) {
+  @if (!productsList.value().size) {
+  <p class="no-results">No results</p>
+  } @if (!productsList.isComplete()) {
   <button (click)="onNextPage()">LOAD MORE</button>
   }
 </section>

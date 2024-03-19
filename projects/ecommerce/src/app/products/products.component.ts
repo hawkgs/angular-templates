@@ -1,6 +1,7 @@
 import {
   Component,
   OnInit,
+  computed,
   effect,
   inject,
   signal,
@@ -29,6 +30,7 @@ import {
   isOfSortType,
 } from './shared/sort-selector/sort-selector.component';
 import { getRoutePath } from './shared/utils';
+import { ButtonComponent } from '../shared/button/button.component';
 
 const DEFAULT_PRICE_RANGE = { from: 0, to: 10000 };
 
@@ -41,6 +43,7 @@ const DEFAULT_PRICE_RANGE = { from: 0, to: 10000 };
     SearchInputComponent,
     PriceFilterComponent,
     SortSelectorComponent,
+    ButtonComponent,
     RouterModule,
   ],
   providers: [ProductsListService],
@@ -59,12 +62,17 @@ export class ProductsComponent implements OnInit {
   priceRange = signal<PriceRange>(DEFAULT_PRICE_RANGE);
   sortType = signal<SortType>('default');
   categoryId = signal<string>('');
+  searchTerm = signal<string>('');
+
+  categoryName = computed(
+    () =>
+      this.categories.value().get(this.categoryId())?.name || 'All Products',
+  );
 
   searchForm = this._formBuilder.group({
     searchString: [''],
   });
 
-  private _searchTerm = '';
   private _page = 1;
   private _lastEvent?: NavigationEnd;
 
@@ -156,7 +164,7 @@ export class ProductsComponent implements OnInit {
     this.productsList.loadProducts({
       ...priceParams,
       categoryId: this.categoryId(),
-      name: this._searchTerm,
+      name: this.searchTerm(),
       sortBy,
       page,
     });
@@ -187,13 +195,14 @@ export class ProductsComponent implements OnInit {
     const priceRange = queryParamMap.get('price') || '';
     const sortType = queryParamMap.get('sort') || '';
 
-    this._searchTerm = searchTerm;
-
     // Since the method is executed in an effect
-    // and categoryId should not be threated as a
-    // dependency, we use untracted in order to
-    // point that it should be ignored.
-    untracked(() => this.categoryId.set(categoryId));
+    // and searchTerm and categoryId should not be
+    // threated as a dependency, we use untracted in
+    // order to point that they should be ignored.
+    untracked(() => {
+      this.searchTerm.set(searchTerm);
+      this.categoryId.set(categoryId);
+    });
 
     if (isOfSortType(sortType)) {
       // Same for sortType
