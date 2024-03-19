@@ -43,9 +43,15 @@ $font-family: 'Inter', Arial, sans-serif;
   line-height: 1.4rem;
 }
 
+%body-short-02 {
+  font-size: 0.875rem;
+  font-style: normal;
+  line-height: 1rem;
+}
+
 %body-short-03 {
-  font-weight: 300;
   font-size: 0.75rem;
+  font-weight: 300;
 }
 
 %nav-menu-text {
@@ -56,4 +62,10 @@ $font-family: 'Inter', Arial, sans-serif;
   text-transform: uppercase;
   font-size: 0.625rem;
   letter-spacing: 0.125rem;
+}
+
+%chip-text {
+  text-transform: uppercase;
+  font-size: 0.625rem;
+  letter-spacing: 0.05rem;
 }

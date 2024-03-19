@@ -12,4 +12,5 @@ import { PercentPipe } from '@angular/common';
 })
 export class PriceTagComponent {
   product = input.required<Product>();
+  type = input<'minimal' | 'normal'>('minimal');
 }

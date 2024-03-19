@@ -8,7 +8,7 @@
   --app-max-width: 1024px;
 }
 
-// Styles
+// Global styles
 
 html,
 body {
@@ -50,4 +50,30 @@ button:not([disabled]) {
 input,
 button {
   font-family: $font-family;
+}
+
+// Chips
+
+.ec-chip {
+  @extend %chip-text;
+  display: inline-block;
+  text-align: center;
+  color: var(
+    --chip-color,
+    color-mix(
+      in srgb,
+      var(--chip-accent, var(--color-french-violet)) 90%,
+      var(--white) 20%
+    )
+  );
+
+  &.solid {
+    padding: 0.25rem 0.5rem;
+    border-radius: 3rem;
+    background: color-mix(
+      in srgb,
+      var(--chip-accent, var(--color-french-violet)) 10%,
+      var(--white) 2%
+    );
+  }
 }

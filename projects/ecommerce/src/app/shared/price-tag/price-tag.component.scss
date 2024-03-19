@@ -1,7 +1,27 @@
-strong {
-  margin-right: 5px;
-  color: white;
-  background: rgb(114, 72, 15);
+@import '../../../styles/typography';
+
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 1.25rem;
+}
+
+.current {
+  @extend %body-short-02;
+  font-weight: 600;
+  background: var(--gradient-magenta-to-light-purple);
+  -webkit-background-clip: text;
+  background-size: 140%;
+  background-clip: text;
+  color: transparent;
+  margin-right: 0.25rem;
+}
+
+s {
+  @extend %body-short-02;
+  color: var(--color-quaternary);
+  margin-right: 0.25rem;
 }
 
 s::before,

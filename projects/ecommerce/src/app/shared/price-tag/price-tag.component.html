@@ -1,9 +1,15 @@
 @if (product().discountPrice) {
-<strong
-  >{{ 1 - product().discountPrice / product().price | percent }} Off</strong
+<span>
+  <span class="current" aria-label="Discounted price">{{
+    product().discountPrice | currency
+  }}</span>
+  <s>{{ product().price | currency }}</s>
+</span>
+<span class="ec-chip solid"
+  >{{ 1 - product().discountPrice / product().price | percent }} Off</span
 >
-<s>{{ product().price | currency }}</s>
-<span>{{ product().discountPrice | currency }}</span>
 } @else {
-<span>{{ product().price | currency }}</span>
+<span class="current" aria-label="Regular price">{{
+  product().price | currency
+}}</span>
 }

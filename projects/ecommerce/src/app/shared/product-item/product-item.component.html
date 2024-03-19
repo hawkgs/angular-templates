@@ -1,17 +1,29 @@
 <a [routerLink]="productUrl()">
   <!-- Todo(Georgi): Change to a ngSrc -->
-  <img [src]="product().images.first()" width="100" [alt]="product().name" />
+  <div class="img-cont">
+    <img
+      [src]="product().images.first()"
+      width="100%"
+      height="100%"
+      [alt]="product().name"
+    />
+  </div>
   <div class="data">
-    <p>
-      <strong>{{ product().name }}</strong>
+    <p class="product-name" aria-label="Product name">
+      {{ product().name }}
     </p>
-    <span>Categories: {{ categories().toArray() }}</span>
-    @if (product().availability === 'low') {
-    <div>LAST ITEMS</div>
-    } @if (product().availability !== 'none') {
-    <div><ec-price-tag [product]="product()"></ec-price-tag></div>
+    <div class="categories">
+      <span class="ec-chip">{{ categories().toArray().join(', ') }}</span>
+    </div>
+    @if (product().availability !== 'none') {
+    <div class="price-row">
+      <ec-price-tag [product]="product()"></ec-price-tag>
+      @if (product().availability === 'low') {
+      <div class="ec-chip solid last-items">Last Items</div>
+      }
+    </div>
     } @else {
-    <div>Unavailable</div>
+    <div class="ec-chip solid unavailable">Unavailable</div>
     }
   </div>
 </a>
