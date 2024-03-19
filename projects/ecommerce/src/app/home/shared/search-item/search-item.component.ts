@@ -3,11 +3,12 @@ import { RouterModule } from '@angular/router';
 
 import { Product } from '../../../../models';
 import { createProductUrl } from '../../../shared/utils/create-product-url';
+import { ProductImageComponent } from '../../../shared/product-image/product-image.component';
 
 @Component({
   selector: 'ec-search-item',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, ProductImageComponent],
   templateUrl: './search-item.component.html',
   styleUrl: './search-item.component.scss',
 })

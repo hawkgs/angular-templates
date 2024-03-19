@@ -7,17 +7,17 @@ import {
   input,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NgOptimizedImage } from '@angular/common';
 
 import { Product } from '../../../models';
 import { CategoriesService } from '../../data-access/categories.service';
 import { createProductUrl } from '../utils/create-product-url';
 import { PriceTagComponent } from '../price-tag/price-tag.component';
+import { ProductImageComponent } from '../product-image/product-image.component';
 
 @Component({
   selector: 'ec-product-item',
   standalone: true,
-  imports: [RouterModule, NgOptimizedImage, PriceTagComponent],
+  imports: [RouterModule, PriceTagComponent, ProductImageComponent],
   templateUrl: './product-item.component.html',
   styleUrl: './product-item.component.scss',
 })

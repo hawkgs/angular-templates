@@ -1,12 +1,7 @@
 <a [routerLink]="productUrl()">
   <!-- Todo(Georgi): Change to a ngSrc -->
   <div class="img-cont">
-    <img
-      [src]="product().images.first()"
-      width="100%"
-      height="100%"
-      [alt]="product().name"
-    />
+    <ec-product-image [product]="product()" size="md"></ec-product-image>
   </div>
   <div class="data">
     <p class="product-name" aria-label="Product name">
