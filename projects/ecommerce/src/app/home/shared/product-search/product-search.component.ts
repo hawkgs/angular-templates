@@ -111,10 +111,10 @@ export class ProductSearchComponent {
     const searchTerm = this.form.value.search || '';
     this.focusedResult.set(-1);
 
-    if (!searchTerm.length) {
+    if (searchTerm.length < SEARCH_AFTER_CHAR) {
       this.products.set(List([]));
       this._searchActive.set(false);
-    } else if (searchTerm.length >= SEARCH_AFTER_CHAR) {
+    } else {
       const products = await this.productsApi.getProducts({
         name: searchTerm,
         pageSize: MAX_RESULTS,
