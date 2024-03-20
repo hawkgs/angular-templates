@@ -14,9 +14,11 @@ export class ProductsListService {
   private _products = signal<List<Product>>(List([]));
   private _isComplete = signal<boolean>(false);
   private _lastOptions: GetProductsParams = {};
+  private _isLoaded = signal<boolean>(false);
 
   readonly value = this._products.asReadonly();
   readonly isComplete = this._isComplete.asReadonly();
+  readonly isLoaded = this._isLoaded.asReadonly();
 
   async loadProducts(options?: GetProductsParams) {
     const products = await this._productsApi.getProducts(options);
@@ -33,6 +35,7 @@ export class ProductsListService {
       this._products.set(products);
     }
 
+    this._isLoaded.set(true);
     this._isComplete.set(products.size < environment.productsListPageSize);
     this._lastOptions = options || {};
   }

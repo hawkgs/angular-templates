@@ -5,31 +5,11 @@
       <ec-icon name="Search" size="lg"></ec-icon>
     </button>
   </form>
-  <hr />
-  <div class="categories">
-    <p class="title">Categories</p>
-    <ul>
-      <li>
-        <a routerLink="/products" [class.selected]="!categoryId()"
-          >All Products</a
-        >
-      </li>
-      @for (c of categories.categoriesList(); track c.id) {
-      <li>
-        <a
-          routerLink="/products"
-          [queryParams]="{ category: c.id }"
-          [class.selected]="categoryId() === c.id"
-          >{{ c.name }}</a
-        >
-      </li>
-      }
-    </ul>
-  </div>
+  <ec-category-picker [categoryId]="categoryId()"></ec-category-picker>
   <hr />
   <ec-price-filter
     [default]="DEFAULT_PRICE_RANGE"
-    [(range)]="priceRange"
+    [range]="priceRange()"
     (rangeChange)="onPriceRangeChange($event)"
   ></ec-price-filter>
 </section>
@@ -42,7 +22,7 @@
       }
     </div>
     <ec-sort-selector
-      [(value)]="sortType"
+      [value]="sortType()"
       (valueChange)="onSort($event)"
     ></ec-sort-selector>
   </div>
@@ -52,9 +32,9 @@
     <ec-product-item [product]="p"></ec-product-item>
     }
   </div>
-  @if (!productsList.value().size) {
+  @if (!productsList.value().size && productsList.isLoaded()) {
   <p class="no-results">No results</p>
   } @if (!productsList.isComplete()) {
-  <button (click)="onNextPage()">LOAD MORE</button>
+  <ec-infinite-scroll (loadNext)="onNextPage($event)"></ec-infinite-scroll>
   }
 </section>

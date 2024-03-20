@@ -7,12 +7,7 @@ import {
   signal,
   untracked,
 } from '@angular/core';
-import {
-  ActivatedRoute,
-  NavigationEnd,
-  Router,
-  RouterModule,
-} from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
@@ -32,6 +27,8 @@ import {
 import { getRoutePath } from './shared/utils';
 import { ButtonComponent } from '../shared/button/button.component';
 import { IconComponent } from '../shared/icon/icon.component';
+import { CategoryPickerComponent } from './shared/category-picker/category-picker.component';
+import { InfiniteScrollComponent } from '../shared/infinite-scroll/infinite-scroll.component';
 
 const DEFAULT_PRICE_RANGE = { from: 0, to: 10000 };
 
@@ -44,9 +41,10 @@ const DEFAULT_PRICE_RANGE = { from: 0, to: 10000 };
     SearchInputComponent,
     PriceFilterComponent,
     SortSelectorComponent,
+    CategoryPickerComponent,
     ButtonComponent,
     IconComponent,
-    RouterModule,
+    InfiniteScrollComponent,
   ],
   providers: [ProductsListService],
   templateUrl: './products.component.html',
@@ -54,11 +52,11 @@ const DEFAULT_PRICE_RANGE = { from: 0, to: 10000 };
 })
 export class ProductsComponent implements OnInit {
   productsList = inject(ProductsListService);
-  categories = inject(CategoriesService);
 
   private _formBuilder = inject(FormBuilder);
   private _router = inject(Router);
   private _route = inject(ActivatedRoute);
+  private _categories = inject(CategoriesService);
 
   DEFAULT_PRICE_RANGE = DEFAULT_PRICE_RANGE;
   priceRange = signal<PriceRange>(DEFAULT_PRICE_RANGE);
@@ -68,7 +66,7 @@ export class ProductsComponent implements OnInit {
 
   categoryName = computed(
     () =>
-      this.categories.value().get(this.categoryId())?.name || 'All Products',
+      this._categories.value().get(this.categoryId())?.name || 'All Products',
   );
 
   searchForm = this._formBuilder.group({
@@ -136,9 +134,10 @@ export class ProductsComponent implements OnInit {
     }
   }
 
-  onNextPage() {
+  async onNextPage(loadCompleted: () => void) {
     this._page += 1;
-    this._loadProducts(this._page);
+    await this._loadProducts(this._page);
+    loadCompleted();
   }
 
   private _reloadList() {
@@ -163,7 +162,7 @@ export class ProductsComponent implements OnInit {
       this.sortType() !== 'default' ? this.sortType() : undefined
     ) as 'price_asc' | 'price_desc';
 
-    this.productsList.loadProducts({
+    return this.productsList.loadProducts({
       ...priceParams,
       categoryId: this.categoryId(),
       name: this.searchTerm(),

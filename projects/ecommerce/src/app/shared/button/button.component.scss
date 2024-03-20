@@ -14,6 +14,14 @@
 
   &.primary-btn {
     background: var(--gradient-orange-to-violet);
+    color: var(--color-octonary);
+    background-size: 200%;
+    background-position: 50%;
+    transition: background-position 300ms ease;
+
+    &:hover {
+      background-position-x: 100%;
+    }
   }
 
   &.secondary-btn {
