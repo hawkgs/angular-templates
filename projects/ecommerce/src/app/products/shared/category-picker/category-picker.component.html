@@ -1,9 +1,12 @@
 <p class="title">Categories</p>
 <ul>
   <li>
-    <a routerLink="/products" [class.selected]="!categoryId()">{{
-      defaultCategoryName()
-    }}</a>
+    <a
+      routerLink="/products"
+      [class.selected]="!categoryId()"
+      [attr.aria-label]="defaultCategoryName()"
+      >{{ defaultCategoryName() }}</a
+    >
   </li>
   @for (c of categories.categoriesList(); track c.id) {
     <li>
@@ -11,6 +14,7 @@
         routerLink="/products"
         [queryParams]="{ category: c.id }"
         [class.selected]="categoryId() === c.id"
+        [attr.aria-label]="c.name"
         >{{ c.name }}</a
       >
     </li>

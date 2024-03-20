@@ -3,13 +3,13 @@
     <span class="current" aria-label="Discounted price">{{
       product().discountPrice | currency
     }}</span>
-    <s>{{ product().price | currency }}</s>
+    <s aria-label="Old price">{{ product().price | currency }}</s>
   </span>
-  <span class="ec-chip solid"
+  <span class="ec-chip solid" aria-label="Discount percentage"
     >{{ 1 - product().discountPrice / product().price | percent }} Off</span
   >
 } @else {
-  <span class="current" aria-label="Regular price">{{
+  <span class="current" aria-label="Price">{{
     product().price | currency
   }}</span>
 }

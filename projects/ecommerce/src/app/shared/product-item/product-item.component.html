@@ -1,4 +1,4 @@
-<a [routerLink]="productUrl()">
+<a [routerLink]="productUrl()" [attr.aria-label]="product().name">
   <!-- Todo(Georgi): Change to a ngSrc -->
   <div class="img-cont">
     <ec-product-image [product]="product()" size="md"></ec-product-image>
@@ -7,7 +7,7 @@
     <p class="product-name" aria-label="Product name">
       {{ product().name }}
     </p>
-    <div class="categories">
+    <div class="categories" aria-label="Categories">
       <span class="ec-chip">{{ categories().toArray().join(', ') }}</span>
     </div>
     @if (product().availability !== 'none') {
