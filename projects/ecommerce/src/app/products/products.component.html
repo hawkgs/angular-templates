@@ -1,11 +1,19 @@
 <section class="sidebar">
   <form [formGroup]="searchForm" (ngSubmit)="onProductSearch($event)">
     <input formControlName="searchString" placeholder="Search for a product" />
-    <button ec-button btnType="primary" title="Search">
+    <button
+      ec-button
+      btnType="primary"
+      title="Search"
+      [disabled]="searchForm.invalid"
+    >
       <ec-icon name="Search" size="lg"></ec-icon>
     </button>
   </form>
-  <ec-category-picker [categoryId]="categoryId()"></ec-category-picker>
+  <ec-category-picker
+    [categoryId]="categoryId()"
+    [defaultCategoryName]="DEFAULT_CAT_NAME"
+  ></ec-category-picker>
   <hr />
   <ec-price-filter
     [default]="DEFAULT_PRICE_RANGE"

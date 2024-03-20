@@ -1,4 +1,4 @@
-import { Injectable, inject, signal, untracked } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { List } from 'immutable';
 
 import { GetProductsParams, ProductsApi } from '../../api/products-api.service';

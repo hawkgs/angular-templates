@@ -17,10 +17,17 @@
     color: var(--color-octonary);
     background-size: 200%;
     background-position: 50%;
-    transition: background-position 300ms ease;
+    transition:
+      background-position 300ms ease,
+      opacity 300ms ease;
 
-    &:hover {
+    &:not([disabled]):hover {
       background-position-x: 100%;
+    }
+
+    &[disabled] {
+      background-position-x: 15%;
+      opacity: 0.9;
     }
   }
 
@@ -57,7 +64,9 @@
   &.tertiary-btn {
     border: 1px solid var(--color-senary);
     color: var(--color-tertiary);
-    transition: border-color 300ms ease, color 300ms ease;
+    transition:
+      border-color 300ms ease,
+      color 300ms ease;
     background-color: var(--color-bg);
 
     &:not([disabled]):hover {

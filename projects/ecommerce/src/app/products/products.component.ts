@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { CategoriesService } from '../data-access/categories.service';
 import { ProductItemComponent } from '../shared/product-item/product-item.component';
@@ -32,6 +32,10 @@ import { InfiniteScrollComponent } from '../shared/infinite-scroll/infinite-scro
 import { SkeletonProductItemComponent } from '../shared/skeleton-product-item/skeleton-product-item.component';
 
 const DEFAULT_PRICE_RANGE = { from: 0, to: 10000 };
+const DEFAULT_CAT_NAME = 'All Products';
+
+// Request search results after the Nth typed character
+const SEARCH_AFTER_CHAR = 2;
 
 @Component({
   selector: 'ec-products',
@@ -61,6 +65,8 @@ export class ProductsComponent implements OnInit {
   private _categories = inject(CategoriesService);
 
   DEFAULT_PRICE_RANGE = DEFAULT_PRICE_RANGE;
+  DEFAULT_CAT_NAME = DEFAULT_CAT_NAME;
+
   priceRange = signal<PriceRange>(DEFAULT_PRICE_RANGE);
   sortType = signal<SortType>('default');
   categoryId = signal<string>('');
@@ -68,11 +74,14 @@ export class ProductsComponent implements OnInit {
 
   categoryName = computed(
     () =>
-      this._categories.value().get(this.categoryId())?.name || 'All Products',
+      this._categories.value().get(this.categoryId())?.name || DEFAULT_CAT_NAME,
   );
 
   searchForm = this._formBuilder.group({
-    searchString: [''],
+    searchString: [
+      '',
+      [Validators.required, Validators.minLength(SEARCH_AFTER_CHAR)],
+    ],
   });
 
   private _page = 1;

@@ -12,4 +12,5 @@ import { CategoriesService } from '../../../data-access/categories.service';
 export class CategoryPickerComponent {
   categories = inject(CategoriesService);
   categoryId = input.required<string>();
+  defaultCategoryName = input.required<string>();
 }
