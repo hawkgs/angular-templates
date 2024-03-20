@@ -8,7 +8,8 @@ export type IconName =
   | 'LightMode'
   | 'DarkMode'
   | 'Routine'
-  | 'Search';
+  | 'Search'
+  | 'Downloading';
 
 export type IconSize = 'sm' | 'md' | 'lg' | 'xlg' | 'xxlg';
 

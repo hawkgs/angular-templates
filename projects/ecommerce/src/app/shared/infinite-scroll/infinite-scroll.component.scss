@@ -1,0 +1,23 @@
+:host {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+
+  button {
+    color: var(--color-quaternary);
+    background-color: transparent;
+    transition: color 300ms ease;
+    align-items: center;
+    border: none;
+    display: flex;
+    font-weight: 600;
+
+    ec-icon {
+      margin-right: 0.25rem;
+    }
+
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+}
