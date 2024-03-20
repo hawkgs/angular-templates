@@ -4,13 +4,13 @@ export type SortType = 'default' | 'price_asc' | 'price_desc';
 
 const SORT_VALUES = new Set<SortType>(['default', 'price_asc', 'price_desc']);
 
-export const isOfSortType = (s: string) => SORT_VALUES.has(s as SortType);
+const VAL_NAME: { [key in SortType]: string } = {
+  default: 'Default',
+  price_asc: 'Price (asc.)',
+  price_desc: 'Price (desc.)',
+};
 
-enum SortTypeEnum {
-  Default = 'default',
-  PriceAsc = 'price_asc',
-  PriceDesc = 'price_desc',
-}
+export const isOfSortType = (s: string) => SORT_VALUES.has(s as SortType);
 
 @Component({
   selector: 'ec-sort-selector',
@@ -20,9 +20,14 @@ enum SortTypeEnum {
   styleUrl: './sort-selector.component.scss',
 })
 export class SortSelectorComponent {
-  SortTypeEnum = SortTypeEnum;
+  SORT_VALUES = SORT_VALUES;
+  VAL_NAME = VAL_NAME;
 
   value = model<SortType>('default');
+
+  isSelected(value: SortType) {
+    return this.value() === value ? true : null;
+  }
 
   onSortTypeChange(e: Event) {
     const select = e.target as HTMLSelectElement;
