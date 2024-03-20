@@ -2,11 +2,11 @@
   <img [src]="selectedImg()" [alt]="product().name" />
 </div>
 @if (product().images.size > 1) {
-<div class="images">
-  @for (img of product().images; track img; let idx = $index) {
-  <button (click)="switchImage(img)" [class.highlight]="isSelected(img)">
-    <img [src]="img" width="50" height="50" [alt]="'Image' + idx" />
-  </button>
-  }
-</div>
+  <div class="images">
+    @for (img of product().images; track img; let idx = $index) {
+      <button (click)="switchImage(img)" [class.highlight]="isSelected(img)">
+        <img [src]="img" width="50" height="50" [alt]="'Image' + idx" />
+      </button>
+    }
+  </div>
 }

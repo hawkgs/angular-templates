@@ -17,20 +17,25 @@
   </button>
 </form>
 @if (showResults()) {
-<div class="results-cont">
-  @if (products().size) {
-  <ul #results class="results" (focus)="noop()" (mouseover)="onResultsHover()">
-    @for (p of products(); track p.id; let idx = $index) {
-    <li>
-      <ec-search-item
-        [focused]="focusedResult() === idx"
-        [product]="p"
-      ></ec-search-item>
-    </li>
+  <div class="results-cont">
+    @if (products().size) {
+      <ul
+        #results
+        class="results"
+        (focus)="noop()"
+        (mouseover)="onResultsHover()"
+      >
+        @for (p of products(); track p.id; let idx = $index) {
+          <li>
+            <ec-search-item
+              [focused]="focusedResult() === idx"
+              [product]="p"
+            ></ec-search-item>
+          </li>
+        }
+      </ul>
+    } @else {
+      <p class="no-results">No results ...</p>
     }
-  </ul>
-  } @else {
-  <p class="no-results">No results ...</p>
-  }
-</div>
+  </div>
 }

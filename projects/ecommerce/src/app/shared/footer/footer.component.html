@@ -5,13 +5,13 @@
         <p class="title">Product Categories</p>
         <ul>
           @for (category of categories.categoriesList(); track category.id) {
-          <li>
-            <a
-              routerLink="/products"
-              [queryParams]="{ category: category.id }"
-              >{{ category.name }}</a
-            >
-          </li>
+            <li>
+              <a
+                routerLink="/products"
+                [queryParams]="{ category: category.id }"
+                >{{ category.name }}</a
+              >
+            </li>
           }
         </ul>
       </nav>

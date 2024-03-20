@@ -11,14 +11,14 @@
       <span class="ec-chip">{{ categories().toArray().join(', ') }}</span>
     </div>
     @if (product().availability !== 'none') {
-    <div class="price-row">
-      <ec-price-tag [product]="product()"></ec-price-tag>
-      @if (product().availability === 'low') {
-      <div class="ec-chip solid last-items">Last Items</div>
-      }
-    </div>
+      <div class="price-row">
+        <ec-price-tag [product]="product()"></ec-price-tag>
+        @if (product().availability === 'low') {
+          <div class="ec-chip solid last-items">Last Items</div>
+        }
+      </div>
     } @else {
-    <div class="ec-chip solid unavailable">Unavailable</div>
+      <div class="ec-chip solid unavailable">Unavailable</div>
     }
   </div>
 </a>

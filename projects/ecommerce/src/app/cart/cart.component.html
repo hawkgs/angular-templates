@@ -1,11 +1,11 @@
 <section class="items">
   @for (product of cart.products(); track product.id) {
-  <ec-cart-item
-    [product]="product"
-    [quantity]="cart.quantities().get(product.id) || 1"
-    (delete)="onItemDelete(product)"
-    (quantityChange)="onItemQuanityUpdate(product, $event)"
-  ></ec-cart-item>
+    <ec-cart-item
+      [product]="product"
+      [quantity]="cart.quantities().get(product.id) || 1"
+      (delete)="onItemDelete(product)"
+      (quantityChange)="onItemQuanityUpdate(product, $event)"
+    ></ec-cart-item>
   }
 </section>
 <section class="checkout">
