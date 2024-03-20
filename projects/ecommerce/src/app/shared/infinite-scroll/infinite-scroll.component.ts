@@ -3,12 +3,13 @@ import {
   EventEmitter,
   OnInit,
   Output,
+  PLATFORM_ID,
   Renderer2,
   inject,
 } from '@angular/core';
 import { IconComponent } from '../icon/icon.component';
 import { WINDOW } from '../window.provider';
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 // This is a scroll offset value that
 // takes into account the relative size
@@ -25,20 +26,23 @@ const SCROLL_OFFSET = 320;
 export class InfiniteScrollComponent implements OnInit {
   private _win = inject(WINDOW);
   private _doc = inject(DOCUMENT);
+  private _platformId = inject(PLATFORM_ID);
   private _renderer = inject(Renderer2);
   private _bottomReached = false;
 
   @Output() loadNext = new EventEmitter<() => void>();
 
   ngOnInit() {
-    this._renderer.listen(this._win, 'scroll', () => {
-      const scrolledY = this._win.scrollY + this._win.innerHeight;
-      const scrollHeight = this._doc.body.scrollHeight;
+    if (isPlatformBrowser(this._platformId)) {
+      this._renderer.listen(this._win, 'scroll', () => {
+        const scrolledY = this._win.scrollY + this._win.innerHeight;
+        const scrollHeight = this._doc.body.scrollHeight;
 
-      if (!this._bottomReached && SCROLL_OFFSET >= scrollHeight - scrolledY) {
-        this.onLoadNext();
-      }
-    });
+        if (!this._bottomReached && SCROLL_OFFSET >= scrollHeight - scrolledY) {
+          this.onLoadNext();
+        }
+      });
+    }
   }
 
   onLoadNext() {

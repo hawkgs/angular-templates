@@ -18,7 +18,7 @@
     <div class="title">
       <h2 class="category-name">{{ categoryName() }}</h2>
       @if (searchTerm().length) {
-      <p class="search-title">Search results for "{{ searchTerm() }}"</p>
+        <p class="search-title">Search results for "{{ searchTerm() }}"</p>
       }
     </div>
     <ec-sort-selector
@@ -29,12 +29,19 @@
   <hr />
   <div class="list">
     @for (p of productsList.value(); track p.id) {
-    <ec-product-item [product]="p"></ec-product-item>
+      <ec-product-item [product]="p"></ec-product-item>
+    }
+    @if (productsList.isLoading() === 'update') {
+      <ec-skeleton-product-item></ec-skeleton-product-item>
+      <ec-skeleton-product-item></ec-skeleton-product-item>
+      <ec-skeleton-product-item></ec-skeleton-product-item>
+      <ec-skeleton-product-item></ec-skeleton-product-item>
     }
   </div>
   @if (!productsList.value().size && productsList.isLoaded()) {
-  <p class="no-results">No results</p>
-  } @if (!productsList.isComplete()) {
-  <ec-infinite-scroll (loadNext)="onNextPage($event)"></ec-infinite-scroll>
+    <p class="no-results">No results</p>
+  }
+  @if (!productsList.isComplete()) {
+    <ec-infinite-scroll (loadNext)="onNextPage($event)"></ec-infinite-scroll>
   }
 </section>

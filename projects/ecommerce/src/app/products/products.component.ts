@@ -29,6 +29,7 @@ import { ButtonComponent } from '../shared/button/button.component';
 import { IconComponent } from '../shared/icon/icon.component';
 import { CategoryPickerComponent } from './shared/category-picker/category-picker.component';
 import { InfiniteScrollComponent } from '../shared/infinite-scroll/infinite-scroll.component';
+import { SkeletonProductItemComponent } from '../shared/skeleton-product-item/skeleton-product-item.component';
 
 const DEFAULT_PRICE_RANGE = { from: 0, to: 10000 };
 
@@ -44,6 +45,7 @@ const DEFAULT_PRICE_RANGE = { from: 0, to: 10000 };
     CategoryPickerComponent,
     ButtonComponent,
     IconComponent,
+    SkeletonProductItemComponent,
     InfiniteScrollComponent,
   ],
   providers: [ProductsListService],
@@ -142,7 +144,7 @@ export class ProductsComponent implements OnInit {
 
   private _reloadList() {
     this._updateParamPropsFromRoute();
-    this._loadProducts(1);
+    untracked(() => this._loadProducts(1));
     this._page = 1;
   }
 
@@ -203,27 +205,27 @@ export class ProductsComponent implements OnInit {
     untracked(() => {
       this.searchTerm.set(searchTerm);
       this.categoryId.set(categoryId);
-    });
 
-    if (isOfSortType(sortType)) {
-      // Same for sortType
-      untracked(() => this.sortType.set(sortType as SortType));
-    } else {
-      untracked(() => this.sortType.set('default'));
-    }
-
-    const range = priceRange.split('-');
-
-    if (range.length === 2) {
-      const from = parseInt(range[0], 10);
-      const to = parseInt(range[1], 10);
-
-      if (typeof from === 'number' && typeof to === 'number') {
-        // Same for priceRange
-        untracked(() => this.priceRange.set({ from, to }));
+      if (isOfSortType(sortType)) {
+        // Same for sortType
+        this.sortType.set(sortType as SortType);
+      } else {
+        this.sortType.set('default');
       }
-    } else {
-      untracked(() => this.priceRange.set(DEFAULT_PRICE_RANGE));
-    }
+
+      const range = priceRange.split('-');
+
+      if (range.length === 2) {
+        const from = parseInt(range[0], 10);
+        const to = parseInt(range[1], 10);
+
+        if (typeof from === 'number' && typeof to === 'number') {
+          // Same for priceRange
+          this.priceRange.set({ from, to });
+        }
+      } else {
+        this.priceRange.set(DEFAULT_PRICE_RANGE);
+      }
+    });
   }
 }
