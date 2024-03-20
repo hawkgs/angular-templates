@@ -20,3 +20,21 @@ export const getRoutePath = (event?: RouterEvent): string => {
     .filter((seg) => !!seg)
     .join('/');
 };
+
+/**
+ * Checks whether the route is products page (products list)
+ *
+ * @param event
+ * @returns
+ */
+export const isProductsListRoute = (event?: RouterEvent) =>
+  getRoutePath(event) === 'products';
+
+/**
+ * Checks whether the rout is product details page
+ *
+ * @param event
+ * @returns
+ */
+export const isProductDetailsRoute = (event?: RouterEvent) =>
+  /products\/\d+/.test(getRoutePath(event));

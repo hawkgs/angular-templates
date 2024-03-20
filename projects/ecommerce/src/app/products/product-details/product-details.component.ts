@@ -8,11 +8,13 @@ import { CategoriesService } from '../../data-access/categories.service';
 import { PriceTagComponent } from '../../shared/price-tag/price-tag.component';
 import { AddToCartBtnComponent } from '../../shared/add-to-cart-btn/add-to-cart-btn.component';
 import { LoaderService } from '../../shared/loader.service';
+import { ScrollPosition } from '../../shared/scroll-position.service';
 
 @Component({
   selector: 'ec-product-details',
   standalone: true,
   imports: [ImageGalleryComponent, PriceTagComponent, AddToCartBtnComponent],
+  providers: [ScrollPosition],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.scss',
 })
@@ -21,9 +23,11 @@ export class ProductDetailsComponent implements OnInit {
   private _products = inject(ProductsService);
   private _categories = inject(CategoriesService);
   private _loader = inject(LoaderService);
+  private _scrollPos = inject(ScrollPosition);
 
   ngOnInit() {
     this._loader.hideLoader();
+    this._scrollPos.reset();
   }
 
   // We assume that the product will exist in the state

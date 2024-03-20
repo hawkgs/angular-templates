@@ -7,7 +7,12 @@ import {
   signal,
   untracked,
 } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  NavigationStart,
+  Router,
+} from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -24,12 +29,17 @@ import {
   SortType,
   isOfSortType,
 } from './shared/sort-selector/sort-selector.component';
-import { getRoutePath } from './shared/utils';
+import {
+  getRoutePath,
+  isProductDetailsRoute,
+  isProductsListRoute,
+} from './shared/utils';
 import { ButtonComponent } from '../shared/button/button.component';
 import { IconComponent } from '../shared/icon/icon.component';
 import { CategoryPickerComponent } from './shared/category-picker/category-picker.component';
 import { InfiniteScrollComponent } from '../shared/infinite-scroll/infinite-scroll.component';
 import { SkeletonProductItemComponent } from '../shared/skeleton-product-item/skeleton-product-item.component';
+import { ScrollPosition } from '../shared/scroll-position.service';
 
 const DEFAULT_PRICE_RANGE = { from: 0, to: 10000 };
 const DEFAULT_CAT_NAME = 'All Products';
@@ -52,7 +62,7 @@ const SEARCH_AFTER_CHAR = 2;
     SkeletonProductItemComponent,
     InfiniteScrollComponent,
   ],
-  providers: [ProductsListService],
+  providers: [ProductsListService, ScrollPosition],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',
 })
@@ -63,6 +73,7 @@ export class ProductsComponent implements OnInit {
   private _router = inject(Router);
   private _route = inject(ActivatedRoute);
   private _categories = inject(CategoriesService);
+  private _scrollPos = inject(ScrollPosition);
 
   DEFAULT_PRICE_RANGE = DEFAULT_PRICE_RANGE;
   DEFAULT_CAT_NAME = DEFAULT_CAT_NAME;
@@ -90,15 +101,23 @@ export class ProductsComponent implements OnInit {
   constructor() {
     const routerEvents = toSignal(this._router.events);
 
-    // Each query param change results in a state update.
-    // This way we only rely on a single point of change
-    // rather than manually updating the state on user
-    // interation (e.g. click). Also, makes route change
-    // state update straightforward.
     effect(() => {
       const event = routerEvents();
 
+      if (event instanceof NavigationStart) {
+        // Opening product details – save current scroll
+        if (isProductDetailsRoute(event)) {
+          this._scrollPos.save();
+        }
+      }
+
       if (event instanceof NavigationEnd) {
+        // Each query param change results in a state update.
+        // This way we only rely on a single point of change
+        // rather than manually updating the state on user
+        // interation (e.g. click). Also, makes route change
+        // state update straightforward.
+        //
         // The initial data load is delegated to ngOnInit.
         // Any other subsequent change that results in
         // a update of the product list is handled by
@@ -106,6 +125,11 @@ export class ProductsComponent implements OnInit {
         if (getRoutePath(event) === getRoutePath(this._lastEvent)) {
           this._reloadList();
         }
+        // Coming back from product details – apply stored scroll
+        if (isProductDetailsRoute(this._lastEvent)) {
+          this._scrollPos.apply();
+        }
+
         this._lastEvent = event;
       }
     });
