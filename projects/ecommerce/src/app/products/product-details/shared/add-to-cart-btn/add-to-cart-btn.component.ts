@@ -1,9 +1,9 @@
 import { Component, OnInit, computed, inject, input } from '@angular/core';
-import { Product } from '../../../models';
-import { CartService } from '../../data-access/cart.service';
+import { Product } from '../../../../../models';
+import { CartService } from '../../../../data-access/cart.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ButtonComponent } from '../button/button.component';
-import { IconComponent } from '../icon/icon.component';
+import { ButtonComponent } from '../../../../shared/button/button.component';
+import { IconComponent } from '../../../../shared/icon/icon.component';
 
 type Availability = Product['availability'];
 

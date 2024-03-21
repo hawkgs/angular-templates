@@ -6,7 +6,7 @@ import { ProductsService } from '../../data-access/products.service';
 import { Product } from '../../../models';
 import { CategoriesService } from '../../data-access/categories.service';
 import { PriceTagComponent } from '../../shared/price-tag/price-tag.component';
-import { AddToCartBtnComponent } from '../../shared/add-to-cart-btn/add-to-cart-btn.component';
+import { AddToCartBtnComponent } from './shared/add-to-cart-btn/add-to-cart-btn.component';
 import { LoaderService } from '../../shared/loader.service';
 import { ScrollPosition } from '../../shared/scroll-position.service';
 
