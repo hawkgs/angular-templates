@@ -6,4 +6,5 @@ export const Common: CommonEnv = {
   productsListPageSize: 4, // Set to 4 due to the limited number of mocked products
   shippingCost: 5,
   taxPercentage: 0.05,
+  toastDefaultTtl: 1000,
 };

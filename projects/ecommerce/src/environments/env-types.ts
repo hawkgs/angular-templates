@@ -4,6 +4,7 @@ export interface CommonEnv {
   productsListPageSize: number;
   shippingCost: number; // Currently, the shipping cost is fixed
   taxPercentage: number;
+  toastDefaultTtl: number;
 }
 
 // Configuration-specific environment variables

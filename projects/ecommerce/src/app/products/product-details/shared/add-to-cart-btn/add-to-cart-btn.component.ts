@@ -4,6 +4,7 @@ import { CartService } from '../../../../data-access/cart.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonComponent } from '../../../../shared/button/button.component';
 import { IconComponent } from '../../../../shared/icon/icon.component';
+import { ToastsService } from '../../../../shared/toast-feed/toasts.service';
 
 type Availability = Product['availability'];
 
@@ -23,6 +24,8 @@ const AVAILABILITY_MAX_RESTRICTION: { [key in Availability]: number } = {
 export class AddToCartBtnComponent implements OnInit {
   private _cart = inject(CartService);
   private _formBuilder = inject(FormBuilder);
+  private _toasts = inject(ToastsService);
+
   AVAILABILITY_MAX_RESTRICTION = AVAILABILITY_MAX_RESTRICTION;
 
   product = input.required<Product>();
@@ -42,5 +45,6 @@ export class AddToCartBtnComponent implements OnInit {
   addToCart() {
     const quantity = this.form.value.quantity || 1;
     this._cart.addToCart(this.product(), quantity);
+    this._toasts.create(`${this.product().name} has been added to your cart!`);
   }
 }

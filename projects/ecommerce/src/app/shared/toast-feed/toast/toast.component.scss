@@ -1,0 +1,31 @@
+@import '../../../../styles/typography';
+
+:host {
+  display: block;
+
+  button {
+    display: block;
+    @extend %body-short-03;
+    padding: 0.25rem 0.875rem;
+    border-radius: 0.25rem;
+    background: var(--gradient-pink-to-violet);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    color: var(--white);
+    border: none;
+    animation: slide-in 300ms ease;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    margin-bottom: 0.5rem;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(4.5rem);
+  }
+}
