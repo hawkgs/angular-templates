@@ -9,7 +9,7 @@
   .current {
     @extend %body-short-02;
     font-weight: 600;
-    background: var(--gradient-magenta-to-light-purple);
+    background: var(--price-tag-color, var(--gradient-magenta-to-light-purple));
     -webkit-background-clip: text;
     background-size: 140%;
     background-clip: text;

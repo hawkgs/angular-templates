@@ -1,19 +1,30 @@
-<section class="items">
-  @for (product of cart.products(); track product.id) {
-    <ec-cart-item
-      [product]="product"
-      [quantity]="cart.quantities().get(product.id) || 1"
-      (delete)="onItemDelete(product)"
-      (quantityChange)="onItemQuanityUpdate(product, $event)"
-    ></ec-cart-item>
-  }
-</section>
-<section class="checkout">
-  <div>Your total is: {{ total() | currency }}</div>
+<h2>Cart</h2>
+@if (cart.size()) {
+  <div class="content">
+    <section class="items">
+      @for (product of cart.products(); track product.id) {
+        <ec-cart-item
+          [product]="product"
+          [quantity]="cart.quantities().get(product.id) || 1"
+          (remove)="onItemRemove(product)"
+          (quantityChange)="onItemQuanityUpdate(product, $event)"
+        ></ec-cart-item>
+      }
+    </section>
+    <section class="checkout">
+      <div>Your total is: {{ total() | currency }}</div>
+      <hr />
+      <p>Subtotal: {{ subtotal() | currency }}</p>
+      <p>Shipping: {{ shipping | currency }}</p>
+      <p>Taxes: {{ taxes() | currency }}</p>
+      <hr />
+      <a>Checkout</a>
+    </section>
+  </div>
+} @else {
   <hr />
-  <p>Subtotal: {{ subtotal() | currency }}</p>
-  <p>Shipping: {{ shipping | currency }}</p>
-  <p>Taxes: {{ taxes() | currency }}</p>
-  <hr />
-  <a>Checkout</a>
-</section>
+  <p class="empty-cart">
+    <ec-icon name="Cart" size="xlg"></ec-icon>
+    Oops! Your cart is still empty.
+  </p>
+}

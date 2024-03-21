@@ -73,6 +73,7 @@ select {
   color: var(--color-tertiary);
   box-sizing: border-box;
   transition: border-color 300ms ease;
+  font-size: 0.875rem;
 
   &:focus {
     outline: none;

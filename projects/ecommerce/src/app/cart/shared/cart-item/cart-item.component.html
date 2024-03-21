@@ -1,18 +1,55 @@
-<img
-  [src]="product().images.first()"
-  width="100"
-  height="100"
-  [alt]="product().name"
-/>
-<span
-  ><a [routerLink]="productUrl()">{{ product().name }}</a></span
->
-&nbsp;
-<button (click)="updateQuantity(-1)" [disabled]="quantity() === 1">-</button>
-<input type="number" [value]="quantity()" (blur)="onInputBlur($event)" />
-<button (click)="updateQuantity(1)">+</button>
-<button (click)="delete.emit()">delete</button>
-<p>
-  <ec-price-tag [product]="product()"></ec-price-tag>x {{ quantity() }} =
-  {{ total() | currency }}
-</p>
+<a [routerLink]="productUrl()" class="product-link">
+  <div class="img-cont">
+    <ec-product-image
+      [src]="product().images.first()"
+      size="sm"
+      [alt]="product().name"
+    ></ec-product-image>
+  </div>
+  <span class="name">{{ product().name }}</span>
+</a>
+<div class="controls">
+  <button
+    ec-button
+    class="quantity-btn"
+    btnType="tertiary"
+    (click)="updateQuantity(-1)"
+    [disabled]="quantity() === 1"
+    title="Decrease quantity by 1"
+  >
+    -
+  </button>
+  <input
+    type="number"
+    [value]="quantity()"
+    (blur)="onInputBlur($event)"
+    placeholder="Quantity"
+  />
+  <button
+    ec-button
+    class="quantity-btn"
+    btnType="tertiary"
+    (click)="updateQuantity(1)"
+    title="Increase quantity by 1"
+  >
+    +
+  </button>
+  <button
+    ec-button
+    btnType="tertiary"
+    class="remove-btn"
+    (click)="remove.emit()"
+    [attr.title]="'Remove ' + product().name + ' from the cart'"
+  >
+    <ec-icon name="Delete" size="md"></ec-icon>
+  </button>
+  <div class="price">
+    <p>
+      <ec-price-tag [product]="product()" type="current-price"></ec-price-tag>x
+      {{ quantity() }}
+    </p>
+    <p>
+      = <span class="total">{{ total() | currency }}</span>
+    </p>
+  </div>
+</div>

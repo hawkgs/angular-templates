@@ -4,11 +4,12 @@ import { CartItemComponent } from './shared/cart-item/cart-item.component';
 import { Product } from '../../models';
 import { environment } from '../../environments/environment';
 import { CurrencyPipe } from '../shared/pipes/currency.pipe';
+import { IconComponent } from '../shared/icon/icon.component';
 
 @Component({
   selector: 'ec-cart',
   standalone: true,
-  imports: [CartItemComponent, CurrencyPipe],
+  imports: [CartItemComponent, CurrencyPipe, IconComponent],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss',
 })
@@ -24,7 +25,7 @@ export class CartComponent implements OnInit {
     this.cart.loadCartProducts();
   }
 
-  onItemDelete(product: Product) {
+  onItemRemove(product: Product) {
     this.cart.removeFromCart(product);
   }
 

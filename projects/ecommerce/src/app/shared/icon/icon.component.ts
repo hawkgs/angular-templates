@@ -10,7 +10,8 @@ export type IconName =
   | 'Routine'
   | 'Search'
   | 'Downloading'
-  | 'ChevronRight';
+  | 'ChevronRight'
+  | 'Delete';
 
 export type IconSize = 'sm' | 'md' | 'lg' | 'xlg' | 'xxlg';
 
