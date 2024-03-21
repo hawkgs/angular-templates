@@ -1,5 +1,6 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { WINDOW } from './window.provider';
+import { isPlatformBrowser } from '@angular/common';
 
 /**
  * Manage scroll Y/top.
@@ -7,19 +8,30 @@ import { WINDOW } from './window.provider';
  */
 @Injectable()
 export class ScrollPosition {
+  private _platformId = inject(PLATFORM_ID);
   private _win = inject(WINDOW);
   private _scrollY: number = 0;
 
+  private get _isBrowser() {
+    return isPlatformBrowser(this._platformId);
+  }
+
   save() {
-    this._scrollY = this._win.scrollY;
+    if (this._isBrowser) {
+      this._scrollY = this._win.scrollY;
+    }
   }
 
   apply() {
-    this._win.scrollTo({ top: this._scrollY });
+    if (this._isBrowser) {
+      this._win.scrollTo({ top: this._scrollY });
+    }
   }
 
   reset() {
-    this._scrollY = 0;
-    this._win.scrollTo({ top: 0 });
+    if (this._isBrowser) {
+      this._scrollY = 0;
+      this._win.scrollTo({ top: 0 });
+    }
   }
 }
