@@ -2,33 +2,37 @@
   <ec-image-gallery [product]="product()"></ec-image-gallery>
 </section>
 <section class="details">
-  <h3>{{ product().name }}</h3>
-  @switch (product().availability) {
-    @case ('none') {
-      <strong>UNAVAILABLE</strong>
-    }
-    @case ('low') {
-      <strong>LAST ITEMS</strong>
-    }
-  }
+  <h2 class="product-name" aria-label="Product name">{{ product().name }}</h2>
   <p class="categories">
     @for (category of categories(); track category) {
       <span>{{ category }}</span>
     }
   </p>
-  <ec-price-tag [product]="product()"></ec-price-tag>
+  <div class="product-state">
+    @switch (product().availability) {
+      @case ('none') {
+        <div class="ec-chip solid large unavailable">Unavailable</div>
+      }
+      @case ('low') {
+        <div class="ec-chip solid large last-items">Last Items</div>
+      }
+    }
+  </div>
+  <ec-price-tag [product]="product()" size="large"></ec-price-tag>
   <ec-add-to-cart-btn [product]="product()"></ec-add-to-cart-btn>
   <hr />
   <p class="description">{{ product().description }}</p>
   @if (product().parameters.size) {
-    <hr />
-    <table>
-      @for (p of product().parameters; track $index) {
-        <tr>
-          <td>{{ p.name }}</td>
-          <td>{{ p.value }}</td>
-        </tr>
-      }
+    <hr class="params-hr" />
+    <table class="parameters">
+      <tbody>
+        @for (p of product().parameters; track $index) {
+          <tr>
+            <td>{{ p.name }}</td>
+            <td>{{ p.value }}</td>
+          </tr>
+        }
+      </tbody>
     </table>
   }
 </section>

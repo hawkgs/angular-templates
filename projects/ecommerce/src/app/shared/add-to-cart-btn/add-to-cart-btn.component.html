@@ -1,6 +1,20 @@
 <form [formGroup]="form" (ngSubmit)="addToCart()">
+  <button
+    [disabled]="form.invalid || isUnavailable()"
+    ec-button
+    btnType="primary"
+    size="large"
+  >
+    <ec-icon name="Cart"></ec-icon>
+    <span>Add to Cart</span>
+  </button>
   <fieldset [disabled]="isUnavailable()">
-    <input type="number" formControlName="quantity" />
+    <input
+      type="number"
+      formControlName="quantity"
+      placeholder="Quantity"
+      [min]="1"
+      [max]="AVAILABILITY_MAX_RESTRICTION[product().availability]"
+    />
   </fieldset>
-  <button [disabled]="form.invalid || isUnavailable()">Add to Cart</button>
 </form>

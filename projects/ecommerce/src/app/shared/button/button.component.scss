@@ -14,10 +14,11 @@
 
   &.primary-btn {
     background: var(--gradient-orange-to-violet);
-    color: var(--color-octonary);
+    color: var(--color-bg);
     background-size: 200%;
     background-position: 50%;
     transition:
+      background-color 300ms ease,
       background-position 300ms ease,
       opacity 300ms ease;
 
@@ -26,8 +27,7 @@
     }
 
     &[disabled] {
-      background-position-x: 15%;
-      opacity: 0.9;
+      background: var(--color-quinary);
     }
   }
 

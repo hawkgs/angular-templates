@@ -2,11 +2,13 @@ import { Component, OnInit, computed, inject, input } from '@angular/core';
 import { Product } from '../../../models';
 import { CartService } from '../../data-access/cart.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ButtonComponent } from '../button/button.component';
+import { IconComponent } from '../icon/icon.component';
 
 type Availability = Product['availability'];
 
 const AVAILABILITY_MAX_RESTRICTION: { [key in Availability]: number } = {
-  ['normal']: 100,
+  ['normal']: 50,
   ['low']: 10,
   ['none']: 0,
 };
@@ -14,13 +16,14 @@ const AVAILABILITY_MAX_RESTRICTION: { [key in Availability]: number } = {
 @Component({
   selector: 'ec-add-to-cart-btn',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, ButtonComponent, IconComponent],
   templateUrl: './add-to-cart-btn.component.html',
   styleUrl: './add-to-cart-btn.component.scss',
 })
 export class AddToCartBtnComponent implements OnInit {
   private _cart = inject(CartService);
   private _formBuilder = inject(FormBuilder);
+  AVAILABILITY_MAX_RESTRICTION = AVAILABILITY_MAX_RESTRICTION;
 
   product = input.required<Product>();
   isUnavailable = computed(() => this.product().availability === 'none');

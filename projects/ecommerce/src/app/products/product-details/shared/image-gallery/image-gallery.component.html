@@ -1,26 +1,30 @@
 <div class="selected">
-  <button
-    class="nav-btn prev"
-    [disabled]="selectedImgIdx() === 0"
-    (click)="moveImage(-1)"
-    title="Previous image"
-  >
-    <ec-icon name="ChevronRight" size="xlg"></ec-icon>
-  </button>
+  @if (product().images.size > 1) {
+    <button
+      class="nav-btn prev"
+      [disabled]="selectedImgIdx() === 0"
+      (click)="moveImage(-1)"
+      title="Previous image"
+    >
+      <ec-icon name="ChevronRight" size="xlg"></ec-icon>
+    </button>
+  }
   <ec-product-image
     [src]="selectedImg()"
     [alt]="product().name"
     size="lg"
     aria-label="Selected image"
   ></ec-product-image>
-  <button
-    class="nav-btn next"
-    [disabled]="selectedImgIdx() === product().images.size - 1"
-    (click)="moveImage(1)"
-    title="Next image"
-  >
-    <ec-icon name="ChevronRight" size="xlg"></ec-icon>
-  </button>
+  @if (product().images.size > 1) {
+    <button
+      class="nav-btn next"
+      [disabled]="selectedImgIdx() === product().images.size - 1"
+      (click)="moveImage(1)"
+      title="Next image"
+    >
+      <ec-icon name="ChevronRight" size="xlg"></ec-icon>
+    </button>
+  }
 </div>
 @if (product().images.size > 1) {
   <div class="images">

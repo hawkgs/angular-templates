@@ -69,3 +69,10 @@ $font-family: 'Inter', Arial, sans-serif;
   font-size: 0.625rem;
   letter-spacing: 0.05rem;
 }
+
+%chip-text-large {
+  text-transform: uppercase;
+  font-size: 0.625rem;
+  letter-spacing: 0.125rem;
+  font-size: 0.875rem;
+}

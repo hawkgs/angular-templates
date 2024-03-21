@@ -86,6 +86,7 @@ select {
   @extend %chip-text;
   display: inline-block;
   text-align: center;
+  user-select: none;
   color: var(
     --chip-color,
     color-mix(
@@ -103,5 +104,9 @@ select {
       var(--chip-accent, var(--color-french-violet)) 10%,
       var(--white) 2%
     );
+  }
+
+  &.large {
+    @extend %chip-text-large;
   }
 }

@@ -1,3 +1,5 @@
+@import '../../../styles/typography';
+
 :host {
   display: flex;
   padding-top: 2rem;
@@ -8,12 +10,63 @@
   }
 
   .details {
-    flex: 0 0 60ch;
+    flex: 0 0 50ch;
+
+    h2 {
+      @extend %heading-200;
+      margin-top: 0;
+    }
 
     .categories {
+      margin-bottom: 1rem;
+
       span {
-        background-color: blue;
-        color: white;
+        @extend %caption-text;
+        color: var(--color-quaternary);
+        margin-right: 1rem;
+      }
+    }
+
+    .product-state {
+      margin-bottom: 1rem;
+
+      .last-items {
+        --chip-accent: var(--color-reddish-orange);
+      }
+
+      .unavailable {
+        --chip-accent: var(--color-tertiary);
+      }
+    }
+
+    ec-price-tag {
+      margin-bottom: 2rem;
+    }
+
+    .description {
+      @extend %body-short-01;
+      margin-bottom: 2rem;
+    }
+
+    .params-hr {
+      margin-bottom: 0;
+    }
+
+    .parameters {
+      width: 100%;
+      border-spacing: 0;
+      @extend %body-short-03;
+
+      td {
+        padding: 1rem 0.75em;
+        margin: 0;
+        border-bottom: 1px solid var(--color-senary);
+
+        &:first-child {
+          width: 40%;
+          font-weight: 600;
+          color: var(--color-electric-lavander);
+        }
       }
     }
   }
