@@ -5,11 +5,12 @@ import { Product } from '../../models';
 import { environment } from '../../environments/environment';
 import { CurrencyPipe } from '../shared/pipes/currency.pipe';
 import { IconComponent } from '../shared/icon/icon.component';
+import { ButtonComponent } from '../shared/button/button.component';
 
 @Component({
   selector: 'ec-cart',
   standalone: true,
-  imports: [CartItemComponent, CurrencyPipe, IconComponent],
+  imports: [CartItemComponent, CurrencyPipe, IconComponent, ButtonComponent],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss',
 })

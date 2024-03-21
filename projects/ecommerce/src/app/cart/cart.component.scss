@@ -9,7 +9,7 @@
 
     .items {
       flex: 1;
-      margin-right: 1rem;
+      margin-right: 2rem;
 
       h2 {
         @extend %heading-200;
@@ -22,6 +22,45 @@
 
     .checkout {
       flex: 0 0 30ch;
+
+      .price-components {
+        p {
+          @extend %body-short-01;
+          margin: 1rem 0;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          &:first-child {
+            margin-top: 0;
+          }
+
+          .label {
+            color: var(--color-quaternary);
+          }
+        }
+      }
+
+      .total {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+
+        .value {
+          @extend %heading-400;
+          background: var(--gradient-magenta-to-light-purple);
+          -webkit-background-clip: text;
+          background-size: 140%;
+          background-clip: text;
+          color: transparent;
+        }
+      }
+
+      .checkout {
+        width: 100%;
+      }
     }
   }
 

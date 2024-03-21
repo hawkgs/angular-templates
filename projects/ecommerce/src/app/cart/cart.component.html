@@ -12,19 +12,40 @@
       }
     </section>
     <section class="checkout">
-      <div>Your total is: {{ total() | currency }}</div>
+      <div class="price-components">
+        <p>
+          <span class="label">Subtotal</span>
+          <span class="value">{{ subtotal() | currency }}</span>
+        </p>
+        <p>
+          <span class="label">Shipping</span>
+          <span class="value">{{ shipping | currency }}</span>
+        </p>
+        <p>
+          <span class="label">Taxes</span>
+          <span class="value">{{ taxes() | currency }}</span>
+        </p>
+      </div>
       <hr />
-      <p>Subtotal: {{ subtotal() | currency }}</p>
-      <p>Shipping: {{ shipping | currency }}</p>
-      <p>Taxes: {{ taxes() | currency }}</p>
-      <hr />
-      <a>Checkout</a>
+      <div class="total">
+        <span class="label">Total</span>
+        <span class="value">{{ total() | currency }}</span>
+      </div>
+      <button
+        ec-button
+        btnType="primary"
+        class="checkout"
+        size="large"
+        type="button"
+      >
+        Checkout
+      </button>
     </section>
   </div>
 } @else {
   <hr />
   <p class="empty-cart">
     <ec-icon name="Cart" size="xlg"></ec-icon>
-    Oops! Your cart is still empty.
+    Oops! Your cart is empty.
   </p>
 }
