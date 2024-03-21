@@ -23,18 +23,6 @@
     rgb(139, 10, 186) 100%
   );
   --gradient-pink-to-violet: linear-gradient(90deg, #f637e3 0%, #8514f5 100%);
-  // --gradient-orange-to-violet: linear-gradient(
-  //   90deg,
-  //   #fa2c05 0%,
-  //   #f637e3 50%,
-  //   #8514f5 100%
-  // );
-  --gradient-orange-to-violet: linear-gradient(
-    90deg,
-    #f97960 0%,
-    #f785ec 50%,
-    #af67f6 100%
-  );
 }
 
 /*
@@ -59,6 +47,13 @@
   --color-french-violet: #8001c6;
   --color-reddish-orange: #843115;
   --color-electric-lavander: #c435ec;
+
+  --gradient-orange-to-violet: linear-gradient(
+    90deg,
+    #fa2c05 0%,
+    #f637e3 50%,
+    #8514f5 100%
+  );
 }
 
 // System preference / User-selected
@@ -89,6 +84,13 @@
   --color-french-violet: #c97bf4;
   --color-reddish-orange: #f88158;
   --color-electric-lavander: #ebbef9;
+
+  --gradient-orange-to-violet: linear-gradient(
+    90deg,
+    #f97960 0%,
+    #f785ec 50%,
+    #af67f6 100%
+  );
 }
 
 // System preference

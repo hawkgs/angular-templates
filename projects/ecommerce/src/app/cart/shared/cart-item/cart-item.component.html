@@ -12,7 +12,7 @@
   <button
     ec-button
     class="quantity-btn"
-    btnType="tertiary"
+    btnType="secondary"
     (click)="updateQuantity(-1)"
     [disabled]="quantity() === 1"
     title="Decrease quantity by 1"
@@ -28,7 +28,7 @@
   <button
     ec-button
     class="quantity-btn"
-    btnType="tertiary"
+    btnType="secondary"
     (click)="updateQuantity(1)"
     title="Increase quantity by 1"
   >
@@ -36,7 +36,7 @@
   </button>
   <button
     ec-button
-    btnType="tertiary"
+    btnType="secondary"
     class="remove-btn"
     (click)="remove.emit()"
     [attr.title]="'Remove ' + product().name + ' from the cart'"

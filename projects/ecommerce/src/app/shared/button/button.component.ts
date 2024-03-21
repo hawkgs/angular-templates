@@ -46,9 +46,4 @@ export class ButtonComponent {
   get isSecondary() {
     return this.btnType() === 'secondary';
   }
-
-  @HostBinding('class.tertiary-btn')
-  get isTertiary() {
-    return this.btnType() === 'tertiary';
-  }
 }
