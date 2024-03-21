@@ -1,11 +1,36 @@
 <div class="selected">
-  <img [src]="selectedImg()" [alt]="product().name" />
+  <button
+    class="nav-btn prev"
+    [disabled]="selectedImgIdx() === 0"
+    (click)="moveImage(-1)"
+    title="Previous image"
+  >
+    <ec-icon name="ChevronRight" size="xlg"></ec-icon>
+  </button>
+  <ec-product-image
+    [src]="selectedImg()"
+    [alt]="product().name"
+    size="lg"
+    aria-label="Selected image"
+  ></ec-product-image>
+  <button
+    class="nav-btn next"
+    [disabled]="selectedImgIdx() === product().images.size - 1"
+    (click)="moveImage(1)"
+    title="Next image"
+  >
+    <ec-icon name="ChevronRight" size="xlg"></ec-icon>
+  </button>
 </div>
 @if (product().images.size > 1) {
   <div class="images">
     @for (img of product().images; track img; let idx = $index) {
-      <button (click)="switchImage(img)" [class.highlight]="isSelected(img)">
-        <img [src]="img" width="50" height="50" [alt]="'Image' + idx" />
+      <button
+        (click)="switchImage(idx)"
+        [class.highlighted]="isSelected(idx)"
+        [attr.title]="'Select image ' + (idx + 1)"
+      >
+        <ec-product-image [src]="img" size="sm" [alt]="'Image ' + (idx + 1)" />
       </button>
     }
   </div>

@@ -9,7 +9,8 @@ export type IconName =
   | 'DarkMode'
   | 'Routine'
   | 'Search'
-  | 'Downloading';
+  | 'Downloading'
+  | 'ChevronRight';
 
 export type IconSize = 'sm' | 'md' | 'lg' | 'xlg' | 'xxlg';
 

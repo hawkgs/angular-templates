@@ -9,7 +9,7 @@ const SIZE_TO_WIDTH: { [key in ImageSize]: number } = {
   xs: 32,
   sm: 64,
   md: 160,
-  lg: 640,
+  lg: 480,
 };
 
 // TODO: Convert to NgOptimizedImage
@@ -18,7 +18,7 @@ const SIZE_TO_WIDTH: { [key in ImageSize]: number } = {
   standalone: true,
   imports: [NgOptimizedImage],
   template:
-    '<img [src]="source()" [width]="width()" [height]="width()" [alt]="altText()" />',
+    '<img [src]="source()" [width]="width()" [height]="width()" [alt]="altText()" draggable="false" />',
   styleUrl: './product-image.component.scss',
 })
 export class ProductImageComponent {

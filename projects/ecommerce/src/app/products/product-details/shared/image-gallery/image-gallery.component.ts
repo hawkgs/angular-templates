@@ -1,31 +1,37 @@
-import { Component, OnInit, input, signal } from '@angular/core';
-import { NgOptimizedImage } from '@angular/common';
+import { Component, computed, input, signal } from '@angular/core';
 
 import { Product } from '../../../../../models';
+import { ProductImageComponent } from '../../../../shared/product-image/product-image.component';
+import { IconComponent } from '../../../../shared/icon/icon.component';
 
+// TODO: Change
 const DEFAULT_IMG = 'img.png';
 
 @Component({
   selector: 'ec-image-gallery',
   standalone: true,
-  imports: [NgOptimizedImage],
+  imports: [ProductImageComponent, IconComponent],
   templateUrl: './image-gallery.component.html',
   styleUrl: './image-gallery.component.scss',
 })
-export class ImageGalleryComponent implements OnInit {
+export class ImageGalleryComponent {
   product = input.required<Product>();
-  selectedImg = signal<string>('');
+  selectedImgIdx = signal<number>(0);
 
-  ngOnInit(): void {
-    const img = this.product().images.first() || DEFAULT_IMG;
-    this.selectedImg.set(img);
+  selectedImg = computed(
+    () => this.product().images.get(this.selectedImgIdx()) || DEFAULT_IMG,
+  );
+
+  switchImage(idx: number) {
+    this.selectedImgIdx.set(idx);
   }
 
-  switchImage(img: string) {
-    this.selectedImg.set(img);
+  moveImage(move: -1 | 1) {
+    const newIdx = this.selectedImgIdx() + move;
+    this.selectedImgIdx.set(newIdx);
   }
 
-  isSelected(img: string) {
-    return this.selectedImg() === img;
+  isSelected(idx: number) {
+    return this.selectedImgIdx() === idx;
   }
 }
