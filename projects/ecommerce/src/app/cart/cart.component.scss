@@ -7,9 +7,17 @@
   .content {
     display: flex;
 
+    @include bp-800w {
+      flex-direction: column;
+    }
+
     .items {
       flex: 1;
       margin-right: 2rem;
+
+      @include bp-800w {
+        margin-right: 0;
+      }
 
       h2 {
         @extend %heading-200;
@@ -22,6 +30,15 @@
 
     .checkout {
       flex: 0 0 30ch;
+
+      @include bp-1000w {
+        flex: 0 0 25ch;
+      }
+
+      @include bp-800w {
+        margin-top: 2rem;
+        flex: 1;
+      }
 
       .price-components {
         p {

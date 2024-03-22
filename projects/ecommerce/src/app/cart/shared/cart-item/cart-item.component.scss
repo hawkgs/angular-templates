@@ -1,3 +1,4 @@
+@import '../../../../styles/screen-breakpoints';
 @import '../../../../styles/typography';
 
 :host {
@@ -8,56 +9,91 @@
   border: 1px solid var(--color-senary);
   border-radius: 0.25rem;
 
-  .product-link {
+  @include bp-600w {
+    flex-direction: column;
+  }
+
+  .main-content {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    flex: 1;
 
-    .img-cont {
-      border-radius: 0.25rem;
-      background-color: var(--color-septenary);
-      padding: 0.25rem;
+    .product-link {
+      display: flex;
+      align-items: center;
+
+      .img-cont {
+        border-radius: 0.25rem;
+        background-color: var(--color-septenary);
+        padding: 0.25rem;
+      }
+
+      .name {
+        margin: 0 2rem 0 1rem;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
 
-    .name {
-      margin: 0 2rem 0 1rem;
+    .controls {
+      display: flex;
+      align-items: center;
+
+      input[type='number'] {
+        width: 6ch;
+        margin: 0 0.5rem;
+
+        @include bp-600w {
+          margin: 0;
+        }
+      }
+
+      .quantity-btn {
+        width: 4ch;
+
+        @include bp-600w {
+          display: none;
+        }
+      }
+
+      .remove-btn {
+        margin-left: 1rem;
+      }
     }
   }
 
-  .controls {
-    display: flex;
-    align-items: center;
+  .price {
+    width: 10ch;
+    margin: 0 0.5rem 0 2rem;
+    text-align: right;
 
-    input[type='number'] {
-      width: 6ch;
-      margin: 0 0.5rem;
+    @include bp-600w {
+      width: 100%;
+      margin: 0.5rem 0 0 0;
+      padding-top: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      border-top: 1px solid var(--color-senary);
     }
 
-    .quantity-btn {
-      width: 4ch;
+    ec-price-tag {
+      display: inline-block;
+      --price-tag-color: var(--color-primary);
     }
 
-    .remove-btn {
-      margin-left: 1rem;
-    }
-
-    .price {
-      width: 10ch;
-      margin: 0 0.5rem 0 2rem;
-      text-align: right;
-
-      ec-price-tag {
-        display: inline-block;
-        --price-tag-color: var(--color-primary);
-      }
-
-      .total {
-        background: var(--gradient-magenta-to-light-purple);
-        -webkit-background-clip: text;
-        background-size: 140%;
-        background-clip: text;
-        font-weight: 600;
-        color: transparent;
-      }
+    .total {
+      background: var(--gradient-magenta-to-light-purple);
+      -webkit-background-clip: text;
+      background-size: 140%;
+      background-clip: text;
+      font-weight: 600;
+      color: transparent;
     }
   }
 }
