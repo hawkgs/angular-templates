@@ -1,3 +1,4 @@
+@import '../../styles/screen-breakpoints';
 @import '../../styles/typography';
 
 .search,
@@ -51,6 +52,14 @@
 
     ec-product-search {
       width: 60%;
+    }
+
+    @include bp-800w {
+      padding: 0 2rem;
+
+      ec-product-search {
+        width: 100%;
+      }
     }
   }
 }

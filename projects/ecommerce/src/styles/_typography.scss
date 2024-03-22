@@ -1,3 +1,5 @@
+@import './screen-breakpoints';
+
 $font-family: 'Inter', Arial, sans-serif;
 
 %heading-100 {
@@ -41,12 +43,20 @@ $font-family: 'Inter', Arial, sans-serif;
   font-size: 0.875rem;
   font-style: normal;
   line-height: 1.4rem;
+
+  @include bp-600w {
+    font-size: 1rem;
+  }
 }
 
 %body-short-02 {
   font-size: 0.875rem;
   font-style: normal;
   line-height: 1rem;
+
+  @include bp-600w {
+    font-size: 1rem;
+  }
 }
 
 %body-short-03 {
@@ -68,6 +78,10 @@ $font-family: 'Inter', Arial, sans-serif;
   text-transform: uppercase;
   font-size: 0.625rem;
   letter-spacing: 0.05rem;
+
+  @include bp-600w {
+    font-size: 0.75rem;
+  }
 }
 
 %chip-text-large {

@@ -17,8 +17,7 @@ const SIZE_TO_WIDTH: { [key in ImageSize]: number } = {
   selector: 'ec-product-image',
   standalone: true,
   imports: [NgOptimizedImage],
-  template:
-    '<img [src]="source()" [width]="width()" [height]="width()" [alt]="altText()" draggable="false" />',
+  templateUrl: './product-image.component.html',
   styleUrl: './product-image.component.scss',
 })
 export class ProductImageComponent {

@@ -1,3 +1,4 @@
+@import '../../../../styles/screen-breakpoints';
 @import '../../../../styles/typography';
 
 :host {
@@ -7,7 +8,7 @@
   .header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
 
     h4 {
       @extend %heading-300;
@@ -15,6 +16,7 @@
 
     a {
       @extend %body-short-01;
+      margin-bottom: 0.5rem;
     }
   }
 
@@ -23,5 +25,26 @@
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: 1fr;
     grid-column-gap: 0.875rem;
+
+    @include bp-1100w {
+      overflow-x: scroll;
+      padding-bottom: 1rem;
+
+      ec-product-item {
+        min-width: 24ch;
+      }
+    }
+
+    @include bp-600w {
+      display: flex;
+      overflow-x: initial;
+      flex-wrap: wrap;
+      // grid-template-columns: repeat(1, 1fr);
+
+      ec-product-item {
+        margin-bottom: 1rem;
+        min-width: initial;
+      }
+    }
   }
 }

@@ -1,8 +1,10 @@
+@import '../../../styles/screen-breakpoints';
+
 :host {
   width: 100%;
   border-block-end: 1px solid var(--color-septenary);
   display: block;
-  backdrop-filter: blur(16px);
+  background-color: var(--color-bg);
 
   header {
     position: relative;
@@ -49,6 +51,12 @@
 
       ec-icon {
         margin-right: 0.125rem;
+      }
+
+      @include bp-600w {
+        .label {
+          display: none;
+        }
       }
     }
   }
