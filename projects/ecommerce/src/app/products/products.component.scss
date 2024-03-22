@@ -53,6 +53,7 @@
   .sidebar {
     width: 30ch;
     grid-row: row-start / row-end;
+    height: 0;
 
     @include bp-1000w {
       width: 25ch;
@@ -64,6 +65,7 @@
 
     @include bp-600w {
       grid-row: initial;
+      height: auto;
       width: 100%;
     }
 
