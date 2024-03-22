@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import './typography';
+@import './screen-breakpoints';
 
 // Variables
 
@@ -109,5 +110,27 @@ select {
 
   &.large {
     @extend %chip-text-large;
+  }
+}
+
+body {
+  @include bp-1100w {
+    background-color: rgb(33, 33, 150);
+  }
+
+  @include bp-1000w {
+    background-color: rgb(26, 87, 26);
+  }
+
+  @include bp-800w {
+    background-color: rgb(169, 117, 12);
+  }
+
+  @include bp-600w {
+    background-color: rgb(127, 28, 28);
+  }
+
+  @include bp-400w {
+    background-color: rgb(153, 23, 101);
   }
 }

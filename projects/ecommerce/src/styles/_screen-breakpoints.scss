@@ -1,0 +1,41 @@
+/*
+ * Screen breakpoints that activate different responsive layouts. The rest is handled by the fluid design.
+ */
+
+// The var name suffix is rounded
+$screen-bp-1100w: 1080px;
+$screen-bp-1000w: 979px;
+$screen-bp-800w: 828px;
+$screen-bp-600w: 640px;
+$screen-bp-400w: 384px;
+
+// Breakpoints
+@mixin bp-1100w {
+  @media (max-width: #{$screen-bp-1100w}) {
+    @content;
+  }
+}
+
+@mixin bp-1000w {
+  @media (max-width: #{$screen-bp-1000w}) {
+    @content;
+  }
+}
+
+@mixin bp-800w {
+  @media (max-width: #{$screen-bp-800w}) {
+    @content;
+  }
+}
+
+@mixin bp-600w {
+  @media (max-width: #{$screen-bp-600w}) {
+    @content;
+  }
+}
+
+@mixin bp-400w {
+  @media (max-width: #{$screen-bp-400w}) {
+    @content;
+  }
+}
