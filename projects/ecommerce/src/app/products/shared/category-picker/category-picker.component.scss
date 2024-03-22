@@ -1,3 +1,4 @@
+@import '../../../../styles/screen-breakpoints';
 @import '../../../../styles/typography';
 
 :host {
@@ -5,6 +6,10 @@
 
   .title {
     @extend %heading-600;
+
+    @include bp-600w {
+      display: none;
+    }
   }
 
   ul {

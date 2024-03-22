@@ -14,7 +14,7 @@ import {
   Router,
 } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { CategoriesService } from '../data-access/categories.service';
 import { ProductItemComponent } from '../shared/product-item/product-item.component';
@@ -29,23 +29,19 @@ import {
   SortType,
   isOfSortType,
 } from './shared/sort-selector/sort-selector.component';
-import {
-  getRoutePath,
-  isProductDetailsRoute,
-  isProductsListRoute,
-} from './shared/utils';
+import { getRoutePath, isProductDetailsRoute } from './shared/utils';
 import { ButtonComponent } from '../shared/button/button.component';
 import { IconComponent } from '../shared/icon/icon.component';
 import { CategoryPickerComponent } from './shared/category-picker/category-picker.component';
 import { InfiniteScrollComponent } from '../shared/infinite-scroll/infinite-scroll.component';
 import { SkeletonProductItemComponent } from '../shared/skeleton-product-item/skeleton-product-item.component';
 import { ScrollPosition } from '../shared/scroll-position.service';
+import { ExpandableContComponent } from '../shared/expandable-cont/expandable-cont.component';
 
 const DEFAULT_PRICE_RANGE = { from: 0, to: 10000 };
 const DEFAULT_CAT_NAME = 'All Products';
 
 // Request search results after the Nth typed character
-const SEARCH_AFTER_CHAR = 2;
 
 @Component({
   selector: 'ec-products',
@@ -61,6 +57,7 @@ const SEARCH_AFTER_CHAR = 2;
     IconComponent,
     SkeletonProductItemComponent,
     InfiniteScrollComponent,
+    ExpandableContComponent,
   ],
   providers: [ProductsListService, ScrollPosition],
   templateUrl: './products.component.html',
@@ -89,10 +86,7 @@ export class ProductsComponent implements OnInit {
   );
 
   searchForm = this._formBuilder.group({
-    searchString: [
-      '',
-      [Validators.required, Validators.minLength(SEARCH_AFTER_CHAR)],
-    ],
+    searchString: [''],
   });
 
   private _page = 1;

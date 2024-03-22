@@ -1,27 +1,4 @@
-<section class="sidebar">
-  <form [formGroup]="searchForm" (ngSubmit)="onProductSearch($event)">
-    <input formControlName="searchString" placeholder="Search for a product" />
-    <button
-      ec-button
-      btnType="primary"
-      title="Search"
-      [disabled]="searchForm.invalid"
-    >
-      <ec-icon name="Search" size="lg"></ec-icon>
-    </button>
-  </form>
-  <ec-category-picker
-    [categoryId]="categoryId()"
-    [defaultCategoryName]="DEFAULT_CAT_NAME"
-  ></ec-category-picker>
-  <hr />
-  <ec-price-filter
-    [default]="DEFAULT_PRICE_RANGE"
-    [range]="priceRange()"
-    (rangeChange)="onPriceRangeChange($event)"
-  ></ec-price-filter>
-</section>
-<section class="main">
+<section class="header">
   <div class="top-bar">
     <div class="title">
       <h2 class="category-name">{{ categoryName() }}</h2>
@@ -35,6 +12,42 @@
     ></ec-sort-selector>
   </div>
   <hr />
+</section>
+<section class="sidebar">
+  <form [formGroup]="searchForm" (ngSubmit)="onProductSearch($event)">
+    <input formControlName="searchString" placeholder="Search for a product" />
+    <button
+      ec-button
+      btnType="primary"
+      title="Search"
+      [disabled]="searchForm.invalid"
+    >
+      <ec-icon name="Search" size="lg"></ec-icon>
+    </button>
+  </form>
+  <ec-expandable-cont activateAt="600w">
+    <div class="expandable-cont-header" header>Categories & Filter</div>
+    <ng-container content>
+      <ec-category-picker
+        [categoryId]="categoryId()"
+        [defaultCategoryName]="DEFAULT_CAT_NAME"
+      ></ec-category-picker>
+      <hr />
+      <ec-price-filter
+        [default]="DEFAULT_PRICE_RANGE"
+        [range]="priceRange()"
+        (rangeChange)="onPriceRangeChange($event)"
+      ></ec-price-filter>
+      <ec-sort-selector
+        type="vertical"
+        [value]="sortType()"
+        (valueChange)="onSort($event)"
+      ></ec-sort-selector>
+    </ng-container>
+  </ec-expandable-cont>
+  <hr class="expandable-cont-hr" />
+</section>
+<section class="main">
   <div class="list">
     @for (p of productsList.value(); track p.id) {
       <ec-product-item [product]="p"></ec-product-item>

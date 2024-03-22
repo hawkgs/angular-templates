@@ -1,0 +1,15 @@
+<div
+  class="wrapper"
+  [class.expanded]="expanded()"
+  [ngClass]="activateAt() ? 'active-at-' + activateAt() : 'active'"
+>
+  <button title="Expand/collapse container" (click)="toggle()">
+    <div>
+      <ng-content select="[header]"></ng-content>
+    </div>
+    <ec-icon name="ChevronRight" size="lg"></ec-icon>
+  </button>
+  <div class="content">
+    <ng-content select="[content]"></ng-content>
+  </div>
+</div>
