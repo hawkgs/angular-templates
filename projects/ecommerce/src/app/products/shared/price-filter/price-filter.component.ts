@@ -46,25 +46,27 @@ export class PriceFilterComponent {
 
   onFromChangeEnd(e: Event) {
     const input = e.target as HTMLInputElement;
+    const value = parseInt(input.value, 10);
+
+    let from = Math.max(this.default().from, value);
+    from = Math.min(from, this.range().to);
 
     this.range.update((r) => ({
       ...r,
-      from: Math.min(
-        parseInt(input.value, 10) || this.default().from,
-        this.range().to,
-      ),
+      from,
     }));
   }
 
   onToChangeEnd(e: Event) {
     const input = e.target as HTMLInputElement;
+    const value = parseInt(input.value, 10);
+
+    let to = Math.min(value, this.default().to);
+    to = Math.max(this.range().from, to);
 
     this.range.update((r) => ({
       ...r,
-      to: Math.max(
-        this.range().from,
-        parseInt(input.value, 10) || this.default().to,
-      ),
+      to,
     }));
   }
 }
