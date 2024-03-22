@@ -14,7 +14,6 @@
 
   .header {
     width: 100%;
-    justify-self: stretch;
 
     .top-bar {
       display: flex;
@@ -54,7 +53,6 @@
   .sidebar {
     width: 30ch;
     grid-row: row-start / row-end;
-    justify-self: end;
 
     @include bp-1000w {
       width: 25ch;

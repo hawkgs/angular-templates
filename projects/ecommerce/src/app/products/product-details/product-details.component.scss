@@ -1,17 +1,18 @@
+@import '../../../styles/screen-breakpoints';
 @import '../../../styles/typography';
 
 :host {
-  display: flex;
   padding-top: 2rem;
+  display: grid;
+  grid-column-gap: 2rem;
+  grid-template-columns: 1fr min-content;
+  grid-template-rows: [row-start] auto [row-mid] auto [row-end];
 
-  .preview {
-    flex: 1;
-    margin-right: 2rem;
+  @include bp-800w {
+    grid-template-columns: 1fr;
   }
 
-  .details {
-    flex: 0 0 50ch;
-
+  .header {
     h2 {
       @extend %heading-200;
       margin-top: 0;
@@ -27,16 +28,41 @@
       }
     }
 
-    .product-state {
+    .last-items {
+      --chip-accent: var(--color-reddish-orange);
       margin-bottom: 1rem;
+    }
 
-      .last-items {
-        --chip-accent: var(--color-reddish-orange);
-      }
+    .unavailable {
+      --chip-accent: var(--color-tertiary);
+      margin-bottom: 1rem;
+    }
+  }
 
-      .unavailable {
-        --chip-accent: var(--color-tertiary);
-      }
+  .preview {
+    grid-row: row-start / row-end;
+    height: 0;
+
+    @include bp-800w {
+      height: auto;
+      grid-row: initial;
+      margin-bottom: 2rem;
+    }
+  }
+
+  .details {
+    width: 50ch;
+
+    @include bp-1100w {
+      width: 40ch;
+    }
+
+    @include bp-1000w {
+      width: 35ch;
+    }
+
+    @include bp-800w {
+      width: 100%;
     }
 
     ec-price-tag {

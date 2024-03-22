@@ -1,23 +1,23 @@
-<section class="preview">
-  <ec-image-gallery [product]="product()"></ec-image-gallery>
-</section>
-<section class="details">
+<section class="header">
   <h2 class="product-name" aria-label="Product name">{{ product().name }}</h2>
   <p class="categories">
     @for (category of categories(); track category) {
       <span>{{ category }}</span>
     }
   </p>
-  <div class="product-state">
-    @switch (product().availability) {
-      @case ('none') {
-        <div class="ec-chip solid large unavailable">Unavailable</div>
-      }
-      @case ('low') {
-        <div class="ec-chip solid large last-items">Last Items</div>
-      }
+  @switch (product().availability) {
+    @case ('none') {
+      <div class="ec-chip solid large unavailable">Unavailable</div>
     }
-  </div>
+    @case ('low') {
+      <div class="ec-chip solid large last-items">Last Items</div>
+    }
+  }
+</section>
+<section class="preview">
+  <ec-image-gallery [product]="product()"></ec-image-gallery>
+</section>
+<section class="details">
   <ec-price-tag [product]="product()" size="large"></ec-price-tag>
   <ec-add-to-cart-btn [product]="product()"></ec-add-to-cart-btn>
   <hr />
