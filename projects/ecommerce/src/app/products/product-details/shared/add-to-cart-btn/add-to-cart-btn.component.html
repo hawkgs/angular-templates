@@ -14,7 +14,7 @@
       formControlName="quantity"
       placeholder="Quantity"
       [min]="1"
-      [max]="AVAILABILITY_MAX_RESTRICTION[product().availability]"
+      [max]="maxQuantity()"
     />
   </fieldset>
 </form>

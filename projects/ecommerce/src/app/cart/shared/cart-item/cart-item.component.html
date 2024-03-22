@@ -23,7 +23,9 @@
     <input
       type="number"
       [value]="quantity()"
-      (blur)="onInputBlur($event)"
+      [min]="1"
+      [max]="maxProductQuantity(product())"
+      (input)="onInputBlur($event)"
       placeholder="Quantity"
     />
     <button
@@ -31,6 +33,7 @@
       class="quantity-btn"
       btnType="secondary"
       (click)="updateQuantity(1)"
+      [disabled]="maxProductQuantity(product()) === quantity()"
       title="Increase quantity by 1"
     >
       +

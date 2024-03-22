@@ -6,14 +6,7 @@ import { CartService } from '../../../../data-access/cart.service';
 import { ButtonComponent } from '../../../../shared/button/button.component';
 import { IconComponent } from '../../../../shared/icon/icon.component';
 import { ToastsService } from '../../../../shared/toast-feed/toasts.service';
-
-type Availability = Product['availability'];
-
-const AVAILABILITY_MAX_RESTRICTION: { [key in Availability]: number } = {
-  ['normal']: 50,
-  ['low']: 10,
-  ['none']: 0,
-};
+import { maxProductQuantity } from '../../../../shared/utils/max-quantity';
 
 @Component({
   selector: 'ec-add-to-cart-btn',
@@ -27,25 +20,35 @@ export class AddToCartBtnComponent implements OnInit {
   private _formBuilder = inject(FormBuilder);
   private _toasts = inject(ToastsService);
 
-  AVAILABILITY_MAX_RESTRICTION = AVAILABILITY_MAX_RESTRICTION;
-
   product = input.required<Product>();
   isUnavailable = computed(() => this.product().availability === 'none');
+  maxQuantity = computed(() => maxProductQuantity(this.product()));
 
   form = this._formBuilder.group({
     quantity: [1, [Validators.min(1)]],
   });
 
   ngOnInit() {
-    const { availability } = this.product();
-    const max = AVAILABILITY_MAX_RESTRICTION[availability];
-
-    this.form.controls.quantity.addValidators(Validators.max(max));
+    this.form.controls.quantity.addValidators(
+      Validators.max(this.maxQuantity()),
+    );
   }
 
   addToCart() {
     const quantity = this.form.value.quantity || 1;
     this._cart.addToCart(this.product(), quantity);
-    this._toasts.create(`${this.product().name} has been added to your cart!`);
+
+    const currQuantity = this._cart.quantities().get(this.product().id) || 0;
+    const nextQuantity = quantity + currQuantity;
+
+    if (nextQuantity <= this.maxQuantity()) {
+      this._toasts.create(
+        `${this.product().name} has been added to your cart!`,
+      );
+    } else {
+      this._toasts.create(
+        `Maximal product quantity of ${this.maxQuantity()} reached.`,
+      );
+    }
   }
 }

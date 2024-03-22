@@ -12,6 +12,7 @@ import { Map, Set } from 'immutable';
 import { Product } from '../../models';
 import { LocalStorage } from '../shared/local-storage.service';
 import { ProductsApi } from '../api/products-api.service';
+import { maxProductQuantity } from '../shared/utils/max-quantity';
 
 const CART_LS_KEY = 'ec-cart';
 
@@ -95,7 +96,8 @@ export class CartService {
     const currQuantity = relativeQuantity
       ? this._cart().get(product.id) || 0
       : 0;
-    const nextQuantity = currQuantity + quantity;
+    const maxQuantity = maxProductQuantity(product);
+    const nextQuantity = Math.min(currQuantity + quantity, maxQuantity);
 
     if (!nextQuantity) {
       this.removeFromCart(product);

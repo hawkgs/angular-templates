@@ -15,6 +15,7 @@ import { CurrencyPipe } from '../../../shared/pipes/currency.pipe';
 import { ProductImageComponent } from '../../../shared/product-image/product-image.component';
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { IconComponent } from '../../../shared/icon/icon.component';
+import { maxProductQuantity } from '../../../shared/utils/max-quantity';
 
 @Component({
   selector: 'ec-cart-item',
@@ -32,6 +33,7 @@ import { IconComponent } from '../../../shared/icon/icon.component';
 })
 export class CartItemComponent {
   @Output() remove = new EventEmitter<void>();
+  maxProductQuantity = maxProductQuantity;
 
   product = input.required<Product>();
   quantity = model<number>(1);
@@ -43,7 +45,11 @@ export class CartItemComponent {
 
   onInputBlur(e: Event) {
     const input = e.target as HTMLInputElement;
-    const quantity = parseInt(input.value, 10) || 1;
+
+    let quantity = parseInt(input.value, 10) || 1;
+    quantity = Math.max(1, quantity);
+    quantity = Math.min(quantity, maxProductQuantity(this.product()));
+
     this.quantity.set(quantity);
   }
 
