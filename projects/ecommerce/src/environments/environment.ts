@@ -8,4 +8,5 @@ import { Common } from './common';
 export const environment: Environment = {
   ...Common,
   apiUrl: 'http://localhost:3000/api/v1',
+  imageCdnUrl: 'http://localhost:4200',
 };

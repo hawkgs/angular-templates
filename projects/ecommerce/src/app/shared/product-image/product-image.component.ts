@@ -1,6 +1,11 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, HostBinding, computed, input } from '@angular/core';
 import { Product } from '../../../models';
-import { NgOptimizedImage } from '@angular/common';
+import {
+  IMAGE_LOADER,
+  ImageLoaderConfig,
+  NgOptimizedImage,
+} from '@angular/common';
+import { environment } from '../../../environments/environment';
 
 type ImageSize = 'xs' | 'sm' | 'md' | 'lg';
 
@@ -12,11 +17,32 @@ const SIZE_TO_WIDTH: { [key in ImageSize]: number } = {
   lg: 480,
 };
 
-// TODO: Convert to NgOptimizedImage
+// The current provider is set to work with the mocked images.
+//
+// Use the default `provideImgixLoader`, if your CDN uses
+// the standard `?w={size}` query paramter sizing query.
+const imageLoaderProvider = {
+  provide: IMAGE_LOADER,
+  useValue: (config: ImageLoaderConfig) => {
+    let src = '';
+    if (!config.width) {
+      src = config.src;
+    } else {
+      const [path, extension] = config.src.split('.');
+      src = `${path}-${config.width}w.${extension}`;
+    }
+
+    src = config.src; // temp
+
+    return environment.imageCdnUrl + src;
+  },
+};
+
 @Component({
   selector: 'ec-product-image',
   standalone: true,
   imports: [NgOptimizedImage],
+  providers: [imageLoaderProvider],
   templateUrl: './product-image.component.html',
   styleUrl: './product-image.component.scss',
 })
@@ -37,19 +63,21 @@ export class ProductImageComponent {
    */
   alt = input<string>('');
 
+  /**
+   * Fixed image size
+   */
   size = input<ImageSize>('sm');
+
+  /**
+   * Use if the img is the LCP element.
+   */
+  priority = input<boolean>(false);
 
   width = computed(() => SIZE_TO_WIDTH[this.size()]);
 
-  // We apply the width to the image source as a query parameter (w=SIZE).
-  // Modify as desired and according to your image CDN.
-  //
-  // NOTE: The image mocks that we use are not resized accordingly
-  // (i.e. the query parameter is not doing anything).
-  source = computed(() => {
-    const src = this.product() ? this.product()?.images.first() : this.src();
-    return `${src}?w=${this.width()}`;
-  });
+  source = computed<string>(
+    () => (this.product() ? this.product()?.images.first() : this.src()) || '',
+  );
 
   altText = computed(() => {
     if (this.alt()) {
@@ -60,4 +88,15 @@ export class ProductImageComponent {
     }
     return DEFAULT_ALT;
   });
+
+  @HostBinding('style.width')
+  @HostBinding('style.height')
+  get imgSize() {
+    // Since settings a fixed width and height is required
+    // by NgOptimizedImage in order to get an automatically
+    // generated `srcset` with different scaled versions of
+    // the image, we use `--img-size` if we need to resize
+    // the container via CSS.
+    return `var(--img-size, ${this.width()}px)`;
+  }
 }

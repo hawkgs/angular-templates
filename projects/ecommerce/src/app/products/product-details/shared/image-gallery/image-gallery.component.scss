@@ -1,3 +1,5 @@
+@import '../../../../../styles/screen-breakpoints';
+
 :host {
   display: block;
 
@@ -10,6 +12,14 @@
     justify-content: center;
     padding: 1rem;
 
+    @include bp-600w {
+      padding: 0.5rem;
+
+      ec-product-image {
+        --img-size: 320px;
+      }
+    }
+
     .nav-btn {
       position: absolute;
       top: 50%;
@@ -17,6 +27,7 @@
       padding: 0.5rem;
       border: none;
       border-radius: 50%;
+      z-index: 1;
       color: var(--color-secondary);
       background-color: var(--color-bg);
       transition:
