@@ -52,6 +52,7 @@
   .results-cont {
     position: relative;
     text-align: left;
+    z-index: 1;
 
     .results,
     .no-results {
