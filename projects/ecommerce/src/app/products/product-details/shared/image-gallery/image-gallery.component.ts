@@ -4,9 +4,6 @@ import { Product } from '../../../../../models';
 import { ProductImageComponent } from '../../../../shared/product-image/product-image.component';
 import { IconComponent } from '../../../../shared/icon/icon.component';
 
-// TODO: Change
-const DEFAULT_IMG = 'img.png';
-
 @Component({
   selector: 'ec-image-gallery',
   standalone: true,
@@ -19,7 +16,7 @@ export class ImageGalleryComponent {
   selectedImgIdx = signal<number>(0);
 
   selectedImg = computed(
-    () => this.product().images.get(this.selectedImgIdx()) || DEFAULT_IMG,
+    () => this.product().images.get(this.selectedImgIdx()) || '',
   );
 
   switchImage(idx: number) {

@@ -1,8 +1,12 @@
-<img
-  [ngSrc]="source()"
-  [width]="width()"
-  [height]="width()"
-  [alt]="altText()"
-  [priority]="priority()"
-  draggable="false"
-/>
+@if (source()) {
+  <img
+    [ngSrc]="source()"
+    [width]="width()"
+    [height]="width()"
+    [alt]="altText()"
+    [priority]="priority()"
+    draggable="false"
+  />
+} @else {
+  <ec-icon name="NoPhoto" size="xxlg"></ec-icon>
+}

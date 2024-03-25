@@ -6,6 +6,7 @@ import {
   NgOptimizedImage,
 } from '@angular/common';
 import { environment } from '../../../environments/environment';
+import { IconComponent } from '../icon/icon.component';
 
 type ImageSize = 'xs' | 'sm' | 'md' | 'lg';
 
@@ -41,7 +42,7 @@ const imageLoaderProvider = {
 @Component({
   selector: 'ec-product-image',
   standalone: true,
-  imports: [NgOptimizedImage],
+  imports: [NgOptimizedImage, IconComponent],
   providers: [imageLoaderProvider],
   templateUrl: './product-image.component.html',
   styleUrl: './product-image.component.scss',
