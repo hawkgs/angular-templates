@@ -33,8 +33,6 @@ const imageLoaderProvider = {
       src = `${path}-${config.width}w.${extension}`;
     }
 
-    src = config.src; // temp
-
     return environment.imageCdnUrl + src;
   },
 };
