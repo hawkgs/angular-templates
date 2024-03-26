@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  OnDestroy,
   OnInit,
   Output,
   PLATFORM_ID,
@@ -23,18 +24,19 @@ const SCROLL_OFFSET = 320;
   templateUrl: './infinite-scroll.component.html',
   styleUrl: './infinite-scroll.component.scss',
 })
-export class InfiniteScrollComponent implements OnInit {
+export class InfiniteScrollComponent implements OnInit, OnDestroy {
   private _win = inject(WINDOW);
   private _doc = inject(DOCUMENT);
   private _platformId = inject(PLATFORM_ID);
   private _renderer = inject(Renderer2);
   private _bottomReached = false;
+  private _listeners: (() => void)[] = [];
 
   @Output() loadNext = new EventEmitter<() => void>();
 
   ngOnInit() {
     if (isPlatformBrowser(this._platformId)) {
-      this._renderer.listen(this._win, 'scroll', () => {
+      const listener = this._renderer.listen(this._win, 'scroll', () => {
         const scrolledY = this._win.scrollY + this._win.innerHeight;
         const scrollHeight = this._doc.body.scrollHeight;
 
@@ -42,7 +44,13 @@ export class InfiniteScrollComponent implements OnInit {
           this.onLoadNext();
         }
       });
+
+      this._listeners.push(listener);
     }
+  }
+
+  ngOnDestroy() {
+    this._listeners.forEach((l) => l());
   }
 
   onLoadNext() {

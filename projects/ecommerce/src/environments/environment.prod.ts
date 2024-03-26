@@ -4,5 +4,5 @@ import { Common } from './common';
 export const environment: Environment = {
   ...Common,
   apiUrl: 'https://prod.example.com/api/v1',
-  imageCdnUrl: 'https://prod.example.com/cdn',
+  imageCdnUrl: '',
 };

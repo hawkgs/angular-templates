@@ -92,6 +92,9 @@ export class ProductsComponent implements OnInit {
   private _page = 1;
   private _lastEvent?: NavigationEnd;
 
+  // A flag; Marks when the main content is being reloaded
+  private _reloading = false;
+
   constructor() {
     const routerEvents = toSignal(this._router.events);
 
@@ -117,7 +120,9 @@ export class ProductsComponent implements OnInit {
         // a update of the product list is handled by
         // this piece of code.
         if (getRoutePath(event) === getRoutePath(this._lastEvent)) {
-          this._reloadList();
+          // The method updates some signals that we
+          // want to ignore (i.e. should not be threated as deps).
+          untracked(() => this._reloadList());
         }
         // Coming back from product details – apply stored scroll
         if (isProductDetailsRoute(this._lastEvent)) {
@@ -164,15 +169,26 @@ export class ProductsComponent implements OnInit {
   }
 
   async onNextPage(loadCompleted: () => void) {
+    // If the content is reloading, ignore
+    // any attempts to load the next page.
+    if (this._reloading) {
+      loadCompleted();
+      return;
+    }
+
     this._page += 1;
     await this._loadProducts(this._page);
     loadCompleted();
   }
 
-  private _reloadList() {
+  private async _reloadList() {
     this._updateParamPropsFromRoute();
-    untracked(() => this._loadProducts(1));
     this._page = 1;
+    this._reloading = true;
+
+    await this._loadProducts(1);
+
+    this._reloading = false;
   }
 
   /**
@@ -225,34 +241,26 @@ export class ProductsComponent implements OnInit {
     const priceRange = queryParamMap.get('price') || '';
     const sortType = queryParamMap.get('sort') || '';
 
-    // Since the method is executed in an effect
-    // and searchTerm and categoryId should not be
-    // threated as a dependency, we use untracted in
-    // order to point that they should be ignored.
-    untracked(() => {
-      this.searchTerm.set(searchTerm);
-      this.categoryId.set(categoryId);
+    this.searchTerm.set(searchTerm);
+    this.categoryId.set(categoryId);
 
-      if (isOfSortType(sortType)) {
-        // Same for sortType
-        this.sortType.set(sortType as SortType);
-      } else {
-        this.sortType.set('default');
+    if (isOfSortType(sortType)) {
+      this.sortType.set(sortType as SortType);
+    } else {
+      this.sortType.set('default');
+    }
+
+    const range = priceRange.split('-');
+
+    if (range.length === 2) {
+      const from = parseInt(range[0], 10);
+      const to = parseInt(range[1], 10);
+
+      if (typeof from === 'number' && typeof to === 'number') {
+        this.priceRange.set({ from, to });
       }
-
-      const range = priceRange.split('-');
-
-      if (range.length === 2) {
-        const from = parseInt(range[0], 10);
-        const to = parseInt(range[1], 10);
-
-        if (typeof from === 'number' && typeof to === 'number') {
-          // Same for priceRange
-          this.priceRange.set({ from, to });
-        }
-      } else {
-        this.priceRange.set(DEFAULT_PRICE_RANGE);
-      }
-    });
+    } else {
+      this.priceRange.set(DEFAULT_PRICE_RANGE);
+    }
   }
 }
