@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "build-prod:ecommerce": "ng build ecommerce --configuration production",
     "serve:ssr:ecommerce": "node dist/ecommerce/server/server.mjs",
     "lint": "ng lint"
   },
