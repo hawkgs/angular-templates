@@ -31,6 +31,7 @@ const getStoreKey = (route: ActivatedRouteSnapshot) => getRoutePath(route);
 export class CachedRouteReuseStrategy implements RouteReuseStrategy {
   private _store: Map<string, DetachedRouteHandle> = new Map();
   private _newRoutePath: string = '';
+  private _lastStoredPath: string | null = null;
 
   // Note that shouldDetach is called after shouldAttach on
   // route change; therefore, we are checking the new path.
@@ -48,6 +49,7 @@ export class CachedRouteReuseStrategy implements RouteReuseStrategy {
     const key = getStoreKey(route);
 
     if (handle) {
+      this._lastStoredPath = key;
       this._store.set(key, handle);
     } else {
       this._store.delete(key);
@@ -68,6 +70,27 @@ export class CachedRouteReuseStrategy implements RouteReuseStrategy {
     future: ActivatedRouteSnapshot,
     curr: ActivatedRouteSnapshot,
   ): boolean {
+    const futurePath = getRoutePath(future);
+    const currPath = getRoutePath(curr);
+    const isRoot = futurePath === '' && currPath === '';
+
+    // After caching a page, we expect to use it/restore it when
+    // the user goes back. If they decide to move forward
+    // in history however, the cache will no longer be valid
+    // and will create a memory leak that could break further
+    // navigation. This is why, we are cleaning the cached
+    // page manually. Potentially, we could use constant memory
+    // (O(1)) for the cache but the Map is more descriptive and
+    // intuitive and has a key protection for any missed edge cases.
+    if (
+      !isRoot &&
+      this._lastStoredPath !== null &&
+      futurePath !== this._lastStoredPath
+    ) {
+      this._store.delete(this._lastStoredPath);
+      this._lastStoredPath = null;
+    }
+
     return future.routeConfig === curr.routeConfig;
   }
 }

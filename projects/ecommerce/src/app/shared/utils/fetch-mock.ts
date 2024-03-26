@@ -15,7 +15,7 @@ const LOGGING_ENABLED = true;
 // Used for logging the operation in the console
 const log = (msg: string, obj?: object) => {
   if (LOGGING_ENABLED) {
-    console.log('Fetch API Mock:', msg, obj || '');
+    console.info('Fetch API Mock:', msg, obj || '');
   }
 };
 

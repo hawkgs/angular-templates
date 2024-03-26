@@ -18,17 +18,14 @@ export const canActivateProductDetails: CanActivateFn = async (
   }
 
   // If the product is not in the state,
-  // perform an API call
+  // perform an API call.
   if (!products.value().has(id)) {
     loader.showLoader();
     await products.loadProduct(id);
+    loader.hideLoader();
 
-    // Check again
-    const exists = products.value().has(id);
-    if (!exists) {
-      loader.hideLoader();
-    }
-    return exists;
+    // Check again if the ID exists after the request.
+    return products.value().has(id);
   }
 
   return true;

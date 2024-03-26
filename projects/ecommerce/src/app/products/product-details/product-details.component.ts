@@ -1,5 +1,5 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 
 import { ImageGalleryComponent } from './shared/image-gallery/image-gallery.component';
 import { ProductsService } from '../../data-access/products.service';
@@ -13,7 +13,12 @@ import { ScrollPosition } from '../../shared/scroll-position.service';
 @Component({
   selector: 'ec-product-details',
   standalone: true,
-  imports: [ImageGalleryComponent, PriceTagComponent, AddToCartBtnComponent],
+  imports: [
+    ImageGalleryComponent,
+    PriceTagComponent,
+    AddToCartBtnComponent,
+    RouterModule,
+  ],
   providers: [ScrollPosition],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.scss',
@@ -35,8 +40,6 @@ export class ProductDetailsComponent implements OnInit {
   id = signal<string>(this._route.snapshot.paramMap.get('id')!);
   product = computed<Product>(() => this._products.value().get(this.id())!);
   categories = computed(() =>
-    this.product().categoryIds.map(
-      (id) => this._categories.value().get(id)?.name,
-    ),
+    this.product().categoryIds.map((id) => this._categories.value().get(id)),
   );
 }

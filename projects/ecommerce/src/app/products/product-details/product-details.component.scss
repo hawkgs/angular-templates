@@ -21,9 +21,8 @@
     .categories {
       margin-bottom: 1rem;
 
-      span {
+      a {
         @extend %caption-text;
-        color: var(--color-quaternary);
         margin-right: 1rem;
       }
     }
