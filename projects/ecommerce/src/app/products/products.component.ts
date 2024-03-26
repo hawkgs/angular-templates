@@ -40,8 +40,7 @@ import { ExpandableContComponent } from '../shared/expandable-cont/expandable-co
 
 const DEFAULT_PRICE_RANGE = { from: 0, to: 10000 };
 const DEFAULT_CAT_NAME = 'All Products';
-
-// Request search results after the Nth typed character
+const STANDARD_ROW_SIZE = 4; // Used for marking the first N product items as LCP
 
 @Component({
   selector: 'ec-products',
@@ -74,6 +73,7 @@ export class ProductsComponent implements OnInit {
 
   DEFAULT_PRICE_RANGE = DEFAULT_PRICE_RANGE;
   DEFAULT_CAT_NAME = DEFAULT_CAT_NAME;
+  STANDARD_ROW_SIZE = STANDARD_ROW_SIZE;
 
   priceRange = signal<PriceRange>(DEFAULT_PRICE_RANGE);
   sortType = signal<SortType>('default');

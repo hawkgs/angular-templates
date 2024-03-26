@@ -1,7 +1,11 @@
 <a [routerLink]="productUrl()" [attr.aria-label]="product().name">
   <!-- Todo(Georgi): Change to a ngSrc -->
   <div class="img-cont">
-    <ec-product-image [product]="product()" size="md"></ec-product-image>
+    <ec-product-image
+      [product]="product()"
+      [priority]="isLcp()"
+      size="md"
+    ></ec-product-image>
   </div>
   <div class="data">
     <p class="product-name" aria-label="Product name">

@@ -25,6 +25,7 @@ export class ProductItemComponent {
   private _categories = inject(CategoriesService);
 
   product = input.required<Product>();
+  isLcp = input<boolean>(false);
   @Output() productClick = new EventEmitter<Product>();
 
   categories = computed(() =>

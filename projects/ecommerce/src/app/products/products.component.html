@@ -49,8 +49,11 @@
 </section>
 <section class="main">
   <div class="list">
-    @for (p of productsList.value(); track p.id) {
-      <ec-product-item [product]="p"></ec-product-item>
+    @for (p of productsList.value(); track p.id; let i = $index) {
+      <ec-product-item
+        [product]="p"
+        [isLcp]="i < STANDARD_ROW_SIZE"
+      ></ec-product-item>
     }
     @if (productsList.isLoading() === 'update') {
       <ec-skeleton-product-item></ec-skeleton-product-item>
