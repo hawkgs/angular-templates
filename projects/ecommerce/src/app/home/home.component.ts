@@ -4,6 +4,9 @@ import { ProductItemComponent } from '../shared/product-item/product-item.compon
 import { AutocompleteProductSearchComponent } from './shared/autocomplete-product-search/autocomplete-product-search.component';
 import { CategoryReelComponent } from './shared/category-reel/category-reel.component';
 import { CategoriesService } from '../data-access/categories.service';
+import { ScrollPosition } from '../shared/scroll-position.service';
+import { isProductDetailsRoute } from '../shared/utils/routing';
+import { maintainScrollPosEffect } from '../shared/utils/maintain-scroll-pos-effect';
 
 // Limit the number of categories
 // that are shown on the home page.
@@ -17,6 +20,7 @@ const CATEGORY_REELS_COUNT = 3;
     AutocompleteProductSearchComponent,
     CategoryReelComponent,
   ],
+  providers: [ScrollPosition],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
@@ -26,4 +30,8 @@ export class HomeComponent {
   categories = computed(() =>
     this._categories.categoriesList().take(CATEGORY_REELS_COUNT),
   );
+
+  constructor() {
+    maintainScrollPosEffect(isProductDetailsRoute);
+  }
 }
