@@ -1,20 +1,29 @@
 import { inject } from '@angular/core';
 import { ProductsService } from '../../data-access/products.service';
-import { ActivatedRouteSnapshot, CanActivateFn } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  CanActivateFn,
+  Router,
+  UrlTree,
+} from '@angular/router';
 import { LoaderService } from '../../shared/loader.service';
+
+const FALLBACK_ROUTE = '/products';
 
 /**
  * Product details route guard – attempt loading the product by the ID param
  */
 export const canActivateProductDetails: CanActivateFn = async (
   route: ActivatedRouteSnapshot,
-): Promise<boolean> => {
+): Promise<boolean | UrlTree> => {
   const products = inject(ProductsService);
   const loader = inject(LoaderService);
+  const router = inject(Router);
+
   const id = route.paramMap.get('id');
 
   if (!id) {
-    return false;
+    return router.parseUrl(FALLBACK_ROUTE);
   }
 
   // If the product is not in the state,
@@ -25,7 +34,10 @@ export const canActivateProductDetails: CanActivateFn = async (
     loader.hideLoader();
 
     // Check again if the ID exists after the request.
-    return products.value().has(id);
+    if (!products.value().has(id)) {
+      return router.parseUrl(FALLBACK_ROUTE);
+    }
+    return true;
   }
 
   return true;
