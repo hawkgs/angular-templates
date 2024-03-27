@@ -1,0 +1,26 @@
+@import '../../../../styles/screen-breakpoints';
+
+:host {
+  display: block;
+
+  form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    ec-search-input {
+      flex: 1;
+      margin-right: 0.5rem;
+    }
+
+    [ec-button] {
+      height: 2.125rem;
+      padding-top: 0.25rem;
+      padding-bottom: 0.25rem;
+    }
+
+    @include bp-600w {
+      margin-bottom: 1rem;
+    }
+  }
+}

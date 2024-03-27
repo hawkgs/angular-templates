@@ -4,7 +4,7 @@
   input {
     display: block;
     width: 100%;
-    font-size: 1rem;
-    padding: var(--search-input-padding, 0.75rem 1rem);
+    font-size: var(--search-input-font-size, 0.875rem);
+    padding: var(--search-input-padding, 0.5rem);
   }
 }

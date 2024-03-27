@@ -14,7 +14,6 @@ import {
   Router,
 } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { CategoriesService } from '../data-access/categories.service';
 import { ProductItemComponent } from '../shared/product-item/product-item.component';
@@ -30,13 +29,13 @@ import {
   isOfSortType,
 } from './shared/sort-selector/sort-selector.component';
 import { getRoutePath, isProductDetailsRoute } from './shared/utils';
-import { ButtonComponent } from '../shared/button/button.component';
 import { IconComponent } from '../shared/icon/icon.component';
 import { CategoryPickerComponent } from './shared/category-picker/category-picker.component';
 import { InfiniteScrollComponent } from '../shared/infinite-scroll/infinite-scroll.component';
 import { SkeletonProductItemComponent } from '../shared/skeleton-product-item/skeleton-product-item.component';
 import { ScrollPosition } from '../shared/scroll-position.service';
 import { ExpandableContComponent } from '../shared/expandable-cont/expandable-cont.component';
+import { ProductSearchComponent } from './shared/product-search/product-search.component';
 
 const DEFAULT_PRICE_RANGE = { from: 0, to: 10000 };
 const DEFAULT_CAT_NAME = 'All Products';
@@ -46,13 +45,12 @@ const STANDARD_ROW_SIZE = 4; // Used for marking the first N product items as LC
   selector: 'ec-products',
   standalone: true,
   imports: [
-    ReactiveFormsModule,
     ProductItemComponent,
     SearchInputComponent,
     PriceFilterComponent,
     SortSelectorComponent,
     CategoryPickerComponent,
-    ButtonComponent,
+    ProductSearchComponent,
     IconComponent,
     SkeletonProductItemComponent,
     InfiniteScrollComponent,
@@ -65,7 +63,6 @@ const STANDARD_ROW_SIZE = 4; // Used for marking the first N product items as LC
 export class ProductsComponent implements OnInit {
   productsList = inject(ProductsListService);
 
-  private _formBuilder = inject(FormBuilder);
   private _router = inject(Router);
   private _route = inject(ActivatedRoute);
   private _categories = inject(CategoriesService);
@@ -84,10 +81,6 @@ export class ProductsComponent implements OnInit {
     () =>
       this._categories.value().get(this.categoryId())?.name || DEFAULT_CAT_NAME,
   );
-
-  searchForm = this._formBuilder.group({
-    searchString: [''],
-  });
 
   private _page = 1;
   private _lastEvent?: NavigationEnd;
@@ -138,11 +131,7 @@ export class ProductsComponent implements OnInit {
     this._reloadList();
   }
 
-  onProductSearch(e: Event) {
-    e.preventDefault();
-
-    const searchString = this.searchForm.value.searchString || '';
-
+  onProductSearch(searchString: string) {
     if (searchString.length) {
       this._updateQueryParams({ search: searchString });
     } else {

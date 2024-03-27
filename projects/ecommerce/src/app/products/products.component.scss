@@ -69,32 +69,10 @@
       width: 100%;
     }
 
-    form,
+    ec-product-search,
     ec-categories-picker,
     ec-price-filter {
       margin-bottom: 2rem;
-    }
-
-    form {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      input {
-        flex: 1;
-        margin-right: 0.5rem;
-        width: 100%;
-      }
-
-      [ec-button] {
-        height: 2.125rem;
-        padding-top: 0.25rem;
-        padding-bottom: 0.25rem;
-      }
-
-      @include bp-600w {
-        margin-bottom: 1rem;
-      }
     }
 
     ec-sort-selector {

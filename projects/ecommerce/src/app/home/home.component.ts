@@ -1,7 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
 
 import { ProductItemComponent } from '../shared/product-item/product-item.component';
-import { ProductSearchComponent } from './shared/product-search/product-search.component';
+import { AutocompleteProductSearchComponent } from './shared/autocomplete-product-search/autocomplete-product-search.component';
 import { CategoryReelComponent } from './shared/category-reel/category-reel.component';
 import { CategoriesService } from '../data-access/categories.service';
 
@@ -14,7 +14,7 @@ const CATEGORY_REELS_COUNT = 3;
   standalone: true,
   imports: [
     ProductItemComponent,
-    ProductSearchComponent,
+    AutocompleteProductSearchComponent,
     CategoryReelComponent,
   ],
   templateUrl: './home.component.html',

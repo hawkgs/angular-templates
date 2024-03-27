@@ -34,6 +34,7 @@ export class SearchInputComponent implements ControlValueAccessor {
   @Output() focused = new EventEmitter<boolean>();
 
   placeholder = input<string>('');
+  debounce = input<number>(INPUT_DEBOUNCE);
 
   private _timeout?: ReturnType<typeof setTimeout>;
   private _onChange!: (v: string) => void;
@@ -44,11 +45,17 @@ export class SearchInputComponent implements ControlValueAccessor {
       clearTimeout(this._timeout);
     }
 
-    this._timeout = setTimeout(() => {
+    const update = () => {
       const input = e.target as HTMLInputElement;
       this._onChange(input.value);
       this._onTouched();
-    }, INPUT_DEBOUNCE);
+    };
+
+    if (this.debounce() > 0) {
+      this._timeout = setTimeout(() => update(), this.debounce());
+    } else {
+      update();
+    }
   }
 
   writeValue(value: string): void {

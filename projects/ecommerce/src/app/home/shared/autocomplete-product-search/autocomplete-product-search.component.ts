@@ -24,7 +24,7 @@ const MAX_RESULTS = 4;
 const SEARCH_AFTER_CHAR = 3;
 
 @Component({
-  selector: 'ec-product-search',
+  selector: 'ec-autocomplete-product-search',
   standalone: true,
   imports: [
     ReactiveFormsModule,
@@ -32,10 +32,10 @@ const SEARCH_AFTER_CHAR = 3;
     IconComponent,
     SearchItemComponent,
   ],
-  templateUrl: './product-search.component.html',
-  styleUrl: './product-search.component.scss',
+  templateUrl: './autocomplete-product-search.component.html',
+  styleUrl: './autocomplete-product-search.component.scss',
 })
-export class ProductSearchComponent {
+export class AutocompleteProductSearchComponent {
   productsApi = inject(ProductsApi);
   private _router = inject(Router);
   private _formBuilder = inject(FormBuilder);

@@ -14,17 +14,7 @@
   <hr />
 </section>
 <section class="sidebar">
-  <form [formGroup]="searchForm" (ngSubmit)="onProductSearch($event)">
-    <input formControlName="searchString" placeholder="Search for a product" />
-    <button
-      ec-button
-      btnType="primary"
-      title="Search"
-      [disabled]="searchForm.invalid"
-    >
-      <ec-icon name="Search" size="lg"></ec-icon>
-    </button>
-  </form>
+  <ec-product-search (search)="onProductSearch($event)"></ec-product-search>
   <ec-expandable-cont activateAt="600w">
     <div class="expandable-cont-header" header>Categories & Filter</div>
     <ng-container content>
