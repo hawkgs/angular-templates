@@ -10,23 +10,26 @@
   position: absolute;
   display: flex;
   justify-content: center;
-  // width: calc(100vw - 10px);
-  // left: -50vw;
-  // margin-left: 50%;
   left: 0;
   right: 0;
 
-  &::before {
+  .bg {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: url(../../assets/gradient.jpg) no-repeat;
-    background-size: 100%;
-    animation: bg-movement 10s infinite ease;
+    background-color: var(--color-french-violet);
     opacity: 0.8;
+    overflow: hidden;
+
+    .bg-img {
+      position: absolute;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      animation: bg-movement 10s infinite ease;
+    }
   }
 
   .content {
@@ -68,18 +71,12 @@
 
 @keyframes bg-movement {
   0% {
-    background-position: 0 0;
-  }
-  25% {
-    background-position: 0 50%;
+    transform: translateY(0);
   }
   50% {
-    background-position: 50% 50%;
-  }
-  75% {
-    background-position: 50% 0;
+    transform: translateY(-40%);
   }
   100% {
-    background-position: 0 0;
+    transform: translateY(0);
   }
 }
