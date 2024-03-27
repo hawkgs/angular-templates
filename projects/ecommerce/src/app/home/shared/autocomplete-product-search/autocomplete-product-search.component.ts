@@ -39,7 +39,7 @@ export class AutocompleteProductSearchComponent {
   productsApi = inject(ProductsApi);
   private _router = inject(Router);
   private _formBuilder = inject(FormBuilder);
-  noop = () => {};
+  noop = () => {}; // For accessibility purposes
 
   searchInput = viewChild<SearchInputComponent>('searchInput');
   results = viewChild<ElementRef>('results');

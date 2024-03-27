@@ -25,17 +25,28 @@ function simulateRequest(
   abortSignal?: AbortSignal | null,
 ): Promise<Response> {
   let timeout: ReturnType<typeof setTimeout>;
+  let rejector: (r: Response) => void = () => {};
+  let completed = false;
 
   // Abort the request if a signal is provided
   abortSignal?.addEventListener('abort', () => {
-    clearTimeout(timeout);
+    if (!completed) {
+      log('Request aborted');
+
+      clearTimeout(timeout);
+      rejector({ ok: false } as Response);
+    }
   });
 
-  return new Promise((res) => {
+  return new Promise((res, rej) => {
+    rejector = rej;
+
     timeout = setTimeout(() => {
       log('Responding with data', jsonData);
+      completed = true;
 
       res({
+        ok: true,
         json: () => Promise.resolve(jsonData),
       } as Response);
     }, REQUEST_DELAY);

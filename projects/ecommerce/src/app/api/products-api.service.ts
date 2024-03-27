@@ -18,6 +18,7 @@ export type GetProductsParams = Partial<{
   batchIds: string[];
 }>;
 
+// NOTE: An error handling mechanism is not implemented.
 @Injectable({ providedIn: 'root' })
 export class ProductsApi {
   private _abortIfInProgress = fetchAbort();
@@ -45,8 +46,9 @@ export class ProductsApi {
       {
         signal,
       },
-    );
-    const json = await response.json();
+    ).catch(() => {}); // Handle aborted requests
+
+    const json = response?.ok ? await response.json() : [];
 
     return mapProducts(json);
   }
@@ -61,8 +63,9 @@ export class ProductsApi {
     const signal = this._abortIfInProgress(this.getProduct.name);
     const response = await this._fetch(`${environment.apiUrl}/products/${id}`, {
       signal,
-    });
-    const json = await response.json();
+    }).catch(() => {}); // Handle aborted requests
+
+    const json = response?.ok ? await response.json() : {};
 
     return mapProduct(json);
   }
