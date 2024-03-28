@@ -28,6 +28,16 @@
         border-radius: 0.25rem;
         background-color: var(--color-septenary);
         padding: 0.25rem;
+
+        ec-product-image {
+          width: 64px;
+          height: 64px;
+
+          @include bp-400w {
+            width: 32px;
+            height: 32px;
+          }
+        }
       }
 
       .name {
