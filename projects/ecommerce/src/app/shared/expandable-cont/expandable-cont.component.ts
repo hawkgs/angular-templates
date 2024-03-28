@@ -1,10 +1,8 @@
 import { Component, HostBinding, input, signal } from '@angular/core';
-import { IconComponent } from '../icon/icon.component';
 import { CommonModule } from '@angular/common';
 
-// The breakpoints should kept in sync with _screen-breakpoints.scss,
-// if changes are required.
-type ScreenBreakpoint = '400w' | '600w' | '800w' | '1000w' | '1100w';
+import { IconComponent } from '../icon/icon.component';
+import { ScreenBreakpoint } from '../utils/screen-breakpoints';
 
 /**
  * Expandable container.
@@ -24,7 +22,7 @@ export class ExpandableContComponent {
    * The container is active by default. An inactive container will render the
    * content straightaway without expand/collapse functionality.
    *
-   * Refer to `_screen-breakpoints.scss` for the exact breakpoints sizes.
+   * Refer to `_screen-breakpoints.scss` or `screen-breakpoints.ts` for the exact breakpoints sizes.
    */
   activateAt = input<ScreenBreakpoint | null>(null);
   expanded = signal<boolean>(false);

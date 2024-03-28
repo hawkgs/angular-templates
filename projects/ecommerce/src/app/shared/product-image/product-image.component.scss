@@ -7,9 +7,10 @@
   justify-content: center;
   aspect-ratio: 1 / 1;
 
+  picture,
   img {
-    width: var(--img-size, inherit);
-    height: var(--img-size, inherit);
+    width: 100%;
+    height: 100%;
   }
 
   ec-icon {

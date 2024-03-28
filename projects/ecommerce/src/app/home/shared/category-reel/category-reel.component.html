@@ -8,7 +8,7 @@
   >
 </div>
 <div class="products">
-  @for (product of products(); track product.id) {
-    <ec-product-item [product]="product"></ec-product-item>
+  @for (product of products(); track product.id; let i = $index) {
+    <ec-product-item [product]="product" [isLcp]="i === 0"></ec-product-item>
   }
 </div>

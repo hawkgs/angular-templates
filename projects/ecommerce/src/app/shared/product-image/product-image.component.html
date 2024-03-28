@@ -1,12 +1,20 @@
-@if (source()) {
-  <img
-    [ngSrc]="source()"
-    [width]="width()"
-    [height]="width()"
-    [alt]="altText()"
-    [priority]="priority()"
-    draggable="false"
-  />
+@if (baseSrc()) {
+  <picture>
+    @for (pair of sizes(); track $index) {
+      <source
+        [media]="buildMediaQuery(pair[1])"
+        [srcset]="buildSrcset(baseSrc(), pair[0])"
+      />
+    }
+    <img
+      [ngSrc]="baseSrc()"
+      [alt]="altText()"
+      [priority]="priority()"
+      [width]="defaultSize()"
+      [height]="defaultSize()"
+      draggable="false"
+    />
+  </picture>
 } @else {
   <ec-icon name="NoPhoto" size="xxlg"></ec-icon>
 }

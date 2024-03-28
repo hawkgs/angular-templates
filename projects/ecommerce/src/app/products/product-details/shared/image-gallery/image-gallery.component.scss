@@ -14,10 +14,10 @@
 
     @include bp-600w {
       padding: 0.5rem;
+    }
 
-      ec-product-image {
-        --img-size: 320px;
-      }
+    ec-product-image {
+      max-width: 480px;
     }
 
     .nav-btn {
