@@ -16,6 +16,6 @@
   </div>
 </section>
 <div class="spacer"></div>
-@for (category of categories(); track category.id) {
-  <ec-category-reel [category]="category"></ec-category-reel>
+@for (category of categories(); track category.id; let i = $index) {
+  <ec-category-reel [category]="category" [isLcp]="i === 0"></ec-category-reel>
 }

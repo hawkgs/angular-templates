@@ -19,6 +19,8 @@ export class CategoryReelComponent implements OnInit {
   private _productsApi = inject(ProductsApi);
 
   category = input.required<Category>();
+  isLcp = input<boolean>(false);
+
   products = signal<List<Product>>(List([]));
 
   async ngOnInit() {
