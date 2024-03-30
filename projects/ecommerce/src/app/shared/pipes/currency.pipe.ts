@@ -13,7 +13,7 @@ import { environment } from '../../../environments/environment';
 })
 export class CurrencyPipe extends NgCurrencyPipe implements PipeTransform {
   // We need to override all of the method
-  // signatures that use value.
+  // signatures that use `value`.
   override transform(value: number | string): string | null;
   override transform(value: null | undefined): null;
   override transform(value: number | string | null | undefined): string | null {
