@@ -1,14 +1,8 @@
 /* eslint-disable @angular-eslint/no-host-metadata-property */
 /* eslint-disable @angular-eslint/component-selector */
-import {
-  Component,
-  ElementRef,
-  HostBinding,
-  Renderer2,
-  input,
-} from '@angular/core';
+import { Component, HostBinding, input } from '@angular/core';
 
-type ButtonType = 'primary' | 'secondary' | 'tertiary';
+type ButtonType = 'primary' | 'secondary';
 
 @Component({
   selector: 'button[ec-button]',
@@ -23,14 +17,6 @@ type ButtonType = 'primary' | 'secondary' | 'tertiary';
 export class ButtonComponent {
   btnType = input.required<ButtonType>();
   size = input<'compact' | 'large'>('compact');
-
-  constructor(elRef: ElementRef, renderer: Renderer2) {
-    renderer.setAttribute(
-      elRef.nativeElement,
-      'data-text',
-      elRef.nativeElement.innerText,
-    );
-  }
 
   @HostBinding('class.large-size-btn')
   get isLarge() {
