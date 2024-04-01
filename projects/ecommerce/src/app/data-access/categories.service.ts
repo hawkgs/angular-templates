@@ -20,15 +20,15 @@ export class CategoriesService {
       .sort((a, b) => a.order - b.order),
   );
 
-  async loadCategories() {
+  loadCategories() {
     if (this._categories().size) {
       return;
     }
 
-    const categories = await this._categoriesApi.getCategories();
+    const categories = this._categoriesApi.getCategories();
 
     let map = Map<string, Category>([]);
-    categories.forEach((c: Category) => {
+    categories().forEach((c: Category) => {
       map = map.set(c.id, c);
     });
 

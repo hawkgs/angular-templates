@@ -7,6 +7,8 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { LoaderComponent } from './shared/loader/loader.component';
 import { LoaderService } from './shared/loader.service';
 import { ToastFeedComponent } from './shared/toast-feed/toast-feed.component';
+import { HttpClientModule } from '@angular/common/http';
+import { CategoriesApi } from './api/categories-api.service';
 
 @Component({
   selector: 'ec-root',
@@ -17,7 +19,9 @@ import { ToastFeedComponent } from './shared/toast-feed/toast-feed.component';
     FooterComponent,
     LoaderComponent,
     ToastFeedComponent,
+    HttpClientModule,
   ],
+  providers: [CategoriesApi, CategoriesService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
