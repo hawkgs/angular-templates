@@ -115,6 +115,19 @@
               "projects/ecommerce/**/*.html"
             ]
           }
+        },
+        "e2e": {
+          "builder": "@puppeteer/ng-schematics:puppeteer",
+          "options": {
+            "devServerTarget": "ecommerce:serve",
+            "testRunner": "jasmine",
+            "headless": false
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ecommerce:serve:production"
+            }
+          }
         }
       }
     }
