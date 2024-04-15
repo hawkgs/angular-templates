@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HomeComponent } from './home.component';
+import { CategoriesService } from '../data-access/categories.service';
+import { fetchMockApiProvider } from '../shared/fetch';
+import { windowProvider } from '../shared/window.provider';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -8,10 +11,10 @@ describe('HomeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HomeComponent]
-    })
-    .compileComponents();
-    
+      imports: [HomeComponent],
+      providers: [windowProvider, fetchMockApiProvider, CategoriesService],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(HomeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

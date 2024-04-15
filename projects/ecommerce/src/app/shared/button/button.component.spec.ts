@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ButtonComponent } from './button.component';
+import { input } from '@angular/core';
 
 describe('ButtonComponent', () => {
   let component: ButtonComponent;
@@ -8,12 +9,13 @@ describe('ButtonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ButtonComponent]
-    })
-    .compileComponents();
-    
+      imports: [ButtonComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(ButtonComponent);
     component = fixture.componentInstance;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    component.btnType = input('primary' as any);
     fixture.detectChanges();
   });
 

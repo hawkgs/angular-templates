@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AutocompleteProductSearchComponent } from './autocomplete-product-search.component';
+import { fetchMockApiProvider } from '../../../shared/fetch';
 
 describe('AutocompleteProductSearchComponent', () => {
   let component: AutocompleteProductSearchComponent;
@@ -9,6 +10,7 @@ describe('AutocompleteProductSearchComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AutocompleteProductSearchComponent],
+      providers: [fetchMockApiProvider],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AutocompleteProductSearchComponent);

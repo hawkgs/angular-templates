@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PriceTagComponent } from './price-tag.component';
+import { Product } from '../../../models';
+import { input } from '@angular/core';
 
 describe('PriceTagComponent', () => {
   let component: PriceTagComponent;
@@ -8,12 +10,12 @@ describe('PriceTagComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PriceTagComponent]
-    })
-    .compileComponents();
-    
+      imports: [PriceTagComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(PriceTagComponent);
     component = fixture.componentInstance;
+    component.product = input(new Product({}));
     fixture.detectChanges();
   });
 
