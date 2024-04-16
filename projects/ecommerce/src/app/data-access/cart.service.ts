@@ -39,7 +39,7 @@ export class CartService {
 
   constructor() {
     // _loadCartInState uses browser API; hence, we need
-    // ot defer the execution after the SSR render.
+    // to defer the execution after the SSR render.
     afterNextRender(() => this._loadCartInState(), {
       phase: AfterRenderPhase.Read,
     });

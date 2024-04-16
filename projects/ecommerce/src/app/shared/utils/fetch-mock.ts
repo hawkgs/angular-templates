@@ -3,9 +3,6 @@
 //
 // Change the provider in app.component.ts
 // in order to use the native fetch.
-//
-// The mock, along with the mock data in /assets, can be
-// safely deleted afterwards.
 
 import { requestResponseMock } from './request-response-mock';
 
