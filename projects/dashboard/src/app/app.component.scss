@@ -1,6 +1,24 @@
-.container {
-  width: 200px;
-  height: 50px;
-  background-color: red;
-  border-radius: 10px;
+section {
+  display: flex;
+
+  .left-cont,
+  .right-cont {
+    width: 50%;
+    margin: 10px;
+    border: 2px solid transparent;
+    height: 90vh;
+    padding: 10px;
+
+    &.focused {
+      border-color: rgb(195, 85, 149);
+    }
+  }
+
+  .left-cont {
+    background-color: rgba(0, 248, 8, 0.5);
+  }
+
+  .right-cont {
+    background-color: rgba(0, 55, 255, 0.5);
+  }
 }

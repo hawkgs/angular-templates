@@ -1,6 +1,5 @@
 import { DOCUMENT } from '@angular/common';
 import {
-  ChangeDetectorRef,
   Directive,
   ElementRef,
   NgZone,
@@ -15,6 +14,7 @@ import {
 export type Coor = { x: number; y: number };
 
 const RAPPEL_ANIM_DURR = 300;
+const DRAG_ACTIVE_AFTER = 200;
 
 @Directive({
   selector: '[dbDraggable]',
@@ -23,7 +23,6 @@ const RAPPEL_ANIM_DURR = 300;
 export class DraggableDirective implements OnInit, OnDestroy {
   private _doc = inject(DOCUMENT);
   private _zone = inject(NgZone);
-  private _cdRef = inject(ChangeDetectorRef);
   private _renderer = inject(Renderer2);
   private _elRef = inject(ElementRef);
 
@@ -31,6 +30,7 @@ export class DraggableDirective implements OnInit, OnDestroy {
   private _dragging = false;
   private _elMidpoint: Coor | null = null;
   private _relativeMousePos: Coor = { x: 0, y: 0 };
+  private _dragActivatorTimeout?: ReturnType<typeof setTimeout>;
 
   dragDisabled = input<boolean>();
   anchor = input.required<Coor>();
@@ -70,28 +70,30 @@ export class DraggableDirective implements OnInit, OnDestroy {
       return;
     }
 
-    this._dragging = true;
+    this._dragActivatorTimeout = setTimeout(() => {
+      this._dragging = true;
 
-    const { x, y, width, height } = this._el.getBoundingClientRect();
-    const pos = { x, y };
+      const { x, y, width, height } = this._el.getBoundingClientRect();
+      const pos = { x, y };
 
-    this._relativeMousePos = {
-      x: e.clientX - x,
-      y: e.clientY - y,
-    };
-
-    this._applyDraggableStyles(pos);
-
-    if (!this._elMidpoint) {
-      this._elMidpoint = {
-        x: width / 2,
-        y: height / 2,
+      this._relativeMousePos = {
+        x: e.clientX - x,
+        y: e.clientY - y,
       };
-    }
 
-    this.dragStart.emit({
-      elContPos: pos,
-    });
+      this._applyDraggableStyles(pos);
+
+      if (!this._elMidpoint) {
+        this._elMidpoint = {
+          x: width / 2,
+          y: height / 2,
+        };
+      }
+
+      this.dragStart.emit({
+        elContPos: pos,
+      });
+    }, DRAG_ACTIVE_AFTER);
   }
 
   private _onDragMove(e: MouseEvent) {
@@ -99,7 +101,12 @@ export class DraggableDirective implements OnInit, OnDestroy {
       return;
     }
 
-    const pos = { x: e.clientX, y: e.clientY };
+    const offset = this._relativeMousePos;
+    const pos = {
+      x: e.clientX - offset.x,
+      y: e.clientY - offset.y,
+    };
+
     this._move(pos);
 
     this.drag.emit({
@@ -111,6 +118,9 @@ export class DraggableDirective implements OnInit, OnDestroy {
   }
 
   private _onDragEnd() {
+    if (this._dragActivatorTimeout) {
+      clearTimeout(this._dragActivatorTimeout);
+    }
     if (this._dragging) {
       this._moveToAnchorPos();
       this._dragging = false;
@@ -119,17 +129,16 @@ export class DraggableDirective implements OnInit, OnDestroy {
 
   private _applyDraggableStyles(initPos: Coor) {
     this._setStyles({
-      position: 'absolute',
+      position: 'fixed',
       top: '0',
       left: '0',
       opacity: '0.6',
     });
-    this._move(initPos, false);
+    this._move(initPos);
   }
 
-  private _move(coor: Coor, factorInMouse: boolean = true) {
-    const offset = factorInMouse ? this._relativeMousePos : { x: 0, y: 0 };
-    const translate = `translate(${coor.x - offset.x}px, ${coor.y - offset.y}px)`;
+  private _move(coor: Coor) {
+    const translate = `translate(${coor.x}px, ${coor.y}px)`;
 
     this._renderer.setStyle(this._el, 'transform', translate);
   }
@@ -141,8 +150,7 @@ export class DraggableDirective implements OnInit, OnDestroy {
       `transform ${RAPPEL_ANIM_DURR}ms ease`,
     );
 
-    this._cdRef.detectChanges();
-    this._move(this.anchor(), false);
+    this._move(this.anchor());
 
     setTimeout(() => {
       this._removeStyles([

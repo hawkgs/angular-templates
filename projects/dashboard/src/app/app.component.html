@@ -1,8 +1,18 @@
-<p>App is working!</p>
-<div
-  class="container"
-  dbDraggable
-  [anchor]="anchor()"
-  (dragStart)="onDragStart($event)"
-  (drag)="onDrag($event)"
-></div>
+<ng-template #draggableWidget>
+  <db-widget
+    dbDraggable
+    [anchor]="anchor()"
+    (dragStart)="onDragStart($event)"
+    (drag)="onDrag($event)"
+    (anchored)="onAnchored()"
+  ></db-widget>
+</ng-template>
+
+<section>
+  <div class="left-cont" [class.focused]="drag && cont === 'right'">
+    <ng-template #leftCont></ng-template>
+  </div>
+  <div class="right-cont" [class.focused]="drag && cont === 'left'">
+    <ng-template #rightCont></ng-template>
+  </div>
+</section>
