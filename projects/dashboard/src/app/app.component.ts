@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { DraggableDirective } from './shared/draggable/draggable.directive';
+import {
+  Coor,
+  DraggableDirective,
+} from './shared/draggable/draggable.directive';
 
 @Component({
   selector: 'db-root',
@@ -11,4 +14,14 @@ import { DraggableDirective } from './shared/draggable/draggable.directive';
 })
 export class AppComponent {
   title = 'dashboard';
+
+  anchor = signal<Coor>({ x: 0, y: 0 });
+
+  onDragStart({ elContPos }: { elContPos: Coor }) {
+    this.anchor.set(elContPos);
+  }
+
+  onDrag({ pos }: { pos: Coor }) {
+    // console.log(pos);
+  }
 }

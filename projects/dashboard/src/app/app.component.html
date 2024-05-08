@@ -1,2 +1,8 @@
 <p>App is working!</p>
-<div class="container" [dbDraggable]="true"></div>
+<div
+  class="container"
+  dbDraggable
+  [anchor]="anchor()"
+  (dragStart)="onDragStart($event)"
+  (drag)="onDrag($event)"
+></div>
