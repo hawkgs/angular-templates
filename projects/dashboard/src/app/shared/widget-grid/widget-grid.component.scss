@@ -1,0 +1,37 @@
+.test {
+  display: flex;
+
+  .left-cont,
+  .right-cont {
+    width: 50%;
+    margin: 10px;
+    border: 2px solid transparent;
+    height: 90vh;
+    padding: 10px;
+
+    &.focused {
+      border-color: rgb(195, 85, 149);
+    }
+  }
+
+  .left-cont {
+    background-color: rgba(0, 248, 8, 0.5);
+  }
+
+  .right-cont {
+    background-color: rgba(0, 55, 255, 0.5);
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: 1rem;
+  grid-row-gap: 1rem;
+  grid-auto-rows: 100px;
+}
+
+.bed {
+  box-sizing: border-box;
+  border: 1px solid peru;
+}

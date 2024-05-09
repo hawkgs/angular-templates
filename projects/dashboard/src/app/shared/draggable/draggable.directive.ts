@@ -33,10 +33,11 @@ export class DraggableDirective implements OnInit, OnDestroy {
   private _dragActivatorTimeout?: ReturnType<typeof setTimeout>;
 
   dragDisabled = input<boolean>();
-  anchor = input.required<Coor>();
+  dragAnchor = input.required<Coor>();
+  dragId = input<string>('');
 
-  dragStart = output<{ elContPos: Coor }>();
-  drag = output<{ pos: Coor }>();
+  dragStart = output<{ elContPos: Coor; id: string }>();
+  drag = output<{ pos: Coor; id: string }>();
   anchored = output<void>();
 
   private get _el(): HTMLElement {
@@ -81,7 +82,7 @@ export class DraggableDirective implements OnInit, OnDestroy {
         y: e.clientY - y,
       };
 
-      this._applyDraggableStyles(pos);
+      this._applyDraggableStyles(pos, { x: width, y: height });
 
       if (!this._elMidpoint) {
         this._elMidpoint = {
@@ -92,6 +93,7 @@ export class DraggableDirective implements OnInit, OnDestroy {
 
       this.dragStart.emit({
         elContPos: pos,
+        id: this.dragId(),
       });
     }, DRAG_ACTIVE_AFTER);
   }
@@ -114,6 +116,7 @@ export class DraggableDirective implements OnInit, OnDestroy {
         x: pos.x + this._elMidpoint!.x,
         y: pos.y + this._elMidpoint!.y,
       },
+      id: this.dragId(),
     });
   }
 
@@ -127,12 +130,14 @@ export class DraggableDirective implements OnInit, OnDestroy {
     }
   }
 
-  private _applyDraggableStyles(initPos: Coor) {
+  private _applyDraggableStyles(initPos: Coor, size: Coor) {
     this._setStyles({
       position: 'fixed',
       top: '0',
       left: '0',
       opacity: '0.6',
+      width: size.x + 'px',
+      height: size.y + 'px',
     });
     this._move(initPos);
   }
@@ -150,7 +155,7 @@ export class DraggableDirective implements OnInit, OnDestroy {
       `transform ${RAPPEL_ANIM_DURR}ms ease`,
     );
 
-    this._move(this.anchor());
+    this._move(this.dragAnchor());
 
     setTimeout(() => {
       this._removeStyles([
@@ -160,6 +165,8 @@ export class DraggableDirective implements OnInit, OnDestroy {
         'left',
         'opacity',
         'transform',
+        'width',
+        'height',
       ]);
       this.anchored.emit();
     }, RAPPEL_ANIM_DURR);

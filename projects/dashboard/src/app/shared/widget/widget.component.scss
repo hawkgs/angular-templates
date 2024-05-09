@@ -1,12 +1,32 @@
 :host {
-  width: 200px;
-  height: 50px;
-  background-color: rgb(231, 57, 57);
+  background-color: grey;
   border-radius: 10px;
   padding: 10px;
   display: block;
+  box-sizing: border-box;
 
   input {
     width: 50px;
+  }
+
+  &.red {
+    background-color: rgb(231, 57, 57);
+  }
+
+  &.green {
+    background-color: rgb(32, 159, 32);
+  }
+
+  &.blue {
+    background-color: rgb(57, 105, 219);
+    grid-column: span 2;
+  }
+
+  &.purple {
+    background-color: rgb(143, 57, 219);
+  }
+
+  &.orange {
+    background-color: rgb(219, 130, 57);
   }
 }
