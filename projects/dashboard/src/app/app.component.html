@@ -1,1 +1,8 @@
-<db-widget-grid></db-widget-grid>
+<db-drop-grid>
+  @for (wType of widgets; track $index) {
+    <db-widget
+      *dbDraggable="0; size: wType === 'blue' ? 2 : 1"
+      [type]="wType"
+    ></db-widget>
+  }
+</db-drop-grid>

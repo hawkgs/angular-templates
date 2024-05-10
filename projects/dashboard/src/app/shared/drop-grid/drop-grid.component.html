@@ -1,0 +1,10 @@
+<ng-template #bedTemplate let-size>
+  <div
+    class="bed"
+    [style.grid-column]="size === 2 ? 'span 2' : 'initial'"
+  ></div>
+</ng-template>
+
+<section class="grid">
+  <ng-container #grid></ng-container>
+</section>

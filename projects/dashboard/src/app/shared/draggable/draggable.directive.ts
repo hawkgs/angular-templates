@@ -1,14 +1,14 @@
 import { DOCUMENT } from '@angular/common';
 import {
   Directive,
-  ElementRef,
   NgZone,
   OnDestroy,
-  OnInit,
   Renderer2,
+  TemplateRef,
   inject,
   input,
   output,
+  signal,
 } from '@angular/core';
 
 export type Coor = { x: number; y: number };
@@ -20,11 +20,11 @@ const DRAG_ACTIVE_AFTER = 200;
   selector: '[dbDraggable]',
   standalone: true,
 })
-export class DraggableDirective implements OnInit, OnDestroy {
+export class DraggableDirective implements OnDestroy {
+  templateRef = inject(TemplateRef);
   private _doc = inject(DOCUMENT);
   private _zone = inject(NgZone);
   private _renderer = inject(Renderer2);
-  private _elRef = inject(ElementRef);
 
   private _listeners: (() => void)[] = [];
   private _dragging = false;
@@ -32,23 +32,32 @@ export class DraggableDirective implements OnInit, OnDestroy {
   private _relativeMousePos: Coor = { x: 0, y: 0 };
   private _dragActivatorTimeout?: ReturnType<typeof setTimeout>;
 
-  dragDisabled = input<boolean>();
-  dragAnchor = input.required<Coor>();
-  dragId = input<string>('');
+  order = input<number>(0, { alias: 'dbDraggable' });
+  elementSize = input<number>(1, { alias: 'dbDraggableSize' });
+
+  id!: string;
+  element!: HTMLElement;
+
+  disabled = signal<boolean>(false);
+  anchor = signal<Coor | null>(null);
 
   dragStart = output<{ elContPos: Coor; id: string }>();
-  drag = output<{ pos: Coor; id: string }>();
-  anchored = output<void>();
+  dragMove = output<{ pos: Coor; id: string }>();
+  drop = output<void>();
 
-  private get _el(): HTMLElement {
-    return this._elRef.nativeElement;
+  ngOnDestroy(): void {
+    this._listeners.forEach((cb) => cb());
   }
 
-  ngOnInit(): void {
+  initEvents() {
+    if (!this.element) {
+      throw new Error('DraggableDirective: Missing element');
+    }
+
     this._zone.runOutsideAngular(() => {
       this._listeners = [
         this._renderer.listen(
-          this._el,
+          this.element,
           'mousedown',
           this._onDragStart.bind(this),
         ),
@@ -62,19 +71,15 @@ export class DraggableDirective implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this._listeners.forEach((cb) => cb());
-  }
-
   private _onDragStart(e: MouseEvent) {
-    if (this.dragDisabled()) {
+    if (this.disabled()) {
       return;
     }
 
     this._dragActivatorTimeout = setTimeout(() => {
       this._dragging = true;
 
-      const { x, y, width, height } = this._el.getBoundingClientRect();
+      const { x, y, width, height } = this.element.getBoundingClientRect();
       const pos = { x, y };
 
       this._relativeMousePos = {
@@ -93,7 +98,7 @@ export class DraggableDirective implements OnInit, OnDestroy {
 
       this.dragStart.emit({
         elContPos: pos,
-        id: this.dragId(),
+        id: this.id,
       });
     }, DRAG_ACTIVE_AFTER);
   }
@@ -111,12 +116,12 @@ export class DraggableDirective implements OnInit, OnDestroy {
 
     this._move(pos);
 
-    this.drag.emit({
+    this.dragMove.emit({
       pos: {
         x: pos.x + this._elMidpoint!.x,
         y: pos.y + this._elMidpoint!.y,
       },
-      id: this.dragId(),
+      id: this.id,
     });
   }
 
@@ -145,17 +150,24 @@ export class DraggableDirective implements OnInit, OnDestroy {
   private _move(coor: Coor) {
     const translate = `translate(${coor.x}px, ${coor.y}px)`;
 
-    this._renderer.setStyle(this._el, 'transform', translate);
+    this._renderer.setStyle(this.element, 'transform', translate);
   }
 
   private _moveToAnchorPos() {
+    const anchor = this.anchor();
+    if (!anchor) {
+      this._removeStyles(['opacity']);
+      this.drop.emit();
+      return;
+    }
+
     this._renderer.setStyle(
-      this._el,
+      this.element,
       'transition',
       `transform ${RAPPEL_ANIM_DURR}ms ease`,
     );
 
-    this._move(this.dragAnchor());
+    this._move(anchor);
 
     setTimeout(() => {
       this._removeStyles([
@@ -168,18 +180,18 @@ export class DraggableDirective implements OnInit, OnDestroy {
         'width',
         'height',
       ]);
-      this.anchored.emit();
+      this.drop.emit();
     }, RAPPEL_ANIM_DURR);
   }
 
   private _setStyles(stylesObj: { [key: string]: string }) {
     for (const cssProp in stylesObj) {
       const value = stylesObj[cssProp];
-      this._renderer.setStyle(this._el, cssProp, value);
+      this._renderer.setStyle(this.element, cssProp, value);
     }
   }
 
   private _removeStyles(cssProps: string[]) {
-    cssProps.forEach((p) => this._renderer.removeStyle(this._el, p));
+    cssProps.forEach((p) => this._renderer.removeStyle(this.element, p));
   }
 }

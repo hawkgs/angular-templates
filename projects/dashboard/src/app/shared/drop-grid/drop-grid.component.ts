@@ -6,17 +6,14 @@ import {
   PLATFORM_ID,
   TemplateRef,
   ViewContainerRef,
+  contentChildren,
   inject,
-  signal,
   viewChild,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 import { Coor, DraggableDirective } from '../draggable/draggable.directive';
-import { WidgetComponent } from '../widget/widget.component';
 import { WINDOW } from '../window.provider';
-
-const WIDGETS = ['red', 'green', 'blue', 'purple', 'orange'];
 
 type GridCell = {
   id: string;
@@ -27,47 +24,56 @@ type GridCell = {
   y2: number;
 };
 
+const getViewRefElement = (vr: EmbeddedViewRef<unknown>): HTMLElement =>
+  vr.rootNodes[0];
+
 @Component({
-  selector: 'db-widget-grid',
+  selector: 'db-drop-grid',
   standalone: true,
-  imports: [DraggableDirective, WidgetComponent],
-  templateUrl: './widget-grid.component.html',
-  styleUrl: './widget-grid.component.scss',
+  templateUrl: './drop-grid.component.html',
+  styleUrl: './drop-grid.component.scss',
 })
-export class WidgetGridComponent implements AfterContentInit {
+export class DropGridComponent implements AfterContentInit {
   private _win = inject(WINDOW);
   private _platformId = inject(PLATFORM_ID);
   private _zone = inject(NgZone);
 
-  widgetTemplate = viewChild('widgetTemplate', { read: TemplateRef });
   bedTemplate = viewChild('bedTemplate', { read: TemplateRef });
   gridVcr = viewChild('grid', { read: ViewContainerRef });
+  draggables = contentChildren(DraggableDirective);
 
-  anchor = signal<Coor>({ x: 0, y: 0 });
-  private _widgetViewRefs = new Map<string, EmbeddedViewRef<unknown>>();
-  private _widgetTypes = new Map<string, string>();
+  private _draggablesViewRefs = new Map<string, EmbeddedViewRef<unknown>>();
+  private _draggablesDirectives = new Map<string, DraggableDirective>();
 
   private _bed?: EmbeddedViewRef<unknown>;
-  private _draggedWidget?: EmbeddedViewRef<unknown>;
+  private _dragged?: EmbeddedViewRef<unknown>;
 
   private _spacialGrid: GridCell[] = [];
   private _vcrIdxHover = 0;
 
   ngAfterContentInit() {
     const gridVcr = this.gridVcr();
-    const widgetTemplate = this.widgetTemplate();
+    const draggables = this.draggables();
 
-    if (gridVcr && widgetTemplate) {
-      WIDGETS.forEach((type: string) => {
+    if (gridVcr && draggables) {
+      draggables.forEach((d) => {
         const id = isPlatformBrowser(this._platformId)
           ? this._win.crypto.randomUUID()
           : '';
-        const widget = widgetTemplate.createEmbeddedView({
-          $implicit: { id, type },
-        });
-        gridVcr.insert(widget);
-        this._widgetViewRefs.set(id, widget);
-        this._widgetTypes.set(id, type);
+
+        const draggableViewRef = d.templateRef.createEmbeddedView(null);
+        gridVcr.insert(draggableViewRef);
+
+        d.id = id;
+        d.element = getViewRefElement(draggableViewRef);
+        d.initEvents();
+
+        d.dragStart.subscribe((e) => this.onDragStart(e));
+        d.dragMove.subscribe((e) => this.onDrag(e));
+        d.drop.subscribe(() => this.onDrop());
+
+        this._draggablesDirectives.set(id, d);
+        this._draggablesViewRefs.set(id, draggableViewRef);
       });
     }
   }
@@ -80,17 +86,19 @@ export class WidgetGridComponent implements AfterContentInit {
         return;
       }
 
-      this.anchor.set(elContPos);
+      const directive = this._draggablesDirectives.get(id);
 
-      const widgetType = this._widgetTypes.get(id);
+      directive?.anchor.set(elContPos);
+
+      const draggableSize = directive?.elementSize() || 1;
 
       this._bed = bedTemplate.createEmbeddedView({
-        $implicit: widgetType,
+        $implicit: draggableSize,
       });
 
-      this._draggedWidget = this._widgetViewRefs.get(id);
+      this._dragged = this._draggablesViewRefs.get(id);
 
-      const vcrIdx = gridVcr.indexOf(this._draggedWidget!);
+      const vcrIdx = gridVcr.indexOf(this._dragged!);
       gridVcr.insert(this._bed, vcrIdx);
 
       this._vcrIdxHover = vcrIdx;
@@ -117,17 +125,18 @@ export class WidgetGridComponent implements AfterContentInit {
         gridVcr.move(this._bed, cell.viewRefIdx);
 
         const { x, y } = this._bed.rootNodes[0].getBoundingClientRect();
-        this._zone.run(() => this.anchor.set({ x, y }));
+        this._zone.run(() => {
+          this._draggablesDirectives.get(id)?.anchor.set({ x, y });
+        });
 
         this._vcrIdxHover = cell.viewRefIdx;
-        // this._devPrint();
 
         break;
       }
     }
   }
 
-  onAnchored() {
+  onDrop() {
     const gridVcr = this.gridVcr();
     if (!this._bed || !gridVcr) {
       return;
@@ -135,20 +144,18 @@ export class WidgetGridComponent implements AfterContentInit {
 
     this._bed.destroy();
 
-    const currIdx = gridVcr.indexOf(this._draggedWidget!);
+    const currIdx = gridVcr.indexOf(this._dragged!);
     const newIdx =
       this._vcrIdxHover >= currIdx ? this._vcrIdxHover - 1 : this._vcrIdxHover;
 
-    gridVcr.move(this._draggedWidget!, newIdx);
-
-    // this._devPrint();
+    gridVcr.move(this._dragged!, newIdx);
   }
 
   private _calculateSpacialGrid() {
     this._spacialGrid = [];
 
-    this._widgetViewRefs.forEach((vr, id) => {
-      const el = vr.rootNodes[0];
+    this._draggablesViewRefs.forEach((vr, id) => {
+      const el = getViewRefElement(vr);
       const { x, y, width, height } = el.getBoundingClientRect();
 
       this._spacialGrid.push({
@@ -160,20 +167,5 @@ export class WidgetGridComponent implements AfterContentInit {
         y2: y + height,
       });
     });
-  }
-
-  private _devPrint() {
-    const arr: string[] = [];
-    this._widgetViewRefs.forEach((vr, id) => {
-      arr.push(
-        this.gridVcr()?.indexOf(vr) + ' => ' + this._widgetTypes.get(id),
-      );
-    });
-    const bedIdx = this.gridVcr()?.indexOf(this._bed!);
-    if (bedIdx !== undefined && bedIdx > -1) {
-      arr.push(bedIdx + ' => BED');
-    }
-    arr.sort();
-    console.log(arr);
   }
 }
