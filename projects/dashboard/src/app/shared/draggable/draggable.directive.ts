@@ -32,10 +32,10 @@ export class DraggableDirective implements OnDestroy {
   private _relativeMousePos: Coor = { x: 0, y: 0 };
   private _dragActivatorTimeout?: ReturnType<typeof setTimeout>;
 
-  order = input<number>(0, { alias: 'dbDraggable' });
+  id = input<string>('0', { alias: 'dbDraggable' });
   elementSize = input<number>(1, { alias: 'dbDraggableSize' });
+  position = input<number>(0, { alias: 'dbDraggablePosition' });
 
-  id!: string;
   element!: HTMLElement;
 
   disabled = signal<boolean>(false);
@@ -98,7 +98,7 @@ export class DraggableDirective implements OnDestroy {
 
       this.dragStart.emit({
         elContPos: pos,
-        id: this.id,
+        id: this.id(),
       });
     }, DRAG_ACTIVE_AFTER);
   }
@@ -121,7 +121,7 @@ export class DraggableDirective implements OnDestroy {
         x: pos.x + this._elMidpoint!.x,
         y: pos.y + this._elMidpoint!.y,
       },
-      id: this.id,
+      id: this.id(),
     });
   }
 

@@ -1,19 +1,17 @@
 import {
+  AfterContentChecked,
   AfterContentInit,
   Component,
   EmbeddedViewRef,
   NgZone,
-  PLATFORM_ID,
   TemplateRef,
   ViewContainerRef,
   contentChildren,
   inject,
   viewChild,
 } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
 
 import { Coor, DraggableDirective } from '../draggable/draggable.directive';
-import { WINDOW } from '../window.provider';
 
 type GridCell = {
   id: string;
@@ -33,15 +31,16 @@ const getViewRefElement = (vr: EmbeddedViewRef<unknown>): HTMLElement =>
   templateUrl: './drop-grid.component.html',
   styleUrl: './drop-grid.component.scss',
 })
-export class DropGridComponent implements AfterContentInit {
-  private _win = inject(WINDOW);
-  private _platformId = inject(PLATFORM_ID);
+export class DropGridComponent
+  implements AfterContentInit, AfterContentChecked
+{
   private _zone = inject(NgZone);
 
   bedTemplate = viewChild('bedTemplate', { read: TemplateRef });
   gridVcr = viewChild('grid', { read: ViewContainerRef });
   draggables = contentChildren(DraggableDirective);
 
+  private _sorted: DraggableDirective[] = [];
   private _draggablesViewRefs = new Map<string, EmbeddedViewRef<unknown>>();
   private _draggablesDirectives = new Map<string, DraggableDirective>();
 
@@ -52,29 +51,34 @@ export class DropGridComponent implements AfterContentInit {
   private _vcrIdxHover = 0;
 
   ngAfterContentInit() {
-    const gridVcr = this.gridVcr();
     const draggables = this.draggables();
 
-    if (gridVcr && draggables) {
-      draggables.forEach((d) => {
-        const id = isPlatformBrowser(this._platformId)
-          ? this._win.crypto.randomUUID()
-          : '';
+    if (draggables) {
+      this._sorted = [...draggables];
+      this._sorted.sort((a, b) => a.position() - b.position());
+      this._sorted.forEach((d) => this._insertDraggable(d));
+    }
+  }
 
-        const draggableViewRef = d.templateRef.createEmbeddedView(null);
-        gridVcr.insert(draggableViewRef);
+  ngAfterContentChecked() {
+    const draggables = this.draggables();
 
-        d.id = id;
-        d.element = getViewRefElement(draggableViewRef);
-        d.initEvents();
-
-        d.dragStart.subscribe((e) => this.onDragStart(e));
-        d.dragMove.subscribe((e) => this.onDrag(e));
-        d.drop.subscribe(() => this.onDrop());
-
-        this._draggablesDirectives.set(id, d);
-        this._draggablesViewRefs.set(id, draggableViewRef);
-      });
+    if (this._sorted.length !== draggables.length) {
+      // Add
+      if (draggables.length > this._sorted.length) {
+        const targetDraggable = draggables.find(
+          (d) => !this._draggablesDirectives.get(d.id()),
+        )!;
+        this._insertDraggable(targetDraggable);
+        this._sorted.push(targetDraggable);
+      } else {
+        // Remove
+        const targetDraggableIdx = this._sorted.findIndex(
+          (d) => !draggables.find((ud) => ud === d),
+        );
+        this._destroyDraggable(this._sorted[targetDraggableIdx]);
+        this._sorted.splice(targetDraggableIdx, 1);
+      }
     }
   }
 
@@ -167,5 +171,33 @@ export class DropGridComponent implements AfterContentInit {
         y2: y + height,
       });
     });
+  }
+
+  private _insertDraggable(d: DraggableDirective) {
+    const gridVcr = this.gridVcr();
+    if (!gridVcr) {
+      return;
+    }
+
+    const draggableViewRef = d.templateRef.createEmbeddedView(null);
+    gridVcr.insert(draggableViewRef);
+
+    d.element = getViewRefElement(draggableViewRef);
+    d.initEvents();
+
+    d.dragStart.subscribe((e) => this.onDragStart(e));
+    d.dragMove.subscribe((e) => this.onDrag(e));
+    d.drop.subscribe(() => this.onDrop());
+
+    this._draggablesDirectives.set(d.id(), d);
+    this._draggablesViewRefs.set(d.id(), draggableViewRef);
+  }
+
+  private _destroyDraggable(d: DraggableDirective) {
+    const draggableViewRef = this._draggablesViewRefs.get(d.id());
+    draggableViewRef?.destroy();
+
+    this._draggablesDirectives.delete(d.id());
+    this._draggablesViewRefs.delete(d.id());
   }
 }

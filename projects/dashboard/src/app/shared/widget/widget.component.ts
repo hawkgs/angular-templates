@@ -5,6 +5,7 @@ import {
   Renderer2,
   inject,
   input,
+  output,
 } from '@angular/core';
 
 @Component({
@@ -19,6 +20,7 @@ export class WidgetComponent implements OnInit {
   private _elRef = inject(ElementRef);
 
   type = input<string>('');
+  remove = output<void>();
 
   ngOnInit() {
     this._renderer.addClass(this._elRef.nativeElement, this.type());

@@ -1,8 +1,10 @@
+<button (click)="addWidget()" [style.margin-bottom]="'1rem'">ADD WIDGET</button>
 <db-drop-grid>
-  @for (wType of widgets; track $index) {
+  @for (w of widgets(); track w.id) {
     <db-widget
-      *dbDraggable="0; size: wType === 'blue' ? 2 : 1"
-      [type]="wType"
+      *dbDraggable="w.id; size: w.type === 'blue' ? 2 : 1; position: w.position"
+      [type]="w.type"
+      (remove)="removeWidget(w.id)"
     ></db-widget>
   }
 </db-drop-grid>

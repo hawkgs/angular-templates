@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { DropGridComponent } from './shared/drop-grid/drop-grid.component';
 import { WidgetComponent } from './shared/widget/widget.component';
 import { DraggableDirective } from './shared/draggable/draggable.directive';
 import { CommonModule } from '@angular/common';
+import { List } from 'immutable';
+
+type Widget = { id: string; position: number; type: string };
 
 @Component({
   selector: 'db-root',
@@ -20,5 +23,38 @@ import { CommonModule } from '@angular/common';
 })
 export class AppComponent {
   title = 'dashboard';
-  widgets = ['red', 'green', 'blue', 'purple', 'orange'];
+  widgets = signal<List<Widget>>(
+    List([
+      {
+        id: 'r1',
+        position: 0,
+        type: 'red',
+      },
+      {
+        id: 'g1',
+        position: 1,
+        type: 'green',
+      },
+      { id: 'b1', position: 2, type: 'blue' },
+      { id: 'p1', position: 4, type: 'purple' },
+      { id: 'o1', position: 3, type: 'orange' },
+    ]),
+  );
+
+  addWidget() {
+    this.widgets.update((l) =>
+      l.push({
+        id: 'random' + Date.now(),
+        position: l.size,
+        type: 'gold',
+      }),
+    );
+  }
+
+  removeWidget(id: string) {
+    this.widgets.update((l) => {
+      const idx = l.findIndex((w) => w.id === id);
+      return l.remove(idx);
+    });
+  }
 }
