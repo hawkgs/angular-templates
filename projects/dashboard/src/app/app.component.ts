@@ -8,6 +8,22 @@ import { List } from 'immutable';
 
 type Widget = { id: string; position: number; type: string };
 
+const list = List([
+  {
+    id: 'r1',
+    position: 0,
+    type: 'red',
+  },
+  {
+    id: 'g1',
+    position: 1,
+    type: 'green',
+  },
+  { id: 'b1', position: 2, type: 'blue' },
+  { id: 'p1', position: 4, type: 'purple' },
+  { id: 'o1', position: 3, type: 'orange' },
+]);
+
 @Component({
   selector: 'db-root',
   standalone: true,
@@ -23,23 +39,7 @@ type Widget = { id: string; position: number; type: string };
 })
 export class AppComponent {
   title = 'dashboard';
-  widgets = signal<List<Widget>>(
-    List([
-      {
-        id: 'r1',
-        position: 0,
-        type: 'red',
-      },
-      {
-        id: 'g1',
-        position: 1,
-        type: 'green',
-      },
-      { id: 'b1', position: 2, type: 'blue' },
-      { id: 'p1', position: 4, type: 'purple' },
-      { id: 'o1', position: 3, type: 'orange' },
-    ]),
-  );
+  widgets = signal<List<Widget>>(list);
 
   addWidget() {
     this.widgets.update((l) =>

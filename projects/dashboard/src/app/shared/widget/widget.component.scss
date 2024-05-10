@@ -4,6 +4,7 @@
   padding: 10px;
   display: block;
   box-sizing: border-box;
+  position: relative;
 
   input {
     width: 50px;
@@ -47,5 +48,14 @@
         #5d4a1f 62.5%,
         #5d4a1f 100%
       );
+  }
+
+  .counter {
+    position: absolute;
+    font-size: 40px;
+    color: white;
+    bottom: 10px;
+    right: 10px;
+    user-select: none;
   }
 }
