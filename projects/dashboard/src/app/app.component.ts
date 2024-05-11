@@ -1,9 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { DropGridComponent } from './shared/drag-and-drop/drop-grid.component';
 import { WidgetComponent } from './shared/widget/widget.component';
 import { DraggableDirective } from './shared/drag-and-drop/draggable.directive';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { List } from 'immutable';
 
 type Widget = { id: string; position: number; type: string };
@@ -38,9 +38,23 @@ const list = List([
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
+  doc = inject(DOCUMENT);
+
   title = 'dashboard';
   disabled = signal<boolean>(false);
   widgets = signal<List<Widget>>(list);
+
+  constructor() {
+    let l = list;
+    for (let i = 0; i < 50; i++) {
+      l = l.push({
+        id: 'vr' + i,
+        position: list.size,
+        type: 'red',
+      });
+    }
+    this.widgets.set(l);
+  }
 
   addWidget() {
     this.widgets.update((l) =>

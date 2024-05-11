@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 
 export type Coor = { x: number; y: number };
+export type Rect = { p1: Coor; p2: Coor };
 
 const RAPPEL_ANIM_DURR = 300;
 const DRAG_ACTIVE_AFTER = 200;
@@ -36,13 +37,13 @@ export class DraggableDirective implements OnDestroy {
   elementSize = input<number>(1, { alias: 'dbDraggableSize' });
   position = input<number>(0, { alias: 'dbDraggablePosition' });
 
-  element!: HTMLElement;
+  element!: Element;
 
   disabled = signal<boolean>(false);
   anchor = signal<Coor | null>(null);
 
   dragStart = output<{ elContPos: Coor; id: string }>();
-  dragMove = output<{ pos: Coor; id: string }>();
+  dragMove = output<{ pos: Coor; rect: Rect; id: string }>();
   drop = output<void>();
 
   ngOnDestroy(): void {
@@ -108,6 +109,9 @@ export class DraggableDirective implements OnDestroy {
       return;
     }
 
+    // Disables auto scroll, but doesn't select text
+    e.preventDefault();
+
     const offset = this._relativeMousePos;
     const pos = {
       x: e.clientX - offset.x,
@@ -120,6 +124,13 @@ export class DraggableDirective implements OnDestroy {
       pos: {
         x: pos.x + this._elMidpoint!.x,
         y: pos.y + this._elMidpoint!.y,
+      },
+      rect: {
+        p1: pos,
+        p2: {
+          x: pos.x + this._elMidpoint!.x * 2,
+          y: pos.y + this._elMidpoint!.y * 2,
+        },
       },
       id: this.id(),
     });

@@ -2,7 +2,7 @@
 <button (click)="disabled.set(!disabled())">
   {{ disabled() ? 'ENABLE D&D' : 'DISABLE D&D' }}
 </button>
-<db-drop-grid [disabled]="disabled()">
+<db-drop-grid [disabled]="disabled()" [scrollCont]="doc.documentElement">
   @for (w of widgets(); track w.id) {
     <db-widget
       *dbDraggable="w.id; size: w.type === 'blue' ? 2 : 1; position: w.position"

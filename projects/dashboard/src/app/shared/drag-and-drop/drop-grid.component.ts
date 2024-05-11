@@ -2,6 +2,7 @@ import {
   AfterContentChecked,
   AfterContentInit,
   Component,
+  ElementRef,
   EmbeddedViewRef,
   Input,
   NgZone,
@@ -9,10 +10,11 @@ import {
   ViewContainerRef,
   contentChildren,
   inject,
+  input,
   viewChild,
 } from '@angular/core';
 
-import { Coor, DraggableDirective } from './draggable.directive';
+import { Coor, DraggableDirective, Rect } from './draggable.directive';
 
 type GridCell = {
   id: string;
@@ -23,7 +25,7 @@ type GridCell = {
   y2: number;
 };
 
-const getViewRefElement = (vr: EmbeddedViewRef<unknown>): HTMLElement =>
+const getViewRefElement = (vr: EmbeddedViewRef<unknown>): Element =>
   vr.rootNodes[0];
 
 @Component({
@@ -36,10 +38,13 @@ export class DropGridComponent
   implements AfterContentInit, AfterContentChecked
 {
   private _zone = inject(NgZone);
+  private _elRef = inject(ElementRef);
 
   bedTemplate = viewChild('bedTemplate', { read: TemplateRef });
   gridVcr = viewChild('grid', { read: ViewContainerRef });
   draggables = contentChildren(DraggableDirective);
+
+  scrollCont = input<Element>();
 
   private _draggablesViewRefs = new Map<string, EmbeddedViewRef<unknown>>();
   private _draggablesDirectives = new Map<string, DraggableDirective>();
@@ -55,6 +60,10 @@ export class DropGridComponent
     this.draggables().forEach((d) => {
       d.disabled.set(v);
     });
+  }
+
+  private get _scrollCont(): Element {
+    return this.scrollCont() || this._elRef.nativeElement.parentElement;
   }
 
   ngAfterContentInit() {
@@ -118,11 +127,13 @@ export class DropGridComponent
     });
   }
 
-  onDrag({ pos, id }: { pos: Coor; id: string }) {
+  onDrag({ pos, rect, id }: { pos: Coor; rect: Rect; id: string }) {
     const gridVcr = this.gridVcr();
     if (!this._bed || !gridVcr) {
       return;
     }
+
+    pos.y += this._scrollCont.scrollTop;
 
     for (const cell of this._spacialGrid) {
       if (
@@ -145,6 +156,8 @@ export class DropGridComponent
         break;
       }
     }
+
+    this._scrollContainer(rect);
   }
 
   onDrop() {
@@ -173,9 +186,9 @@ export class DropGridComponent
         id,
         viewRefIdx: this.gridVcr()?.indexOf(vr) as number,
         x1: x,
-        y1: y,
+        y1: y + this._scrollCont.scrollTop,
         x2: x + width,
-        y2: y + height,
+        y2: y + height + this._scrollCont.scrollTop,
       });
     });
   }
@@ -206,5 +219,21 @@ export class DropGridComponent
 
     this._draggablesDirectives.delete(d.id());
     this._draggablesViewRefs.delete(d.id());
+  }
+
+  private _scrollContainer(draggableRect: Rect) {
+    const deltaBottomY = draggableRect.p2.y - this._scrollCont.clientHeight;
+
+    if (deltaBottomY > 0) {
+      this._scrollCont.scrollTo({
+        top: this._scrollCont.scrollTop + deltaBottomY,
+        behavior: 'smooth',
+      });
+    } else if (draggableRect.p1.y < 0) {
+      this._scrollCont.scrollTo({
+        top: this._scrollCont.scrollTop - Math.abs(draggableRect.p1.y),
+        behavior: 'smooth',
+      });
+    }
   }
 }
