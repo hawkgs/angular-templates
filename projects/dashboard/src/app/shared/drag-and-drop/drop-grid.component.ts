@@ -12,7 +12,7 @@ import {
   viewChild,
 } from '@angular/core';
 
-import { Coor, DraggableDirective } from '../draggable/draggable.directive';
+import { Coor, DraggableDirective } from './draggable.directive';
 
 type GridCell = {
   id: string;

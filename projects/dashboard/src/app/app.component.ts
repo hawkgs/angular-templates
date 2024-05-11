@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { DropGridComponent } from './shared/drop-grid/drop-grid.component';
+import { DropGridComponent } from './shared/drag-and-drop/drop-grid.component';
 import { WidgetComponent } from './shared/widget/widget.component';
-import { DraggableDirective } from './shared/draggable/draggable.directive';
+import { DraggableDirective } from './shared/drag-and-drop/draggable.directive';
 import { CommonModule } from '@angular/common';
 import { List } from 'immutable';
 
