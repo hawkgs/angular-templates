@@ -39,6 +39,7 @@ const list = List([
 })
 export class AppComponent {
   title = 'dashboard';
+  disabled = signal<boolean>(false);
   widgets = signal<List<Widget>>(list);
 
   addWidget() {

@@ -3,6 +3,7 @@ import {
   AfterContentInit,
   Component,
   EmbeddedViewRef,
+  Input,
   NgZone,
   TemplateRef,
   ViewContainerRef,
@@ -40,7 +41,6 @@ export class DropGridComponent
   gridVcr = viewChild('grid', { read: ViewContainerRef });
   draggables = contentChildren(DraggableDirective);
 
-  private _sorted: DraggableDirective[] = [];
   private _draggablesViewRefs = new Map<string, EmbeddedViewRef<unknown>>();
   private _draggablesDirectives = new Map<string, DraggableDirective>();
 
@@ -50,35 +50,43 @@ export class DropGridComponent
   private _spacialGrid: GridCell[] = [];
   private _vcrIdxHover = 0;
 
+  @Input()
+  set disabled(v: boolean) {
+    this.draggables().forEach((d) => {
+      d.disabled.set(v);
+    });
+  }
+
   ngAfterContentInit() {
     const draggables = this.draggables();
 
     if (draggables) {
-      this._sorted = [...draggables];
-      this._sorted.sort((a, b) => a.position() - b.position());
-      this._sorted.forEach((d) => this._insertDraggable(d));
+      const sorted = [...draggables];
+      sorted.sort((a, b) => a.position() - b.position());
+      sorted.forEach((d) => this._insertDraggable(d));
     }
   }
 
   ngAfterContentChecked() {
-    const draggables = this.draggables();
+    const newDraggables = this.draggables();
+    if (this._draggablesDirectives.size === newDraggables.length) {
+      return;
+    }
 
-    if (this._sorted.length !== draggables.length) {
-      // Add
-      if (draggables.length > this._sorted.length) {
-        const targetDraggable = draggables.find(
-          (d) => !this._draggablesDirectives.get(d.id()),
-        )!;
-        this._insertDraggable(targetDraggable);
-        this._sorted.push(targetDraggable);
-      } else {
-        // Remove
-        const targetDraggableIdx = this._sorted.findIndex(
-          (d) => !draggables.find((ud) => ud === d),
-        );
-        this._destroyDraggable(this._sorted[targetDraggableIdx]);
-        this._sorted.splice(targetDraggableIdx, 1);
-      }
+    const currDraggables = [...this._draggablesDirectives].map(([, d]) => d);
+
+    // Add
+    if (newDraggables.length > currDraggables.length) {
+      const targetDraggable = newDraggables.find(
+        (d) => !this._draggablesDirectives.get(d.id()),
+      )!;
+      this._insertDraggable(targetDraggable);
+    } else {
+      // Remove
+      const targetDraggableIdx = currDraggables.findIndex(
+        (d) => !newDraggables.find((ud) => ud === d),
+      );
+      this._destroyDraggable(currDraggables[targetDraggableIdx]);
     }
   }
 
@@ -95,7 +103,6 @@ export class DropGridComponent
       directive?.anchor.set(elContPos);
 
       const draggableSize = directive?.elementSize() || 1;
-
       this._bed = bedTemplate.createEmbeddedView({
         $implicit: draggableSize,
       });
@@ -128,7 +135,7 @@ export class DropGridComponent
       ) {
         gridVcr.move(this._bed, cell.viewRefIdx);
 
-        const { x, y } = this._bed.rootNodes[0].getBoundingClientRect();
+        const { x, y } = getViewRefElement(this._bed).getBoundingClientRect();
         this._zone.run(() => {
           this._draggablesDirectives.get(id)?.anchor.set({ x, y });
         });
