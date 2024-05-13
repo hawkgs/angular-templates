@@ -92,10 +92,6 @@ export class DropGridComponent
         (d) => !this._draggablesDirectives.get(d.id()),
       )!;
       this._insertDraggable(targetDraggable);
-
-      if (this._disabled) {
-        targetDraggable.disabled.set(true);
-      }
     } else {
       // Remove
       const targetDraggableIdx = currDraggables.findIndex(
@@ -214,6 +210,10 @@ export class DropGridComponent
     d.dragStart.subscribe((e) => this.onDragStart(e));
     d.dragMove.subscribe((e) => this.onDrag(e));
     d.drop.subscribe(() => this.onDrop());
+
+    if (this._disabled) {
+      d.disabled.set(true);
+    }
 
     this._draggablesDirectives.set(d.id(), d);
     this._draggablesViewRefs.set(d.id(), draggableViewRef);

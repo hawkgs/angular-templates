@@ -1,17 +1,5 @@
-<button (click)="addWidget()" [style.margin-bottom]="'1rem'">ADD WIDGET</button>
-<button (click)="disabled.set(!disabled())">
-  {{ disabled() ? 'ENABLE D&D' : 'DISABLE D&D' }}
-</button>
-<ngx-drop-grid [disabled]="disabled()" [scrollCont]="doc.documentElement">
-  @for (w of widgets(); track w.id) {
-    <db-widget
-      *ngxDraggable="
-        w.id;
-        size: w.type === 'blue' ? 2 : 1;
-        position: w.position
-      "
-      [type]="w.type"
-      (remove)="removeWidget(w.id)"
-    ></db-widget>
-  }
-</ngx-drop-grid>
+<db-header></db-header>
+<main>
+  <db-widgets-grid></db-widgets-grid>
+</main>
+<db-footer></db-footer>

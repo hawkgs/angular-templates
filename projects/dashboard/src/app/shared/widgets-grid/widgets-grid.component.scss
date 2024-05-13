@@ -1,0 +1,15 @@
+:host {
+  display: block;
+
+  .controls {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    margin-bottom: 1rem;
+    height: 35px;
+
+    button {
+      margin-left: 1rem;
+    }
+  }
+}

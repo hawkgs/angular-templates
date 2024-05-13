@@ -35,7 +35,7 @@
               }
             ],
             "styles": [
-              "projects/ecommerce/src/styles/global.scss",
+              "projects/ecommerce/src/styles.scss",
               "projects/shared/theme/src/theme.scss"
             ],
             "stylePreprocessorOptions": {
@@ -117,7 +117,7 @@
               }
             ],
             "styles": [
-              "projects/ecommerce/src/styles/global.scss",
+              "projects/ecommerce/src/styles.scss",
               "projects/shared/theme/src/theme.scss"
             ],
             "stylePreprocessorOptions": {

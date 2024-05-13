@@ -1,0 +1,23 @@
+<div class="controls">
+  <button ngx-button btnType="primary" (click)="editMode.set(!editMode())">
+    {{ editMode() ? 'Stop editing' : 'Edit' }}
+  </button>
+  @if (editMode()) {
+    <button ngx-button btnType="secondary" (click)="addWidget()">
+      Add widget
+    </button>
+  }
+</div>
+<ngx-drop-grid [disabled]="!editMode()" [scrollCont]="doc.documentElement">
+  @for (w of widgets(); track w.id) {
+    <db-widget
+      *ngxDraggable="
+        w.id;
+        size: w.type === 'blue' ? 2 : 1;
+        position: w.position
+      "
+      [type]="w.type"
+      (remove)="removeWidget(w.id)"
+    ></db-widget>
+  }
+</ngx-drop-grid>
