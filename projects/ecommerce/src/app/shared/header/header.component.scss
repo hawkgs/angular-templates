@@ -1,4 +1,4 @@
-@import '../../../styles/screen-breakpoints';
+@import '../../../../../shared/src/lib/styles/screen-breakpoints';
 
 :host {
   width: 100%;
@@ -49,7 +49,7 @@
       display: inline-flex;
       align-items: flex-end;
 
-      ec-icon {
+      ngx-icon {
         margin-right: 0.125rem;
       }
 

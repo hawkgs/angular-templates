@@ -18,10 +18,10 @@
       // normally occur if we try to integrate this logic in our Angular code.
       // This is only applied if the user has manually selected a theme
       // different from the system one.
-      const themePreference = localStorage.getItem('ec-theme');
+      const themePreference = localStorage.getItem('ngx-theme');
 
       if (themePreference) {
-        document.documentElement.classList.add(`ec-${themePreference}-theme`);
+        document.documentElement.classList.add(`ngx-${themePreference}-theme`);
       }
     </script>
   </head>

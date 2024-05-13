@@ -2,7 +2,7 @@ import { Component, input } from '@angular/core';
 import { Toast } from '../toast';
 
 @Component({
-  selector: 'ec-toast',
+  selector: 'ngx-toast',
   standalone: true,
   imports: [],
   templateUrl: './toast.component.html',

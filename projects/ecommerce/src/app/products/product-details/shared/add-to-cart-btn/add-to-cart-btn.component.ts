@@ -1,11 +1,10 @@
 import { Component, OnInit, computed, inject, input } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ToastsService, IconComponent } from '@ngx-templates/shared';
 
 import { Product } from '../../../../../models';
 import { CartService } from '../../../../data-access/cart.service';
 import { ButtonComponent } from '../../../../shared/button/button.component';
-import { IconComponent } from '../../../../shared/icon/icon.component';
-import { ToastsService } from '../../../../shared/toast-feed/toasts.service';
 import { maxProductQuantity } from '../../../../shared/utils/max-quantity';
 
 @Component({

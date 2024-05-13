@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { IconComponent } from '@ngx-templates/shared';
 import { CartService } from '../../data-access/cart.service';
-import { IconComponent } from '../icon/icon.component';
 
 @Component({
   selector: 'ec-header',

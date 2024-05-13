@@ -18,7 +18,7 @@ const RAPPEL_ANIM_DURR = 300;
 const DRAG_ACTIVE_AFTER = 200;
 
 @Directive({
-  selector: '[dbDraggable]',
+  selector: '[ngxDraggable]',
   standalone: true,
 })
 export class DraggableDirective implements OnDestroy {
@@ -33,9 +33,9 @@ export class DraggableDirective implements OnDestroy {
   private _relativeMousePos: Coor = { x: 0, y: 0 };
   private _dragActivatorTimeout?: ReturnType<typeof setTimeout>;
 
-  id = input<string>('0', { alias: 'dbDraggable' });
-  elementSize = input<number>(1, { alias: 'dbDraggableSize' });
-  position = input<number>(0, { alias: 'dbDraggablePosition' });
+  id = input<string>('0', { alias: 'ngxDraggable' });
+  elementSize = input<number>(1, { alias: 'ngxDraggableSize' });
+  position = input<number>(0, { alias: 'ngxDraggablePosition' });
 
   element!: Element;
 

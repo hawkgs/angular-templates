@@ -23,7 +23,7 @@ import {
   SortType,
   isOfSortType,
 } from './shared/sort-selector/sort-selector.component';
-import { IconComponent } from '../shared/icon/icon.component';
+import { IconComponent } from '@ngx-templates/shared';
 import { CategoryPickerComponent } from './shared/category-picker/category-picker.component';
 import { InfiniteScrollComponent } from '../shared/infinite-scroll/infinite-scroll.component';
 import { SkeletonProductItemComponent } from '../shared/skeleton-product-item/skeleton-product-item.component';

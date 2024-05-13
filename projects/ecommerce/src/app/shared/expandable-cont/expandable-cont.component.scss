@@ -1,4 +1,4 @@
-@import '../../../styles/screen-breakpoints';
+@import '../../../../../shared/src/lib/styles/screen-breakpoints';
 
 :host {
   display: block;
@@ -14,7 +14,7 @@
       width: 100%;
       display: none;
 
-      ec-icon {
+      ngx-icon {
         --icon-color: var(--color-primary);
         transform: rotate(45deg);
         transition: transform 100ms ease;
@@ -22,7 +22,7 @@
     }
 
     &.expanded {
-      ec-icon {
+      ngx-icon {
         transform: rotate(135deg) !important;
       }
 

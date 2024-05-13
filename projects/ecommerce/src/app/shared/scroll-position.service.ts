@@ -1,5 +1,5 @@
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
-import { WINDOW } from './window.provider';
+import { WINDOW } from '@ngx-templates/shared';
 import { isPlatformBrowser } from '@angular/common';
 
 /**

@@ -1,4 +1,4 @@
-@import '../../styles/typography';
+@import '../../../../shared/src/lib/styles/typography';
 
 :host {
   margin-top: 2rem;
@@ -85,7 +85,7 @@
     @extend %heading-400;
     color: var(--color-quaternary);
 
-    ec-icon {
+    ngx-icon {
       display: inline-block;
       vertical-align: bottom;
     }

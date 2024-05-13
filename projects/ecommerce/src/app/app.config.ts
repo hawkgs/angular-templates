@@ -5,10 +5,10 @@ import {
   withViewTransitions,
 } from '@angular/router';
 import { provideClientHydration } from '@angular/platform-browser';
+import { windowProvider } from '@ngx-templates/shared';
 
 import { APP_ROUTES } from './app.routes';
 import { fetchMockApiProvider } from './shared/fetch';
-import { windowProvider } from './shared/window.provider';
 import { CategoriesService } from './data-access/categories.service';
 import { ProductsService } from './data-access/products.service';
 import { CartService } from './data-access/cart.service';

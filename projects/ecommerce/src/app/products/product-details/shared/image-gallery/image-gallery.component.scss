@@ -1,4 +1,4 @@
-@import '../../../../../styles/screen-breakpoints';
+@import '../../../../../../../shared/src/lib/styles/screen-breakpoints';
 
 :host {
   display: block;
@@ -46,7 +46,7 @@
       &.prev {
         left: 1rem;
 
-        ec-icon {
+        ngx-icon {
           transform: rotate(90deg);
         }
       }

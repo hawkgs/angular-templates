@@ -7,13 +7,13 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { LocalStorage } from './local-storage.service';
+import { LocalStorage } from '../local-storage.service';
 
-const THEME_LS_KEY = 'ec-theme';
+const THEME_LS_KEY = 'ngx-theme';
 type LsThemeType = 'light' | 'dark';
 export type ThemeType = LsThemeType | 'system';
 
-const getThemeClass = (t: ThemeType) => `ec-${t}-theme`;
+const getThemeClass = (t: ThemeType) => `ngx-${t}-theme`;
 
 /**
  * Provides an API for changing the UI theme

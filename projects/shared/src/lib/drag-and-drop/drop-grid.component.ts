@@ -29,7 +29,7 @@ const getViewRefElement = (vr: EmbeddedViewRef<unknown>): Element =>
   vr.rootNodes[0];
 
 @Component({
-  selector: 'db-drop-grid',
+  selector: 'ngx-drop-grid',
   standalone: true,
   templateUrl: './drop-grid.component.html',
   styleUrl: './drop-grid.component.scss',

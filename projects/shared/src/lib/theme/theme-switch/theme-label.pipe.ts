@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ThemeType } from '../../theme.service';
+import { ThemeType } from '../theme.service';
 
 const THEME_TO_LABEL: { [key in ThemeType]: string } = {
   ['system']: 'System',

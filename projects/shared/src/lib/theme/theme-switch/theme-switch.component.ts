@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { ThemeService, ThemeType } from '../../theme.service';
+import { ThemeService, ThemeType } from '../theme.service';
 import { IconComponent, IconName } from '../../icon/icon.component';
 import { ThemeLabelPipe } from './theme-label.pipe';
 
@@ -12,7 +12,7 @@ const THEME_TO_ICON: { [key in ThemeType]: IconName } = {
 };
 
 @Component({
-  selector: 'ec-theme-switch',
+  selector: 'ngx-theme-switch',
   standalone: true,
   imports: [IconComponent, ThemeLabelPipe],
   templateUrl: './theme-switch.component.html',

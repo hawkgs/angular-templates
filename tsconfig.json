@@ -16,6 +16,11 @@
     "declaration": false,
     "experimentalDecorators": true,
     "moduleResolution": "node",
+    "paths": {
+      "@ngx-templates/shared": [
+        "./dist/shared"
+      ]
+    },
     "importHelpers": true,
     "target": "ES2022",
     "module": "ES2022",

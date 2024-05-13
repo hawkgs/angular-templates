@@ -1,8 +1,8 @@
 import { Injectable, signal } from '@angular/core';
 import { List } from 'immutable';
-
-import { environment as env } from '../../../environments/environment';
 import { Toast } from './toast';
+
+const DEFAULT_TTL = 1000;
 
 type ToastOptions = { ttl: number };
 
@@ -17,11 +17,7 @@ export class ToastsService {
   readonly value = this._toasts.asReadonly();
 
   create(text: string, options?: Partial<ToastOptions>) {
-    const toast = new Toast(
-      text,
-      options?.ttl || env.toastDefaultTtl,
-      this._toasts,
-    );
+    const toast = new Toast(text, options?.ttl || DEFAULT_TTL, this._toasts);
 
     this._toasts.update((l) => l.push(toast));
   }

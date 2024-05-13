@@ -1,10 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { DropGridComponent } from './shared/drag-and-drop/drop-grid.component';
-import { WidgetComponent } from './shared/widget/widget.component';
-import { DraggableDirective } from './shared/drag-and-drop/draggable.directive';
 import { CommonModule, DOCUMENT } from '@angular/common';
+import { DRAG_AND_DROP_DIRECTIVES } from '@ngx-templates/shared';
 import { List } from 'immutable';
+
+import { WidgetComponent } from './shared/widget/widget.component';
 
 type Widget = { id: string; position: number; type: string };
 
@@ -30,9 +30,8 @@ const list = List([
   imports: [
     CommonModule,
     RouterOutlet,
-    DropGridComponent,
     WidgetComponent,
-    DraggableDirective,
+    DRAG_AND_DROP_DIRECTIVES,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',

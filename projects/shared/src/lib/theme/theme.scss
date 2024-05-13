@@ -58,7 +58,7 @@
 
 // System preference / User-selected
 :root,
-:root.ec-light-theme {
+:root.ngx-light-theme {
   @include light-theme-colors-setup;
 }
 
@@ -101,6 +101,6 @@
 }
 
 // User-selected
-:root.ec-dark-theme {
+:root.ngx-dark-theme {
   @include dark-theme-colors-setup;
 }

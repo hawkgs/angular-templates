@@ -14,7 +14,7 @@ import { List } from 'immutable';
 import { SearchInputComponent } from '../../../shared/search-input/search-input.component';
 import { ProductsApi } from '../../../api/products-api.service';
 import { Product } from '../../../../models';
-import { IconComponent } from '../../../shared/icon/icon.component';
+import { IconComponent } from '@ngx-templates/shared';
 import { SearchItemComponent } from '../search-item/search-item.component';
 
 // Max results shown in the list

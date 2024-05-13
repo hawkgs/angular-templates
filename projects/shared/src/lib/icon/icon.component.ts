@@ -18,7 +18,7 @@ export type IconSize = 'sm' | 'md' | 'lg' | 'xlg' | 'xxlg';
 
 // Powered by Material Symbols
 @Component({
-  selector: 'ec-icon',
+  selector: 'ngx-icon',
   standalone: true,
   imports: [CommonModule],
   template: `
@@ -29,7 +29,7 @@ export type IconSize = 'sm' | 'md' | 'lg' | 'xlg' | 'xxlg';
   styleUrls: ['./icon.component.scss'],
   encapsulation: ViewEncapsulation.None,
   host: {
-    class: 'ec-icon',
+    class: 'ngx-icon',
   },
 })
 export class IconComponent {

@@ -2,7 +2,7 @@ import { Component, computed, input, signal } from '@angular/core';
 
 import { Product } from '../../../../../models';
 import { ProductImageComponent } from '../../../../shared/product-image/product-image.component';
-import { IconComponent } from '../../../../shared/icon/icon.component';
+import { IconComponent } from '@ngx-templates/shared';
 
 @Component({
   selector: 'ec-image-gallery',
