@@ -33,6 +33,11 @@
               "projects/ecommerce/src/styles/global.scss",
               "projects/shared/src/lib/theme/theme.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "projects/shared/src/lib/styles"
+              ]
+            },
             "scripts": [],
             "server": "projects/ecommerce/src/main.server.ts",
             "prerender": true,
@@ -105,6 +110,11 @@
               "projects/ecommerce/src/styles/global.scss",
               "projects/shared/src/lib/theme/theme.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "projects/shared/src/lib/styles"
+              ]
+            },
             "scripts": []
           }
         },
@@ -159,8 +169,14 @@
               "projects/dashboard/src/assets"
             ],
             "styles": [
-              "projects/dashboard/src/styles.scss"
+              "projects/dashboard/src/styles.scss",
+              "projects/shared/src/lib/theme/theme.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "projects/shared/src/lib/styles"
+              ]
+            },
             "scripts": [],
             "server": "projects/dashboard/src/main.server.ts",
             "prerender": true,
@@ -224,8 +240,14 @@
               "projects/dashboard/src/assets"
             ],
             "styles": [
-              "projects/dashboard/src/styles.scss"
+              "projects/dashboard/src/styles.scss",
+              "projects/shared/src/lib/theme/theme.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "projects/shared/src/lib/styles"
+              ]
+            },
             "scripts": []
           }
         },
