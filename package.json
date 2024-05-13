@@ -14,6 +14,7 @@
     "build-prod:ecommerce": "ng build ecommerce --configuration production",
     "serve:ssr:ecommerce": "node dist/ecommerce/server/server.mjs",
     "test:ecommerce": "ng test ecommerce",
+    "test:shared": "ng test shared",
     "e2e:ecommerce": "ng e2e ecommerce",
     "e2e-watch:ecommerce": "nodemon --ext ts --watch 'projects/ecommerce/e2e/tests/**/*.e2e.ts' --exec npm run e2e:ecommerce --signal SIGTERM",
     "serve:ssr:dashboard": "node dist/dashboard/server/server.mjs"

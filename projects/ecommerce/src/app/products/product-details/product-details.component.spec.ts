@@ -6,7 +6,7 @@ import { ProductDetailsComponent } from './product-details.component';
 import { ProductsService } from '../../data-access/products.service';
 import { fetchMockApiProvider } from '../../shared/fetch';
 import { CategoriesService } from '../../data-access/categories.service';
-import { windowProvider } from '../../shared/window.provider';
+import { windowProvider } from '@ngx-templates/shared';
 import { CartService } from '../../data-access/cart.service';
 import { Product } from '../../../models';
 

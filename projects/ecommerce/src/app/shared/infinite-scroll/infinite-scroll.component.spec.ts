@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { windowProvider } from '@ngx-templates/shared';
 
 import { InfiniteScrollComponent } from './infinite-scroll.component';
-import { windowProvider } from '../window.provider';
 
 describe('InfiniteLoadingComponent', () => {
   let component: InfiniteScrollComponent;

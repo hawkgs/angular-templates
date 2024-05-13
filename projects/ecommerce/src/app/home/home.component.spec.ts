@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HomeComponent } from './home.component';
 import { CategoriesService } from '../data-access/categories.service';
 import { fetchMockApiProvider } from '../shared/fetch';
-import { windowProvider } from '../shared/window.provider';
+import { windowProvider } from '@ngx-templates/shared';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;

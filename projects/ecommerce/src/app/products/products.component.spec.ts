@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ProductsComponent } from './products.component';
 import { fetchApiProvider } from '../shared/fetch';
 import { CategoriesService } from '../data-access/categories.service';
-import { windowProvider } from '../shared/window.provider';
+import { windowProvider } from '@ngx-templates/shared';
 
 describe('ProductsComponent', () => {
   let component: ProductsComponent;
