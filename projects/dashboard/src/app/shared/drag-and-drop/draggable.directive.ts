@@ -46,7 +46,7 @@ export class DraggableDirective implements OnDestroy {
   dragMove = output<{ pos: Coor; rect: Rect; id: string }>();
   drop = output<void>();
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this._listeners.forEach((cb) => cb());
   }
 
@@ -154,6 +154,7 @@ export class DraggableDirective implements OnDestroy {
       opacity: '0.6',
       width: size.x + 'px',
       height: size.y + 'px',
+      'pointer-events': 'none',
     });
     this._move(initPos);
   }
@@ -190,6 +191,7 @@ export class DraggableDirective implements OnDestroy {
         'transform',
         'width',
         'height',
+        'pointer-events',
       ]);
       this.drop.emit();
     }, RAPPEL_ANIM_DURR);

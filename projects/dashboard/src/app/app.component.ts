@@ -50,7 +50,7 @@ export class AppComponent {
       l = l.push({
         id: 'vr' + i,
         position: list.size,
-        type: 'red',
+        type: 'empty',
       });
     }
     this.widgets.set(l);
