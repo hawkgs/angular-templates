@@ -54,9 +54,11 @@ export class DropGridComponent
 
   private _spacialGrid: GridCell[] = [];
   private _vcrIdxHover = 0;
+  private _disabled = false;
 
   @Input()
   set disabled(v: boolean) {
+    this._disabled = v;
     this.draggables().forEach((d) => {
       d.disabled.set(v);
     });
@@ -90,6 +92,10 @@ export class DropGridComponent
         (d) => !this._draggablesDirectives.get(d.id()),
       )!;
       this._insertDraggable(targetDraggable);
+
+      if (this._disabled) {
+        targetDraggable.disabled.set(true);
+      }
     } else {
       // Remove
       const targetDraggableIdx = currDraggables.findIndex(
