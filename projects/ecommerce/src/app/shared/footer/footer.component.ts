@@ -1,10 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import {
-  THEME_COMPONENTS,
-  IconComponent,
-  ThemeService,
-} from '@ngx-templates/shared';
+import { THEME_COMPONENTS, ThemeService } from '@ngx-templates/shared/theme';
+import { IconComponent } from '@ngx-templates/shared/icon';
 
 import { CategoriesService } from '../../data-access/categories.service';
 

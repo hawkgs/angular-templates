@@ -1,6 +1,7 @@
 import { Component, OnInit, computed, inject, input } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ToastsService, IconComponent } from '@ngx-templates/shared';
+import { IconComponent } from '@ngx-templates/shared/icon';
+import { ToastsService } from '@ngx-templates/shared/toasts';
 
 import { Product } from '../../../../../models';
 import { CartService } from '../../../../data-access/cart.service';

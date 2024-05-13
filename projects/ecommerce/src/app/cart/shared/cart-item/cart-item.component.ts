@@ -8,13 +8,13 @@ import {
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { IconComponent } from '@ngx-templates/shared/icon';
 import { Product } from '../../../../models';
 import { createProductUrl } from '../../../shared/utils/create-product-url';
 import { PriceTagComponent } from '../../../shared/price-tag/price-tag.component';
 import { CurrencyPipe } from '../../../shared/pipes/currency.pipe';
 import { ProductImageComponent } from '../../../shared/product-image/product-image.component';
 import { ButtonComponent } from '../../../shared/button/button.component';
-import { IconComponent } from '@ngx-templates/shared';
 import { maxProductQuantity } from '../../../shared/utils/max-quantity';
 
 @Component({

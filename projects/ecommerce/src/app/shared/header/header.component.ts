@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { IconComponent } from '@ngx-templates/shared';
+import { IconComponent } from '@ngx-templates/shared/icon';
 import { CartService } from '../../data-access/cart.service';
 
 @Component({

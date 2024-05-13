@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { TOASTS_COMPONENTS } from '@ngx-templates/shared';
+import { TOASTS_COMPONENTS } from '@ngx-templates/shared/toasts';
 
 import { CategoriesService } from './data-access/categories.service';
 import { HeaderComponent } from './shared/header/header.component';

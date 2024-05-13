@@ -7,7 +7,7 @@ import {
 
 import { Product } from '../../../models';
 import { environment } from '../../../environments/environment';
-import { IconComponent } from '@ngx-templates/shared';
+import { IconComponent } from '@ngx-templates/shared/icon';
 import { BREAKPOINT_SIZE, ScreenBreakpoint } from '../utils/screen-breakpoints';
 
 type ImageSize = 'xs' | 'sm' | 'md' | 'lg' | 'xlg';

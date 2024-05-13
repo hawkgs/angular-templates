@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { fetchMockApiProvider } from '../shared/fetch';
 import { CartService } from './cart.service';
 import { Product } from '../../models';
-import { LocalStorage } from '../../../../shared/src/lib/local-storage.service';
+import { LocalStorage } from '../../../../shared/services/src/local-storage.service';
 import { Provider } from '@angular/core';
 
 const lsMockProvider: Provider = {

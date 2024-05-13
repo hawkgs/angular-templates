@@ -1,3 +1,16 @@
 # angular-templates
 
-A set of Angular templates for common web apps
+A set of Angular templates for common web apps.
+
+To run:
+
+```shell
+npm run build:shared
+```
+
+then
+
+```shell
+# Projects: `ecommerce`, `dashboard`
+npm run start:<PROJECT>
+```

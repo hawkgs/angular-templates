@@ -1,7 +1,7 @@
 import { Component, HostBinding, input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { IconComponent } from '@ngx-templates/shared';
+import { IconComponent } from '@ngx-templates/shared/icon';
 import { ScreenBreakpoint } from '../utils/screen-breakpoints';
 
 /**

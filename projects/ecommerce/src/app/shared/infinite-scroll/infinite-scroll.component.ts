@@ -8,7 +8,8 @@ import {
   Renderer2,
   inject,
 } from '@angular/core';
-import { WINDOW, IconComponent } from '@ngx-templates/shared';
+import { WINDOW } from '@ngx-templates/shared/services';
+import { IconComponent } from '@ngx-templates/shared/icon';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 // This is a scroll offset value that

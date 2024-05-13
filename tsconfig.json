@@ -17,8 +17,8 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "paths": {
-      "@ngx-templates/shared": [
-        "./dist/shared"
+      "@ngx-templates/shared/*": [
+        "./dist/shared/*"
       ]
     },
     "importHelpers": true,

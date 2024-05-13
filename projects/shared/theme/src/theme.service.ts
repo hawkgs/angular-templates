@@ -7,7 +7,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { LocalStorage } from '../local-storage.service';
+import { LocalStorage } from '@ngx-templates/shared/services';
 
 const THEME_LS_KEY = 'ngx-theme';
 type LsThemeType = 'light' | 'dark';

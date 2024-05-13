@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule, DOCUMENT } from '@angular/common';
-import { DRAG_AND_DROP_DIRECTIVES } from '@ngx-templates/shared';
+import { DRAG_AND_DROP_DIRECTIVES } from '@ngx-templates/shared/drag-and-drop';
 import { List } from 'immutable';
 
 import { WidgetComponent } from './shared/widget/widget.component';

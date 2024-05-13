@@ -31,11 +31,11 @@
             ],
             "styles": [
               "projects/ecommerce/src/styles/global.scss",
-              "projects/shared/src/lib/theme/theme.scss"
+              "projects/shared/theme/src/theme.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "projects/shared/src/lib/styles"
+                "projects/shared/styles"
               ]
             },
             "scripts": [],
@@ -108,11 +108,11 @@
             ],
             "styles": [
               "projects/ecommerce/src/styles/global.scss",
-              "projects/shared/src/lib/theme/theme.scss"
+              "projects/shared/theme/src/theme.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "projects/shared/src/lib/styles"
+                "projects/shared/styles"
               ]
             },
             "scripts": []
@@ -170,11 +170,11 @@
             ],
             "styles": [
               "projects/dashboard/src/styles.scss",
-              "projects/shared/src/lib/theme/theme.scss"
+              "projects/shared/theme/src/theme.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "projects/shared/src/lib/styles"
+                "projects/shared/styles"
               ]
             },
             "scripts": [],
@@ -241,11 +241,11 @@
             ],
             "styles": [
               "projects/dashboard/src/styles.scss",
-              "projects/shared/src/lib/theme/theme.scss"
+              "projects/shared/theme/src/theme.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "projects/shared/src/lib/styles"
+                "projects/shared/styles"
               ]
             },
             "scripts": []
@@ -265,7 +265,7 @@
     "shared": {
       "projectType": "library",
       "root": "projects/shared",
-      "sourceRoot": "projects/shared/src",
+      "sourceRoot": "projects/shared",
       "prefix": "lib",
       "architect": {
         "build": {

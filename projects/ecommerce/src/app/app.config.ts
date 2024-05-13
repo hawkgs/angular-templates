@@ -5,7 +5,7 @@ import {
   withViewTransitions,
 } from '@angular/router';
 import { provideClientHydration } from '@angular/platform-browser';
-import { windowProvider } from '@ngx-templates/shared';
+import { windowProvider } from '@ngx-templates/shared/services';
 
 import { APP_ROUTES } from './app.routes';
 import { fetchMockApiProvider } from './shared/fetch';

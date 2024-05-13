@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { windowProvider } from '@ngx-templates/shared';
+import { windowProvider } from '@ngx-templates/shared/services';
 
 import { InfiniteScrollComponent } from './infinite-scroll.component';
 
