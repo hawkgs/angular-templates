@@ -5,13 +5,13 @@ import { Component, HostBinding, input } from '@angular/core';
 type ButtonType = 'primary' | 'secondary';
 
 @Component({
-  selector: 'button[ec-button]',
+  selector: 'button[ngx-button]',
   standalone: true,
   imports: [],
   template: '<ng-content></ng-content>',
   styleUrl: './button.component.scss',
   host: {
-    class: 'ec-button',
+    class: 'ngx-button',
   },
 })
 export class ButtonComponent {

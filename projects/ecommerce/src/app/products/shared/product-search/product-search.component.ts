@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { IconComponent } from '@ngx-templates/shared/icon';
-import { ButtonComponent } from '../../../shared/button/button.component';
+import { ButtonComponent } from '@ngx-templates/shared/button';
 import { SearchInputComponent } from '../../../shared/search-input/search-input.component';
 
 @Component({

@@ -1,7 +1,7 @@
 <form [formGroup]="form" (ngSubmit)="addToCart()">
   <button
     [disabled]="form.invalid || isUnavailable()"
-    ec-button
+    ngx-button
     btnType="primary"
     size="large"
     data-name="add-to-cart"

@@ -1,0 +1,33 @@
+:host {
+  display: block;
+
+  .logo {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: 500;
+    text-decoration: none;
+
+    .ng-logo {
+      background: url('../../assets/logo.svg') no-repeat;
+      width: 30px;
+      height: 32px;
+      margin-right: 12px;
+    }
+
+    .text {
+      background: var(--gradient-magenta-to-light-purple);
+      -webkit-background-clip: text;
+      background-size: 140% 140%;
+      background-clip: text;
+      color: transparent;
+      transition: background-position-x 500ms ease;
+    }
+
+    &:hover {
+      .text {
+        background-position-x: 80%;
+      }
+    }
+  }
+}

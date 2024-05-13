@@ -27,7 +27,12 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "projects/ecommerce/src/favicon.ico",
-              "projects/ecommerce/src/assets"
+              "projects/ecommerce/src/assets",
+              {
+                "glob": "**/*",
+                "input": "projects/shared/assets",
+                "output": "assets"
+              }
             ],
             "styles": [
               "projects/ecommerce/src/styles/global.scss",
@@ -104,7 +109,12 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "projects/ecommerce/src/favicon.ico",
-              "projects/ecommerce/src/assets"
+              "projects/ecommerce/src/assets",
+              {
+                "glob": "**/*",
+                "input": "projects/shared/assets",
+                "output": "assets"
+              }
             ],
             "styles": [
               "projects/ecommerce/src/styles/global.scss",
@@ -166,7 +176,12 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "projects/dashboard/src/favicon.ico",
-              "projects/dashboard/src/assets"
+              "projects/dashboard/src/assets",
+              {
+                "glob": "**/*",
+                "input": "projects/shared/assets",
+                "output": "assets"
+              }
             ],
             "styles": [
               "projects/dashboard/src/styles.scss",
@@ -237,7 +252,12 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "projects/dashboard/src/favicon.ico",
-              "projects/dashboard/src/assets"
+              "projects/dashboard/src/assets",
+              {
+                "glob": "**/*",
+                "input": "projects/shared/assets",
+                "output": "assets"
+              }
             ],
             "styles": [
               "projects/dashboard/src/styles.scss",
