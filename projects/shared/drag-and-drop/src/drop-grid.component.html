@@ -2,6 +2,11 @@
   <div class="slot" [style.grid-column]="'span ' + size"></div>
 </ng-template>
 
-<section class="grid">
+<section
+  class="grid"
+  [style.grid-template-columns]="gridTemplateColumns()"
+  [style.grid-column-gap]="cellGap() + 'px'"
+  [style.grid-row-gap]="cellGap() + 'px'"
+>
   <ng-container #grid></ng-container>
 </section>

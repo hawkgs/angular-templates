@@ -8,6 +8,8 @@ import {
   NgZone,
   TemplateRef,
   ViewContainerRef,
+  ViewRef,
+  computed,
   contentChildren,
   inject,
   input,
@@ -15,6 +17,9 @@ import {
 } from '@angular/core';
 
 import { Coor, DraggableDirective, Rect } from './draggable.directive';
+
+const DEFAULT_GRID_COLS = 4;
+const DEFAULT_CELL_GAP = 16;
 
 // Represents a grid cell in our spacial grid
 type GridCell = {
@@ -50,6 +55,18 @@ export class DropGridComponent
    * it will default to the grid's parent element.
    */
   scrollCont = input<Element>();
+
+  /**
+   * Set the number of columns in the grid. Default: `4`
+   */
+  columns = input<number>(DEFAULT_GRID_COLS);
+
+  /**
+   * Set the cell gap/spacing. Default: `16px`
+   */
+  cellGap = input<number>(DEFAULT_CELL_GAP);
+
+  gridTemplateColumns = computed(() => `repeat(${this.columns()}, 1fr)`);
 
   private _draggablesViewRefs = new Map<string, EmbeddedViewRef<unknown>>();
   private _draggablesDirectives = new Map<string, DraggableDirective>();
@@ -139,7 +156,7 @@ export class DropGridComponent
     });
   }
 
-  onDrag({ pos, rect, id }: { pos: Coor; rect: Rect; id: string }) {
+  onDrag({ pos, rect }: { pos: Coor; rect: Rect }) {
     const gridVcr = this.gridVcr();
     if (!this._slot || !gridVcr) {
       return;
@@ -154,7 +171,6 @@ export class DropGridComponent
     // slot spacer accordingly.
     for (const cell of this._spacialGrid) {
       if (
-        id !== cell.id &&
         this._viewIdxHover !== cell.viewRefIdx &&
         cell.x1 <= pos.x &&
         pos.x <= cell.x2 &&
@@ -162,12 +178,6 @@ export class DropGridComponent
         pos.y <= cell.y2
       ) {
         gridVcr.move(this._slot, cell.viewRefIdx);
-
-        const { x, y } = getViewRefElement(this._slot).getBoundingClientRect();
-        this._zone.run(() => {
-          this._draggablesDirectives.get(id)?.anchor.set({ x, y });
-        });
-
         this._viewIdxHover = cell.viewRefIdx;
 
         break;
@@ -177,7 +187,18 @@ export class DropGridComponent
     this._scrollContainer(rect);
   }
 
-  onDrop() {
+  onDrop(e: { id: string }) {
+    if (!this._slot) {
+      return;
+    }
+
+    const { x, y } = getViewRefElement(this._slot).getBoundingClientRect();
+    this._zone.run(() => {
+      this._draggablesDirectives.get(e.id)?.anchor.set({ x, y });
+    });
+  }
+
+  onAnchored() {
     const gridVcr = this.gridVcr();
     if (!this._slot || !gridVcr) {
       return;
@@ -187,33 +208,11 @@ export class DropGridComponent
 
     const currIdx = gridVcr.indexOf(this._dragged!);
     const newIdx =
-      this._viewIdxHover >= currIdx
+      this._viewIdxHover > currIdx
         ? this._viewIdxHover - 1
         : this._viewIdxHover;
 
     gridVcr.move(this._dragged!, newIdx);
-  }
-
-  /**
-   * Create/calculate a spacial grid of all draggable elements
-   * relative to the whole page.
-   */
-  private _calculateSpacialGrid() {
-    this._spacialGrid = [];
-
-    this._draggablesViewRefs.forEach((vr, id) => {
-      const el = getViewRefElement(vr);
-      const { x, y, width, height } = el.getBoundingClientRect();
-
-      this._spacialGrid.push({
-        id,
-        viewRefIdx: this.gridVcr()?.indexOf(vr) as number,
-        x1: x,
-        y1: y + this._scrollCont.scrollTop,
-        x2: x + width,
-        y2: y + height + this._scrollCont.scrollTop,
-      });
-    });
   }
 
   private _insertDraggable(d: DraggableDirective) {
@@ -235,7 +234,8 @@ export class DropGridComponent
 
     d.dragStart.subscribe((e) => this.onDragStart(e));
     d.dragMove.subscribe((e) => this.onDrag(e));
-    d.drop.subscribe(() => this.onDrop());
+    d.drop.subscribe((e) => this.onDrop(e));
+    d.anchored.subscribe(() => this.onAnchored());
 
     if (this._disabled) {
       d.disabled.set(true);
@@ -277,5 +277,94 @@ export class DropGridComponent
         behavior: 'smooth',
       });
     }
+  }
+
+  /**
+   * Create/calculate a spacial grid of all draggable elements
+   * relative to the whole page.
+   */
+  private _calculateSpacialGrid() {
+    this._spacialGrid = [];
+
+    if (!this._draggablesViewRefs.size) {
+      return;
+    }
+
+    // This implementation relies on a single call of `getBoundingClientRect`.
+    // The rest of the grid cell position are deduced from the first one.
+    // It's a more complex approach compared to the straightforward
+    // "getBoundingClientRect on each iteration", but it should be more
+    // performant, especially for lower-end devices.
+
+    // Get the draggables in the order that they are rendered
+    const sorted = this._getSortedDraggables();
+
+    // Calculate the bounding rectangle for the first element
+    const firstEl = sorted[0].directive.element;
+    const {
+      x: startX,
+      y,
+      width: cellWidth,
+      height: cellHeight,
+    } = firstEl.getBoundingClientRect();
+
+    // Setup the initial positions and the gaps/spacing
+    const startY = y + this._scrollCont.scrollTop;
+    const cols = this.columns();
+    const gap = this.cellGap();
+
+    let currX = startX;
+    let currY = startY;
+    let currWidth = 0;
+
+    // Deduce the rest of the positions based on that
+    for (const draggable of sorted) {
+      const size = draggable.directive.elementSize();
+      const width = cellWidth * size + gap * (size - 1);
+
+      currWidth += size;
+
+      if (currWidth > cols) {
+        currY += cellHeight + gap;
+        currX = startX;
+        currWidth = size;
+      }
+
+      this._spacialGrid.push({
+        id: draggable.id,
+        viewRefIdx: draggable.idx,
+        x1: currX,
+        y1: currY,
+        x2: currX + width,
+        y2: currY + cellHeight,
+      });
+
+      currX += width + gap;
+    }
+  }
+
+  /**
+   * Helper method for calculating the spacial grid.
+   */
+  private _getSortedDraggables() {
+    const sorted: {
+      id: string;
+      viewRef: ViewRef;
+      idx: number;
+      directive: DraggableDirective;
+    }[] = [];
+
+    this._draggablesViewRefs.forEach((vr, id) =>
+      sorted.push({
+        id: id,
+        viewRef: vr,
+        idx: this.gridVcr()?.indexOf(vr) as number,
+        directive: this._draggablesDirectives.get(id) as DraggableDirective,
+      }),
+    );
+
+    sorted.sort((a, b) => a.idx - b.idx);
+
+    return sorted;
   }
 }

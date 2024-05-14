@@ -63,7 +63,14 @@ export class DraggableDirective implements OnDestroy {
    */
   element!: Element;
 
+  /**
+   * Disables the drag functionality.
+   */
   disabled = signal<boolean>(false);
+
+  /**
+   * The position where the draggable will be placed when dropped.
+   */
   anchor = signal<Coor | null>(null);
 
   /**
@@ -87,9 +94,14 @@ export class DraggableDirective implements OnDestroy {
   dragMove = output<{ pos: Coor; rect: Rect; id: string }>();
 
   /**
-   * Emitted when the draggable is dropped and rappeled to its position.
+   * Emitted when the draggable is dropped.
    */
-  drop = output<void>();
+  drop = output<{ id: string }>();
+
+  /**
+   * Emitted when the drop animation is completed (i.e. the target is now anchored)
+   */
+  anchored = output<void>();
 
   ngOnDestroy() {
     this._listeners.forEach((cb) => cb());
@@ -193,6 +205,7 @@ export class DraggableDirective implements OnDestroy {
       clearTimeout(this._dragActivatorTimeout);
     }
     if (this._dragging) {
+      this.drop.emit({ id: this.id() });
       this._moveToAnchorPos();
       this._dragging = false;
     }
@@ -207,6 +220,7 @@ export class DraggableDirective implements OnDestroy {
       width: size.x + 'px',
       height: size.y + 'px',
       'pointer-events': 'none',
+      'z-index': '99999999',
     });
     this._move(initPos);
   }
@@ -225,7 +239,7 @@ export class DraggableDirective implements OnDestroy {
     const anchor = this.anchor();
     if (!anchor) {
       this._removeStyles(['opacity']);
-      this.drop.emit();
+      this.anchored.emit();
       return;
     }
 
@@ -248,8 +262,9 @@ export class DraggableDirective implements OnDestroy {
         'width',
         'height',
         'pointer-events',
+        'z-index',
       ]);
-      this.drop.emit();
+      this.anchored.emit();
     }, RAPPEL_ANIM_DURR);
   }
 
