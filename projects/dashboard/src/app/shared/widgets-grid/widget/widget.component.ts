@@ -27,14 +27,14 @@ export class WidgetComponent implements OnInit {
   counter = signal<number>(Math.round(Math.random() * 100));
 
   constructor() {
-    // const interval = Math.round(Math.max(1500, Math.random() * 10000));
-    // this._zone.runOutsideAngular(() => {
-    //   setInterval(() => {
-    //     this._zone.run(() => {
-    //       this.counter.update((ct) => ct + 1);
-    //     });
-    //   }, interval);
-    // });
+    const interval = Math.round(Math.max(1500, Math.random() * 10000));
+    this._zone.runOutsideAngular(() => {
+      setInterval(() => {
+        this._zone.run(() => {
+          this.counter.update((ct) => ct + 1);
+        });
+      }, interval);
+    });
   }
 
   ngOnInit() {

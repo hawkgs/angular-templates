@@ -104,7 +104,6 @@ export class DropGridComponent
 
   ngAfterContentChecked() {
     const newDraggables = this.draggables();
-    console.log('cd');
 
     // Determine whether there is a change in the draggables.
     // This check should be sufficient for our use case.
