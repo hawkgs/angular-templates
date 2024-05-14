@@ -104,6 +104,7 @@ export class DropGridComponent
 
   ngAfterContentChecked() {
     const newDraggables = this.draggables();
+    console.log('cd');
 
     // Determine whether there is a change in the draggables.
     // This check should be sufficient for our use case.
@@ -297,10 +298,10 @@ export class DropGridComponent
     // performant, especially for lower-end devices.
 
     // Get the draggables in the order that they are rendered
-    const sorted = this._getSortedDraggables();
+    const draggables = this._getOrderedDraggables();
 
     // Calculate the bounding rectangle for the first element
-    const firstEl = sorted[0].directive.element;
+    const firstEl = draggables[0].directive.element;
     const {
       x: startX,
       y,
@@ -318,7 +319,7 @@ export class DropGridComponent
     let currWidth = 0;
 
     // Deduce the rest of the positions based on that
-    for (const draggable of sorted) {
+    for (const draggable of draggables) {
       const size = draggable.directive.elementSize();
       const width = cellWidth * size + gap * (size - 1);
 
@@ -345,9 +346,11 @@ export class DropGridComponent
 
   /**
    * Helper method for calculating the spacial grid.
+   *
+   * Returns draggable objects in the order they are rendered.
    */
-  private _getSortedDraggables() {
-    const sorted: {
+  private _getOrderedDraggables() {
+    const ordered: {
       id: string;
       viewRef: ViewRef;
       idx: number;
@@ -355,7 +358,7 @@ export class DropGridComponent
     }[] = [];
 
     this._draggablesViewRefs.forEach((vr, id) =>
-      sorted.push({
+      ordered.push({
         id: id,
         viewRef: vr,
         idx: this.gridVcr()?.indexOf(vr) as number,
@@ -363,8 +366,8 @@ export class DropGridComponent
       }),
     );
 
-    sorted.sort((a, b) => a.idx - b.idx);
+    ordered.sort((a, b) => a.idx - b.idx);
 
-    return sorted;
+    return ordered;
   }
 }
