@@ -7,6 +7,9 @@
       Add widget
     </button>
   }
+  <button ngx-button btnType="secondary" (click)="testModal()">
+    Test modal
+  </button>
 </div>
 <ngx-drop-grid [disabled]="!editMode()" [scrollCont]="doc.documentElement">
   @for (w of widgets(); track w.id) {

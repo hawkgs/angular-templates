@@ -1,0 +1,48 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999999;
+  background-color: rgba(0, 0, 0, 0.75);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  animation: blur-in 500ms ease;
+  animation-fill-mode: forwards;
+  animation-iteration-count: 1;
+
+  .modal {
+    background-color: var(--color-bg);
+    padding: 1rem;
+    border-radius: 0.25rem;
+    border: 1px solid var(--color-senary);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+    min-width: 250px;
+    min-height: 125px;
+    animation: appear 300ms ease;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1;
+  }
+}
+
+@keyframes blur-in {
+  from {
+    backdrop-filter: blur(0);
+  }
+  to {
+    backdrop-filter: blur(10px);
+  }
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(-100%) scale(0.75);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

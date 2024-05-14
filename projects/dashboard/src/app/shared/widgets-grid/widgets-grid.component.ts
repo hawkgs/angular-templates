@@ -2,8 +2,10 @@ import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { DRAG_AND_DROP_DIRECTIVES } from '@ngx-templates/shared/drag-and-drop';
 import { ButtonComponent } from '@ngx-templates/shared/button';
+import { ModalService } from '@ngx-templates/shared/modal';
 import { List } from 'immutable';
 import { WidgetComponent } from './widget/widget.component';
+import { WidgetsStoreModalComponent } from './widgets-store-modal/widgets-store-modal.component';
 
 type Widget = { id: string; position: number; type: string };
 
@@ -32,6 +34,7 @@ const list = List([
 })
 export class WidgetsGridComponent {
   doc = inject(DOCUMENT);
+  private _modalService = inject(ModalService);
 
   title = 'dashboard';
   editMode = signal<boolean>(false);
@@ -64,5 +67,16 @@ export class WidgetsGridComponent {
       const idx = l.findIndex((w) => w.id === id);
       return l.remove(idx);
     });
+  }
+
+  testModal() {
+    this._modalService
+      .createModal<
+        string,
+        string
+      >(WidgetsStoreModalComponent, 'This is passed data')
+      .closed.then((output) => {
+        console.log('This is output data', output);
+      });
   }
 }
