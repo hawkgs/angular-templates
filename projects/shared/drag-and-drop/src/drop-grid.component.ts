@@ -16,6 +16,7 @@ import {
 
 import { Coor, DraggableDirective, Rect } from './draggable.directive';
 
+// Represents a grid cell in our spacial grid
 type GridCell = {
   id: string;
   viewRefIdx: number;
@@ -40,20 +41,24 @@ export class DropGridComponent
   private _zone = inject(NgZone);
   private _elRef = inject(ElementRef);
 
-  bedTemplate = viewChild('bedTemplate', { read: TemplateRef });
+  slotTemplate = viewChild('slotTemplate', { read: TemplateRef });
   gridVcr = viewChild('grid', { read: ViewContainerRef });
   draggables = contentChildren(DraggableDirective);
 
+  /**
+   * Set the scroll container of the drop grid. If not set,
+   * it will default to the grid's parent element.
+   */
   scrollCont = input<Element>();
 
   private _draggablesViewRefs = new Map<string, EmbeddedViewRef<unknown>>();
   private _draggablesDirectives = new Map<string, DraggableDirective>();
 
-  private _bed?: EmbeddedViewRef<unknown>;
-  private _dragged?: EmbeddedViewRef<unknown>;
+  private _slot?: EmbeddedViewRef<unknown>; // Slot spacer `ViewRef`
+  private _dragged?: EmbeddedViewRef<unknown>; // Currently dragged
 
   private _spacialGrid: GridCell[] = [];
-  private _vcrIdxHover = 0;
+  private _viewIdxHover = 0; // Index of the currently hovered `ViewRef`
   private _disabled = false;
 
   @Input()
@@ -72,6 +77,8 @@ export class DropGridComponent
     const draggables = this.draggables();
 
     if (draggables) {
+      // Sort and then insert the draggable according to the
+      // initially provided position
       const sorted = [...draggables];
       sorted.sort((a, b) => a.position() - b.position());
       sorted.forEach((d) => this._insertDraggable(d));
@@ -80,20 +87,23 @@ export class DropGridComponent
 
   ngAfterContentChecked() {
     const newDraggables = this.draggables();
+
+    // Determine whether there is a change in the draggables.
+    // This check should be sufficient for our use case.
     if (this._draggablesDirectives.size === newDraggables.length) {
       return;
     }
 
     const currDraggables = [...this._draggablesDirectives].map(([, d]) => d);
 
-    // Add
+    // Add a new draggable
     if (newDraggables.length > currDraggables.length) {
       const targetDraggable = newDraggables.find(
         (d) => !this._draggablesDirectives.get(d.id()),
       )!;
       this._insertDraggable(targetDraggable);
     } else {
-      // Remove
+      // Remove an existing draggable
       const targetDraggableIdx = currDraggables.findIndex(
         (d) => !newDraggables.find((ud) => ud === d),
       );
@@ -104,8 +114,8 @@ export class DropGridComponent
   onDragStart({ elContPos, id }: { elContPos: Coor; id: string }) {
     this._zone.run(() => {
       const gridVcr = this.gridVcr();
-      const bedTemplate = this.bedTemplate();
-      if (!gridVcr || !bedTemplate) {
+      const slotTemplate = this.slotTemplate();
+      if (!gridVcr || !slotTemplate) {
         return;
       }
 
@@ -114,16 +124,16 @@ export class DropGridComponent
       directive?.anchor.set(elContPos);
 
       const draggableSize = directive?.elementSize() || 1;
-      this._bed = bedTemplate.createEmbeddedView({
+      this._slot = slotTemplate.createEmbeddedView({
         $implicit: draggableSize,
       });
 
       this._dragged = this._draggablesViewRefs.get(id);
 
-      const vcrIdx = gridVcr.indexOf(this._dragged!);
-      gridVcr.insert(this._bed, vcrIdx);
+      const viewIdx = gridVcr.indexOf(this._dragged!);
+      gridVcr.insert(this._slot, viewIdx);
 
-      this._vcrIdxHover = vcrIdx;
+      this._viewIdxHover = viewIdx;
 
       this._calculateSpacialGrid();
     });
@@ -131,29 +141,34 @@ export class DropGridComponent
 
   onDrag({ pos, rect, id }: { pos: Coor; rect: Rect; id: string }) {
     const gridVcr = this.gridVcr();
-    if (!this._bed || !gridVcr) {
+    if (!this._slot || !gridVcr) {
       return;
     }
 
+    // Since the coordinates returned from `ngxDraggable` are
+    // relative to the viewport, we must add the `scrollTop`
+    // in order to accommodate for the whole page.
     pos.y += this._scrollCont.scrollTop;
 
+    // Check where the draggable is hovering and move the
+    // slot spacer accordingly.
     for (const cell of this._spacialGrid) {
       if (
         id !== cell.id &&
-        this._vcrIdxHover !== cell.viewRefIdx &&
+        this._viewIdxHover !== cell.viewRefIdx &&
         cell.x1 <= pos.x &&
         pos.x <= cell.x2 &&
         cell.y1 <= pos.y &&
         pos.y <= cell.y2
       ) {
-        gridVcr.move(this._bed, cell.viewRefIdx);
+        gridVcr.move(this._slot, cell.viewRefIdx);
 
-        const { x, y } = getViewRefElement(this._bed).getBoundingClientRect();
+        const { x, y } = getViewRefElement(this._slot).getBoundingClientRect();
         this._zone.run(() => {
           this._draggablesDirectives.get(id)?.anchor.set({ x, y });
         });
 
-        this._vcrIdxHover = cell.viewRefIdx;
+        this._viewIdxHover = cell.viewRefIdx;
 
         break;
       }
@@ -164,19 +179,25 @@ export class DropGridComponent
 
   onDrop() {
     const gridVcr = this.gridVcr();
-    if (!this._bed || !gridVcr) {
+    if (!this._slot || !gridVcr) {
       return;
     }
 
-    this._bed.destroy();
+    this._slot.destroy();
 
     const currIdx = gridVcr.indexOf(this._dragged!);
     const newIdx =
-      this._vcrIdxHover >= currIdx ? this._vcrIdxHover - 1 : this._vcrIdxHover;
+      this._viewIdxHover >= currIdx
+        ? this._viewIdxHover - 1
+        : this._viewIdxHover;
 
     gridVcr.move(this._dragged!, newIdx);
   }
 
+  /**
+   * Create/calculate a spacial grid of all draggable elements
+   * relative to the whole page.
+   */
   private _calculateSpacialGrid() {
     this._spacialGrid = [];
 
@@ -204,6 +225,11 @@ export class DropGridComponent
     const draggableViewRef = d.templateRef.createEmbeddedView(null);
     gridVcr.insert(draggableViewRef);
 
+    // We need to set the native element of the draggable target and
+    // subscribe to the events that are going to be emitted on user
+    // interaction. This is an unconventional approach of using/applying
+    // structural directives.
+
     d.element = getViewRefElement(draggableViewRef);
     d.initEvents();
 
@@ -227,15 +253,25 @@ export class DropGridComponent
     this._draggablesViewRefs.delete(d.id());
   }
 
+  /**
+   * Scroll the `scrollCont` up or down the page, if a draggable is
+   * dragged to the top or bottom of the viewport.
+   *
+   * @param draggableRect
+   */
   private _scrollContainer(draggableRect: Rect) {
+    // Note(Georgi): Might require some UX improvements
+
     const deltaBottomY = draggableRect.p2.y - this._scrollCont.clientHeight;
 
     if (deltaBottomY > 0) {
+      // Scroll down
       this._scrollCont.scrollTo({
         top: this._scrollCont.scrollTop + deltaBottomY,
         behavior: 'smooth',
       });
     } else if (draggableRect.p1.y < 0) {
+      // Scroll up
       this._scrollCont.scrollTo({
         top: this._scrollCont.scrollTop - Math.abs(draggableRect.p1.y),
         behavior: 'smooth',

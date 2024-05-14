@@ -14,9 +14,19 @@ import {
 export type Coor = { x: number; y: number };
 export type Rect = { p1: Coor; p2: Coor };
 
+// The duration of the rappel animation after the
+// user has released the draggable element.
 const RAPPEL_ANIM_DURR = 300;
+
+// Allow for some leeway clicking the draggable element.
+// The drag functionality will be activated after the specified
+// time, if the user is still holding the element.
 const DRAG_ACTIVE_AFTER = 200;
 
+/**
+ * Adds draggable behavior to an element. Should be used as
+ * a structural directive  along with `ngx-drop-grid`.
+ */
 @Directive({
   selector: '[ngxDraggable]',
   standalone: true,
@@ -33,23 +43,63 @@ export class DraggableDirective implements OnDestroy {
   private _relativeMousePos: Coor = { x: 0, y: 0 };
   private _dragActivatorTimeout?: ReturnType<typeof setTimeout>;
 
+  /**
+   * ID of the draggable element. Default: `'0'`
+   */
   id = input<string>('0', { alias: 'ngxDraggable' });
+  /**
+   * Represents the draggable size in the `ngx-drop-grid`.
+   * Shouldn't exceed the grid width. Default: `1`
+   */
   elementSize = input<number>(1, { alias: 'ngxDraggableSize' });
+  /**
+   * Position or order of the draggable element in the `ngx-drop-grid`.
+   * Not dynamic.
+   */
   position = input<number>(0, { alias: 'ngxDraggablePosition' });
 
+  /**
+   * Native element of the draggable target.
+   */
   element!: Element;
 
   disabled = signal<boolean>(false);
   anchor = signal<Coor | null>(null);
 
+  /**
+   * Emitted when the drag is started.
+   *
+   * - `elContPos` represents the relative to the viewport top-left
+   * coordinates of the draggable target
+   * - `id` is the ID of the draggable
+   */
   dragStart = output<{ elContPos: Coor; id: string }>();
+
+  /**
+   * Emitted on drag move.
+   *
+   * - `pos` represents the relative to the viewport mid/center coordinates
+   * of the draggable target
+   * - `rect` represents the coordinates of the bounding rectangle of the
+   * draggable target
+   * - `id` is the ID of the draggable
+   */
   dragMove = output<{ pos: Coor; rect: Rect; id: string }>();
+
+  /**
+   * Emitted when the draggable is dropped and rappeled to its position.
+   */
   drop = output<void>();
 
   ngOnDestroy() {
     this._listeners.forEach((cb) => cb());
   }
 
+  /**
+   * Initialize all draggable events.
+   *
+   * Note: Has to be called manually after the `element` has been defined.
+   */
   initEvents() {
     if (!this.element) {
       throw new Error('DraggableDirective: Missing element');
@@ -109,7 +159,9 @@ export class DraggableDirective implements OnDestroy {
       return;
     }
 
-    // Disables auto scroll, but doesn't select text
+    // This will disable auto-scroll. However,
+    // it will also prevent the undesired text
+    // selection.
     e.preventDefault();
 
     const offset = this._relativeMousePos;
@@ -165,6 +217,10 @@ export class DraggableDirective implements OnDestroy {
     this._renderer.setStyle(this.element, 'transform', translate);
   }
 
+  /**
+   * Moves/rappels the draggable target element to its
+   * new position after it was released.
+   */
   private _moveToAnchorPos() {
     const anchor = this.anchor();
     if (!anchor) {
