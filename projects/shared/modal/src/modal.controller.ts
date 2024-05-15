@@ -1,5 +1,5 @@
 import { WritableSignal } from '@angular/core';
-import { Map } from 'immutable';
+import { List } from 'immutable';
 import { Modal } from './types';
 
 export class ModalController<T = void> {
@@ -7,7 +7,7 @@ export class ModalController<T = void> {
 
   constructor(
     private _id: number,
-    private _modals: WritableSignal<Map<number, Modal<unknown, unknown>>>,
+    private _modals: WritableSignal<List<Modal<unknown, unknown>>>,
   ) {}
 
   /**
@@ -24,6 +24,10 @@ export class ModalController<T = void> {
    */
   close(result?: T) {
     this._resolver(result);
-    this._modals.update((m) => m.remove(this._id));
+
+    this._modals.update((modals) => {
+      const idx = modals.findIndex((m) => m.id === this._id);
+      return modals.remove(idx);
+    });
   }
 }

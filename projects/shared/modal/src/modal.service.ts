@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Injectable, Type, computed, signal } from '@angular/core';
+import { Injectable, Type, signal } from '@angular/core';
 import { ModalController } from './modal.controller';
-import { Map } from 'immutable';
+import { List } from 'immutable';
 import { Modal } from './types';
 
 @Injectable({ providedIn: 'root' })
 export class ModalService {
-  private _modals = signal<Map<number, Modal<any, any>>>(Map([]));
+  private _modals = signal<List<Modal<any, any>>>(List([]));
   private _ct = 0;
 
-  modals = computed(() => this._modals().toList());
+  modals = this._modals.asReadonly();
 
   /**
    * Creates a modal by a provided content component.
@@ -32,7 +32,7 @@ export class ModalService {
       controller,
       id: this._ct,
     };
-    this._modals.update((m) => m.set(this._ct, modal));
+    this._modals.update((m) => m.push(modal));
 
     this._ct++;
 
@@ -40,9 +40,18 @@ export class ModalService {
   }
 
   /**
+   * Closes currently opened modal on focus.
+   */
+  closeCurrent() {
+    if (this._modals().size) {
+      this._modals.update((modals) => modals.remove(modals.size - 1));
+    }
+  }
+
+  /**
    * Close all opened modals.
    */
   closeAll() {
-    this._modals.set(Map([]));
+    this._modals.set(List([]));
   }
 }

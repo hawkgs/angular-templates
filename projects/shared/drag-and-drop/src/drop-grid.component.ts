@@ -281,7 +281,8 @@ export class DropGridComponent
 
   /**
    * Create/calculate a spacial grid of all draggable elements
-   * relative to the whole page.
+   * relative to the whole page (i.e. the coordinates of the
+   * top-left and bottom-right points of each draggable in the grid)
    */
   private _calculateSpacialGrid() {
     this._spacialGrid = [];

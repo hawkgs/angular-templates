@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { ModalService } from '../modal.service';
 import { ModalComponent } from '../modal/modal.component';
 
@@ -12,4 +12,9 @@ import { ModalComponent } from '../modal/modal.component';
 export class ModalOutletComponent {
   private _modalService = inject(ModalService);
   modals = this._modalService.modals;
+
+  @HostListener('document:keydown.escape')
+  closeCurrentVisibleModal() {
+    this._modalService.closeCurrent();
+  }
 }

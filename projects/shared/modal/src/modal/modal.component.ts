@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  HostListener,
   InjectionToken,
   Injector,
   StaticProvider,
@@ -44,6 +45,14 @@ export class ModalComponent<D, R> implements AfterViewInit {
 
     // We need to run a CD in order to avoid NG0100
     this._cdRef.detectChanges();
+  }
+
+  /**
+   * Close the modal, if the overlay is clicked.
+   */
+  @HostListener('click')
+  onHostClick() {
+    this.modal().controller.close();
   }
 
   /**
