@@ -1,0 +1,39 @@
+@import '../../../styles/typography';
+
+:host {
+  display: block;
+
+  .title {
+    @extend %heading-600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 0 1rem 0;
+
+    span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    button {
+      padding: 0;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+
+      ngx-icon {
+        --icon-color: var(--color-quinary);
+        transition: fill 300ms ease;
+      }
+
+      &:hover > ngx-icon {
+        --icon-color: var(--color-secondary);
+      }
+    }
+  }
+
+  .content {
+    @extend %body-short-03;
+  }
+}

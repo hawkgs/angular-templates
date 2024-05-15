@@ -12,7 +12,8 @@ export type IconName =
   | 'Downloading'
   | 'ChevronRight'
   | 'Delete'
-  | 'NoPhoto';
+  | 'NoPhoto'
+  | 'Close';
 
 export type IconSize = 'sm' | 'md' | 'lg' | 'xlg' | 'xxlg';
 

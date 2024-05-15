@@ -1,3 +1,10 @@
-<p>{{ data }}</p>
-<button (click)="close()">close</button>
-<button (click)="openNew()">open new</button>
+<ngx-modal-content [controller]="ctrl">
+  <ng-container title>First Modal</ng-container>
+  <ng-container content>
+    Hey, this is the content:
+    <p>
+      {{ data }}
+    </p>
+    <button (click)="openNew()">open new</button>
+  </ng-container>
+</ngx-modal-content>

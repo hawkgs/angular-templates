@@ -1,12 +1,23 @@
 import { Component, inject } from '@angular/core';
-import { ModalController, ModalService } from '@ngx-templates/shared/modal';
+import {
+  ModalContentComponent,
+  ModalController,
+  ModalService,
+} from '@ngx-templates/shared/modal';
 
 @Component({
   selector: 'db-test-modal',
   standalone: true,
-  imports: [],
-  template:
-    'another <button (click)="ctrl.close()">close</button> <button (click)="modals.closeAll()">close all</button>',
+  imports: [ModalContentComponent],
+  template: `
+    <ngx-modal-content [controller]="ctrl">
+      <ng-container title>Second Modal</ng-container>
+      <ng-container content>
+        Second content.
+        <button (click)="modals.closeAll()">Close All</button>
+      </ng-container>
+    </ngx-modal-content>
+  `,
 })
 export class TestModalComponent {
   ctrl = inject(ModalController);
