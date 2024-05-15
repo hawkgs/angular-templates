@@ -19,6 +19,13 @@
 
     span {
       margin-right: 0.25rem;
+      width: 0;
+      overflow: hidden;
+      transition: width 200ms ease;
+    }
+
+    &:hover > span {
+      width: 100%;
     }
 
     &:hover {
