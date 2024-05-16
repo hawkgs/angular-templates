@@ -46,8 +46,8 @@ export class DropGridComponent
   private _zone = inject(NgZone);
   private _elRef = inject(ElementRef);
 
-  slotTemplate = viewChild('slotTemplate', { read: TemplateRef });
-  gridVcr = viewChild('grid', { read: ViewContainerRef });
+  slotTemplate = viewChild.required('slotTemplate', { read: TemplateRef });
+  gridVcr = viewChild.required('grid', { read: ViewContainerRef });
   draggables = contentChildren(DraggableDirective);
 
   /**
@@ -130,23 +130,18 @@ export class DropGridComponent
 
   onDragStart({ elContPos, id }: { elContPos: Coor; id: string }) {
     this._zone.run(() => {
-      const gridVcr = this.gridVcr();
-      const slotTemplate = this.slotTemplate();
-      if (!gridVcr || !slotTemplate) {
-        return;
-      }
-
       const directive = this._draggablesDirectives.get(id);
 
       directive?.anchor.set(elContPos);
 
       const draggableSize = directive?.elementSize() || 1;
-      this._slot = slotTemplate.createEmbeddedView({
+      this._slot = this.slotTemplate().createEmbeddedView({
         $implicit: draggableSize,
       });
 
       this._dragged = this._draggablesViewRefs.get(id);
 
+      const gridVcr = this.gridVcr();
       const viewIdx = gridVcr.indexOf(this._dragged!);
       gridVcr.insert(this._slot, viewIdx);
 
@@ -157,8 +152,7 @@ export class DropGridComponent
   }
 
   onDrag({ pos, rect }: { pos: Coor; rect: Rect }) {
-    const gridVcr = this.gridVcr();
-    if (!this._slot || !gridVcr) {
+    if (!this._slot) {
       return;
     }
 
@@ -177,7 +171,7 @@ export class DropGridComponent
         cell.y1 <= pos.y &&
         pos.y <= cell.y2
       ) {
-        gridVcr.move(this._slot, cell.viewRefIdx);
+        this.gridVcr().move(this._slot, cell.viewRefIdx);
         this._viewIdxHover = cell.viewRefIdx;
 
         break;
@@ -199,13 +193,13 @@ export class DropGridComponent
   }
 
   onAnchored() {
-    const gridVcr = this.gridVcr();
-    if (!this._slot || !gridVcr) {
+    if (!this._slot) {
       return;
     }
 
     this._slot.destroy();
 
+    const gridVcr = this.gridVcr();
     const currIdx = gridVcr.indexOf(this._dragged!);
     const newIdx =
       this._viewIdxHover > currIdx
@@ -216,13 +210,8 @@ export class DropGridComponent
   }
 
   private _insertDraggable(d: DraggableDirective) {
-    const gridVcr = this.gridVcr();
-    if (!gridVcr) {
-      return;
-    }
-
     const draggableViewRef = d.templateRef.createEmbeddedView(null);
-    gridVcr.insert(draggableViewRef);
+    this.gridVcr().insert(draggableViewRef);
 
     // We need to set the native element of the draggable target and
     // subscribe to the events that are going to be emitted on user

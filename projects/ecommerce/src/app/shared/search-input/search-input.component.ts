@@ -28,7 +28,7 @@ const INPUT_DEBOUNCE = 250;
   ],
 })
 export class SearchInputComponent implements ControlValueAccessor {
-  inputRef = viewChild<ElementRef>('inputRef');
+  inputRef = viewChild.required<ElementRef>('inputRef');
   value = signal<string>('');
   disabled = signal<boolean>(false);
   @Output() focused = new EventEmitter<boolean>();

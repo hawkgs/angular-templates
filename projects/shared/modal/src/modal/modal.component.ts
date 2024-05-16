@@ -27,21 +27,16 @@ export class ModalComponent<D, R> implements AfterViewInit {
   private _cdRef = inject(ChangeDetectorRef);
 
   modal = input.required<Modal<D, R>>();
-  content = viewChild('content', { read: ViewContainerRef });
+  content = viewChild.required('content', { read: ViewContainerRef });
 
   /**
    * Create the modal content component and insert it
    * in the host view container.
    */
   ngAfterViewInit() {
-    const content = this.content();
     const modal = this.modal();
-    if (!content || !modal) {
-      return;
-    }
-
     const injector = this._createInjector(modal.controller, modal.data);
-    content.createComponent(modal.component, { injector });
+    this.content().createComponent(modal.component, { injector });
 
     // We need to run a CD in order to avoid NG0100
     this._cdRef.detectChanges();

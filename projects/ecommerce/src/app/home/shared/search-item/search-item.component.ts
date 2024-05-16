@@ -13,7 +13,7 @@ import { ProductImageComponent } from '../../../shared/product-image/product-ima
   styleUrl: './search-item.component.scss',
 })
 export class SearchItemComponent {
-  anchorRef = viewChild<ElementRef>('anchorRef');
+  anchorRef = viewChild.required<ElementRef>('anchorRef');
   createUrl = createProductUrl;
 
   product = input.required<Product>();
@@ -21,9 +21,9 @@ export class SearchItemComponent {
   @Input()
   set focused(value: boolean) {
     if (value) {
-      this.anchorRef()?.nativeElement.focus();
+      this.anchorRef().nativeElement.focus();
     } else {
-      this.anchorRef()?.nativeElement.blur();
+      this.anchorRef().nativeElement.blur();
     }
   }
 }

@@ -41,7 +41,7 @@ export class AutocompleteProductSearchComponent {
   private _formBuilder = inject(FormBuilder);
   noop = () => {}; // For accessibility purposes
 
-  searchInput = viewChild<SearchInputComponent>('searchInput');
+  searchInput = viewChild.required<SearchInputComponent>('searchInput');
   results = viewChild<ElementRef>('results');
 
   form = this._formBuilder.group({
@@ -70,7 +70,7 @@ export class AutocompleteProductSearchComponent {
     const t = e.target;
     if (
       t !== this.results()?.nativeElement &&
-      t !== this.searchInput()?.inputRef()?.nativeElement
+      t !== this.searchInput().inputRef().nativeElement
     ) {
       this._inFocus.set(false);
       this.focusedResult.set(-1);
