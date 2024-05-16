@@ -217,12 +217,7 @@ export class ProductsComponent implements OnInit {
     const sortType = queryParamMap.get('sort') || '';
 
     this.searchTerm.set(searchTerm);
-
-    const categories = this._categories.value();
-    // In case the user manually alters the category ID in the URL
-    if (categories.has(categoryId)) {
-      this.categoryId.set(categoryId);
-    }
+    this.categoryId.set(categoryId);
 
     if (isOfSortType(sortType)) {
       this.sortType.set(sortType as SortType);
