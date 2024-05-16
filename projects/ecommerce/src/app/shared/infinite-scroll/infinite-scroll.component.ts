@@ -1,12 +1,11 @@
 import {
   Component,
-  EventEmitter,
   OnDestroy,
   OnInit,
-  Output,
   PLATFORM_ID,
   Renderer2,
   inject,
+  output,
 } from '@angular/core';
 import { WINDOW } from '@ngx-templates/shared/services';
 import { IconComponent } from '@ngx-templates/shared/icon';
@@ -32,7 +31,7 @@ export class InfiniteScrollComponent implements OnInit, OnDestroy {
   private _bottomReached = false;
   private _listeners: (() => void)[] = [];
 
-  @Output() loadNext = new EventEmitter<() => void>();
+  loadNext = output<() => void>();
 
   ngOnInit() {
     if (isPlatformBrowser(this._platformId)) {

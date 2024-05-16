@@ -1,10 +1,9 @@
 import {
   Component,
   ElementRef,
-  EventEmitter,
-  Output,
   forwardRef,
   input,
+  output,
   signal,
   viewChild,
 } from '@angular/core';
@@ -31,8 +30,8 @@ export class SearchInputComponent implements ControlValueAccessor {
   inputRef = viewChild.required<ElementRef>('inputRef');
   value = signal<string>('');
   disabled = signal<boolean>(false);
-  @Output() focused = new EventEmitter<boolean>();
 
+  focused = output<boolean>();
   placeholder = input<string>('');
   debounce = input<number>(INPUT_DEBOUNCE);
 

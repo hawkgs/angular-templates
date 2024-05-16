@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Output,
-  computed,
-  input,
-  model,
-} from '@angular/core';
+import { Component, computed, input, model, output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { IconComponent } from '@ngx-templates/shared/icon';
@@ -32,9 +25,9 @@ import { maxProductQuantity } from '../../../shared/utils/max-quantity';
   styleUrl: './cart-item.component.scss',
 })
 export class CartItemComponent {
-  @Output() remove = new EventEmitter<void>();
   maxProductQuantity = maxProductQuantity;
 
+  remove = output<void>();
   product = input.required<Product>();
   quantity = model<number>(1);
   total = computed(() => {

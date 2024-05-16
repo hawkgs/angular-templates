@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, inject } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { IconComponent } from '@ngx-templates/shared/icon';
@@ -18,8 +18,8 @@ import { SearchInputComponent } from '../../../shared/search-input/search-input.
   styleUrl: './product-search.component.scss',
 })
 export class ProductSearchComponent {
-  @Output() search = new EventEmitter<string>();
   private _formBuilder = inject(FormBuilder);
+  search = output<string>();
 
   searchForm = this._formBuilder.group({
     searchString: [''],

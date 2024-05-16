@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Output,
-  computed,
-  inject,
-  input,
-} from '@angular/core';
+import { Component, computed, inject, input, output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { Product } from '../../../models';
@@ -26,7 +19,7 @@ export class ProductItemComponent {
 
   product = input.required<Product>();
   isLcp = input<boolean>(false);
-  @Output() productClick = new EventEmitter<Product>();
+  productClick = output<Product>();
 
   categories = computed(() =>
     this.product().categoryIds.map(
