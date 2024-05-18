@@ -1,7 +1,7 @@
 import { Component, HostBinding, input, output } from '@angular/core';
 import { IconComponent } from '@ngx-templates/shared/icon';
-import { PlainWidgetComponent } from '../plain-widget/plain-widget.component';
-import { WidgetConfig } from '../widget';
+import { PlainWidgetComponent } from './plain-widget/plain-widget.component';
+import { WidgetConfig } from './widget';
 
 export type WidgetType = 'plain';
 

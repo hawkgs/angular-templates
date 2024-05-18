@@ -5,5 +5,7 @@
 
 .slot {
   box-sizing: border-box;
-  border: 1px solid peru;
+  border: 2px solid var(--color-senary);
+  box-sizing: border-box;
+  border-radius: 10px;
 }

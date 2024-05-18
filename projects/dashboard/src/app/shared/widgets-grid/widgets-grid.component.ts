@@ -4,7 +4,7 @@ import { DRAG_AND_DROP_DIRECTIVES } from '@ngx-templates/shared/drag-and-drop';
 import { ButtonComponent } from '@ngx-templates/shared/button';
 import { ModalService } from '@ngx-templates/shared/modal';
 import { List } from 'immutable';
-import { WidgetComponent } from '../widgets/widget/widget.component';
+import { WidgetComponent } from '../widgets/widget.component';
 import {
   WidgetStoreResponse,
   WidgetsStoreModalComponent,

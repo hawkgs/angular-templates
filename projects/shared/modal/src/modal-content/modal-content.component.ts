@@ -9,6 +9,6 @@ import { ModalController } from '../modal.controller';
   templateUrl: './modal-content.component.html',
   styleUrl: './modal-content.component.scss',
 })
-export class ModalContentComponent {
-  controller = input.required<ModalController>();
+export class ModalContentComponent<T> {
+  controller = input.required<ModalController<T>>();
 }

@@ -1,0 +1,21 @@
+:host {
+  display: block;
+
+  button {
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 1rem;
+    border: none;
+    background-color: transparent;
+    color: var(--white);
+
+    .widget {
+      transform: scale(0.5);
+      pointer-events: none;
+    }
+
+    &:hover {
+      background-color: var(--color-septenary);
+    }
+  }
+}
