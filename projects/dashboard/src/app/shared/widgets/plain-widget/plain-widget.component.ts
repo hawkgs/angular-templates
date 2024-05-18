@@ -6,24 +6,27 @@ import {
   Renderer2,
   inject,
   input,
-  output,
   signal,
 } from '@angular/core';
+import { Widget } from '../widget';
+
+export type PlainWidgetConfig = {
+  style: 'red' | 'green' | 'blue' | 'purple' | 'orange' | 'gold';
+};
 
 @Component({
-  selector: 'db-widget',
+  selector: 'db-plain-widget',
   standalone: true,
   imports: [],
-  templateUrl: './widget.component.html',
-  styleUrl: './widget.component.scss',
+  templateUrl: './plain-widget.component.html',
+  styleUrl: './plain-widget.component.scss',
 })
-export class WidgetComponent implements OnInit {
+export class PlainWidgetComponent implements OnInit, Widget<PlainWidgetConfig> {
   private _renderer = inject(Renderer2);
   private _elRef = inject(ElementRef);
   private _zone = inject(NgZone);
 
-  type = input<string>('');
-  remove = output<void>();
+  config = input.required<PlainWidgetConfig>();
   counter = signal<number>(Math.round(Math.random() * 100));
 
   constructor() {
@@ -38,6 +41,9 @@ export class WidgetComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._renderer.addClass(this._elRef.nativeElement, this.type());
+    this._renderer.addClass(
+      this._elRef.nativeElement,
+      this.config().style as unknown as string,
+    );
   }
 }

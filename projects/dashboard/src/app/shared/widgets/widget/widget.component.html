@@ -1,0 +1,11 @@
+<ng-container #vcr></ng-container>
+@switch (type()) {
+  @case ('plain') {
+    <db-plain-widget [config]="config()"></db-plain-widget>
+  }
+}
+@if (editMode()) {
+  <button (click)="remove.emit()">
+    <ngx-icon name="Close" size="sm"></ngx-icon>
+  </button>
+}

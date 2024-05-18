@@ -7,19 +7,15 @@
       Add widget
     </button>
   }
-  <button ngx-button btnType="secondary" (click)="testModal()">
-    Test modal
-  </button>
 </div>
 <ngx-drop-grid [disabled]="!editMode()" [scrollCont]="doc.documentElement">
   @for (w of widgets(); track w.id) {
     <db-widget
-      *ngxDraggable="
-        w.id;
-        size: w.type === 'blue' ? 2 : 1;
-        position: w.position
-      "
+      *ngxDraggable="w.id; size: w.size; position: w.position"
       [type]="w.type"
+      [size]="w.size"
+      [editMode]="editMode()"
+      [config]="w.config"
       (remove)="removeWidget(w.id)"
     ></db-widget>
   }

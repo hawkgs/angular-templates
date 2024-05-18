@@ -4,25 +4,51 @@ import { DRAG_AND_DROP_DIRECTIVES } from '@ngx-templates/shared/drag-and-drop';
 import { ButtonComponent } from '@ngx-templates/shared/button';
 import { ModalService } from '@ngx-templates/shared/modal';
 import { List } from 'immutable';
-import { WidgetComponent } from './widget/widget.component';
-import { WidgetsStoreModalComponent } from './widgets-store-modal/widgets-store-modal.component';
+import { WidgetComponent } from '../widgets/widget/widget.component';
+import {
+  WidgetStoreResponse,
+  WidgetsStoreModalComponent,
+} from '../widgets-store-modal/widgets-store-modal.component';
+import { WidgetConfig, WidgetType } from '../widgets/widget';
 
-type Widget = { id: string; position: number; type: string };
+type WidgetItem = {
+  id: string;
+  position: number;
+  type: WidgetType;
+  config: WidgetConfig;
+  size: number;
+};
 
-const list = List([
+const list = List<WidgetItem>([
   {
     id: 'r1',
     position: 0,
-    type: 'red',
+    type: 'plain',
+    config: { style: 'red' },
+    size: 1,
   },
   {
     id: 'g1',
     position: 1,
-    type: 'green',
+    type: 'plain',
+    config: { style: 'green' },
+    size: 1,
   },
-  { id: 'b1', position: 2, type: 'blue' },
-  { id: 'p1', position: 4, type: 'purple' },
-  { id: 'o1', position: 3, type: 'orange' },
+  { id: 'b1', position: 2, type: 'plain', config: { style: 'blue' }, size: 2 },
+  {
+    id: 'p1',
+    position: 4,
+    type: 'plain',
+    config: { style: 'purple' },
+    size: 1,
+  },
+  {
+    id: 'o1',
+    position: 3,
+    type: 'plain',
+    config: { style: 'orange' },
+    size: 1,
+  },
 ]);
 
 @Component({
@@ -38,28 +64,24 @@ export class WidgetsGridComponent {
 
   title = 'dashboard';
   editMode = signal<boolean>(false);
-  widgets = signal<List<Widget>>(list);
-
-  constructor() {
-    let l = list;
-    for (let i = 0; i < 50; i++) {
-      l = l.push({
-        id: 'vr' + i,
-        position: list.size,
-        type: 'empty',
-      });
-    }
-    this.widgets.set(l);
-  }
+  widgets = signal<List<WidgetItem>>(list);
 
   addWidget() {
-    this.widgets.update((l) =>
-      l.push({
-        id: 'random' + Date.now(),
-        position: l.size,
-        type: 'gold',
-      }),
-    );
+    this._modalService
+      .createModal<void, WidgetStoreResponse>(WidgetsStoreModalComponent)
+      .closed.then((wObj) => {
+        if (wObj) {
+          this.widgets.update((l) =>
+            l.push({
+              id: 'random' + Date.now(),
+              position: l.size,
+              type: 'plain',
+              config: { style: 'gold' },
+              size: 1,
+            }),
+          );
+        }
+      });
   }
 
   removeWidget(id: string) {
