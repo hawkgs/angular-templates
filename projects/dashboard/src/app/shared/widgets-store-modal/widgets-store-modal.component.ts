@@ -9,12 +9,21 @@ import {
 import { WidgetItemComponent } from './widget-item/widget-item.component';
 import { WidgetComponent } from '../widgets/widget.component';
 import { DataSourceModalComponent } from './data-source-modal/data-source-modal.component';
-import { WidgetType } from '../widgets/widget';
+import { WidgetConfig, WidgetType } from '../widgets/widget';
 
-const WIDGETS: WidgetType[] = ['plain'];
+// List of widgets available to add to the dashboard.
+const WIDGETS: {
+  type: WidgetType;
+  config: WidgetConfig;
+}[] = [
+  {
+    type: 'plain',
+    config: { style: 'grey' },
+  },
+];
 
 export type WidgetStoreResponse = {
-  widget: WidgetType;
+  widgetType: WidgetType;
   dataSource: string;
 };
 
@@ -32,13 +41,13 @@ export class WidgetsStoreModalComponent {
 
   widgets = WIDGETS;
 
-  onWidgetClick(widget: WidgetType) {
+  onWidgetClick(widgetType: WidgetType) {
     this._modalsService
       .createModal<void, string>(DataSourceModalComponent)
       .closed.then((dataSource) => {
         if (dataSource?.length) {
           this.ctrl.close({
-            widget,
+            widgetType,
             dataSource,
           });
         }

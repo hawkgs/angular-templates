@@ -8,10 +8,21 @@
     border: none;
     background-color: transparent;
     color: var(--white);
+    text-align: left;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+    width: 200px;
 
-    .widget {
+    .widget-wrapper {
       transform: scale(0.5);
       pointer-events: none;
+
+      & ::ng-deep > .widget {
+        width: 250px;
+        height: 100px;
+      }
     }
 
     &:hover {
