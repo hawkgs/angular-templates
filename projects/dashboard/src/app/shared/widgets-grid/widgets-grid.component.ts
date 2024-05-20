@@ -1,104 +1,92 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import {
+  AfterRenderPhase,
+  Component,
+  afterNextRender,
+  computed,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { DRAG_AND_DROP_DIRECTIVES } from '@ngx-templates/shared/drag-and-drop';
 import { ButtonComponent } from '@ngx-templates/shared/button';
 import { ModalService } from '@ngx-templates/shared/modal';
-import { List } from 'immutable';
+import { Map } from 'immutable';
+
 import { WidgetComponent } from '../widgets/widget.component';
 import {
   WidgetStoreResponse,
   WidgetsStoreModalComponent,
 } from '../widgets-store-modal/widgets-store-modal.component';
-import { WidgetConfig, WidgetType } from '../widgets/widget';
-
-type WidgetItem = {
-  id: string;
-  position: number;
-  type: WidgetType;
-  config: WidgetConfig;
-  size: number;
-};
-
-const list = List<WidgetItem>([
-  {
-    id: 'r1',
-    position: 0,
-    type: 'plain',
-    config: { style: 'red' },
-    size: 1,
-  },
-  {
-    id: 'g1',
-    position: 1,
-    type: 'plain',
-    config: { style: 'green' },
-    size: 1,
-  },
-  { id: 'b1', position: 2, type: 'plain', config: { style: 'blue' }, size: 2 },
-  {
-    id: 'p1',
-    position: 4,
-    type: 'plain',
-    config: { style: 'purple' },
-    size: 1,
-  },
-  {
-    id: 'o1',
-    position: 3,
-    type: 'plain',
-    config: { style: 'orange' },
-    size: 1,
-  },
-]);
+import { GridStoreService } from './grid-store.service';
+import { WidgetGridItem } from './widget-grid-item';
 
 @Component({
   selector: 'db-widgets-grid',
   standalone: true,
   imports: [WidgetComponent, ButtonComponent, DRAG_AND_DROP_DIRECTIVES],
+  providers: [GridStoreService],
   templateUrl: './widgets-grid.component.html',
   styleUrl: './widgets-grid.component.scss',
 })
 export class WidgetsGridComponent {
   doc = inject(DOCUMENT);
   private _modalService = inject(ModalService);
+  private _gridStore = inject(GridStoreService);
 
-  title = 'dashboard';
+  private _widgets = signal<Map<string, WidgetGridItem>>(Map([]));
   editMode = signal<boolean>(false);
-  widgets = signal<List<WidgetItem>>(list);
+  widgets = computed(() => this._widgets().toList());
+  widgetsLoaded = signal<boolean>(false);
+
+  constructor() {
+    const widgets = this._gridStore.getGridItems();
+    this._widgets.set(widgets);
+
+    effect(() => {
+      this._gridStore.setGridItems(this._widgets());
+    });
+
+    // Mark widgets as loaded on the browser
+    afterNextRender(() => this.widgetsLoaded.set(true), {
+      phase: AfterRenderPhase.Read,
+    });
+  }
 
   addWidget() {
     this._modalService
       .createModal<void, WidgetStoreResponse>(WidgetsStoreModalComponent)
-      .closed.then((wObj) => {
-        if (wObj) {
-          this.widgets.update((l) =>
-            l.push({
-              id: 'random' + Date.now(),
-              position: l.size,
-              type: 'plain',
-              config: { style: 'gold' },
-              size: 1,
-            }),
+      .closed.then((resp) => {
+        if (resp) {
+          const { widgetType } = resp;
+          const id = 'random' + Date.now(); // Temp
+
+          this._widgets.update((m) =>
+            m.set(
+              id,
+              new WidgetGridItem({
+                id,
+                position: m.size,
+                type: widgetType,
+                config: { style: 'gold' },
+                size: 1,
+              }),
+            ),
           );
         }
       });
   }
 
   removeWidget(id: string) {
-    this.widgets.update((l) => {
-      const idx = l.findIndex((w) => w.id === id);
-      return l.remove(idx);
-    });
+    this._widgets.update((m) => m.delete(id));
   }
 
-  testModal() {
-    this._modalService
-      .createModal<
-        string,
-        string
-      >(WidgetsStoreModalComponent, 'This is passed data')
-      .closed.then((output) => {
-        console.log('This is output data', output);
+  onWidgetMoved(positions: { id: string; pos: number }[]) {
+    this._widgets.update((widgets) => {
+      positions.forEach(({ id, pos }) => {
+        widgets = widgets.set(id, widgets.get(id)!.set('position', pos));
       });
+      return widgets;
+    });
   }
 }

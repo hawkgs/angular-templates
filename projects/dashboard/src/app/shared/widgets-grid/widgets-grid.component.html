@@ -1,14 +1,27 @@
-<div class="controls">
-  <button ngx-button btnType="primary" (click)="editMode.set(!editMode())">
-    {{ editMode() ? 'Stop editing' : 'Edit' }}
-  </button>
-  @if (editMode()) {
-    <button ngx-button btnType="secondary" (click)="addWidget()">
-      Add widget
+@if (widgets().size) {
+  <div class="controls">
+    <button ngx-button btnType="primary" (click)="editMode.set(!editMode())">
+      {{ editMode() ? 'Stop editing' : 'Edit' }}
     </button>
-  }
-</div>
-<ngx-drop-grid [disabled]="!editMode()" [scrollCont]="doc.documentElement">
+    @if (editMode()) {
+      <button ngx-button btnType="secondary" (click)="addWidget()">
+        Add widget
+      </button>
+    }
+  </div>
+} @else if (widgetsLoaded()) {
+  <div class="no-widgets">
+    <p>Your dashboard is empty</p>
+    <button ngx-button btnType="primary" (click)="addWidget()">
+      Add your first widget
+    </button>
+  </div>
+}
+<ngx-drop-grid
+  [disabled]="!editMode()"
+  [scrollCont]="doc.documentElement"
+  (moved)="onWidgetMoved($event)"
+>
   @for (w of widgets(); track w.id) {
     <db-widget
       *ngxDraggable="w.id; size: w.size; position: w.position"

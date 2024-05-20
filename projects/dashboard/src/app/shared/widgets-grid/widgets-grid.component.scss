@@ -1,3 +1,5 @@
+@import 'typography';
+
 :host {
   display: block;
 
@@ -10,6 +12,21 @@
 
     button {
       margin-left: 1rem;
+    }
+  }
+
+  .no-widgets {
+    text-align: center;
+
+    p {
+      @extend %heading-200;
+      margin: 1rem 0 2rem 0;
+      color: var(--color-quaternary);
+    }
+
+    button {
+      padding-left: 1rem;
+      padding-right: 1rem;
     }
   }
 }

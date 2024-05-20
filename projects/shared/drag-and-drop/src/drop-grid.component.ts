@@ -13,6 +13,7 @@ import {
   contentChildren,
   inject,
   input,
+  output,
   viewChild,
 } from '@angular/core';
 
@@ -49,6 +50,11 @@ export class DropGridComponent
   slotTemplate = viewChild.required('slotTemplate', { read: TemplateRef });
   gridVcr = viewChild.required('grid', { read: ViewContainerRef });
   draggables = contentChildren(DraggableDirective);
+
+  /**
+   * Emits an event when a draggable has been moved and return new positions.
+   */
+  moved = output<{ id: string; pos: number }[]>();
 
   /**
    * Set the scroll container of the drop grid. If not set,
@@ -207,6 +213,13 @@ export class DropGridComponent
         : this._viewIdxHover;
 
     gridVcr.move(this._dragged!, newIdx);
+
+    // Notify for the updated positions
+    const positions: { id: string; pos: number }[] = [];
+    this._draggablesViewRefs.forEach((vr, id) => {
+      positions.push({ id, pos: this.gridVcr().indexOf(vr) });
+    });
+    this.moved.emit(positions);
   }
 
   private _insertDraggable(d: DraggableDirective) {
