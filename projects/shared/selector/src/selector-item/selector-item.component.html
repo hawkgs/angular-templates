@@ -1,0 +1,12 @@
+<div class="input-cont">
+  <input
+    type="radio"
+    [name]="groupName()"
+    [checked]="checked()"
+    (change)="change.emit(value())"
+  />
+  <div class="checkbox"></div>
+</div>
+<div class="content">
+  <ng-content></ng-content>
+</div>

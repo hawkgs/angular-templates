@@ -6,7 +6,7 @@ import { isPlatformBrowser } from '@angular/common';
 
 const GRID_CONFIG_LS_KEY = 'db-grid-cfg';
 
-// Defaults widgets. Might get rid of it in the future.
+// Default widgets. Might get rid of it in the future.
 const DEFAULT_LIST: WidgetGridItemConfig[] = [
   {
     id: 'r1',

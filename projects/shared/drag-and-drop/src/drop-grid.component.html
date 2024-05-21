@@ -5,8 +5,7 @@
 <section
   class="grid"
   [style.grid-template-columns]="gridTemplateColumns()"
-  [style.grid-column-gap]="cellGap() + 'px'"
-  [style.grid-row-gap]="cellGap() + 'px'"
+  [style.gap]="cellGap() + 'px'"
 >
   <ng-container #grid></ng-container>
 </section>
