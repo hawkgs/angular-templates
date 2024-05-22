@@ -1,9 +1,9 @@
-import { Injectable, NgZone, inject, signal } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { DataItem, DataSource } from './types';
 
 @Injectable()
 export class RandNumsList implements DataSource<DataItem> {
-  private _zone = inject(NgZone);
+  private _init = false;
   private _data = signal<DataItem>(
     new DataItem({
       value: Math.round(Math.random() * 100),
@@ -11,14 +11,16 @@ export class RandNumsList implements DataSource<DataItem> {
   );
   data = this._data.asReadonly();
 
-  constructor() {
+  init() {
+    if (this._init) {
+      return;
+    }
+
+    this._init = true;
+
     const interval = Math.round(Math.max(1500, Math.random() * 10000));
-    this._zone.runOutsideAngular(() => {
-      setInterval(() => {
-        this._zone.run(() => {
-          this._data.update((item) => item.set('value', item.value + 1));
-        });
-      }, interval);
-    });
+    setInterval(() => {
+      this._data.update((item) => item.set('value', item.value + 1));
+    }, interval);
   }
 }

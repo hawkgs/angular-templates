@@ -12,7 +12,7 @@ import {
 import { IconComponent } from '@ngx-templates/shared/icon';
 import { PlainWidgetComponent } from './plain-widget/plain-widget.component';
 import { WidgetConfig } from './widget';
-import { injectDataSourceInstance } from '../../data';
+import { injectDataSourceInstance } from '../../data/utils';
 import { DataType } from '../../data/types';
 
 export type WidgetType = 'plain';
@@ -52,6 +52,7 @@ export class WidgetComponent implements OnInit {
     const srcInstance = injectDataSourceInstance(id, this._injector);
     if (srcInstance) {
       this.data = srcInstance.data;
+      srcInstance.init();
     }
   }
 }

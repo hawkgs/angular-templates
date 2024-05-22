@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
-import { provideDataSources } from './data';
+import { provideDataSources } from './data/utils';
 
 // TODO(Georgi): Investigate why hydration breaks due to
 // dynamically-loaded widgets.
