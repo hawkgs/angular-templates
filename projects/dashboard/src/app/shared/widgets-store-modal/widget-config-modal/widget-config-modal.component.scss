@@ -1,0 +1,31 @@
+:host {
+  min-width: 50vw;
+  display: block;
+
+  .box-cont {
+    display: flex;
+    justify-content: center;
+
+    .size-box {
+      border: 1px solid rgb(22, 133, 212);
+      background-color: rgba(22, 133, 212, 0.5);
+      width: 16px;
+      height: 16px;
+      margin: 0 1px;
+    }
+  }
+
+  hr {
+    background: var(--color-senary);
+    margin: 1.5rem 0;
+  }
+
+  p {
+    margin-bottom: 1rem;
+  }
+
+  button {
+    margin-top: 1rem;
+    width: 100%;
+  }
+}

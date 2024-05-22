@@ -1,0 +1,29 @@
+<ngx-modal-content [controller]="ctrl">
+  <ng-container title>Configure the widget</ng-container>
+  <ng-container content>
+    @if (data.supportedSizes.length > 1) {
+      <p>Select a size.</p>
+      <ngx-selector-group name="sizeSelector" [(value)]="size" type="columns">
+        @for (size of data.supportedSizes; track size) {
+          <ngx-selector-item [value]="size.toString()">
+            <div class="box-cont">
+              @for (_ of iterate(size); track $index) {
+                <div class="size-box"></div>
+              }
+            </div>
+          </ngx-selector-item>
+        }
+      </ngx-selector-group>
+      <hr />
+    }
+    <p>Select a data source from the list.</p>
+    <ngx-selector-group name="dsSelector" [(value)]="dataSource">
+      <ngx-selector-item value="test1">Test 1</ngx-selector-item>
+      <ngx-selector-item value="test2">Test 2</ngx-selector-item>
+      <ngx-selector-item value="test3">Test 3</ngx-selector-item>
+    </ngx-selector-group>
+    <button ngx-button btnType="primary" (click)="addWidget()">
+      Add widget
+    </button>
+  </ng-container>
+</ngx-modal-content>

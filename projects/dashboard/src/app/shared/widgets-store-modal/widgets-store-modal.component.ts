@@ -8,23 +8,28 @@ import {
 
 import { WidgetItemComponent } from './widget-item/widget-item.component';
 import { WidgetComponent } from '../widgets/widget.component';
-import { DataSourceModalComponent } from './data-source-modal/data-source-modal.component';
-import { WidgetConfig, WidgetType } from '../widgets/widget';
+import {
+  WidgetConfigData,
+  WidgetConfigModalComponent,
+  WidgetConfigResponse,
+} from './widget-config-modal/widget-config-modal.component';
+import { WidgetType } from '../widgets/widget';
+import { WidgetStoreItem } from './widget-store-item';
 
 // List of widgets available to add to the dashboard.
-const WIDGETS: {
-  type: WidgetType;
-  config: WidgetConfig;
-}[] = [
+const WIDGETS: WidgetStoreItem[] = [
   {
     type: 'plain',
-    config: { style: 'grey' },
+    demoConfig: { style: 'grey' },
+    supportedSizes: [1, 2],
+    supportedDataSource: 'test',
   },
 ];
 
 export type WidgetStoreResponse = {
   widgetType: WidgetType;
   dataSource: string;
+  size: number;
 };
 
 @Component({
@@ -42,13 +47,19 @@ export class WidgetsStoreModalComponent {
   widgets = WIDGETS;
 
   onWidgetClick(widgetType: WidgetType) {
+    const idx = WIDGETS.findIndex((i) => i.type === widgetType);
+
     this._modalsService
-      .createModal<void, string>(DataSourceModalComponent)
-      .closed.then((dataSource) => {
-        if (dataSource?.length) {
+      .createModal<
+        WidgetConfigData,
+        WidgetConfigResponse
+      >(WidgetConfigModalComponent, WIDGETS[idx])
+      .closed.then((resp) => {
+        if (resp) {
           this.ctrl.close({
             widgetType,
-            dataSource,
+            dataSource: resp.dataSource,
+            size: resp.size,
           });
         }
       });

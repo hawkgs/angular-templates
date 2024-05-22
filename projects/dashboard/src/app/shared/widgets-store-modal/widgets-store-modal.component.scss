@@ -1,3 +1,8 @@
-.widgets {
-  margin-top: 1rem;
+:host {
+  display: block;
+  min-width: 70vw;
+
+  .widgets {
+    margin-top: 1rem;
+  }
 }

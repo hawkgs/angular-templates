@@ -35,5 +35,7 @@
 
   .content {
     @extend %body-short-03;
+    max-height: 80vh;
+    overflow-y: auto;
   }
 }
