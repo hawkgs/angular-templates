@@ -17,12 +17,22 @@
       <hr />
     }
     <p>Select a data source from the list.</p>
-    <ngx-selector-group name="dsSelector" [(value)]="dataSource">
-      <ngx-selector-item value="test1">Test 1</ngx-selector-item>
-      <ngx-selector-item value="test2">Test 2</ngx-selector-item>
-      <ngx-selector-item value="test3">Test 3</ngx-selector-item>
+    <ngx-selector-group name="dsSelector" [(value)]="dataSourceId">
+      @for (src of sources; track src.id) {
+        <ngx-selector-item [value]="src.id">
+          <span>{{ src.name }}</span>
+          <span class="src-type">{{
+            SRC_TYPE_NAME[src.type]
+          }}</span></ngx-selector-item
+        >
+      }
     </ngx-selector-group>
-    <button ngx-button btnType="primary" (click)="addWidget()">
+    <button
+      ngx-button
+      btnType="primary"
+      (click)="addWidget()"
+      [disabled]="!dataSourceId().length"
+    >
       Add widget
     </button>
   </ng-container>

@@ -1,3 +1,5 @@
+@import 'typography';
+
 :host {
   min-width: 50vw;
   display: block;
@@ -27,5 +29,13 @@
   button {
     margin-top: 1rem;
     width: 100%;
+  }
+
+  .src-type {
+    @extend %chip-text;
+    background-color: var(--color-septenary);
+    margin-left: 0.5rem;
+    border-radius: 0.25rem;
+    padding: 2px 4px;
   }
 }

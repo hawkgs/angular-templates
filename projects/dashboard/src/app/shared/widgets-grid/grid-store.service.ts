@@ -13,6 +13,7 @@ const DEFAULT_LIST: WidgetGridItemConfig[] = [
     position: 0,
     type: 'plain',
     config: { style: 'red' },
+    dataSourceId: 'rand-nums-list',
     size: 1,
   },
   {
@@ -20,6 +21,7 @@ const DEFAULT_LIST: WidgetGridItemConfig[] = [
     position: 1,
     type: 'plain',
     config: { style: 'green' },
+    dataSourceId: 'rand-nums-list',
     size: 1,
   },
   {
@@ -27,6 +29,7 @@ const DEFAULT_LIST: WidgetGridItemConfig[] = [
     position: 2,
     type: 'plain',
     config: { style: 'blue' },
+    dataSourceId: 'rand-nums-list',
     size: 2,
   },
   {
@@ -34,6 +37,7 @@ const DEFAULT_LIST: WidgetGridItemConfig[] = [
     position: 4,
     type: 'plain',
     config: { style: 'purple' },
+    dataSourceId: 'rand-nums-list',
     size: 1,
   },
   {
@@ -41,6 +45,7 @@ const DEFAULT_LIST: WidgetGridItemConfig[] = [
     position: 3,
     type: 'plain',
     config: { style: 'orange' },
+    dataSourceId: 'rand-nums-list',
     size: 1,
   },
 ];

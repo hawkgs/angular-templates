@@ -1,3 +1,5 @@
+@import 'typography';
+
 :host {
   position: relative;
   display: block;
@@ -14,5 +16,19 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .no-data {
+    @extend %heading-600;
+    border-radius: 10px;
+    border: 1px dashed var(--color-senary);
+    color: var(--color-quaternary);
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
   }
 }

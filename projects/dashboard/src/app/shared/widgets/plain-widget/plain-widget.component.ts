@@ -9,6 +9,8 @@ import {
   signal,
 } from '@angular/core';
 import { Widget } from '../widget';
+import { List } from 'immutable';
+import { DataItem } from '../../../data/types';
 
 export type PlainWidgetConfig = {
   style: 'red' | 'green' | 'blue' | 'purple' | 'orange' | 'gold';
@@ -21,24 +23,14 @@ export type PlainWidgetConfig = {
   templateUrl: './plain-widget.component.html',
   styleUrl: './plain-widget.component.scss',
 })
-export class PlainWidgetComponent implements OnInit, Widget<PlainWidgetConfig> {
+export class PlainWidgetComponent
+  implements OnInit, Widget<PlainWidgetConfig, DataItem>
+{
   private _renderer = inject(Renderer2);
   private _elRef = inject(ElementRef);
-  private _zone = inject(NgZone);
 
   config = input.required<PlainWidgetConfig>();
-  counter = signal<number>(Math.round(Math.random() * 100));
-
-  constructor() {
-    const interval = Math.round(Math.max(1500, Math.random() * 10000));
-    this._zone.runOutsideAngular(() => {
-      setInterval(() => {
-        this._zone.run(() => {
-          this.counter.update((ct) => ct + 1);
-        });
-      }, interval);
-    });
-  }
+  data = input.required<DataItem>();
 
   ngOnInit() {
     this._renderer.addClass(

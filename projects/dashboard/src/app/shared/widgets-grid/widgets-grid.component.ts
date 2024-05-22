@@ -58,7 +58,7 @@ export class WidgetsGridComponent {
       .createModal<void, WidgetStoreResponse>(WidgetsStoreModalComponent)
       .closed.then((resp) => {
         if (resp) {
-          const { widgetType, size } = resp;
+          const { widgetType, size, dataSourceId } = resp;
           const id = 'random' + Date.now(); // Temp
 
           this._widgets.update((m) =>
@@ -69,6 +69,7 @@ export class WidgetsGridComponent {
                 position: m.size,
                 type: widgetType,
                 config: { style: 'gold' },
+                dataSourceId,
                 size: size,
               }),
             ),

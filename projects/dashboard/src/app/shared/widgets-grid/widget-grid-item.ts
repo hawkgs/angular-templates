@@ -6,6 +6,7 @@ export interface WidgetGridItemConfig {
   position: number;
   type: WidgetType;
   config: WidgetConfig;
+  dataSourceId: string;
   size: number;
 }
 
@@ -14,6 +15,7 @@ const widgetGridItemRecord = Record<WidgetGridItemConfig>({
   position: 0,
   type: 'plain',
   config: null,
+  dataSourceId: '',
   size: 1,
 });
 
