@@ -1,10 +1,15 @@
 @if (widgets().size) {
   <div class="controls">
-    <button ngx-button btnType="primary" (click)="editMode.set(!editMode())">
+    <button
+      ngx-button
+      btnType="secondary"
+      size="minimal"
+      (click)="editMode.set(!editMode())"
+    >
       {{ editMode() ? 'Stop editing' : 'Edit' }}
     </button>
     @if (editMode()) {
-      <button ngx-button btnType="secondary" (click)="addWidget()">
+      <button ngx-button btnType="primary" size="minimal" (click)="addWidget()">
         Add widget
       </button>
     }
