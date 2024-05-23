@@ -1,11 +1,10 @@
 .grid {
   display: grid;
-  grid-auto-rows: 100px;
 }
 
 .slot {
   box-sizing: border-box;
-  border: 2px solid var(--color-senary);
-  box-sizing: border-box;
-  border-radius: 10px;
+  border: var(--grid-slot-border, none);
+  border-radius: var(--grid-slot-border-radius, 0.25rem);
+  background: var(--grid-slot-background, var(--color-tertiary));
 }

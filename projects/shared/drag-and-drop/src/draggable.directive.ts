@@ -23,6 +23,9 @@ const RAPPEL_ANIM_DURR = 300;
 // time, if the user is still holding the element.
 const DRAG_ACTIVE_AFTER = 200;
 
+// The level of the opacity while the target is being dragged.
+const DRAG_OPACITY = 0.8;
+
 /**
  * Adds draggable behavior to an element. Should be used as
  * a structural directive  along with `ngx-drop-grid`.
@@ -216,7 +219,7 @@ export class DraggableDirective implements OnDestroy {
       position: 'fixed',
       top: '0',
       left: '0',
-      opacity: '0.6',
+      opacity: DRAG_OPACITY.toString(),
       width: size.x + 'px',
       height: size.y + 'px',
       'pointer-events': 'none',

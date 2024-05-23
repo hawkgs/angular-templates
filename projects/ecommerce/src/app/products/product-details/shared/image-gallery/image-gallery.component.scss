@@ -28,7 +28,7 @@
       border: none;
       border-radius: 50%;
       z-index: 1;
-      color: var(--color-secondary);
+      color: var(--color-tertiary);
       background-color: var(--color-bg);
       transition:
         color 300ms ease,
@@ -72,7 +72,7 @@
         background-color 300ms ease;
 
       &:not(.highlighted):hover {
-        border-color: var(--color-secondary);
+        border-color: var(--color-tertiary);
       }
 
       &.highlighted {

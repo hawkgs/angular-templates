@@ -36,7 +36,7 @@
 
       &:not([disabled]):hover,
       &:not([disabled]):focus {
-        color: var(--color-secondary);
+        color: var(--color-tertiary);
       }
 
       &[disabled] {
