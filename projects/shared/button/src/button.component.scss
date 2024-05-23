@@ -1,6 +1,5 @@
 :host {
   font-weight: 500;
-  box-sizing: border-box;
   border-radius: 0.25rem;
   border: none;
   transition: color 300ms ease;
@@ -21,6 +20,7 @@
 
   &.primary-btn {
     background: var(--gradient-orange-to-violet);
+    border: 1px solid transparent;
     color: var(--color-bg);
     background-size: 200%;
     background-position: 50%;
@@ -30,7 +30,7 @@
       opacity 300ms ease;
 
     &:not([disabled]):hover {
-      background-position-x: 100%;
+      background-position-x: calc(100% + 1px);
     }
 
     &[disabled] {

@@ -1,56 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import 'typography';
-@import 'screen-breakpoints';
+@import 'global';
 
 // Variables
+
 :root {
   --app-max-width: 1620px;
-}
-
-// Global styles
-
-html,
-body {
-  height: 100%;
-}
-
-body {
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  font-family: $font-family;
-  font-size: 0.875rem;
-  margin: 0;
-}
-
-p {
-  margin: 0;
-}
-
-a {
-  color: var(--color-quaternary);
-  transition: color 300ms ease;
-  text-decoration: none;
-  cursor: pointer;
-
-  &[target='_blank'] {
-    text-decoration: underline;
-  }
-
-  &:hover,
-  &:focus {
-    color: var(--color-primary);
-  }
-}
-
-button {
-  cursor: pointer;
-}
-
-hr {
-  border: none;
-  background: var(--gradient-pink-to-violet);
-  width: 100%;
-  height: 1px;
-  margin: 1rem 0;
 }
