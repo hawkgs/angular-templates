@@ -77,7 +77,7 @@ export class WidgetsGridComponent {
             ),
           );
 
-          this._toasts.create('Widget successfully added!');
+          this._toasts.create('Widget successfully added!', { ttl: 2500 });
         }
       });
   }

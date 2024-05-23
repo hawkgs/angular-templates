@@ -7,4 +7,5 @@
   border: var(--grid-slot-border, none);
   border-radius: var(--grid-slot-border-radius, 0.25rem);
   background: var(--grid-slot-background, var(--color-tertiary));
+  height: var(--grid-slot-height);
 }
