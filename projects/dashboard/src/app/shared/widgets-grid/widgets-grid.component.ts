@@ -11,6 +11,7 @@ import {
 import { DRAG_AND_DROP_DIRECTIVES } from '@ngx-templates/shared/drag-and-drop';
 import { ButtonComponent } from '@ngx-templates/shared/button';
 import { ModalService } from '@ngx-templates/shared/modal';
+import { ToastsService } from '@ngx-templates/shared/toasts';
 import { Map } from 'immutable';
 
 import { WidgetComponent } from '../widgets/widget.component';
@@ -33,6 +34,7 @@ export class WidgetsGridComponent {
   doc = inject(DOCUMENT);
   private _modalService = inject(ModalService);
   private _gridStore = inject(GridStoreService);
+  private _toasts = inject(ToastsService);
 
   private _widgets = signal<Map<string, WidgetGridItem>>(Map([]));
   editMode = signal<boolean>(false);
@@ -74,6 +76,8 @@ export class WidgetsGridComponent {
               }),
             ),
           );
+
+          this._toasts.create('Widget successfully added!');
         }
       });
   }
