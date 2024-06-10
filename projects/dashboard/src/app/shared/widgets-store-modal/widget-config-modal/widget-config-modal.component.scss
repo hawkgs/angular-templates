@@ -1,7 +1,8 @@
 @import 'typography';
 
 :host {
-  min-width: 50vw;
+  width: 70vw;
+  max-width: 400px;
   display: block;
 
   .box-cont {
