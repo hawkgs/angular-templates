@@ -1,15 +1,12 @@
 import {
   Component,
   ElementRef,
-  NgZone,
   OnInit,
   Renderer2,
   inject,
   input,
-  signal,
 } from '@angular/core';
 import { Widget } from '../widget';
-import { List } from 'immutable';
 import { DataItem } from '../../../data/types';
 
 export type PlainWidgetConfig = {

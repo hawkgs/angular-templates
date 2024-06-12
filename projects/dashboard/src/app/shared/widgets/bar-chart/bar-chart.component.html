@@ -1,0 +1,18 @@
+<svg #svgElement xmlns="http://www.w3.org/2000/svg">
+  <g
+    class="bars"
+    [attr.transform]="
+      'translate(' + BARS_SIDE_PADDING + ', ' + BARS_TOP_PADDING + ')'
+    "
+  >
+    @for (item of normalizedData(); track $index; let i = $index) {
+      <rect
+        [attr.width]="barWidth()"
+        [attr.x]="(barWidth() + BAR_SPACING) * i"
+        [attr.y]="this.maxBarHeight() - item.value"
+        [attr.height]="item.value"
+        [attr.fill]="colorArray()[i]"
+      />
+    }
+  </g>
+</svg>

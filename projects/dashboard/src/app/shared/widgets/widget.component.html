@@ -6,6 +6,12 @@
         [data]="$any(data ? data() : previewData())"
       ></db-plain-widget>
     }
+    @case ('bar-chart') {
+      <db-bar-chart
+        [config]="config()"
+        [data]="$any(data ? data() : previewData())"
+      ></db-bar-chart>
+    }
   }
 } @else {
   <div class="no-data">Unable to load data</div>
