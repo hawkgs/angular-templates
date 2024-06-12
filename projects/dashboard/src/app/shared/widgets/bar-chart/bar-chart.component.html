@@ -31,6 +31,13 @@
         [attr.height]="item.value"
         [attr.fill]="colorsArray()[i]"
       />
+      <text
+        text-anchor="middle"
+        [attr.x]="(barWidth() + BAR_SPACING) * i + barWidth() / 2"
+        [attr.y]="this.maxBarHeight() + 20"
+      >
+        {{ item.label | chartLabel }}
+      </text>
     }
   </g>
 </svg>

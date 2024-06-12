@@ -12,6 +12,7 @@ import { DataItem } from '../../../data/types';
 import { colorGenerator } from '../utils';
 import { precisionRound } from '../../utils';
 import { FormatThousandsPipe } from '../../pipes/format-thousands.pipe';
+import { ChartLabelPipe } from '../../pipes/chart-label.pipe';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type BarChartConfig = any;
@@ -28,7 +29,7 @@ const SEPARATORS_COUNT = 4;
 @Component({
   selector: 'db-bar-chart',
   standalone: true,
-  imports: [FormatThousandsPipe],
+  imports: [FormatThousandsPipe, ChartLabelPipe],
   templateUrl: './bar-chart.component.html',
   styleUrl: './bar-chart.component.scss',
 })

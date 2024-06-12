@@ -9,6 +9,8 @@ const USERS_NATIONALITY: [string, number][] = [
   ['Germany', 1502],
   ['Italy', 9401],
   ['France', 210],
+  ['United Arab Emirates', 2011],
+  ['New Zealand', 5700],
 ];
 
 @Injectable()
