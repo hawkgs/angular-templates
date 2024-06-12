@@ -3,12 +3,12 @@ import { DataItem, DataSource } from './types';
 import { List } from 'immutable';
 
 const USERS_NATIONALITY: [string, number][] = [
-  ['United States', 105],
-  ['Canada', 67],
-  ['Mexico', 80],
-  ['Germany', 55],
-  ['Italy', 94],
-  ['France', 21],
+  ['United States', 10332],
+  ['Canada', 3702],
+  ['Mexico', 8034],
+  ['Germany', 1502],
+  ['Italy', 9401],
+  ['France', 210],
 ];
 
 @Injectable()

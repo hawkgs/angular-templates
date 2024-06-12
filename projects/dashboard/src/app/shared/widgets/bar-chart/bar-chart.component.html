@@ -1,4 +1,22 @@
 <svg #svgElement xmlns="http://www.w3.org/2000/svg">
+  <g class="separators">
+    @for (s of separators(); track $index; let i = $index) {
+      <text
+        [attr.x]="BARS_SIDE_PADDING - 20"
+        [attr.y]="sepStep() * i + BARS_TOP_PADDING + 5"
+        text-anchor="end"
+      >
+        {{ s | formatThousands }}
+      </text>
+      <line
+        [attr.x1]="BARS_SIDE_PADDING - 10"
+        [attr.x2]="contSize().width - BARS_SIDE_PADDING + 10"
+        [attr.y1]="sepStep() * i + BARS_TOP_PADDING"
+        [attr.y2]="sepStep() * i + BARS_TOP_PADDING"
+        style="stroke: pink; stroke-width: 1"
+      />
+    }
+  </g>
   <g
     class="bars"
     [attr.transform]="
@@ -11,7 +29,7 @@
         [attr.x]="(barWidth() + BAR_SPACING) * i"
         [attr.y]="this.maxBarHeight() - item.value"
         [attr.height]="item.value"
-        [attr.fill]="colorArray()[i]"
+        [attr.fill]="colorsArray()[i]"
       />
     }
   </g>
