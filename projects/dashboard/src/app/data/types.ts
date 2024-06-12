@@ -24,7 +24,24 @@ export class DataItem extends dataItemRecord {
   }
 }
 
-export type DataType = DataItem | List<DataItem>;
+// Tabular data item immutable object
+interface TabularDataItemConfig {
+  label: string;
+  values: List<number>;
+}
+
+const tabularDataItemRecord = Record<TabularDataItemConfig>({
+  label: '',
+  values: List([]),
+});
+
+export class TabularDataItem extends tabularDataItemRecord {
+  constructor(config: Partial<DataItemConfig>) {
+    super(config);
+  }
+}
+
+export type DataType = DataItem | List<DataItem> | List<TabularDataItem>;
 
 // Definition type
 export type DataSourceDefinition = {
