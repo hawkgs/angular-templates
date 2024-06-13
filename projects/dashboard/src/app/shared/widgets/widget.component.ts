@@ -41,8 +41,8 @@ export class WidgetComponent implements OnInit {
 
   displayedTitle = computed(
     () =>
-      DATA_SOURCES.find((ds) => ds.id === this.dataSourceId())?.name ||
-      this.title(),
+      this.title() ||
+      DATA_SOURCES.find((ds) => ds.id === this.dataSourceId())?.name,
   );
 
   @HostBinding('style.grid-column')

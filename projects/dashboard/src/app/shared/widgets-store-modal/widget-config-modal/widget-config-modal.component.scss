@@ -23,8 +23,14 @@
     margin: 1.5rem 0;
   }
 
-  p {
+  p,
+  label {
     margin-bottom: 1rem;
+    display: block;
+  }
+
+  input {
+    width: 100%;
   }
 
   button {

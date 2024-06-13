@@ -19,6 +19,7 @@ import { STORE_WIDGETS } from './store-widgets';
 export type WidgetStoreResponse = {
   widgetType: WidgetType;
   dataSourceId: string;
+  title: string;
   size: number;
 };
 
@@ -49,6 +50,7 @@ export class WidgetsStoreModalComponent {
           this.ctrl.close({
             widgetType,
             dataSourceId: resp.dataSourceId,
+            title: resp.title,
             size: resp.size,
           });
         }

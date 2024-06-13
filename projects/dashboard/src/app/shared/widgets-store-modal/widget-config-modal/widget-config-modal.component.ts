@@ -1,4 +1,11 @@
-import { Component, inject, signal } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  computed,
+  inject,
+  signal,
+  viewChild,
+} from '@angular/core';
 import {
   MODAL_DATA,
   ModalContentComponent,
@@ -17,11 +24,13 @@ export type WidgetConfigData = {
 export type WidgetConfigResponse = {
   size: number;
   dataSourceId: string;
+  title: string;
 };
 
-const SRC_TYPE_NAME = {
+const SRC_TYPE_NAME: { [key in DataSourceType]: string } = {
   [DataSourceType.List]: 'List',
   [DataSourceType.SingleValued]: 'Single-valued',
+  [DataSourceType.Tabular]: 'Tabular',
 };
 
 @Component({
@@ -41,14 +50,21 @@ export class WidgetConfigModalComponent {
     (src) => this.data.supportedDataSource === src.type,
   );
 
+  titleInput = viewChild.required<ElementRef>('titleInput');
   dataSourceId = signal<string>('');
   size = signal<string>('1');
+
   iterate = (size: number) => new Array(size);
+
+  selectedSourceName = computed(
+    () => DATA_SOURCES.find((ds) => ds.id === this.dataSourceId())?.name,
+  );
 
   addWidget() {
     this.ctrl.close({
       dataSourceId: this.dataSourceId(),
       size: parseInt(this.size(), 10),
+      title: this.titleInput().nativeElement.value,
     });
   }
 }

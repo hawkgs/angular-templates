@@ -60,19 +60,20 @@ export class WidgetsGridComponent {
       .createModal<void, WidgetStoreResponse>(WidgetsStoreModalComponent)
       .closed.then((resp) => {
         if (resp) {
-          const { widgetType, size, dataSourceId } = resp;
+          const { widgetType, size, dataSourceId, title } = resp;
           const id = 'random' + Date.now(); // Temp
 
-          this._widgets.update((m) =>
-            m.set(
+          this._widgets.update((map) =>
+            map.set(
               id,
               new WidgetGridItem({
                 id,
-                position: m.size,
+                position: map.size,
                 type: widgetType,
                 config: { style: 'gold' },
                 dataSourceId,
-                size: size,
+                title,
+                size,
               }),
             ),
           );

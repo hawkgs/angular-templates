@@ -27,6 +27,17 @@
         >
       }
     </ngx-selector-group>
+    <hr />
+    <label for="widget-title">Pick a title for the widget</label>
+    <input
+      id="widget-title"
+      #titleInput
+      [placeholder]="
+        selectedSourceName()
+          ? 'Default: ' + selectedSourceName()
+          : 'Will use the data source name by default'
+      "
+    />
     <button
       ngx-button
       btnType="primary"

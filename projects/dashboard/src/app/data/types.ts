@@ -5,6 +5,7 @@ import { List, Record } from 'immutable';
 export enum DataSourceType {
   SingleValued = 'SingleValued',
   List = 'List',
+  Tabular = 'Tabular',
 }
 
 // Data item immutable object
