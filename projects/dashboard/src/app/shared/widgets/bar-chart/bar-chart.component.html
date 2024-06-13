@@ -2,25 +2,31 @@
   <g class="separators">
     @for (s of separators(); track $index; let i = $index) {
       <text
-        [attr.x]="BARS_SIDE_PADDING - 20"
-        [attr.y]="sepStep() * i + BARS_TOP_PADDING + 5"
-        text-anchor="end"
+        [attr.x]="
+          BARS_LEFT_PADDING -
+          SEPARATOR_LABELS_MARGIN_RIGHT -
+          SEPARATORS_SIDE_PADDING
+        "
+        [attr.y]="sepStep() * i + BARS_TOP_PADDING + 4"
+        class="sep-label"
       >
         {{ s | formatThousands }}
       </text>
       <line
-        [attr.x1]="BARS_SIDE_PADDING - 10"
-        [attr.x2]="contSize().width - BARS_SIDE_PADDING + 10"
+        [attr.x1]="BARS_LEFT_PADDING - SEPARATORS_SIDE_PADDING"
+        [attr.x2]="
+          contSize().width - BARS_RIGHT_PADDING + SEPARATORS_SIDE_PADDING
+        "
         [attr.y1]="sepStep() * i + BARS_TOP_PADDING"
         [attr.y2]="sepStep() * i + BARS_TOP_PADDING"
-        style="stroke: pink; stroke-width: 1"
+        class="sep-line"
       />
     }
   </g>
   <g
     class="bars"
     [attr.transform]="
-      'translate(' + BARS_SIDE_PADDING + ', ' + BARS_TOP_PADDING + ')'
+      'translate(' + BARS_LEFT_PADDING + ', ' + BARS_TOP_PADDING + ')'
     "
   >
     @for (item of normalizedData(); track $index; let i = $index) {
@@ -30,11 +36,13 @@
         [attr.y]="this.maxBarHeight() - item.value"
         [attr.height]="item.value"
         [attr.fill]="colorsArray()[i]"
+        rx="4"
+        ry="4"
       />
       <text
-        text-anchor="middle"
         [attr.x]="(barWidth() + BAR_SPACING) * i + barWidth() / 2"
-        [attr.y]="this.maxBarHeight() + 20"
+        [attr.y]="this.maxBarHeight() + LABELS_MARGIN_TOP"
+        class="label"
       >
         {{ item.label | chartLabel }}
       </text>

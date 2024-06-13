@@ -17,14 +17,25 @@ import { ChartLabelPipe } from '../../pipes/chart-label.pipe';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type BarChartConfig = any;
 
-const COLORS_ARRAY = ['red', 'green', 'blue', 'yellow', 'orange'];
+const COLORS_ARRAY = [
+  'rgb(255, 104, 107)', // Red
+  'rgb(162, 215, 41)', // Green
+  'rgb(60, 145, 230)', // Blue
+  'rgb(255, 190, 11)', // Amber
+  'rgb(125, 91, 166)', // Purple
+];
 
 const MAX_BAR_WIDTH = 60;
 const BAR_SPACING = 15;
 const BARS_TOP_PADDING = 15;
 const BARS_BOTTOM_PADDING = 30;
-const BARS_SIDE_PADDING = 50;
+const BARS_LEFT_PADDING = 65;
+const BARS_RIGHT_PADDING = 30;
+
 const SEPARATORS_COUNT = 4;
+const LABELS_MARGIN_TOP = 20;
+const SEPARATORS_SIDE_PADDING = 10; // Relative to bars
+const SEPARATOR_LABELS_MARGIN_RIGHT = 10;
 
 @Component({
   selector: 'db-bar-chart',
@@ -43,7 +54,12 @@ export class BarChartComponent
   BAR_SPACING = BAR_SPACING;
   BARS_TOP_PADDING = BARS_TOP_PADDING;
   BARS_BOTTOM_PADDING = BARS_BOTTOM_PADDING;
-  BARS_SIDE_PADDING = BARS_SIDE_PADDING;
+  BARS_LEFT_PADDING = BARS_LEFT_PADDING;
+  BARS_RIGHT_PADDING = BARS_RIGHT_PADDING;
+
+  LABELS_MARGIN_TOP = LABELS_MARGIN_TOP;
+  SEPARATORS_SIDE_PADDING = SEPARATORS_SIDE_PADDING;
+  SEPARATOR_LABELS_MARGIN_RIGHT = SEPARATOR_LABELS_MARGIN_RIGHT;
 
   private _nearestMax = computed(() => {
     const max = this.data().max((l, r) => l.value - r.value);
@@ -81,7 +97,8 @@ export class BarChartComponent
 
   barWidth = computed(() => {
     const s = this.data().size;
-    let availableWidth = this.contSize().width - BARS_SIDE_PADDING * 2;
+    let availableWidth =
+      this.contSize().width - (BARS_LEFT_PADDING + BARS_RIGHT_PADDING);
     availableWidth -= BAR_SPACING * (s - 1);
     const width = precisionRound(availableWidth / s, 1);
     return Math.min(width, MAX_BAR_WIDTH);
