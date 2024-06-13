@@ -1,0 +1,22 @@
+@import 'typography';
+
+.db-widget-tooltip {
+  position: fixed;
+  background-color: var(--color-bg);
+  border-radius: 0.25rem;
+  border: 1px solid var(--color-quinary);
+  box-shadow: 0 0 10px var(--color-septenary);
+  padding: 0.5rem;
+  top: 0;
+  left: 0;
+  @extend %body-short-03;
+
+  &__label {
+    margin-bottom: 0.25rem;
+    color: var(--color-quaternary);
+  }
+
+  &__value {
+    font-weight: bold;
+  }
+}

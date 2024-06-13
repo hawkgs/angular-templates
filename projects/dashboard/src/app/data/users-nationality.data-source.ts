@@ -29,7 +29,9 @@ export class UsersNationalityList implements DataSource<List<DataItem>> {
     setTimeout(() => {
       let list = List<DataItem>();
       USERS_NATIONALITY.forEach(([nationality, count]) => {
-        list = list.push(new DataItem({ label: nationality, value: count }));
+        list = list.push(
+          new DataItem({ label: nationality, value: count, unit: 'people' }),
+        );
       });
       this._data.set(list);
     });

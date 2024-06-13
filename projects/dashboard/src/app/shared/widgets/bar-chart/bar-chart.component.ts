@@ -14,6 +14,7 @@ import { colorGenerator } from '../utils';
 import { precisionRound } from '../../utils';
 import { FormatThousandsPipe } from '../../pipes/format-thousands.pipe';
 import { ChartLabelPipe } from '../../pipes/chart-label.pipe';
+import { WidgetTooltipDirective } from '../widget-tooltip/widget-tooltip.directive';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type BarChartConfig = any;
@@ -41,7 +42,7 @@ const SEPARATOR_LABELS_MARGIN_RIGHT = 10;
 @Component({
   selector: 'db-bar-chart',
   standalone: true,
-  imports: [FormatThousandsPipe, ChartLabelPipe],
+  imports: [FormatThousandsPipe, ChartLabelPipe, WidgetTooltipDirective],
   templateUrl: './bar-chart.component.html',
   styleUrl: './bar-chart.component.scss',
 })

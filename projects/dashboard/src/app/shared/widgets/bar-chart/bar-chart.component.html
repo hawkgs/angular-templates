@@ -36,6 +36,7 @@
         [attr.y]="this.maxBarHeight() - item.value"
         [attr.height]="item.value"
         [attr.fill]="colorsArray()[i]"
+        [dbWidgetTooltip]="data().get(i)!"
         rx="4"
         ry="4"
       />

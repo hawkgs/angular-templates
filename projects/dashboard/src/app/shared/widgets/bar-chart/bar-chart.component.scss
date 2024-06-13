@@ -25,14 +25,11 @@
     }
 
     rect {
-      stroke-width: 1;
-      stroke: transparent;
-      transition: stroke 300ms ease;
+      transition: filter 300ms ease;
+      cursor: pointer;
 
       &:hover {
-        stroke: var(--color-primary);
-        cursor: pointer;
-        color: rgb(201, 159, 60);
+        filter: brightness(135%);
       }
     }
   }
