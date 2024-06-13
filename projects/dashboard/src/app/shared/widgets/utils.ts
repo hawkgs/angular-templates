@@ -5,7 +5,5 @@ export function colorGenerator(dataValue: number, dataIndex: number): string {
   const g = dataIndex ** dataIndex % CHANNEL_SIZE;
   const b = 100;
 
-  console.log(r, g, b);
-
   return `rgb(${r}, ${g}, ${b})`;
 }

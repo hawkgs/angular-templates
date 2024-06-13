@@ -1,8 +1,4 @@
-@import '../widget-styles';
-
 :host {
-  @extend %widget-container;
-  overflow-x: auto;
   user-select: none;
 
   svg {

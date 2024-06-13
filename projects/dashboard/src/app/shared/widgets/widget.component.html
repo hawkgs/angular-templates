@@ -1,18 +1,23 @@
 @if (data || previewData()) {
-  @switch (type()) {
-    @case ('plain') {
-      <db-plain-widget
-        [config]="config()"
-        [data]="$any(data ? data() : previewData())"
-      ></db-plain-widget>
+  <div class="widget-wrapper">
+    <p class="title">{{ displayedTitle() }}</p>
+    @switch (type()) {
+      @case ('plain') {
+        <db-plain-widget
+          [config]="config()"
+          [data]="$any(data ? data() : previewData())"
+          class="widget"
+        ></db-plain-widget>
+      }
+      @case ('bar-chart') {
+        <db-bar-chart
+          [config]="config()"
+          [data]="$any(data ? data() : previewData())"
+          class="widget"
+        ></db-bar-chart>
+      }
     }
-    @case ('bar-chart') {
-      <db-bar-chart
-        [config]="config()"
-        [data]="$any(data ? data() : previewData())"
-      ></db-bar-chart>
-    }
-  }
+  </div>
 } @else {
   <div class="no-data">Unable to load data</div>
 }

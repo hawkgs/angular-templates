@@ -25,7 +25,7 @@ const COLORS_ARRAY = [
   'rgb(125, 91, 166)', // Purple
 ];
 
-const MAX_BAR_WIDTH = 60;
+const MAX_BAR_WIDTH = 50;
 const BAR_SPACING = 15;
 const BARS_TOP_PADDING = 15;
 const BARS_BOTTOM_PADDING = 30;

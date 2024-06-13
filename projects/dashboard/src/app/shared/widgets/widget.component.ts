@@ -4,6 +4,7 @@ import {
   Injector,
   OnInit,
   Signal,
+  computed,
   inject,
   input,
   output,
@@ -14,6 +15,7 @@ import { WidgetConfig, WidgetType } from './widget';
 import { injectDataSourceInstance } from '../../data/utils';
 import { DataType } from '../../data/types';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
+import { DATA_SOURCES } from '../../data/sources';
 
 @Component({
   selector: 'db-widget',
@@ -29,12 +31,19 @@ export class WidgetComponent implements OnInit {
   dataSourceId = input<string>();
   size = input<number>(1);
   config = input<WidgetConfig>();
+  title = input<string>();
   editMode = input<boolean>(false);
   previewData = input<DataType>();
 
   remove = output<void>();
 
   data?: Signal<DataType>;
+
+  displayedTitle = computed(
+    () =>
+      DATA_SOURCES.find((ds) => ds.id === this.dataSourceId())?.name ||
+      this.title(),
+  );
 
   @HostBinding('style.grid-column')
   get gridColumn() {
