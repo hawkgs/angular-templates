@@ -11,11 +11,13 @@ export enum DataSourceType {
 interface DataItemConfig {
   label: string;
   value: number;
+  unit: string;
 }
 
 const dataItemRecord = Record<DataItemConfig>({
   label: '',
   value: 0,
+  unit: '',
 });
 
 export class DataItem extends dataItemRecord {
@@ -28,11 +30,13 @@ export class DataItem extends dataItemRecord {
 interface TabularDataItemConfig {
   label: string;
   values: List<number>;
+  unit: string;
 }
 
 const tabularDataItemRecord = Record<TabularDataItemConfig>({
   label: '',
   values: List([]),
+  unit: '',
 });
 
 export class TabularDataItem extends tabularDataItemRecord {
