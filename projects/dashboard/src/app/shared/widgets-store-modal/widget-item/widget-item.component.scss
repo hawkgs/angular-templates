@@ -13,15 +13,16 @@
     align-items: center;
     flex-direction: column;
     overflow: hidden;
-    width: 200px;
+    width: 250px;
 
     .widget-wrapper {
       transform: scale(0.5);
       pointer-events: none;
 
       & ::ng-deep > .widget {
-        width: 250px;
-        height: 150px;
+        width: 400px;
+        height: 250px;
+        margin-top: -50px;
       }
     }
 

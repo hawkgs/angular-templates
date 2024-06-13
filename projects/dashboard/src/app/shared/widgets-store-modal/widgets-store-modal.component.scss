@@ -1,8 +1,10 @@
 :host {
   display: block;
-  min-width: 70vw;
+  width: 70vw;
+  max-width: 1000px;
 
   .widgets {
     margin-top: 1rem;
+    display: flex;
   }
 }
