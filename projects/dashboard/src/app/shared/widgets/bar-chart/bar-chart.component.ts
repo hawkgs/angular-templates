@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   computed,
@@ -45,7 +46,7 @@ const SEPARATOR_LABELS_MARGIN_RIGHT = 10;
   styleUrl: './bar-chart.component.scss',
 })
 export class BarChartComponent
-  implements Widget<BarChartConfig, List<DataItem>>
+  implements Widget<BarChartConfig, List<DataItem>>, AfterViewInit
 {
   svgElement = viewChild.required<ElementRef>('svgElement');
   config = input.required<BarChartConfig>();
@@ -122,4 +123,11 @@ export class BarChartComponent
     }
     return sep;
   });
+
+  ngAfterViewInit() {
+    // Fix the SVG size after it has been rendered.
+    // This will allow for vertical scroll, if the viewport is resized.
+    const el = this.svgElement().nativeElement;
+    el.style.width = el.clientWidth + 'px';
+  }
 }
