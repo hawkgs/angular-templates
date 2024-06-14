@@ -1,10 +1,14 @@
-<svg #svgElement xmlns="http://www.w3.org/2000/svg">
+<svg
+  #svgElement
+  xmlns="http://www.w3.org/2000/svg"
+  [style.width]="contentWidth() + 'px'"
+>
   <g
     dbWidgetScale
     [x]="BARS_LEFT_PADDING - SCALE_SIDE_PADDING"
     [y]="BARS_TOP_PADDING"
     [width]="
-      contSize().width -
+      contentWidth() -
       BARS_RIGHT_PADDING -
       BARS_LEFT_PADDING +
       SCALE_SIDE_PADDING * 2
@@ -18,7 +22,7 @@
       'translate(' + BARS_LEFT_PADDING + ', ' + BARS_TOP_PADDING + ')'
     "
   >
-    @for (item of normalizedData(); track $index; let i = $index) {
+    @for (item of normalizedData(); track item.label + $index; let i = $index) {
       <rect
         [attr.width]="barWidth()"
         [attr.x]="(barWidth() + BAR_SPACING) * i"

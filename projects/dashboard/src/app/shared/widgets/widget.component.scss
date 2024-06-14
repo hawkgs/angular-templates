@@ -15,8 +15,6 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    overflow-x: auto;
 
     .title {
       @extend %heading-400;
@@ -27,6 +25,8 @@
     .widget {
       flex: 1;
       display: block;
+      overflow: hidden;
+      overflow-x: auto;
     }
   }
 

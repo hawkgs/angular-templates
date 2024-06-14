@@ -13,6 +13,10 @@ type Pos = { x: number; y: number };
 
 const CURSOR_MARGIN = 15;
 
+/**
+ * Adds a tooltip functionality to an element when hovered
+ * by a provided `DataItem` via the default input.
+ */
 @Directive({
   selector: '[dbWidgetTooltip]',
   standalone: true,
@@ -42,7 +46,7 @@ export class WidgetTooltipDirective {
 
   @HostListener('mousemove', ['$event'])
   onMouseMove({ clientX, clientY }: MouseEvent) {
-    // Note(Georgi): Will use zoneless;
+    // TODO(Georgi): Will use zoneless;
     if (this._widget) {
       this._positionElement(this._widget, { x: clientX, y: clientY });
     }
@@ -55,6 +59,9 @@ export class WidgetTooltipDirective {
     }
   }
 
+  /**
+   * Creates the HTML tooltip element along with the corresponding data.
+   */
   private _createWidget(pos: Pos) {
     const widget = this._renderer.createElement('div') as HTMLDivElement;
     this._renderer.addClass(widget, 'db-widget-tooltip');

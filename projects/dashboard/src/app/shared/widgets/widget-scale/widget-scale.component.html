@@ -1,10 +1,10 @@
-@for (s of separators(); track $index; let i = $index) {
+@for (sl of stepLines(); track $index; let i = $index) {
   <svg:text
     [attr.x]="x() - LABELS_MARGIN_RIGHT"
     [attr.y]="y() + scaleStep() * i + 4"
     class="scale-label"
   >
-    {{ s | formatThousands }}
+    {{ sl | formatThousands }}
   </svg:text>
   <svg:line
     [attr.x1]="x()"

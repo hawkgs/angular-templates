@@ -1,7 +1,7 @@
 import { Component, computed, input } from '@angular/core';
 import { FormatThousandsPipe } from '../../pipes/format-thousands.pipe';
 
-const SEPARATORS_COUNT = 4;
+const LINES_COUNT = 4;
 const LABELS_MARGIN_RIGHT = 10;
 
 @Component({
@@ -21,14 +21,14 @@ export class WidgetScaleComponent {
 
   LABELS_MARGIN_RIGHT = LABELS_MARGIN_RIGHT;
 
-  separators = computed<number[]>(() => {
+  stepLines = computed<number[]>(() => {
     const sep: number[] = [];
-    const step = this.max() / SEPARATORS_COUNT;
-    for (let i = 0; i < SEPARATORS_COUNT + 1; i++) {
-      sep.push(step * (SEPARATORS_COUNT - i));
+    const step = this.max() / LINES_COUNT;
+    for (let i = 0; i < LINES_COUNT + 1; i++) {
+      sep.push(step * (LINES_COUNT - i));
     }
     return sep;
   });
 
-  scaleStep = computed(() => this.height() / SEPARATORS_COUNT);
+  scaleStep = computed(() => this.height() / LINES_COUNT);
 }
