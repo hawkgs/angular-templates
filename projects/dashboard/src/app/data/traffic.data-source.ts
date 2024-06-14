@@ -1,11 +1,12 @@
 import { Injectable, signal } from '@angular/core';
-import { DataSource, TabularDataItem } from './types';
 import { List } from 'immutable';
+
+import { DataSource, TabularDataItem } from './types';
 
 const TRAFFIC: [string, number[]][] = [
   ['Americas', [200, 350, 120, 40]],
-  ['Europe', [122, 654, 114, 754]],
-  ['Asia', [542, 264, 777, 999]],
+  ['Europe', [122, 654, 202, 754]],
+  ['Asia', [542, 264, 900, 1204]],
 ];
 
 @Injectable()

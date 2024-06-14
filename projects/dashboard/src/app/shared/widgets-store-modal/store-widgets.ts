@@ -38,7 +38,11 @@ export const STORE_WIDGETS: WidgetStoreItem[] = [
   {
     type: 'line-chart',
     demoConfig: {},
-    previewData: List<TabularDataItem>(),
+    previewData: List<TabularDataItem>([
+      new TabularDataItem({ values: List([10, 20, 30, 35]) }),
+      new TabularDataItem({ values: List([5, 30, 10, 15]) }),
+      new TabularDataItem({ values: List([25, 10, 0, 0]) }),
+    ]),
     supportedSizes: [2, 3, 4],
     supportedDataSource: DataSourceType.Tabular,
   },

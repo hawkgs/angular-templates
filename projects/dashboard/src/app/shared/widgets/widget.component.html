@@ -16,6 +16,13 @@
           class="widget"
         ></db-bar-chart>
       }
+      @case ('line-chart') {
+        <db-line-chart
+          [config]="config()"
+          [data]="$any(data ? data() : previewData())"
+          class="widget"
+        ></db-line-chart>
+      }
     }
   </div>
 } @else {

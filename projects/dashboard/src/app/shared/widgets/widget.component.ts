@@ -14,13 +14,19 @@ import { PlainWidgetComponent } from './plain-widget/plain-widget.component';
 import { WidgetConfig, WidgetType } from './widget';
 import { injectDataSourceInstance } from '../../data/utils';
 import { DataType } from '../../data/types';
-import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { DATA_SOURCES } from '../../data/sources';
+import { BarChartComponent } from './bar-chart/bar-chart.component';
+import { LineChartComponent } from './line-chart/line-chart.component';
 
 @Component({
   selector: 'db-widget',
   standalone: true,
-  imports: [IconComponent, PlainWidgetComponent, BarChartComponent],
+  imports: [
+    IconComponent,
+    PlainWidgetComponent,
+    BarChartComponent,
+    LineChartComponent,
+  ],
   templateUrl: './widget.component.html',
   styleUrl: './widget.component.scss',
 })

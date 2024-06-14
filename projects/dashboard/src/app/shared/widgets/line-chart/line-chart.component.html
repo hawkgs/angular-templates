@@ -1,1 +1,29 @@
-<svg xmlns="http://www.w3.org/2000/svg"></svg>
+<svg #svgElement xmlns="http://www.w3.org/2000/svg">
+  <g
+    dbWidgetScale
+    [width]="chartWidth()"
+    [height]="chartHeight()"
+    [x]="CHART_LEFT_PADDING"
+    [y]="CHART_TOP_PADDING"
+    [max]="nearestMax()"
+  ></g>
+  <g
+    [attr.transform]="
+      'translate(' + CHART_LEFT_PADDING + ', ' + CHART_TOP_PADDING + ')'
+    "
+  >
+    @for (item of normalizedData(); track $index; let i = $index) {
+      <path
+        [attr.d]="
+          item
+            | pathDefinition
+              : {
+                  dataPointSpacing: dataPointSpacing(),
+                  chartHeight: chartHeight()
+                }
+        "
+        [attr.stroke]="colorsArray()[i]"
+      />
+    }
+  </g>
+</svg>
