@@ -6,12 +6,33 @@
 
   .controls {
     display: flex;
-    flex-direction: row-reverse;
     align-items: center;
     margin-bottom: 1rem;
 
-    button {
-      margin-left: 0.5rem;
+    .edit-mode-label {
+      @extend %caption-text;
+      background: repeating-linear-gradient(
+        45deg,
+        #e4ac4c,
+        #e4ac4c 5px,
+        #c39139 5px,
+        #c39139 10px
+      );
+      padding: 0.25rem 0.5rem;
+      border-radius: 1rem;
+      color: var(--white);
+      font-weight: bold;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: center;
+      flex: 1;
+
+      button {
+        margin-left: 0.5rem;
+      }
     }
   }
 
