@@ -73,8 +73,6 @@ export class WidgetTooltipDirective {
     widget.appendChild(labelEl);
     widget.appendChild(valueEl);
 
-    console.log('Creating widget for', label);
-
     return widget;
   }
 

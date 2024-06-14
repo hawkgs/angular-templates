@@ -28,6 +28,7 @@ const COLORS_ARRAY = [
 ];
 
 const MAX_BAR_WIDTH = 50;
+const MIN_BAR_WIDTH = 30;
 const BAR_SPACING = 15;
 const BARS_TOP_PADDING = 15;
 const BARS_BOTTOM_PADDING = 30;
@@ -103,7 +104,8 @@ export class BarChartComponent
       this.contSize().width - (BARS_LEFT_PADDING + BARS_RIGHT_PADDING);
     availableWidth -= BAR_SPACING * (s - 1);
     const width = precisionRound(availableWidth / s, 1);
-    return Math.min(width, MAX_BAR_WIDTH);
+
+    return Math.max(Math.min(width, MAX_BAR_WIDTH), MIN_BAR_WIDTH);
   });
 
   colorsArray = computed(() => {
