@@ -57,8 +57,8 @@ export class BarChartComponent
   implements Widget<BarChartConfig, List<DataItem>>
 {
   svgElement = viewChild.required<ElementRef>('svgElement');
-  config = input.required<BarChartConfig>();
   data = input.required<List<DataItem>>();
+  config = input<BarChartConfig>();
 
   BAR_SPACING = BAR_SPACING;
   BARS_TOP_PADDING = BARS_TOP_PADDING;

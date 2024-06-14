@@ -1,5 +1,10 @@
 import { List } from 'immutable';
-import { DataItem, DataSourceType, DataType } from '../../data/types';
+import {
+  DataItem,
+  DataSourceType,
+  DataType,
+  TabularDataItem,
+} from '../../data/types';
 import { WidgetConfig, WidgetType } from '../widgets/widget';
 
 export type WidgetStoreItem = {
@@ -29,5 +34,12 @@ export const STORE_WIDGETS: WidgetStoreItem[] = [
     ]),
     supportedSizes: [2, 3, 4],
     supportedDataSource: DataSourceType.List,
+  },
+  {
+    type: 'line-chart',
+    demoConfig: {},
+    previewData: List<TabularDataItem>(),
+    supportedSizes: [2, 3, 4],
+    supportedDataSource: DataSourceType.Tabular,
   },
 ];

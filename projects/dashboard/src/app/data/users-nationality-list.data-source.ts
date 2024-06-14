@@ -34,6 +34,6 @@ export class UsersNationalityList implements DataSource<List<DataItem>> {
         );
       });
       this._data.set(list);
-    });
+    }, 250);
   }
 }

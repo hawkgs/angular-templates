@@ -23,10 +23,15 @@
     margin: 1.5rem 0;
   }
 
-  p,
-  label {
+  .label {
     margin-bottom: 1rem;
     display: block;
+  }
+
+  .no-data-source {
+    @extend %chip-text;
+    text-transform: uppercase;
+    color: var(--color-reddish-orange);
   }
 
   input {

@@ -4,6 +4,7 @@ import { WidgetType } from '../../widgets/widget';
 const WIDGET_NAMES: { [key in WidgetType]: string } = {
   plain: 'Plain',
   'bar-chart': 'Bar Chart',
+  'line-chart': 'Line Chart',
 };
 
 @Component({

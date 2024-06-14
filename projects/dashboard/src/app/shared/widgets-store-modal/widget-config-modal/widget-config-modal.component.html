@@ -2,7 +2,7 @@
   <ng-container title>Configure the widget</ng-container>
   <ng-container content>
     @if (data.supportedSizes.length > 1) {
-      <p>Select a size.</p>
+      <p class="label">Select a size.</p>
       <ngx-selector-group name="sizeSelector" [(value)]="size" type="columns">
         @for (size of data.supportedSizes; track size) {
           <ngx-selector-item [value]="size.toString()">
@@ -16,7 +16,7 @@
       </ngx-selector-group>
       <hr />
     }
-    <p>Select a data source from the list.</p>
+    <p class="label">Select a data source from the list.</p>
     <ngx-selector-group name="dsSelector" [(value)]="dataSourceId">
       @for (src of sources; track src.id) {
         <ngx-selector-item [value]="src.id">
@@ -25,10 +25,12 @@
             SRC_TYPE_NAME[src.type]
           }}</span></ngx-selector-item
         >
+      } @empty {
+        <p class="no-data-source">No available data sources</p>
       }
     </ngx-selector-group>
     <hr />
-    <label for="widget-title">Pick a title for the widget</label>
+    <label class="label" for="widget-title">Pick a title for the widget</label>
     <input
       id="widget-title"
       #titleInput

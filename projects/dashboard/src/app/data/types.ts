@@ -41,7 +41,7 @@ const tabularDataItemRecord = Record<TabularDataItemConfig>({
 });
 
 export class TabularDataItem extends tabularDataItemRecord {
-  constructor(config: Partial<DataItemConfig>) {
+  constructor(config: Partial<TabularDataItemConfig>) {
     super(config);
   }
 }
