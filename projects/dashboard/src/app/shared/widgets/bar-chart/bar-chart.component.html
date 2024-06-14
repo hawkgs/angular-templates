@@ -1,28 +1,17 @@
 <svg #svgElement xmlns="http://www.w3.org/2000/svg">
-  <g class="separators">
-    @for (s of separators(); track $index; let i = $index) {
-      <text
-        [attr.x]="
-          BARS_LEFT_PADDING -
-          SEPARATOR_LABELS_MARGIN_RIGHT -
-          SEPARATORS_SIDE_PADDING
-        "
-        [attr.y]="sepStep() * i + BARS_TOP_PADDING + 4"
-        class="sep-label"
-      >
-        {{ s | formatThousands }}
-      </text>
-      <line
-        [attr.x1]="BARS_LEFT_PADDING - SEPARATORS_SIDE_PADDING"
-        [attr.x2]="
-          contSize().width - BARS_RIGHT_PADDING + SEPARATORS_SIDE_PADDING
-        "
-        [attr.y1]="sepStep() * i + BARS_TOP_PADDING"
-        [attr.y2]="sepStep() * i + BARS_TOP_PADDING"
-        class="sep-line"
-      />
-    }
-  </g>
+  <g
+    dbWidgetScale
+    [x]="BARS_LEFT_PADDING - SCALE_SIDE_PADDING"
+    [y]="BARS_TOP_PADDING"
+    [width]="
+      contSize().width -
+      BARS_RIGHT_PADDING -
+      BARS_LEFT_PADDING +
+      SCALE_SIDE_PADDING * 2
+    "
+    [height]="maxBarHeight()"
+    [max]="nearestMax()"
+  ></g>
   <g
     class="bars"
     [attr.transform]="

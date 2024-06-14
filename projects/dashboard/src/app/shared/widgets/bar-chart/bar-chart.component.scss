@@ -7,17 +7,6 @@
     height: 100%;
     overflow: visible;
 
-    .sep-line {
-      stroke: var(--color-senary);
-      stroke-width: 1;
-    }
-
-    .sep-label {
-      text-anchor: end;
-      fill: var(--color-quaternary);
-      font-size: 0.75rem;
-    }
-
     .label {
       text-anchor: middle;
       fill: var(--color-tertiary);
