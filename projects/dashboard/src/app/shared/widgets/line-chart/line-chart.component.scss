@@ -42,6 +42,7 @@
 
     .data-point-info {
       display: none;
+      pointer-events: none;
 
       line {
         stroke-width: 1;

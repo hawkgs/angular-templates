@@ -8,7 +8,7 @@ import {
 import { List } from 'immutable';
 
 import { Widget } from '../widget';
-import { TabularDataItem } from '../../../data/types';
+import { DataItem, TabularDataItem } from '../../../data/types';
 import { WidgetTooltipDirective } from '../widget-tooltip/widget-tooltip.directive';
 import { WidgetScaleComponent } from '../widget-scale/widget-scale.component';
 import { generateColorsArray, getNearestMax } from '../utils';
@@ -91,6 +91,32 @@ export class LineChartComponent
         ti.values.map((v) => precisionRound(v / max, 2) * this.chartHeight()),
       ),
     );
+  });
+
+  groupedData = computed(() => {
+    let list = List<List<DataItem>>([]);
+
+    for (let i = 0; i < this.longestList().values.size; i++) {
+      let group = List<DataItem>();
+
+      this.data().forEach((ti) => {
+        const value = ti.values.get(i);
+
+        if (value !== undefined) {
+          group = group.push(
+            new DataItem({
+              label: ti.label,
+              unit: ti.unit,
+              value,
+            }),
+          );
+        }
+      });
+
+      list = list.push(group);
+    }
+
+    return list;
   });
 
   longestList = computed(

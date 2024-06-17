@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { DOCUMENT, DecimalPipe } from '@angular/common';
 import { DataItem } from '../../../data/types';
+import { List } from 'immutable';
 
 type Pos = { x: number; y: number };
 
@@ -29,7 +30,11 @@ export class WidgetTooltipDirective {
   private _decimalPipe = new DecimalPipe(this._locale);
   private _widget?: HTMLDivElement;
 
-  data = input.required<DataItem>({ alias: 'dbWidgetTooltip' });
+  data = input.required<DataItem | List<DataItem>>({
+    alias: 'dbWidgetTooltip',
+  });
+
+  tooltipColors = input<string[]>([]);
 
   @HostListener('mouseenter', ['$event'])
   onMouseEnter({ clientX, clientY }: MouseEvent) {
@@ -67,11 +72,41 @@ export class WidgetTooltipDirective {
     this._renderer.addClass(widget, 'db-widget-tooltip');
     this._positionElement(widget, pos);
 
-    const { label, value, unit } = this.data();
+    const data = this.data();
+
+    if (data instanceof DataItem) {
+      this._createDataItemLabel(widget, data);
+    } else {
+      data.forEach((di, i) => this._createDataItemLabel(widget, di, i));
+    }
+
+    return widget;
+  }
+
+  private _createDataItemLabel(
+    widget: HTMLDivElement,
+    item: DataItem,
+    index?: number,
+  ) {
+    const { label, value, unit } = item;
 
     const labelEl = this._renderer.createElement('p');
     this._renderer.addClass(labelEl, 'db-widget-tooltip__label');
-    labelEl.innerText = label;
+
+    if (index !== undefined && this.tooltipColors()[index]) {
+      const coloredDot = this._renderer.createElement('span');
+      this._renderer.setStyle(
+        coloredDot,
+        'background-color',
+        this.tooltipColors()[index],
+      );
+      this._renderer.addClass(coloredDot, 'db-widget-tooltip__label__dot');
+      labelEl.appendChild(coloredDot);
+    }
+
+    const labelText = this._renderer.createElement('span');
+    labelText.innerText = label;
+    labelEl.appendChild(labelText);
 
     const valueEl = this._renderer.createElement('p');
     this._renderer.addClass(valueEl, 'db-widget-tooltip__value');
@@ -79,8 +114,6 @@ export class WidgetTooltipDirective {
 
     widget.appendChild(labelEl);
     widget.appendChild(valueEl);
-
-    return widget;
   }
 
   private _positionElement(target: HTMLElement, pos: Pos) {

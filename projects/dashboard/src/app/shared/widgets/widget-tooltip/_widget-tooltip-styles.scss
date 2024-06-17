@@ -1,6 +1,7 @@
 @import 'typography';
 
 .db-widget-tooltip {
+  @extend %body-short-03;
   position: fixed;
   background-color: var(--color-bg);
   border-radius: 0.25rem;
@@ -9,11 +10,23 @@
   padding: 0.5rem;
   top: 0;
   left: 0;
-  @extend %body-short-03;
+  opacity: 0.9;
 
   &__label {
     margin-bottom: 0.25rem;
     color: var(--color-quaternary);
+
+    &__dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 0.25rem;
+    }
+
+    &:not(:first-of-type) {
+      margin-top: 0.75rem;
+    }
   }
 
   &__value {

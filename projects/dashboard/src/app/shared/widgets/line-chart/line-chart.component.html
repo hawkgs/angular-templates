@@ -25,6 +25,8 @@
   <g [attr.transform]="[CHART_LEFT_PADDING, CHART_TOP_PADDING] | translate">
     @for (item of longestList().values; track $index; let i = $index) {
       <rect
+        [dbWidgetTooltip]="groupedData().get(i)!"
+        [tooltipColors]="colorsArray()"
         class="data-point-hover-area"
         [attr.width]="
           0 < i && i < longestList().values.size - 1
