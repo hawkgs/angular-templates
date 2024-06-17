@@ -4,9 +4,9 @@ import { List } from 'immutable';
 import { DataSource, TabularDataItem } from './types';
 
 const TRAFFIC: [string, number[]][] = [
-  ['Americas', [200, 350, 120, 40]],
-  ['Europe', [122, 654, 202, 754]],
-  ['Asia', [542, 264, 900, 1204]],
+  ['Americas', [200, 350, 120, 40, 120, 323, 670, 999]],
+  ['Europe', [122, 654, 202, 754, 100, 50, 252, 399]],
+  ['Asia', [542, 264, 900, 1204, 1000, 934, 950, 1110]],
 ];
 
 @Injectable()

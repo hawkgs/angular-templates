@@ -93,12 +93,14 @@ export class LineChartComponent
     );
   });
 
-  longestList = computed(() =>
-    this.data().max((a, b) => a.values.size - b.values.size),
+  longestList = computed(
+    () =>
+      this.data().max((a, b) => a.values.size - b.values.size) ||
+      new TabularDataItem({}),
   );
 
   dataPointSpacing = computed(() => {
-    const longestList = this.longestList()?.values.size || 2;
+    const longestList = this.longestList().values.size || 2;
     const spacing = this.chartWidth() / (longestList - 1);
 
     return Math.max(spacing, MIN_DATA_POINT_SPACING);

@@ -28,6 +28,26 @@
       fill: var(--color-quinary);
       font-size: 0.75rem;
     }
+
+    .data-point-hover-area {
+      pointer-events: bounding-box;
+      fill: transparent;
+      stroke-width: 1;
+      cursor: pointer;
+
+      &:hover + .data-point-info {
+        display: block;
+      }
+    }
+
+    .data-point-info {
+      display: none;
+
+      line {
+        stroke-width: 1;
+        stroke: var(--color-senary);
+      }
+    }
   }
 
   .legend {
@@ -38,7 +58,7 @@
     flex-wrap: nowrap;
 
     .legend-label {
-      color: var(--color-quinary);
+      color: var(--color-tertiary);
       font-size: 0.75rem;
       display: flex;
       align-items: center;
