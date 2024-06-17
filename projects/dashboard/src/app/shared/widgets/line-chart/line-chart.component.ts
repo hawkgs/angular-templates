@@ -23,6 +23,7 @@ const CHART_TOP_PADDING = 15;
 const CHART_BOTTOM_PADDING = 60;
 const CHART_LEFT_PADDING = 50;
 const CHART_RIGHT_PADDING = 30;
+const MIN_HOR_SCALE_SPACING_IN_PX = 40;
 
 // NOTE(Georgi): WIP
 @Component({
@@ -46,6 +47,7 @@ export class LineChartComponent
 
   CHART_TOP_PADDING = CHART_TOP_PADDING;
   CHART_LEFT_PADDING = CHART_LEFT_PADDING;
+  CHART_RIGHT_PADDING = CHART_RIGHT_PADDING;
 
   /**
    * Container size.
@@ -131,6 +133,41 @@ export class LineChartComponent
 
     return Math.max(spacing, MIN_DATA_POINT_SPACING);
   });
+
+  contentWidth = computed(() => {
+    const contentWidth =
+      this.dataPointSpacing() * (this.longestList().values.size - 1) +
+      CHART_LEFT_PADDING +
+      CHART_RIGHT_PADDING;
+    const containerWidth = this._contSize().width;
+
+    return Math.max(contentWidth, containerWidth);
+  });
+
+  horizontalScaleItemSpacing = computed(() => {
+    const longest = this.longestList().values.size;
+    const width = this.contentWidth();
+    const spacing = width / longest;
+
+    if (spacing >= MIN_HOR_SCALE_SPACING_IN_PX) {
+      return 1;
+    }
+
+    return Math.round(MIN_HOR_SCALE_SPACING_IN_PX / spacing);
+  });
+
+  horizontalScaleLabels = computed(() => {
+    const spacing = this.horizontalScaleItemSpacing();
+
+    if (spacing === 1) {
+      return this.longestList().values;
+    }
+    return this.longestList().values.filter((_, i) => i % spacing === 0);
+  });
+
+  horScaleSpacing = computed(
+    () => this.dataPointSpacing() * this.horizontalScaleItemSpacing(),
+  );
 
   colorsArray = computed(() =>
     generateColorsArray(this.data().map((ti) => ti.values.first() || 0)),

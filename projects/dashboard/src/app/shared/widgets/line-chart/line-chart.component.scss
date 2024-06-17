@@ -18,12 +18,12 @@
       fill: none;
     }
 
-    .separator-line {
+    .hor-scale-line {
       stroke-width: 1;
       stroke: var(--color-senary);
     }
 
-    .separator-label {
+    .hor-scale-label {
       text-anchor: middle;
       fill: var(--color-quinary);
       font-size: 0.75rem;
@@ -53,7 +53,7 @@
 
   .legend {
     position: absolute;
-    bottom: 15px;
+    bottom: 20px;
     left: 20px;
     display: flex;
     flex-wrap: nowrap;

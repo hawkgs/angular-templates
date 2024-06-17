@@ -1,7 +1,11 @@
-<svg #svgElement xmlns="http://www.w3.org/2000/svg">
+<svg
+  #svgElement
+  xmlns="http://www.w3.org/2000/svg"
+  [style.width]="contentWidth() + 'px'"
+>
   <g
     dbWidgetScale
-    [width]="chartWidth()"
+    [width]="contentWidth() - CHART_LEFT_PADDING - CHART_RIGHT_PADDING"
     [height]="chartHeight()"
     [x]="CHART_LEFT_PADDING"
     [y]="CHART_TOP_PADDING"
@@ -62,15 +66,15 @@
       [CHART_LEFT_PADDING, CHART_TOP_PADDING + chartHeight()] | translate
     "
   >
-    @for (item of longestList().values; track $index; let i = $index) {
+    @for (item of horizontalScaleLabels(); track $index; let i = $index) {
       <line
-        class="separator-line"
-        [attr.x1]="dataPointSpacing() * i"
-        [attr.x2]="dataPointSpacing() * i"
+        class="hor-scale-line"
+        [attr.x1]="horScaleSpacing() * i"
+        [attr.x2]="horScaleSpacing() * i"
         y1="0"
         y2="8"
       />
-      <text [attr.x]="dataPointSpacing() * i" y="22" class="separator-label">
+      <text [attr.x]="horScaleSpacing() * i" y="22" class="hor-scale-label">
         Lbl {{ i }}
       </text>
     }
