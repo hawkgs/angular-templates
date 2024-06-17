@@ -7,11 +7,7 @@
     [y]="CHART_TOP_PADDING"
     [max]="nearestMax()"
   ></g>
-  <g
-    [attr.transform]="
-      'translate(' + CHART_LEFT_PADDING + ', ' + CHART_TOP_PADDING + ')'
-    "
-  >
+  <g [attr.transform]="[CHART_LEFT_PADDING, CHART_TOP_PADDING] | translate">
     @for (item of normalizedData(); track $index; let i = $index) {
       <path
         [attr.d]="
@@ -26,4 +22,33 @@
       />
     }
   </g>
+  <g
+    [attr.transform]="
+      [CHART_LEFT_PADDING, CHART_TOP_PADDING + chartHeight()] | translate
+    "
+  >
+    @for (item of longestList()?.values; track $index; let i = $index) {
+      <line
+        class="separator-line"
+        [attr.x1]="dataPointSpacing() * i"
+        [attr.x2]="dataPointSpacing() * i"
+        y1="0"
+        y2="8"
+      />
+      <text [attr.x]="dataPointSpacing() * i" y="22" class="separator-label">
+        Lbl {{ i }}
+      </text>
+    }
+  </g>
 </svg>
+<div class="legend">
+  @for (item of data(); track $index; let i = $index) {
+    <div class="legend-label">
+      <div
+        class="legend-line"
+        [style.background-color]="colorsArray()[i]"
+      ></div>
+      <span>{{ item.label }}</span>
+    </div>
+  }
+</div>

@@ -14,12 +14,13 @@ import { WidgetScaleComponent } from '../widget-scale/widget-scale.component';
 import { generateColorsArray, getNearestMax } from '../utils';
 import { PathDefinitionPipe } from './path-definition.pipe';
 import { precisionRound } from '../../utils';
+import { TranslatePipe } from '../translate.pipe';
 
 export type LineChartConfig = void;
 
 const MIN_DATA_POINT_SPACING = 15;
 const CHART_TOP_PADDING = 15;
-const CHART_BOTTOM_PADDING = 30;
+const CHART_BOTTOM_PADDING = 60;
 const CHART_LEFT_PADDING = 50;
 const CHART_RIGHT_PADDING = 30;
 
@@ -27,7 +28,12 @@ const CHART_RIGHT_PADDING = 30;
 @Component({
   selector: 'db-line-chart',
   standalone: true,
-  imports: [WidgetTooltipDirective, WidgetScaleComponent, PathDefinitionPipe],
+  imports: [
+    WidgetTooltipDirective,
+    WidgetScaleComponent,
+    PathDefinitionPipe,
+    TranslatePipe,
+  ],
   templateUrl: './line-chart.component.html',
   styleUrl: './line-chart.component.scss',
 })
@@ -87,11 +93,13 @@ export class LineChartComponent
     );
   });
 
+  longestList = computed(() =>
+    this.data().max((a, b) => a.values.size - b.values.size),
+  );
+
   dataPointSpacing = computed(() => {
-    const largestList =
-      this.data().max((a, b) => a.values.size - b.values.size)?.values.size ||
-      2;
-    const spacing = this.chartWidth() / (largestList - 1);
+    const longestList = this.longestList()?.values.size || 2;
+    const spacing = this.chartWidth() / (longestList - 1);
 
     return Math.max(spacing, MIN_DATA_POINT_SPACING);
   });

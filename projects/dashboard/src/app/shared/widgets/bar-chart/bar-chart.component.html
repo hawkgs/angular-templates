@@ -18,9 +18,7 @@
   ></g>
   <g
     class="bars"
-    [attr.transform]="
-      'translate(' + BARS_LEFT_PADDING + ', ' + BARS_TOP_PADDING + ')'
-    "
+    [attr.transform]="[BARS_LEFT_PADDING, BARS_TOP_PADDING] | translate"
   >
     @for (item of normalizedData(); track item.label + $index; let i = $index) {
       <rect

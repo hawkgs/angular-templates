@@ -14,7 +14,7 @@ export class PathDefinitionPipe implements PipeTransform {
     const { dataPointSpacing, chartHeight } = args;
     const first = vals.first() || 0;
 
-    let d = `M${0} ${chartHeight - first}`;
+    let d = `M0 ${chartHeight - first}`;
 
     for (let i = 1; i < vals.size; i++) {
       d += ` L${i * dataPointSpacing} ${chartHeight - vals.get(i)!}`;

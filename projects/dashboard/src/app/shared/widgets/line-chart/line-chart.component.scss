@@ -14,7 +14,41 @@
 
     path {
       stroke-width: 2;
+      stroke-linecap: round;
       fill: none;
+    }
+
+    .separator-line {
+      stroke-width: 1;
+      stroke: var(--color-senary);
+    }
+
+    .separator-label {
+      text-anchor: middle;
+      fill: var(--color-quinary);
+      font-size: 0.75rem;
+    }
+  }
+
+  .legend {
+    position: absolute;
+    bottom: 15px;
+    left: 20px;
+    display: flex;
+    flex-wrap: nowrap;
+
+    .legend-label {
+      color: var(--color-quinary);
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      margin-right: 20px;
+
+      .legend-line {
+        width: 15px;
+        height: 2px;
+        margin-right: 5px;
+      }
     }
   }
 }
