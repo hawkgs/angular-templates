@@ -26,7 +26,7 @@ const MIN_BAR_WIDTH = 30;
 const BAR_SPACING = 15;
 
 const BARS_TOP_PADDING = 15;
-const BARS_BOTTOM_PADDING = 30;
+const BARS_BOTTOM_PADDING = 40;
 const BARS_LEFT_PADDING = 65;
 const BARS_RIGHT_PADDING = 30;
 
@@ -68,7 +68,7 @@ export class BarChartComponent
   private _contSize = computed<{ width: number; height: number }>(() => {
     const { clientWidth, clientHeight } = this.svgElement().nativeElement;
     return {
-      width: clientWidth,
+      width: clientWidth - 2, // Some leeway to prevent scroll-y
       height: clientHeight,
     };
   });

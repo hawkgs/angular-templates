@@ -22,11 +22,10 @@ export type LineChartConfig = void;
 const MIN_DATA_POINT_SPACING = 15;
 const CHART_TOP_PADDING = 15;
 const CHART_BOTTOM_PADDING = 60;
-const CHART_LEFT_PADDING = 50;
+const CHART_LEFT_PADDING = 65;
 const CHART_RIGHT_PADDING = 30;
 const MIN_HOR_SCALE_SPACING_IN_PX = 40;
 
-// NOTE(Georgi): WIP
 @Component({
   selector: 'db-line-chart',
   standalone: true,
@@ -57,7 +56,7 @@ export class LineChartComponent
   private _contSize = computed<{ width: number; height: number }>(() => {
     const { clientWidth, clientHeight } = this.svgElement().nativeElement;
     return {
-      width: clientWidth,
+      width: clientWidth - 2, // Some leeway to prevent scroll-y
       height: clientHeight,
     };
   });
@@ -136,6 +135,12 @@ export class LineChartComponent
       CHART_LEFT_PADDING +
       CHART_RIGHT_PADDING;
     const containerWidth = this._contSize().width;
+
+    console.log(
+      contentWidth,
+      containerWidth,
+      this.svgElement().nativeElement.clientWidth,
+    );
 
     return Math.max(contentWidth, containerWidth);
   });

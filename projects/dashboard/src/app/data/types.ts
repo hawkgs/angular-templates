@@ -1,8 +1,6 @@
 import { Signal, Type } from '@angular/core';
 import { List, Record } from 'immutable';
 
-// TODO(Georgi): Revise and improve the types
-
 // Data item type
 export enum DataSourceType {
   SingleValued = 'SingleValued',
