@@ -15,7 +15,7 @@ import { FormatThousandsPipe } from '../../pipes/format-thousands.pipe';
 import { ChartLabelPipe } from '../../pipes/chart-label.pipe';
 import { WidgetTooltipDirective } from '../widget-tooltip/widget-tooltip.directive';
 import { WidgetScaleComponent } from '../widget-scale/widget-scale.component';
-import { TranslatePipe } from '../translate.pipe';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 export type BarChartConfig = void;
 

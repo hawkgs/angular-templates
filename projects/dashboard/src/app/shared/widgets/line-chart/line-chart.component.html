@@ -27,13 +27,13 @@
     }
   </g>
   <g [attr.transform]="[CHART_LEFT_PADDING, CHART_TOP_PADDING] | translate">
-    @for (item of longestList().values; track $index; let i = $index) {
+    @for (item of data().colLabels; track $index; let i = $index) {
       <rect
         [dbWidgetTooltip]="groupedData().get(i)!"
         [tooltipColors]="colorsArray()"
         class="data-point-hover-area"
         [attr.width]="
-          0 < i && i < longestList().values.size - 1
+          0 < i && i < data().colLabels.size - 1
             ? dataPointSpacing()
             : dataPointSpacing() / 2
         "
@@ -66,7 +66,7 @@
       [CHART_LEFT_PADDING, CHART_TOP_PADDING + chartHeight()] | translate
     "
   >
-    @for (item of horizontalScaleLabels(); track $index; let i = $index) {
+    @for (label of horizontalScaleLabels(); track $index; let i = $index) {
       <line
         class="hor-scale-line"
         [attr.x1]="horScaleSpacing() * i"
@@ -75,19 +75,19 @@
         y2="8"
       />
       <text [attr.x]="horScaleSpacing() * i" y="22" class="hor-scale-label">
-        Lbl {{ i }}
+        {{ label | chartLabel }}
       </text>
     }
   </g>
 </svg>
 <div class="legend">
-  @for (item of data(); track $index; let i = $index) {
+  @for (row of data().rows; track $index; let i = $index) {
     <div class="legend-label">
       <div
         class="legend-line"
         [style.background-color]="colorsArray()[i]"
       ></div>
-      <span>{{ item.label }}</span>
+      <span>{{ row.label }}</span>
     </div>
   }
 </div>

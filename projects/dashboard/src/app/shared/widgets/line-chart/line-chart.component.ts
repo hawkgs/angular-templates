@@ -8,13 +8,14 @@ import {
 import { List } from 'immutable';
 
 import { Widget } from '../widget';
-import { DataItem, TabularDataItem } from '../../../data/types';
+import { DataItem, TabularData } from '../../../data/types';
 import { WidgetTooltipDirective } from '../widget-tooltip/widget-tooltip.directive';
 import { WidgetScaleComponent } from '../widget-scale/widget-scale.component';
 import { generateColorsArray, getNearestMax } from '../utils';
 import { PathDefinitionPipe } from './path-definition.pipe';
 import { precisionRound } from '../../utils';
-import { TranslatePipe } from '../translate.pipe';
+import { TranslatePipe } from '../../pipes/translate.pipe';
+import { ChartLabelPipe } from '../../pipes/chart-label.pipe';
 
 export type LineChartConfig = void;
 
@@ -34,15 +35,16 @@ const MIN_HOR_SCALE_SPACING_IN_PX = 40;
     WidgetScaleComponent,
     PathDefinitionPipe,
     TranslatePipe,
+    ChartLabelPipe,
   ],
   templateUrl: './line-chart.component.html',
   styleUrl: './line-chart.component.scss',
 })
 export class LineChartComponent
-  implements Widget<LineChartConfig, List<TabularDataItem>>
+  implements Widget<LineChartConfig, TabularData>
 {
   svgElement = viewChild.required<ElementRef>('svgElement');
-  data = input.required<List<TabularDataItem>>();
+  data = input.required<TabularData>();
   config = input<LineChartConfig>();
 
   CHART_TOP_PADDING = CHART_TOP_PADDING;
@@ -61,7 +63,7 @@ export class LineChartComponent
   });
 
   nearestMax = computed(() => {
-    const sorted = this.data().map((ti) =>
+    const sorted = this.data().rows.map((ti) =>
       ti.set(
         'values',
         ti.values.sort((a, b) => b - a),
@@ -87,7 +89,7 @@ export class LineChartComponent
 
   normalizedData = computed(() => {
     const max = this.nearestMax();
-    return this.data().map((ti) =>
+    return this.data().rows.map((ti) =>
       ti.set(
         'values',
         ti.values.map((v) => precisionRound(v / max, 2) * this.chartHeight()),
@@ -98,17 +100,17 @@ export class LineChartComponent
   groupedData = computed(() => {
     let list = List<List<DataItem>>([]);
 
-    for (let i = 0; i < this.longestList().values.size; i++) {
+    for (let i = 0; i < this.data().colLabels.size; i++) {
       let group = List<DataItem>();
 
-      this.data().forEach((ti) => {
+      this.data().rows.forEach((ti) => {
         const value = ti.values.get(i);
 
         if (value !== undefined) {
           group = group.push(
             new DataItem({
               label: ti.label,
-              unit: ti.unit,
+              unit: this.data().unit,
               value,
             }),
           );
@@ -121,22 +123,16 @@ export class LineChartComponent
     return list;
   });
 
-  longestList = computed(
-    () =>
-      this.data().max((a, b) => a.values.size - b.values.size) ||
-      new TabularDataItem({}),
-  );
-
   dataPointSpacing = computed(() => {
-    const longestList = this.longestList().values.size || 2;
-    const spacing = this.chartWidth() / (longestList - 1);
+    const cols = this.data().colLabels.size;
+    const spacing = this.chartWidth() / (cols - 1);
 
     return Math.max(spacing, MIN_DATA_POINT_SPACING);
   });
 
   contentWidth = computed(() => {
     const contentWidth =
-      this.dataPointSpacing() * (this.longestList().values.size - 1) +
+      this.dataPointSpacing() * (this.data().colLabels.size - 1) +
       CHART_LEFT_PADDING +
       CHART_RIGHT_PADDING;
     const containerWidth = this._contSize().width;
@@ -145,9 +141,9 @@ export class LineChartComponent
   });
 
   horizontalScaleItemSpacing = computed(() => {
-    const longest = this.longestList().values.size;
+    const cols = this.data().colLabels.size;
     const width = this.contentWidth();
-    const spacing = width / longest;
+    const spacing = width / cols;
 
     if (spacing >= MIN_HOR_SCALE_SPACING_IN_PX) {
       return 1;
@@ -160,9 +156,9 @@ export class LineChartComponent
     const spacing = this.horizontalScaleItemSpacing();
 
     if (spacing === 1) {
-      return this.longestList().values;
+      return this.data().colLabels;
     }
-    return this.longestList().values.filter((_, i) => i % spacing === 0);
+    return this.data().colLabels.filter((_, i) => i % spacing === 0);
   });
 
   horScaleSpacing = computed(
@@ -170,6 +166,6 @@ export class LineChartComponent
   );
 
   colorsArray = computed(() =>
-    generateColorsArray(this.data().map((ti) => ti.values.first() || 0)),
+    generateColorsArray(this.data().rows.map((ti) => ti.values.first() || 0)),
   );
 }

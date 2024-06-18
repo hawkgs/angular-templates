@@ -30,25 +30,41 @@ export class DataItem extends dataItemRecord {
 }
 
 // Tabular data item immutable object
-interface TabularDataItemConfig {
-  label: string;
-  values: List<number>;
+interface TabularDataConfig {
   unit: string;
+  rows: List<TabularDataRow>;
+  colLabels: List<string>;
 }
 
-const tabularDataItemRecord = Record<TabularDataItemConfig>({
-  label: '',
-  values: List([]),
+const tabularDataRecord = Record<TabularDataConfig>({
   unit: '',
+  rows: List(),
+  colLabels: List(),
 });
 
-export class TabularDataItem extends tabularDataItemRecord {
-  constructor(config: Partial<TabularDataItemConfig>) {
+export class TabularData extends tabularDataRecord {
+  constructor(config: Partial<TabularDataConfig>) {
     super(config);
   }
 }
 
-export type DataType = DataItem | List<DataItem> | List<TabularDataItem>;
+interface TabularDataRowConfig {
+  label: string;
+  values: List<number>;
+}
+
+const tabularDataRowRecord = Record<TabularDataRowConfig>({
+  label: '',
+  values: List(),
+});
+
+export class TabularDataRow extends tabularDataRowRecord {
+  constructor(config: Partial<TabularDataRowConfig>) {
+    super(config);
+  }
+}
+
+export type DataType = DataItem | List<DataItem> | TabularData;
 
 // Definition type
 export type DataSourceDefinition = {

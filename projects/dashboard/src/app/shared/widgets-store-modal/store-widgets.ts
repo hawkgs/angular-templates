@@ -3,7 +3,8 @@ import {
   DataItem,
   DataSourceType,
   DataType,
-  TabularDataItem,
+  TabularData,
+  TabularDataRow,
 } from '../../data/types';
 import { WidgetConfig, WidgetType } from '../widgets/widget';
 
@@ -38,11 +39,14 @@ export const STORE_WIDGETS: WidgetStoreItem[] = [
   {
     type: 'line-chart',
     demoConfig: {},
-    previewData: List<TabularDataItem>([
-      new TabularDataItem({ values: List([10, 20, 30, 35]) }),
-      new TabularDataItem({ values: List([5, 30, 10, 15]) }),
-      new TabularDataItem({ values: List([25, 10, 0, 0]) }),
-    ]),
+    previewData: new TabularData({
+      rows: List([
+        new TabularDataRow({ values: List([10, 20, 30, 35]) }),
+        new TabularDataRow({ values: List([5, 30, 10, 15]) }),
+        new TabularDataRow({ values: List([25, 10, 0, 0]) }),
+      ]),
+      colLabels: List(['', '', '', '']),
+    }),
     supportedSizes: [2, 3, 4],
     supportedDataSource: DataSourceType.Tabular,
   },

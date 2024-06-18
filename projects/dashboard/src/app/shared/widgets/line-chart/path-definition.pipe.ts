@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { TabularDataItem } from '../../../data/types';
+import { TabularDataRow } from '../../../data/types';
 
 @Pipe({
   name: 'pathDefinition',
@@ -7,7 +7,7 @@ import { TabularDataItem } from '../../../data/types';
 })
 export class PathDefinitionPipe implements PipeTransform {
   transform(
-    data: TabularDataItem,
+    data: TabularDataRow,
     args: { dataPointSpacing: number; chartHeight: number },
   ): string {
     const vals = data.values;
