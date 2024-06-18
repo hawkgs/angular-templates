@@ -82,12 +82,14 @@
 </svg>
 <div class="legend">
   @for (row of data().rows; track $index; let i = $index) {
-    <div class="legend-label">
-      <div
-        class="legend-line"
-        [style.background-color]="colorsArray()[i]"
-      ></div>
-      <span>{{ row.label }}</span>
-    </div>
+    @if (row.label) {
+      <div class="legend-label">
+        <div
+          class="legend-line"
+          [style.background-color]="colorsArray()[i]"
+        ></div>
+        <span>{{ row.label }}</span>
+      </div>
+    }
   }
 </div>
