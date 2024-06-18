@@ -5,6 +5,7 @@ const WIDGET_NAMES: { [key in WidgetType]: string } = {
   plain: 'Plain',
   'bar-chart': 'Bar Chart',
   'line-chart': 'Line Chart',
+  'pie-chart': 'Pie Chart',
 };
 
 @Component({

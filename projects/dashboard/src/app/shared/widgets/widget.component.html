@@ -23,6 +23,13 @@
           class="widget"
         ></db-line-chart>
       }
+      @case ('pie-chart') {
+        <db-pie-chart
+          [config]="config()"
+          [data]="$any(data ? data() : previewData())"
+          class="widget"
+        ></db-pie-chart>
+      }
     }
   </div>
 } @else {

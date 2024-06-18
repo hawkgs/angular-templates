@@ -1,0 +1,19 @@
+<svg #svgElement xmlns="http://www.w3.org/2000/svg">
+  @for (_ of normalizedData(); track $index; let i = $index) {
+    <path
+      [dbWidgetTooltip]="data().get(i)!"
+      [attr.d]="
+        normalizedData()
+          | sectorPathDefinition
+            : {
+                center: center(),
+                radius: center().y * PIE_CHART_RADIUS,
+                idx: i
+              }
+      "
+      [attr.stroke]="colorsArray()[i]"
+      class="sector"
+    />
+  }
+</svg>
+<div>{{ accum() }}</div>

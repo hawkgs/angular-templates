@@ -2,10 +2,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { TabularDataRow } from '../../../data/types';
 
 @Pipe({
-  name: 'pathDefinition',
+  name: 'linePathDefinition',
   standalone: true,
 })
-export class PathDefinitionPipe implements PipeTransform {
+export class LinePathDefinitionPipe implements PipeTransform {
   transform(
     data: TabularDataRow,
     args: { dataPointSpacing: number; chartHeight: number },

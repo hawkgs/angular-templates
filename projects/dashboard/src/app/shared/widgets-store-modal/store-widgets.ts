@@ -50,4 +50,15 @@ export const STORE_WIDGETS: WidgetStoreItem[] = [
     supportedSizes: [2, 3, 4],
     supportedDataSource: DataSourceType.Tabular,
   },
+  {
+    type: 'pie-chart',
+    demoConfig: {},
+    previewData: List([
+      new DataItem({ value: 1 }),
+      new DataItem({ value: 3 }),
+      new DataItem({ value: 2 }),
+    ]),
+    supportedSizes: [1],
+    supportedDataSource: DataSourceType.List,
+  },
 ];

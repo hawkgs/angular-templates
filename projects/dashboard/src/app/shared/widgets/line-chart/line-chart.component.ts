@@ -12,7 +12,7 @@ import { DataItem, TabularData } from '../../../data/types';
 import { WidgetTooltipDirective } from '../widget-tooltip/widget-tooltip.directive';
 import { WidgetScaleComponent } from '../widget-scale/widget-scale.component';
 import { generateColorsArray, getNearestMax } from '../utils';
-import { PathDefinitionPipe } from './path-definition.pipe';
+import { LinePathDefinitionPipe } from './line-path-definition.pipe';
 import { precisionRound } from '../../utils';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { ChartLabelPipe } from '../../pipes/chart-label.pipe';
@@ -32,7 +32,7 @@ const MIN_HOR_SCALE_SPACING_IN_PX = 40;
   imports: [
     WidgetTooltipDirective,
     WidgetScaleComponent,
-    PathDefinitionPipe,
+    LinePathDefinitionPipe,
     TranslatePipe,
     ChartLabelPipe,
   ],
@@ -135,12 +135,6 @@ export class LineChartComponent
       CHART_LEFT_PADDING +
       CHART_RIGHT_PADDING;
     const containerWidth = this._contSize().width;
-
-    console.log(
-      contentWidth,
-      containerWidth,
-      this.svgElement().nativeElement.clientWidth,
-    );
 
     return Math.max(contentWidth, containerWidth);
   });

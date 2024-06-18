@@ -1,6 +1,6 @@
 import { InputSignal } from '@angular/core';
 
-export type WidgetType = 'plain' | 'bar-chart' | 'line-chart';
+export type WidgetType = 'plain' | 'bar-chart' | 'line-chart' | 'pie-chart';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type WidgetConfig = any;
