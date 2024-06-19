@@ -5,19 +5,23 @@
     width: 100%;
     height: 100%;
 
-    .sector {
-      fill: none;
+    g {
+      transform: translateY(-5px);
 
-      &:hover {
-        filter: brightness(135%);
-        cursor: pointer;
+      .sector {
+        fill: none;
+
+        &:hover {
+          filter: brightness(135%);
+          cursor: pointer;
+        }
       }
-    }
 
-    text {
-      text-anchor: middle;
-      fill: var(--color-tertiary);
-      font-size: 0.75rem;
+      text {
+        text-anchor: middle;
+        fill: var(--color-tertiary);
+        font-size: 0.75rem;
+      }
     }
   }
 }
