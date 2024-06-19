@@ -7,12 +7,17 @@
 
     .sector {
       fill: none;
-      stroke-width: 40;
 
       &:hover {
         filter: brightness(135%);
         cursor: pointer;
       }
+    }
+
+    text {
+      text-anchor: middle;
+      fill: var(--color-tertiary);
+      font-size: 0.75rem;
     }
   }
 }
