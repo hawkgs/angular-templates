@@ -35,6 +35,7 @@ export class WidgetTooltipDirective {
   });
 
   tooltipColors = input<string[]>([]);
+  tooltipSecondaryVal = input<string>();
 
   @HostListener('mouseenter', ['$event'])
   onMouseEnter({ clientX, clientY }: MouseEvent) {
@@ -114,6 +115,13 @@ export class WidgetTooltipDirective {
 
     widget.appendChild(labelEl);
     widget.appendChild(valueEl);
+
+    if (this.tooltipSecondaryVal()) {
+      const secValEl = this._renderer.createElement('p');
+      this._renderer.addClass(secValEl, 'db-widget-tooltip__sec-value');
+      secValEl.innerText = this.tooltipSecondaryVal();
+      widget.appendChild(secValEl);
+    }
   }
 
   private _positionElement(target: HTMLElement, pos: Pos) {

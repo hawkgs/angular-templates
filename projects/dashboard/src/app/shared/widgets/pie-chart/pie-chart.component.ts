@@ -13,6 +13,7 @@ import { SectorPathDefinitionPipe } from './sector-path-definition.pipe';
 import { WidgetTooltipDirective } from '../widget-tooltip/widget-tooltip.directive';
 import { ChartLabelPipe } from '../../pipes/chart-label.pipe';
 import { Coor, getAngleCoor } from './utils';
+import { DecimalPipe } from '@angular/common';
 
 export type PieChartConfig = void;
 
@@ -24,7 +25,12 @@ const MIN_DEGREES_FOR_LABEL = 10;
 @Component({
   selector: 'db-pie-chart',
   standalone: true,
-  imports: [SectorPathDefinitionPipe, WidgetTooltipDirective, ChartLabelPipe],
+  imports: [
+    SectorPathDefinitionPipe,
+    WidgetTooltipDirective,
+    ChartLabelPipe,
+    DecimalPipe,
+  ],
   templateUrl: './pie-chart.component.html',
   styleUrl: './pie-chart.component.scss',
 })
@@ -44,14 +50,15 @@ export class PieChartComponent
       .reduce((a, b) => a + b, 0),
   );
 
+  normalizedData = computed(() =>
+    this.data().map((di) => di.set('value', di.value / this._totalAmount())),
+  );
+
   sectors = computed<{ start: number; end: number }[]>(() => {
     const sectors: { start: number; end: number }[] = [];
-    const normalized = this.data().map((di) =>
-      di.set('value', di.value / this._totalAmount()),
-    );
     let start = 0;
 
-    normalized.forEach((di) => {
+    this.normalizedData().forEach((di) => {
       sectors.push({
         start: start * 360,
         end: (start + di.value) * 360,
