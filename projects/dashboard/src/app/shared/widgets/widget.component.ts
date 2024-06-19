@@ -10,7 +10,6 @@ import {
   output,
 } from '@angular/core';
 import { IconComponent } from '@ngx-templates/shared/icon';
-import { PlainWidgetComponent } from './plain-widget/plain-widget.component';
 import { WidgetConfig, WidgetType } from './widget';
 import { injectDataSourceInstance } from '../../data/utils';
 import { DataType } from '../../data/types';
@@ -19,17 +18,18 @@ import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { LineChartComponent } from './line-chart/line-chart.component';
 import { PieChartComponent } from './pie-chart/pie-chart.component';
 import { TableComponent } from './table/table.component';
+import { ScalarDataComponent } from './scalar-data/scalar-data.component';
 
 @Component({
   selector: 'db-widget',
   standalone: true,
   imports: [
     IconComponent,
-    PlainWidgetComponent,
     BarChartComponent,
     LineChartComponent,
     PieChartComponent,
     TableComponent,
+    ScalarDataComponent,
   ],
   templateUrl: './widget.component.html',
   styleUrl: './widget.component.scss',

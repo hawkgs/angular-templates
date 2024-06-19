@@ -14,7 +14,7 @@ export interface WidgetGridItemConfig {
 const widgetGridItemRecord = Record<WidgetGridItemConfig>({
   id: '',
   position: 0,
-  type: 'plain',
+  type: 'scalar-data',
   config: null,
   dataSourceId: '',
   size: 1,

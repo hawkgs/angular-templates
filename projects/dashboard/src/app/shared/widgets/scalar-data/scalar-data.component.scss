@@ -1,0 +1,20 @@
+:host {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+
+  .wrapper {
+    .label {
+      font-size: 1rem;
+    }
+
+    .value {
+      font-size: 6rem;
+
+      .unit {
+        font-size: 1rem;
+      }
+    }
+  }
+}

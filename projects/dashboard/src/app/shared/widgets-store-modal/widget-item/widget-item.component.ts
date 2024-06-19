@@ -2,11 +2,11 @@ import { Component, computed, input, output } from '@angular/core';
 import { WidgetType } from '../../widgets/widget';
 
 const WIDGET_NAMES: { [key in WidgetType]: string } = {
-  plain: 'Plain',
   'bar-chart': 'Bar Chart',
   'line-chart': 'Line Chart',
   'pie-chart': 'Pie Chart',
   table: 'Table',
+  'scalar-data': 'Scalar Data',
 };
 
 @Component({

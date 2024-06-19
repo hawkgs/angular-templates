@@ -6,7 +6,9 @@ export class RandNumsList implements DataSource<DataItem> {
   private _init = false;
   private _data = signal<DataItem>(
     new DataItem({
+      unit: 'm/s',
       value: Math.round(Math.random() * 100),
+      label: 'Speed',
     }),
   );
   data = this._data.asReadonly();

@@ -2,13 +2,6 @@
   <div class="widget-wrapper">
     <p class="title">{{ displayedTitle() }}</p>
     @switch (type()) {
-      @case ('plain') {
-        <db-plain-widget
-          [config]="config()"
-          [data]="$any(data ? data() : previewData())"
-          class="widget"
-        ></db-plain-widget>
-      }
       @case ('bar-chart') {
         <db-bar-chart
           [config]="config()"
@@ -36,6 +29,13 @@
           [data]="$any(data ? data() : previewData())"
           class="widget"
         ></db-table>
+      }
+      @case ('scalar-data') {
+        <db-scalar-data
+          [config]="config()"
+          [data]="$any(data ? data() : previewData())"
+          class="widget"
+        ></db-scalar-data>
       }
     }
   </div>

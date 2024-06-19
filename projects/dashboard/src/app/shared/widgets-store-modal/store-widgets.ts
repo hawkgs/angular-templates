@@ -19,13 +19,6 @@ export type WidgetStoreItem = {
 // List of available widgets to add to the dashboard.
 export const STORE_WIDGETS: WidgetStoreItem[] = [
   {
-    type: 'plain',
-    demoConfig: { style: 'grey' },
-    previewData: new DataItem({ value: 1337 }),
-    supportedSizes: [1, 2, 3, 4],
-    supportedDataSource: DataSourceType.SingleValued,
-  },
-  {
     type: 'bar-chart',
     demoConfig: {},
     previewData: List([
@@ -64,12 +57,22 @@ export const STORE_WIDGETS: WidgetStoreItem[] = [
   {
     type: 'table',
     demoConfig: {},
-    previewData: List([
-      new DataItem({ value: 1 }),
-      new DataItem({ value: 3 }),
-      new DataItem({ value: 2 }),
-    ]),
+    previewData: new TabularData({
+      rows: List([
+        new TabularDataRow({ values: List([10, 20, 30, 35]), label: 'i' }),
+        new TabularDataRow({ values: List([5, 30, 10, 15]), label: 'ii' }),
+        new TabularDataRow({ values: List([25, 10, 0, 0]), label: 'iii' }),
+      ]),
+      colLabels: List(['A', 'B', 'C', 'D']),
+    }),
     supportedSizes: [2, 3, 4],
     supportedDataSource: DataSourceType.Tabular,
+  },
+  {
+    type: 'scalar-data',
+    demoConfig: {},
+    previewData: new DataItem({ value: 42 }),
+    supportedSizes: [1],
+    supportedDataSource: DataSourceType.SingleValued,
   },
 ];

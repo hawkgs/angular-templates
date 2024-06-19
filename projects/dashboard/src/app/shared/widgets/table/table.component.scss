@@ -1,7 +1,6 @@
 @import '../widget-vars';
 
 :host {
-  overflow-x: hidden !important;
   overflow-y: auto !important;
   border-top: 1px solid var(--color-senary);
   border-bottom-left-radius: $widget-border-radius;
