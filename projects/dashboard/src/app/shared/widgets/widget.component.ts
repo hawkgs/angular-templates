@@ -18,6 +18,7 @@ import { DATA_SOURCES } from '../../data/sources';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { LineChartComponent } from './line-chart/line-chart.component';
 import { PieChartComponent } from './pie-chart/pie-chart.component';
+import { TableComponent } from './table/table.component';
 
 @Component({
   selector: 'db-widget',
@@ -28,6 +29,7 @@ import { PieChartComponent } from './pie-chart/pie-chart.component';
     BarChartComponent,
     LineChartComponent,
     PieChartComponent,
+    TableComponent,
   ],
   templateUrl: './widget.component.html',
   styleUrl: './widget.component.scss',

@@ -61,4 +61,15 @@ export const STORE_WIDGETS: WidgetStoreItem[] = [
     supportedSizes: [1],
     supportedDataSource: DataSourceType.List,
   },
+  {
+    type: 'table',
+    demoConfig: {},
+    previewData: List([
+      new DataItem({ value: 1 }),
+      new DataItem({ value: 3 }),
+      new DataItem({ value: 2 }),
+    ]),
+    supportedSizes: [2, 3, 4],
+    supportedDataSource: DataSourceType.Tabular,
+  },
 ];

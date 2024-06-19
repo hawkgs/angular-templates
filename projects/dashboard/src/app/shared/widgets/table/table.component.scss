@@ -1,0 +1,39 @@
+@import '../widget-vars';
+
+:host {
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  border-top: 1px solid var(--color-senary);
+  border-bottom-left-radius: $widget-border-radius;
+  border-bottom-right-radius: $widget-border-radius;
+
+  table {
+    width: 100%;
+    border-spacing: 0;
+
+    th {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--color-quinary);
+      background-color: var(--color-septenary);
+
+      &:not(:last-child) {
+        border-right: 1px solid var(--color-senary);
+      }
+    }
+
+    tbody {
+      td {
+        border-bottom: 1px solid var(--color-senary);
+        padding: 0.5rem 0.75rem;
+
+        &:first-child {
+          color: var(--color-tertiary);
+        }
+
+        &:not(:last-child) {
+          border-right: 1px solid var(--color-senary);
+        }
+      }
+    }
+  }
+}

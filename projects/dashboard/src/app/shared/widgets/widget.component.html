@@ -30,6 +30,13 @@
           class="widget"
         ></db-pie-chart>
       }
+      @case ('table') {
+        <db-table
+          [config]="config()"
+          [data]="$any(data ? data() : previewData())"
+          class="widget"
+        ></db-table>
+      }
     }
   </div>
 } @else {

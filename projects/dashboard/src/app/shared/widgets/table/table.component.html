@@ -1,0 +1,18 @@
+<table>
+  <thead>
+    <th></th>
+    @for (label of data().colLabels; track $index) {
+      <th>{{ label }}</th>
+    }
+  </thead>
+  <tbody>
+    @for (row of data().rows; track $index) {
+      <tr>
+        <td>{{ row.label }}</td>
+        @for (v of row.values; track $index) {
+          <td>{{ v }}</td>
+        }
+      </tr>
+    }
+  </tbody>
+</table>
