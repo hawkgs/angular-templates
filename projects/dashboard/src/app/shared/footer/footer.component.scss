@@ -2,6 +2,7 @@
 
 :host {
   display: block;
+  min-width: var(--app-min-width);
 
   footer {
     @extend %body-short-03;

@@ -3,7 +3,11 @@
     <span>{{ data().label }}</span>
     @if (prevData()) {
       @if (change() !== 0) {
-        <ngx-icon name="ArrowDown" [class.positive]="change() > 0"></ngx-icon>
+        <ngx-icon
+          name="ArrowDown"
+          [class.positive]="change() > 0"
+          size="md"
+        ></ngx-icon>
       } @else {
         <div class="no-change">–</div>
       }
