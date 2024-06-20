@@ -2,6 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import {
   AfterRenderPhase,
   Component,
+  HostListener,
   afterNextRender,
   computed,
   effect,
@@ -12,6 +13,7 @@ import { DRAG_AND_DROP_DIRECTIVES } from '@ngx-templates/shared/drag-and-drop';
 import { ButtonComponent } from '@ngx-templates/shared/button';
 import { ModalService } from '@ngx-templates/shared/modal';
 import { ToastsService } from '@ngx-templates/shared/toasts';
+import { WINDOW } from '@ngx-templates/shared/services';
 import { Map } from 'immutable';
 
 import { WidgetComponent } from '../widgets/widget.component';
@@ -21,6 +23,11 @@ import {
 } from '../widgets-store-modal/widgets-store-modal.component';
 import { GridStoreService } from './grid-store.service';
 import { WidgetGridItem } from './widget-grid-item';
+
+const DESKTOP_GRID_COLS = 4;
+const MOBILE_GRID_COLS = 1;
+const MOBILE_UI_MAX_WIDTH = 800;
+const WIN_RESIZE_DEBOUNCE = 100; // ms
 
 @Component({
   selector: 'db-widgets-grid',
@@ -32,18 +39,23 @@ import { WidgetGridItem } from './widget-grid-item';
 })
 export class WidgetsGridComponent {
   doc = inject(DOCUMENT);
+  private _win = inject(WINDOW);
   private _modalService = inject(ModalService);
   private _gridStore = inject(GridStoreService);
   private _toasts = inject(ToastsService);
+
+  private _resizeTimeout?: ReturnType<typeof setTimeout>;
 
   private _widgets = signal<Map<string, WidgetGridItem>>(Map([]));
   editMode = signal<boolean>(false);
   widgets = computed(() => this._widgets().toList());
   widgetsLoaded = signal<boolean>(false);
+  columns = signal<number>(DESKTOP_GRID_COLS);
 
   constructor() {
     const widgets = this._gridStore.getGridItems();
     this._widgets.set(widgets);
+    this._updateGridColumns();
 
     effect(() => {
       this._gridStore.setGridItems(this._widgets());
@@ -53,6 +65,16 @@ export class WidgetsGridComponent {
     afterNextRender(() => this.widgetsLoaded.set(true), {
       phase: AfterRenderPhase.Read,
     });
+  }
+
+  @HostListener('window:resize')
+  onWinResize() {
+    if (this._resizeTimeout) {
+      clearTimeout(this._resizeTimeout);
+    }
+    this._resizeTimeout = setTimeout(() => {
+      this._updateGridColumns();
+    }, WIN_RESIZE_DEBOUNCE);
   }
 
   addWidget() {
@@ -94,5 +116,14 @@ export class WidgetsGridComponent {
       });
       return widgets;
     });
+  }
+
+  private _updateGridColumns() {
+    const cols =
+      this._win.innerWidth > MOBILE_UI_MAX_WIDTH
+        ? DESKTOP_GRID_COLS
+        : MOBILE_GRID_COLS;
+
+    this.columns.set(cols);
   }
 }

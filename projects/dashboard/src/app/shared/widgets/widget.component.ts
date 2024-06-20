@@ -1,6 +1,5 @@
 import {
   Component,
-  HostBinding,
   Injector,
   OnInit,
   Signal,
@@ -54,11 +53,6 @@ export class WidgetComponent implements OnInit {
       this.title() ||
       DATA_SOURCES.find((ds) => ds.id === this.dataSourceId())?.name,
   );
-
-  @HostBinding('style.grid-column')
-  get gridColumn() {
-    return 'span ' + this.size().toString();
-  }
 
   ngOnInit() {
     const id = this.dataSourceId();

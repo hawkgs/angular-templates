@@ -10,6 +10,10 @@
 :root {
   --app-max-width: 1620px;
   --app-min-width: 1250px;
+
+  @include bp-800w {
+    --app-min-width: unset;
+  }
 }
 
 body {

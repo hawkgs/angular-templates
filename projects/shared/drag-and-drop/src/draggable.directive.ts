@@ -5,6 +5,8 @@ import {
   OnDestroy,
   Renderer2,
   TemplateRef,
+  computed,
+  effect,
   inject,
   input,
   output,
@@ -27,6 +29,18 @@ const DRAG_ACTIVE_AFTER = 200;
 // The level of the opacity while the target is being dragged.
 const DRAG_OPACITY = 0.8;
 
+// Returns the coordinates of the mouse/finger
+// based on the event type.
+const getClientPointerPos = (e: MouseEvent | TouchEvent): Coor => {
+  if (e instanceof MouseEvent) {
+    return { x: e.clientX, y: e.clientY };
+  }
+  return {
+    x: e.touches[0].clientX,
+    y: e.touches[0].clientY,
+  };
+};
+
 /**
  * Adds draggable behavior to an element. Should be used as
  * a structural directive  along with `ngx-drop-grid`.
@@ -48,16 +62,19 @@ export class DraggableDirective implements OnDestroy {
   private _elMidpoint: Coor | null = null;
   private _relativeMousePos: Coor = { x: 0, y: 0 };
   private _dragActivatorTimeout?: ReturnType<typeof setTimeout>;
+  private _element!: Element;
 
   /**
    * ID of the draggable element. Default: `'0'`
    */
   id = input<string>('0', { alias: 'ngxDraggable' });
+
   /**
    * Represents the draggable size in the `ngx-drop-grid`.
-   * Shouldn't exceed the grid width. Default: `1`
+   * Shouldn't exceed the number of grid columns. Default: `1`
    */
   elementSize = input<number>(1, { alias: 'ngxDraggableSize' });
+
   /**
    * Position or order of the draggable element in the `ngx-drop-grid`.
    * Not dynamic.
@@ -65,9 +82,9 @@ export class DraggableDirective implements OnDestroy {
   position = input<number>(0, { alias: 'ngxDraggablePosition' });
 
   /**
-   * Native element of the draggable target.
+   * The columns number in the `ngx-drop-grid`
    */
-  element!: Element;
+  gridColumns = input<number>(1, { alias: 'ngxDraggableCols' });
 
   /**
    * Disables the drag functionality.
@@ -109,6 +126,24 @@ export class DraggableDirective implements OnDestroy {
    */
   anchored = output<void>();
 
+  /**
+   * Native element of the draggable target.
+   */
+  set element(v: Element) {
+    this._element = v;
+    this._setStyles({ 'grid-column': 'span ' + this._renderedSize() });
+  }
+
+  private _renderedSize = computed(() =>
+    Math.min(this.elementSize(), this.gridColumns()),
+  );
+
+  constructor() {
+    effect(() => {
+      this._setStyles({ 'grid-column': 'span ' + this._renderedSize() });
+    });
+  }
+
   ngOnDestroy() {
     this._listeners.forEach((cb) => cb());
   }
@@ -119,28 +154,28 @@ export class DraggableDirective implements OnDestroy {
    * Note: Has to be called manually after the `element` has been defined.
    */
   initEvents() {
-    if (!this.element) {
+    if (!this._element) {
       throw new Error('DraggableDirective: Missing element');
     }
 
     this._zone.runOutsideAngular(() => {
+      const dragStart = this._onDragStart.bind(this);
+      const dragMove = this._onDragMove.bind(this);
+      const dragEnd = this._onDragEnd.bind(this);
+
       this._listeners = [
-        this._renderer.listen(
-          this.element,
-          'mousedown',
-          this._onDragStart.bind(this),
-        ),
-        this._renderer.listen(
-          this._doc,
-          'mousemove',
-          this._onDragMove.bind(this),
-        ),
-        this._renderer.listen(this._doc, 'mouseup', this._onDragEnd.bind(this)),
+        this._renderer.listen(this._element, 'mousedown', dragStart),
+        this._renderer.listen(this._doc, 'mousemove', dragMove),
+        this._renderer.listen(this._doc, 'mouseup', dragEnd),
+
+        this._renderer.listen(this._element, 'touchstart', dragStart),
+        this._renderer.listen(this._doc, 'touchmove', dragMove),
+        this._renderer.listen(this._doc, 'touchend', dragEnd),
       ];
     });
   }
 
-  private _onDragStart(e: MouseEvent) {
+  private _onDragStart(e: MouseEvent | TouchEvent) {
     if (this.disabled()) {
       return;
     }
@@ -148,12 +183,13 @@ export class DraggableDirective implements OnDestroy {
     this._dragActivatorTimeout = setTimeout(() => {
       this._dragging = true;
 
-      const { x, y, width, height } = this.element.getBoundingClientRect();
+      const { x, y, width, height } = this._element.getBoundingClientRect();
       const pos = { x, y };
+      const client = getClientPointerPos(e);
 
       this._relativeMousePos = {
-        x: e.clientX - x,
-        y: e.clientY - y,
+        x: client.x - x,
+        y: client.y - y,
       };
 
       this._applyDraggableStyles(pos, { x: width, y: height });
@@ -175,7 +211,7 @@ export class DraggableDirective implements OnDestroy {
     }, DRAG_ACTIVE_AFTER);
   }
 
-  private _onDragMove(e: MouseEvent) {
+  private _onDragMove(e: MouseEvent | TouchEvent) {
     if (!this._dragging) {
       return;
     }
@@ -183,12 +219,15 @@ export class DraggableDirective implements OnDestroy {
     // This will disable auto-scroll. However,
     // it will also prevent the undesired text
     // selection.
-    e.preventDefault();
+    if (e instanceof MouseEvent) {
+      e.preventDefault();
+    }
 
+    const client = getClientPointerPos(e);
     const offset = this._relativeMousePos;
     const pos = {
-      x: e.clientX - offset.x,
-      y: e.clientY - offset.y,
+      x: client.x - offset.x,
+      y: client.y - offset.y,
     };
 
     this._move(pos);
@@ -237,7 +276,7 @@ export class DraggableDirective implements OnDestroy {
   private _move(coor: Coor) {
     const translate = `translate(${coor.x}px, ${coor.y}px)`;
 
-    this._renderer.setStyle(this.element, 'transform', translate);
+    this._renderer.setStyle(this._element, 'transform', translate);
   }
 
   /**
@@ -253,7 +292,7 @@ export class DraggableDirective implements OnDestroy {
     }
 
     this._renderer.setStyle(
-      this.element,
+      this._element,
       'transition',
       `transform ${RAPPEL_ANIM_DURR}ms ease`,
     );
@@ -280,11 +319,11 @@ export class DraggableDirective implements OnDestroy {
   private _setStyles(stylesObj: { [key: string]: string }) {
     for (const cssProp in stylesObj) {
       const value = stylesObj[cssProp];
-      this._renderer.setStyle(this.element, cssProp, value);
+      this._renderer.setStyle(this._element, cssProp, value);
     }
   }
 
   private _removeStyles(cssProps: string[]) {
-    cssProps.forEach((p) => this._renderer.removeStyle(this.element, p));
+    cssProps.forEach((p) => this._renderer.removeStyle(this._element, p));
   }
 }

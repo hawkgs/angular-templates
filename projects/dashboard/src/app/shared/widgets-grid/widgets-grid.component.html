@@ -33,13 +33,15 @@
   </div>
 }
 <ngx-drop-grid
+  [columns]="columns()"
+  [cellGap]="16"
   [disabled]="!editMode()"
   [scrollCont]="doc.documentElement"
   (moved)="onWidgetMoved($event)"
 >
   @for (w of widgets(); track w.id) {
     <db-widget
-      *ngxDraggable="w.id; size: w.size; position: w.position"
+      *ngxDraggable="w.id; size: w.size; position: w.position; cols: columns()"
       [type]="w.type"
       [size]="w.size"
       [editMode]="editMode()"
