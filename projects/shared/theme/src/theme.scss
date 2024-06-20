@@ -60,6 +60,7 @@
 :root,
 :root.ngx-light-theme {
   @include light-theme-colors-setup;
+  color-scheme: light;
 }
 
 /*
@@ -97,10 +98,12 @@
 @media (prefers-color-scheme: dark) {
   :root {
     @include dark-theme-colors-setup;
+    color-scheme: dark;
   }
 }
 
 // User-selected
 :root.ngx-dark-theme {
   @include dark-theme-colors-setup;
+  color-scheme: dark;
 }
