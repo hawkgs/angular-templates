@@ -13,7 +13,8 @@ export type IconName =
   | 'ChevronRight'
   | 'Delete'
   | 'NoPhoto'
-  | 'Close';
+  | 'Close'
+  | 'ArrowDown';
 
 export type IconSize = 'sm' | 'md' | 'lg' | 'xlg' | 'xxlg';
 

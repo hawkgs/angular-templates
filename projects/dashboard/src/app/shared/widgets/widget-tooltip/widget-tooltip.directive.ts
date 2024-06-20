@@ -2,7 +2,9 @@ import {
   Directive,
   HostListener,
   LOCALE_ID,
+  OnChanges,
   Renderer2,
+  SimpleChanges,
   inject,
   input,
 } from '@angular/core';
@@ -22,7 +24,7 @@ const CURSOR_MARGIN = 15;
   selector: '[dbWidgetTooltip]',
   standalone: true,
 })
-export class WidgetTooltipDirective {
+export class WidgetTooltipDirective implements OnChanges {
   private _doc = inject(DOCUMENT);
   private _locale = inject(LOCALE_ID);
   private _renderer = inject(Renderer2);
@@ -33,15 +35,20 @@ export class WidgetTooltipDirective {
   data = input.required<DataItem | List<DataItem>>({
     alias: 'dbWidgetTooltip',
   });
+  private _prevData?: DataItem | List<DataItem>;
 
   tooltipColors = input<string[]>([]);
   tooltipSecondaryVal = input<string>();
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this._prevData = changes['data'].previousValue;
+  }
 
   @HostListener('mouseenter', ['$event'])
   onMouseEnter({ clientX, clientY }: MouseEvent) {
     const pos = { x: clientX, y: clientY };
 
-    if (!this._widget) {
+    if (!this._widget || (this._prevData && this._prevData !== this.data())) {
       this._widget = this._createWidget(pos);
     } else {
       this._positionElement(this._widget, pos);
