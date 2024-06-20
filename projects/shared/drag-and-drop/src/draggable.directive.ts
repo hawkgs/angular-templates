@@ -134,6 +134,10 @@ export class DraggableDirective implements OnDestroy {
     this._setStyles({ 'grid-column': 'span ' + this._renderedSize() });
   }
 
+  get element() {
+    return this._element;
+  }
+
   private _renderedSize = computed(() =>
     Math.min(this.elementSize(), this.gridColumns()),
   );
