@@ -1,4 +1,14 @@
-<a [routerLink]="routerLink()" class="logo" aria-label="Logo - Home page">
+<ng-template #content>
   <div class="ng-logo"></div>
   <span class="text">{{ text() }}</span>
-</a>
+</ng-template>
+
+@if (routerLink()) {
+  <a [routerLink]="routerLink()" class="logo" aria-label="Logo - Home page">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+  </a>
+} @else {
+  <div class="logo" aria-label="Logo">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+  </div>
+}
