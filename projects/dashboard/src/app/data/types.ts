@@ -27,7 +27,7 @@ export class DataItem extends dataItemRecord {
   }
 }
 
-// Tabular data item immutable object
+// Tabular data immutable object
 interface TabularDataConfig {
   unit: string;
   rows: List<TabularDataRow>;
@@ -46,6 +46,7 @@ export class TabularData extends tabularDataRecord {
   }
 }
 
+// Tabular data row immutable object (Part of `TabularData`)
 interface TabularDataRowConfig {
   label: string;
   values: List<number>;

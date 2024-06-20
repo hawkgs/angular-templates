@@ -1,6 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { TabularDataRow } from '../../../data/types';
 
+/**
+ * Calculates the path definition of a single line for the line chart
+ * based on a provided tabular data row.
+ */
 @Pipe({
   name: 'linePathDefinition',
   standalone: true,

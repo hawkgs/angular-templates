@@ -16,7 +16,9 @@ export type WidgetStoreItem = {
   supportedDataSource: DataSourceType;
 };
 
-// List of available widgets to add to the dashboard.
+/**
+ * List of available widgets to add to the dashboard.
+ */
 export const STORE_WIDGETS: WidgetStoreItem[] = [
   {
     type: 'bar-chart',

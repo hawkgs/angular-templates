@@ -11,7 +11,7 @@ import { Widget } from '../widget';
 import { DataItem, TabularData } from '../../../data/types';
 import { WidgetTooltipDirective } from '../widget-tooltip/widget-tooltip.directive';
 import { WidgetScaleComponent } from '../widget-scale/widget-scale.component';
-import { generateColorsArray, getNearestMax } from '../utils';
+import { generateColorsArray, getNearestCeiledMax } from '../utils';
 import { LinePathDefinitionPipe } from './line-path-definition.pipe';
 import { precisionRound } from '../../utils';
 import { TranslatePipe } from '../../pipes/translate.pipe';
@@ -24,6 +24,10 @@ const CHART_TOP_PADDING = 15;
 const CHART_BOTTOM_PADDING = 60;
 const CHART_LEFT_PADDING = 65;
 const CHART_RIGHT_PADDING = 30;
+
+// Minimal required space between labels in the horizontal scale.
+// If there are more labels – i.e. the space is smaller than that
+// – the labels in-between will be omitted.
 const MIN_HOR_SCALE_SPACING_IN_PX = 40;
 
 @Component({
@@ -61,6 +65,9 @@ export class LineChartComponent
     };
   });
 
+  /**
+   * Represents the scale/chart top boundary.
+   */
   nearestMax = computed(() => {
     const sorted = this.data().rows.map((ti) =>
       ti.set(
@@ -75,7 +82,7 @@ export class LineChartComponent
       return 0;
     }
 
-    return getNearestMax(max.values.first());
+    return getNearestCeiledMax(max.values.first());
   });
 
   chartWidth = computed(
@@ -96,6 +103,10 @@ export class LineChartComponent
     );
   });
 
+  /**
+   * Groups data by a columns so that it
+   * can be passed to the tooltip for a summary.
+   */
   groupedData = computed(() => {
     let list = List<List<DataItem>>([]);
 
@@ -139,6 +150,10 @@ export class LineChartComponent
     return Math.max(contentWidth, containerWidth);
   });
 
+  /**
+   * Represents the required horizontal scale label spacing in
+   * number of columns. If N > 1, every N-1 label will be omitted.
+   */
   horizontalScaleItemSpacing = computed(() => {
     const cols = this.data().colLabels.size;
     const width = this.contentWidth();
@@ -151,6 +166,9 @@ export class LineChartComponent
     return Math.round(MIN_HOR_SCALE_SPACING_IN_PX / spacing);
   });
 
+  /**
+   * Horizontal scale labels (filtered, if the spacing is insufficient).
+   */
   horizontalScaleLabels = computed(() => {
     const spacing = this.horizontalScaleItemSpacing();
 
@@ -160,6 +178,9 @@ export class LineChartComponent
     return this.data().colLabels.filter((_, i) => i % spacing === 0);
   });
 
+  /**
+   * Horizontal scale line and label spacing. In pixels.
+   */
   horScaleSpacing = computed(
     () => this.dataPointSpacing() * this.horizontalScaleItemSpacing(),
   );

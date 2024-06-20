@@ -1,5 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+/**
+ * Builds a CSS-compatible `translate` string.
+ * Used for SVG groups.
+ */
 @Pipe({
   name: 'translate',
   standalone: true,

@@ -1,6 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { precisionRound } from '../utils';
 
+/**
+ * Rounds and shortens large numbers.
+ */
 @Pipe({
   name: 'formatThousands',
   standalone: true,

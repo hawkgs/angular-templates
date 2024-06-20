@@ -17,10 +17,16 @@ import { DecimalPipe } from '@angular/common';
 
 export type PieChartConfig = void;
 
-const PIE_CHART_RADIUS = 0.6; // In percent
-const SECTOR_WIDTH = 40;
-const LABEL_MARGIN = 25;
+// Represents the radius of the pie chart based on
+// the half of the container height, in percents.
+const PIE_CHART_RADIUS = 0.6;
+
+// Sets the minimal degree span of a sector
+// to have a rendered label.
 const MIN_DEGREES_FOR_LABEL = 10;
+
+const SECTOR_WIDTH = 40;
+const LABELS_MARGIN = 25; // Relative to the pie chart
 
 @Component({
   selector: 'db-pie-chart',
@@ -54,6 +60,9 @@ export class PieChartComponent
     this.data().map((di) => di.set('value', di.value / this._totalAmount())),
   );
 
+  /**
+   * The calculated sector start and end for each normalized data item.
+   */
   sectors = computed<{ start: number; end: number }[]>(() => {
     const sectors: { start: number; end: number }[] = [];
     let start = 0;
@@ -69,10 +78,13 @@ export class PieChartComponent
     return sectors;
   });
 
+  /**
+   * Labels with their coordinates based on the sectors.
+   */
   labels = computed<({ name: string; pos: Coor } | null)[]>(() => {
     const center = this.center();
     const radius =
-      this.center().y * PIE_CHART_RADIUS + SECTOR_WIDTH / 2 + LABEL_MARGIN;
+      this.center().y * PIE_CHART_RADIUS + SECTOR_WIDTH / 2 + LABELS_MARGIN;
 
     return this.sectors().map((s, i) => {
       if (s.end - s.start < MIN_DEGREES_FOR_LABEL) {
@@ -85,6 +97,9 @@ export class PieChartComponent
     });
   });
 
+  /**
+   * Center of the pie chart.
+   */
   center = computed<Coor>(() => {
     const { clientWidth, clientHeight } = this.svgElement().nativeElement;
 

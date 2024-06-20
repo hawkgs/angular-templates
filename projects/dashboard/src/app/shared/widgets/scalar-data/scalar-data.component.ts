@@ -29,6 +29,8 @@ export class ScalarDataComponent
   config = input<ScalarDataConfig>();
   prevData = signal<DataItem | undefined>(undefined);
 
+  // Calculates whether there is positive, negative
+  // or neutral change based on the previous data item.
   change = computed(() => {
     const prevData = this.prevData();
     return prevData ? this.data().value - prevData.value : 0;

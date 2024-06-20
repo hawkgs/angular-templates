@@ -1,5 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+/**
+ * Shortens a label for presentation.
+ */
 @Pipe({
   name: 'chartLabel',
   standalone: true,

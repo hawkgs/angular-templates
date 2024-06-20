@@ -73,6 +73,7 @@ export class WidgetsGridComponent {
       clearTimeout(this._resizeTimeout);
     }
     this._resizeTimeout = setTimeout(() => {
+      // Change the number of columns based on the window width
       this._updateGridColumns();
     }, WIN_RESIZE_DEBOUNCE);
   }

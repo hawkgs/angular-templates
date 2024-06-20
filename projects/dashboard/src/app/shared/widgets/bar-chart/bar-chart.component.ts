@@ -9,7 +9,7 @@ import { List } from 'immutable';
 
 import { Widget } from '../widget';
 import { DataItem } from '../../../data/types';
-import { generateColorsArray, getNearestMax } from '../utils';
+import { generateColorsArray, getNearestCeiledMax } from '../utils';
 import { precisionRound } from '../../utils';
 import { FormatThousandsPipe } from '../../pipes/format-thousands.pipe';
 import { ChartLabelPipe } from '../../pipes/chart-label.pipe';
@@ -73,13 +73,16 @@ export class BarChartComponent
     };
   });
 
+  /**
+   * Represents the scale/chart top boundary.
+   */
   nearestMax = computed(() => {
     const max = this.data().max((l, r) => l.value - r.value);
     if (!max) {
       return 0;
     }
 
-    return getNearestMax(max.value);
+    return getNearestCeiledMax(max.value);
   });
 
   normalizedData = computed(() =>

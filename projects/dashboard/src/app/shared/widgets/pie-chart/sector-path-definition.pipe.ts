@@ -1,6 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Coor, getAngleCoor } from './utils';
 
+/**
+ * Calculates the path definition of a sector arc.
+ */
 @Pipe({
   name: 'sectorPathDefinition',
   standalone: true,
@@ -16,7 +19,7 @@ export class SectorPathDefinitionPipe implements PipeTransform {
   }
 
   /**
-   * Calculate arc.
+   * Calculate path definition of an arc for a given sector.
    */
   private _arc(
     start: number,

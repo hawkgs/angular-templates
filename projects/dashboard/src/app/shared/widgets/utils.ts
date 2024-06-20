@@ -40,7 +40,15 @@ export function colorGenerator(dataValue: number, dataIndex: number): string {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
-export function getNearestMax(max: number) {
+/**
+ * Calculates and returns the nearest ceiled max of a given number.
+ * I.e. 1220 => 1300
+ *
+ * Used for determining the upper boundary of a bar or line chart.
+ *
+ * @param max Max value in the data set.
+ */
+export function getNearestCeiledMax(max: number) {
   const digits = max.toString().length - 2;
   const precision = 10 ** digits;
 

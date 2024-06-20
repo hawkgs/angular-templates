@@ -1,7 +1,7 @@
 export type Coor = { x: number; y: number };
 
 /**
- * Get angle coordinates (Cartesian coordinates).
+ * Get angle coordinates by provided degrees.
  */
 export function getAngleCoor(
   degrees: number,
