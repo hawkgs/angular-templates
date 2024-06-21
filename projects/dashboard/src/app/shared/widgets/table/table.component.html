@@ -1,9 +1,11 @@
 <table>
   <thead>
-    <th></th>
-    @for (label of data().colLabels; track $index) {
-      <th>{{ label }}</th>
-    }
+    <tr>
+      <th>&nbsp;</th>
+      @for (label of data().colLabels; track $index) {
+        <th>{{ label }}</th>
+      }
+    </tr>
   </thead>
   <tbody>
     @for (row of data().rows; track $index) {
