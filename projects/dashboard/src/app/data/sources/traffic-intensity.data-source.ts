@@ -1,14 +1,14 @@
 import { Injectable, signal } from '@angular/core';
-import { DataItem, DataSource } from './types';
+import { DataItem, DataSource } from '../types';
 
 @Injectable()
-export class RandNumsList implements DataSource<DataItem> {
+export class TrafficIntensity implements DataSource<DataItem> {
   private _init = false;
   private _data = signal<DataItem>(
     new DataItem({
-      unit: 'm/s',
-      value: Math.round(Math.random() * 1000000),
-      label: 'Speed',
+      unit: 'users/m',
+      value: Math.round(Math.random() * 10000),
+      label: 'Users',
     }),
   );
   data = this._data.asReadonly();
@@ -20,10 +20,12 @@ export class RandNumsList implements DataSource<DataItem> {
 
     this._init = true;
 
-    const interval = Math.round(Math.max(2000, Math.random() * 2000));
     setInterval(() => {
       let change = Math.random() > 0.5 ? 1 : -1;
       change = Math.random() < 0.5 ? change : 0;
+      if (change !== 0) {
+        change *= Math.round(Math.random() * 100);
+      }
 
       const d = this._data();
       const newData = new DataItem({
@@ -33,6 +35,6 @@ export class RandNumsList implements DataSource<DataItem> {
       });
 
       this._data.set(newData);
-    }, interval);
+    }, 2000);
   }
 }

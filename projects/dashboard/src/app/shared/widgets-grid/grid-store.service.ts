@@ -6,7 +6,8 @@ import { isPlatformBrowser } from '@angular/common';
 
 const GRID_CONFIG_LS_KEY = 'db-grid-cfg';
 
-// Default widgets. Might get rid of it in the future.
+// Default demo widgets.
+// Feel free to delete them in your app.
 const DEFAULT_LIST: WidgetGridItemConfig[] = [
   {
     id: 'bc',
@@ -22,8 +23,8 @@ const DEFAULT_LIST: WidgetGridItemConfig[] = [
     position: 1,
     type: 'line-chart',
     config: {},
-    dataSourceId: 'traffic-table',
-    title: 'Traffic',
+    dataSourceId: 'new-users-table',
+    title: 'New Users',
     size: 2,
   },
   {
@@ -31,8 +32,8 @@ const DEFAULT_LIST: WidgetGridItemConfig[] = [
     position: 2,
     type: 'pie-chart',
     config: {},
-    dataSourceId: 'users-nationality-list',
-    title: 'Nationality %',
+    dataSourceId: 'sales-list',
+    title: 'Sales (per category)',
     size: 1,
   },
   {
@@ -40,8 +41,8 @@ const DEFAULT_LIST: WidgetGridItemConfig[] = [
     position: 3,
     type: 'table',
     config: {},
-    dataSourceId: 'traffic-table',
-    title: 'Traffic Values',
+    dataSourceId: 'new-users-table',
+    title: 'New Users (detailed)',
     size: 2,
   },
   {
@@ -49,8 +50,8 @@ const DEFAULT_LIST: WidgetGridItemConfig[] = [
     position: 4,
     type: 'scalar-data',
     config: {},
-    dataSourceId: 'rand-nums-list',
-    title: 'Random',
+    dataSourceId: 'traffic-intensity',
+    title: 'Traffic',
     size: 1,
   },
 ];

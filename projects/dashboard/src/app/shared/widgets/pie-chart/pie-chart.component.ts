@@ -110,6 +110,6 @@ export class PieChartComponent
   });
 
   colorsArray = computed(() =>
-    generateColorsArray(this.data().map((di) => di.value)),
+    generateColorsArray(this.data().map((di) => di.label)),
   );
 }

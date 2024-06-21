@@ -63,6 +63,9 @@ export class WidgetComponent implements OnInit {
     const srcInstance = injectDataSourceInstance(id, this._injector);
     if (srcInstance) {
       this.data = srcInstance.data;
+
+      // The data source is initialized every time
+      // a widget is initialized.
       srcInstance.init();
     }
   }

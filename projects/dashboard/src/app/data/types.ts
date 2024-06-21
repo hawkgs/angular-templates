@@ -1,7 +1,9 @@
 import { Signal, Type } from '@angular/core';
 import { List, Record } from 'immutable';
 
-// Data item type
+/**
+ * Represents one of the three supported data source types.
+ */
 export enum DataSourceType {
   SingleValued = 'SingleValued',
   List = 'List',
@@ -75,6 +77,8 @@ export type DataSourceDefinition = {
 
 /**
  * Defines the interface of a data source service.
+ * Implement, if you need to create your own data source.
+ * Then, define it in the `DATA_SOURCES` array.
  */
 export interface DataSource<T extends DataType> {
   /**

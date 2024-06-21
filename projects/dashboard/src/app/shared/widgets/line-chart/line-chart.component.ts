@@ -186,6 +186,6 @@ export class LineChartComponent
   );
 
   colorsArray = computed(() =>
-    generateColorsArray(this.data().rows.map((ti) => ti.values.first() || 0)),
+    generateColorsArray(this.data().rows.map((ti) => ti.label)),
   );
 }

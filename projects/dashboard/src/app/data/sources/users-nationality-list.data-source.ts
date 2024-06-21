@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { DataItem, DataSource } from './types';
+import { DataItem, DataSource } from '../types';
 import { List } from 'immutable';
 
 const USERS_NATIONALITY: [string, number][] = [
@@ -9,6 +9,7 @@ const USERS_NATIONALITY: [string, number][] = [
   ['Germany', 1502],
   ['Italy', 9401],
   ['France', 210],
+  ['South Africa', 4042],
   ['United Arab Emirates', 2011],
   ['New Zealand', 5700],
 ];
@@ -27,12 +28,12 @@ export class UsersNationalityList implements DataSource<List<DataItem>> {
     this._init = true;
 
     setTimeout(() => {
-      let list = List<DataItem>();
-      USERS_NATIONALITY.forEach(([nationality, count]) => {
-        list = list.push(
-          new DataItem({ label: nationality, value: count, unit: 'people' }),
-        );
-      });
+      const list = List(
+        USERS_NATIONALITY.map(
+          ([nationality, count]) =>
+            new DataItem({ label: nationality, value: count, unit: 'people' }),
+        ),
+      );
       this._data.set(list);
     });
   }
