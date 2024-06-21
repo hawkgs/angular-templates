@@ -68,7 +68,6 @@ export class WidgetTooltipDirective implements OnChanges {
 
   @HostListener('mousemove', ['$event'])
   onMouseMove({ clientX, clientY }: MouseEvent) {
-    // TODO(Georgi): Will use zoneless;
     if (this._widget) {
       this._positionElement(this._widget, { x: clientX, y: clientY });
     }

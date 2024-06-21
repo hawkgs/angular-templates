@@ -169,9 +169,6 @@
             "outputPath": "dist/dashboard",
             "index": "projects/dashboard/src/index.html",
             "browser": "projects/dashboard/src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
             "tsConfig": "projects/dashboard/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
