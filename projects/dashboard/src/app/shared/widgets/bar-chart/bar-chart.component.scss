@@ -1,3 +1,5 @@
+@import 'theme-mixins';
+
 :host {
   user-select: none;
 
@@ -20,6 +22,14 @@
       &:hover {
         filter: brightness(135%);
       }
+    }
+  }
+}
+
+@include if-light-theme {
+  :host {
+    rect:hover {
+      filter: brightness(115%);
     }
   }
 }

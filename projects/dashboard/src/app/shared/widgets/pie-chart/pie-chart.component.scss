@@ -1,3 +1,5 @@
+@import 'theme-mixins';
+
 :host {
   user-select: none;
 
@@ -10,6 +12,7 @@
 
       .sector {
         fill: none;
+        transition: filter 300ms ease;
 
         &:hover {
           filter: brightness(135%);
@@ -22,6 +25,14 @@
         fill: var(--color-tertiary);
         font-size: 0.75rem;
       }
+    }
+  }
+}
+
+@include if-light-theme {
+  :host {
+    .sector:hover {
+      filter: brightness(115%);
     }
   }
 }

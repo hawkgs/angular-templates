@@ -1,3 +1,5 @@
+@import 'theme-mixins';
+
 :host {
   width: 100%;
   border-block-end: 1px solid var(--color-septenary);
@@ -13,5 +15,11 @@
     align-items: center;
     justify-content: space-between;
     padding: 16px;
+  }
+}
+
+@include if-light-theme {
+  :host {
+    border-block-end-color: var(--color-senary);
   }
 }

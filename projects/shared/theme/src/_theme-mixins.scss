@@ -1,0 +1,23 @@
+@mixin if-light-theme {
+  html.ngx-light-theme {
+    @content;
+  }
+
+  @media (prefers-color-scheme: light) {
+    html:not(.ngx-dark-theme) {
+      @content;
+    }
+  }
+}
+
+@mixin if-dark-theme {
+  html.ngx-dark-theme {
+    @content;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html:not(.ngx-light-theme) {
+      @content;
+    }
+  }
+}

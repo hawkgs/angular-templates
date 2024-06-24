@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'global';
+@import 'theme-mixins';
 
 // Include widget tooltip directive styles
 @import './app/shared/widgets/widget-tooltip/widget-tooltip-styles';
@@ -18,4 +19,10 @@
 
 body {
   overflow-y: scroll;
+}
+
+@include if-light-theme {
+  body {
+    background-color: var(--color-octonary);
+  }
 }
