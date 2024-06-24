@@ -12,7 +12,7 @@ import {
   output,
   signal,
 } from '@angular/core';
-// import { WINDOW, windowProvider } from '@ngx-templates/shared/services';
+import { WINDOW, windowProvider } from '@ngx-templates/shared/services';
 
 export type Coor = { x: number; y: number };
 export type Rect = { p1: Coor; p2: Coor };
@@ -47,13 +47,13 @@ const getClientPointerPos = (e: MouseEvent | TouchEvent): Coor => {
  */
 @Directive({
   selector: '[ngxDraggable]',
-  // providers: [windowProvider],
+  providers: [windowProvider],
   standalone: true,
 })
 export class DraggableDirective implements OnDestroy {
   templateRef = inject(TemplateRef);
   private _doc = inject(DOCUMENT);
-  // private _win = inject(WINDOW);
+  private _win = inject(WINDOW);
   private _zone = inject(NgZone);
   private _renderer = inject(Renderer2);
 
@@ -199,7 +199,7 @@ export class DraggableDirective implements OnDestroy {
       this._applyDraggableStyles(pos, { x: width, y: height });
 
       // Clear text selection, if any
-      // this._win.getSelection()?.removeAllRanges();
+      this._win.getSelection()?.removeAllRanges();
 
       if (!this._elMidpoint) {
         this._elMidpoint = {
