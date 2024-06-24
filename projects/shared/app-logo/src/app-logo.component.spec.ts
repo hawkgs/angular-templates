@@ -8,12 +8,12 @@ describe('AppLogoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppLogoComponent]
-    })
-    .compileComponents();
-    
+      imports: [AppLogoComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(AppLogoComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('text', '');
     fixture.detectChanges();
   });
 
