@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { windowProvider } from '@ngx-templates/shared/services';
 import { WidgetsGridComponent } from './widgets-grid.component';
+import { provideDataSources } from '../../data/utils';
 
 describe('WidgetsGridComponent', () => {
   let component: WidgetsGridComponent;
@@ -8,10 +9,10 @@ describe('WidgetsGridComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WidgetsGridComponent]
-    })
-    .compileComponents();
-    
+      imports: [WidgetsGridComponent],
+      providers: [windowProvider, provideDataSources()],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(WidgetsGridComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

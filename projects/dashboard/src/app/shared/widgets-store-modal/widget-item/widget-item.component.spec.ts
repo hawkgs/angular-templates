@@ -8,12 +8,12 @@ describe('WidgetItemComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WidgetItemComponent]
-    })
-    .compileComponents();
-    
+      imports: [WidgetItemComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(WidgetItemComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('type', {});
     fixture.detectChanges();
   });
 

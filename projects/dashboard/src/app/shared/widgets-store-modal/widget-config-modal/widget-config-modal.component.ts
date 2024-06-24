@@ -13,6 +13,7 @@ import {
 } from '@ngx-templates/shared/modal';
 import { SELECTOR_COMPONENTS } from '@ngx-templates/shared/selector';
 import { ButtonComponent } from '@ngx-templates/shared/button';
+
 import { DATA_SOURCES } from '../../../data/sources';
 import { DataSourceType } from '../../../data/types';
 
