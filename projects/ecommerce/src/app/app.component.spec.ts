@@ -1,15 +1,21 @@
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+
 import { AppComponent } from './app.component';
 import { CategoriesService } from './data-access/categories.service';
 import { fetchMockApiProvider } from './shared/fetch';
 import { CartService } from './data-access/cart.service';
-import { RouterTestingModule } from '@angular/router/testing';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppComponent, RouterTestingModule],
-      providers: [fetchMockApiProvider, CategoriesService, CartService],
+      imports: [AppComponent],
+      providers: [
+        provideRouter([]),
+        fetchMockApiProvider,
+        CategoriesService,
+        CartService,
+      ],
     }).compileComponents();
   });
 

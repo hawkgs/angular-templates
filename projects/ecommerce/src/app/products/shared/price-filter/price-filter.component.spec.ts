@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PriceFilterComponent } from './price-filter.component';
-import { input } from '@angular/core';
 
 describe('PriceFilterComponent', () => {
   let component: PriceFilterComponent;
@@ -14,7 +13,7 @@ describe('PriceFilterComponent', () => {
 
     fixture = TestBed.createComponent(PriceFilterComponent);
     component = fixture.componentInstance;
-    component.default = input({ from: 0, to: 1000 });
+    fixture.componentRef.setInput('default', { from: 0, to: 1000 });
     fixture.detectChanges();
   });
 

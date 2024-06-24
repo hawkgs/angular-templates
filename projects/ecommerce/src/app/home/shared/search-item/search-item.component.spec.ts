@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter } from '@angular/router';
 
 import { SearchItemComponent } from './search-item.component';
-import { input } from '@angular/core';
 import { Product } from '../../../../models';
 
 describe('SearchItemComponent', () => {
@@ -11,12 +10,13 @@ describe('SearchItemComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SearchItemComponent, RouterTestingModule],
+      imports: [SearchItemComponent],
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SearchItemComponent);
     component = fixture.componentInstance;
-    component.product = input(new Product({}));
+    fixture.componentRef.setInput('product', new Product({}));
     fixture.detectChanges();
   });
 
