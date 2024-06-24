@@ -17,6 +17,6 @@ export class FormatThousandsPipe implements PipeTransform {
       const d = value / 1000;
       return precisionRound(d, 1) + 'K';
     }
-    return precisionRound(value, 1);
+    return precisionRound(value, 1).toString();
   }
 }
