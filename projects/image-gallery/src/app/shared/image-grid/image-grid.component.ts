@@ -1,4 +1,12 @@
-import { Component, computed, signal } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Renderer2,
+  computed,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { ImageComponent, ImageConfig } from './image/image.component';
 import { List } from 'immutable';
 import { IMAGES } from './images';
@@ -18,6 +26,9 @@ const IMG_CFGS = IMAGES.map((ar, i) => ({
   styleUrl: './image-grid.component.scss',
 })
 export class ImageGridComponent {
+  private _renderer = inject(Renderer2);
+  private _elementRef = inject(ElementRef);
+
   images = signal<List<ImageConfig>>(List(IMG_CFGS));
   columnsCount = signal(COLUMNS_COUNT);
 
@@ -35,4 +46,15 @@ export class ImageGridComponent {
 
     return columns;
   });
+
+  constructor() {
+    effect(() => {
+      const gridTemplateColumns = `repeat(${this.columnsCount()}, 1fr)`;
+      this._renderer.setStyle(
+        this._elementRef.nativeElement,
+        'grid-template-columns',
+        gridTemplateColumns,
+      );
+    });
+  }
 }
