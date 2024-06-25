@@ -351,6 +351,11 @@
               {
                 "glob": "**/*",
                 "input": "projects/image-gallery/public"
+              },
+              {
+                "glob": "**/*",
+                "input": "projects/shared/assets",
+                "output": "assets"
               }
             ],
             "styles": [
@@ -422,6 +427,11 @@
               {
                 "glob": "**/*",
                 "input": "projects/image-gallery/public"
+              },
+              {
+                "glob": "**/*",
+                "input": "projects/shared/assets",
+                "output": "assets"
               }
             ],
             "styles": [

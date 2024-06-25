@@ -1,0 +1,12 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  main {
+    max-width: calc(var(--app-max-width) + 2rem);
+    width: 100%;
+    flex: 1 0 auto;
+    margin: 0 auto;
+  }
+}
