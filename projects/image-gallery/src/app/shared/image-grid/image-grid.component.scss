@@ -1,0 +1,13 @@
+:host {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 1fr;
+  grid-column-gap: 0.5rem;
+  min-height: 100%;
+
+  .col {
+    ig-image {
+      margin-bottom: 0.5rem;
+    }
+  }
+}

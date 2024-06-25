@@ -334,7 +334,7 @@
       },
       "root": "projects/image-gallery",
       "sourceRoot": "projects/image-gallery/src",
-      "prefix": "app",
+      "prefix": "ig",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
