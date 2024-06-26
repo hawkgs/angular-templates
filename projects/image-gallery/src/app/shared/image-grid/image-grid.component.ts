@@ -5,18 +5,15 @@ import {
   computed,
   effect,
   inject,
+  input,
+  output,
   signal,
 } from '@angular/core';
-import { ImageComponent, ImageConfig } from './image/image.component';
+import { ImageComponent } from './image/image.component';
 import { List } from 'immutable';
-import { IMAGES } from './images';
+import { ImageConfig } from '../types';
 
 const COLUMNS_COUNT = 4;
-const IMG_CFGS = IMAGES.map((ar, i) => ({
-  aspectRatio: ar,
-  idx: i,
-  priority: i <= COLUMNS_COUNT * 3,
-}));
 
 @Component({
   selector: 'ig-image-grid',
@@ -29,7 +26,9 @@ export class ImageGridComponent {
   private _renderer = inject(Renderer2);
   private _elementRef = inject(ElementRef);
 
-  images = signal<List<ImageConfig>>(List(IMG_CFGS));
+  images = input.required<List<ImageConfig>>();
+  imageClick = output<ImageConfig>();
+
   columnsCount = signal(COLUMNS_COUNT);
 
   columns = computed<List<List<ImageConfig>>>(() => {

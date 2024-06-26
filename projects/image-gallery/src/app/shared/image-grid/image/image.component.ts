@@ -1,12 +1,6 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
-
-// Note(Georgi): Temp. Testing purposes
-export type ImageConfig = {
-  idx: number;
-  aspectRatio: [number, number];
-  priority?: boolean;
-};
+import { ImageConfig } from '../../types';
 
 @Component({
   selector: 'ig-image',
@@ -17,6 +11,7 @@ export type ImageConfig = {
 })
 export class ImageComponent {
   config = input.required<ImageConfig>();
+  imageClick = output<ImageConfig>();
 
   // tmp
   size = computed(() => ({

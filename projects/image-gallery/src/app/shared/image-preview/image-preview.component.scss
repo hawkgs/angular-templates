@@ -1,0 +1,33 @@
+:host {
+  position: relative;
+  display: block;
+  width: 70vw;
+
+  img {
+    margin: 0 auto;
+    display: block;
+  }
+
+  p {
+    position: absolute;
+    font-size: 5rem;
+    top: calc(50% - 16px);
+    left: calc(50% - 16px);
+    color: red;
+    user-select: none;
+  }
+
+  button {
+    position: absolute;
+    top: 50%;
+    border: 2px solid white;
+
+    &:first-of-type {
+      left: 20px;
+    }
+
+    &:last-of-type {
+      right: 20px;
+    }
+  }
+}

@@ -1,7 +1,10 @@
 @for (column of columns(); track $index) {
   <div class="col">
     @for (imageCfg of column; track $index) {
-      <ig-image [config]="imageCfg"></ig-image>
+      <ig-image
+        [config]="imageCfg"
+        (imageClick)="imageClick.emit($event)"
+      ></ig-image>
     }
   </div>
 }

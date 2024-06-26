@@ -1,9 +1,15 @@
-<img
-  ngSrc="test-image.jpg"
-  [style.aspect-ratio]="aspectRatio()"
-  [width]="size().x"
-  [height]="size().y"
-  [priority]="config().priority"
-  alt="Test Img"
-/>
-<p>{{ config().idx }}</p>
+<button
+  type="button"
+  aria-label="Preview image"
+  (click)="imageClick.emit(config())"
+>
+  <img
+    [ngSrc]="config().src"
+    [style.aspect-ratio]="aspectRatio()"
+    [width]="size().x"
+    [height]="size().y"
+    [priority]="config().priority"
+    alt="Test Img"
+  />
+  <p>{{ config().idx }}</p>
+</button>

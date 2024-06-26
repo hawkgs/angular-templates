@@ -2,7 +2,11 @@
 import { Injectable, Type, signal } from '@angular/core';
 import { ModalController } from './modal.controller';
 import { List } from 'immutable';
-import { Modal } from './types';
+import { Modal, ModalConfig } from './types';
+
+const DEFAULT_CONFIG: ModalConfig = {
+  modalWindowUi: true,
+};
 
 @Injectable({ providedIn: 'root' })
 export class ModalService {
@@ -24,6 +28,7 @@ export class ModalService {
   createModal<D = void, R = void>(
     component: Type<unknown>,
     data?: D,
+    config?: Partial<ModalConfig>,
   ): ModalController<R> {
     const controller = new ModalController<R>(this._ct, this._modals);
     const modal: Modal<D, R> = {
@@ -31,6 +36,7 @@ export class ModalService {
       data,
       controller,
       id: this._ct,
+      config: { ...DEFAULT_CONFIG, ...config },
     };
     this._modals.update((m) => m.push(modal));
 

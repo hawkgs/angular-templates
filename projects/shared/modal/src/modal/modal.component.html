@@ -1,4 +1,8 @@
 <!-- eslint-disable-next-line -->
-<div class="modal" (click)="$event.stopPropagation()">
+<div
+  class="modal"
+  [class.window-ui]="modal().config.modalWindowUi"
+  (click)="$event.stopPropagation()"
+>
   <ng-container #content></ng-container>
 </div>

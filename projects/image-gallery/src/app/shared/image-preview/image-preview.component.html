@@ -1,0 +1,20 @@
+<img
+  [src]="image().src"
+  [style.aspect-ratio]="aspectRatioStr()"
+  [width]="image().aspectRatio[0] * 100"
+  [height]="image().aspectRatio[1] * 100"
+  [style.width]="aspectRatio() >= 1 ? IMG_MAX_WIDTH : 'initial'"
+  [style.height]="aspectRatio() < 1 ? IMG_MAX_HEIGHT : 'initial'"
+  alt="Test image"
+/>
+<p>{{ idx() }}</p>
+<button type="button" (click)="previewPrev()" [disabled]="idx() === 0">
+  Prev
+</button>
+<button
+  type="button"
+  (click)="previewNext()"
+  [disabled]="idx() === data.images().size - 1"
+>
+  Next
+</button>
