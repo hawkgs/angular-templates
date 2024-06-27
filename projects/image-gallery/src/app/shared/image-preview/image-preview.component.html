@@ -5,6 +5,9 @@
   [height]="image().aspectRatio[1] * 100"
   [style.width]="aspectRatio() >= 1 ? IMG_MAX_WIDTH : 'initial'"
   [style.height]="aspectRatio() < 1 ? IMG_MAX_HEIGHT : 'initial'"
+  [style.animation-duration]="ANIM_DURATION + 'ms'"
+  [class.slide-left]="animation() === 'slide-left'"
+  [class.slide-right]="animation() === 'slide-right'"
   alt="Test image"
 />
 <p>{{ idx() }}</p>

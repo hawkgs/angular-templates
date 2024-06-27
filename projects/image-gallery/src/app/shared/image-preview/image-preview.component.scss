@@ -6,6 +6,17 @@
   img {
     margin: 0 auto;
     display: block;
+    animation-iteration-count: 1;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+
+    &.slide-left {
+      animation-name: slide-out-left;
+    }
+
+    &.slide-right {
+      animation-name: slide-out-right;
+    }
   }
 
   p {
@@ -29,5 +40,29 @@
     &:last-of-type {
       right: 20px;
     }
+  }
+}
+
+@keyframes slide-out-left {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes slide-out-right {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  to {
+    transform: translateX(100%);
+    opacity: 0;
   }
 }
