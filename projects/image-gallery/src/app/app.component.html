@@ -1,9 +1,8 @@
 <ig-header></ig-header>
 <main>
-  <ig-image-grid
-    [images]="images()"
-    (imageClick)="onImageClick($event)"
-  ></ig-image-grid>
+  <div class="main-wrapper">
+    <router-outlet></router-outlet>
+  </div>
 </main>
 <ig-footer></ig-footer>
 <ngx-modal-outlet></ngx-modal-outlet>

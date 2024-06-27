@@ -3,13 +3,16 @@ import {
   HostListener,
   Signal,
   computed,
+  effect,
   inject,
   signal,
 } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { MODAL_DATA } from '@ngx-templates/shared/modal';
-import { ImageConfig } from '../types';
 import { List } from 'immutable';
-import { CommonModule } from '@angular/common';
+import { ImageConfig } from '../types';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 const IMG_MAX_WIDTH = '70vw';
 const IMG_MAX_HEIGHT = '90vh';
@@ -26,12 +29,14 @@ export type ImagePreviewData = {
 @Component({
   selector: 'ig-image-preview',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './image-preview.component.html',
   styleUrl: './image-preview.component.scss',
 })
 export class ImagePreviewComponent {
   data = inject<ImagePreviewData>(MODAL_DATA);
+  private _router = inject(Router);
+  private _location = inject(Location);
 
   idx = signal<number>(this.data.imageIdx);
   animation = signal<AnimationType>('none');
@@ -51,6 +56,19 @@ export class ImagePreviewComponent {
     () => this.image().aspectRatio[0] / this.image().aspectRatio[1],
   );
 
+  constructor() {
+    const routerEvents = toSignal(this._router.events);
+
+    effect(() => {
+      const event = routerEvents();
+
+      // Todo(Georgi): Handle browser history nav (back and forward)
+      if (event instanceof NavigationEnd) {
+        console.log('route change');
+      }
+    });
+  }
+
   @HostListener('document:keydown.arrowright')
   previewNext() {
     if (this.idx() === this.imagesCount() - 1) {
@@ -64,6 +82,7 @@ export class ImagePreviewComponent {
 
       if (this.idx() < this.imagesCount() - 1) {
         this.idx.update((idx) => idx + 1);
+        this._location.go('img/' + this.idx());
       }
     }, ANIM_DURATION + ANIM_DELAY);
   }
@@ -81,6 +100,7 @@ export class ImagePreviewComponent {
 
       if (this.idx() > 0) {
         this.idx.update((idx) => idx - 1);
+        this._location.go('img/' + this.idx());
       }
     }, ANIM_DURATION + ANIM_DELAY);
   }
