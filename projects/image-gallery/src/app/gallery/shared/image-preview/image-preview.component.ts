@@ -75,16 +75,12 @@ export class ImagePreviewComponent {
       return;
     }
 
-    this.animation.set('slide-left');
-
-    setTimeout(() => {
-      this.animation.set('none');
-
+    this._animate('slide-left', () => {
       if (this.idx() < this.imagesCount() - 1) {
         this.idx.update((idx) => idx + 1);
         this._location.go('img/' + this.idx());
       }
-    }, ANIM_DURATION + ANIM_DELAY);
+    });
   }
 
   @HostListener('document:keydown.arrowleft')
@@ -93,15 +89,23 @@ export class ImagePreviewComponent {
       return;
     }
 
-    this.animation.set('slide-right');
-
-    setTimeout(() => {
-      this.animation.set('none');
-
+    this._animate('slide-right', () => {
       if (this.idx() > 0) {
         this.idx.update((idx) => idx - 1);
         this._location.go('img/' + this.idx());
       }
+    });
+  }
+
+  private _animate(
+    anim: 'slide-left' | 'slide-right',
+    completedCb: () => void,
+  ) {
+    this.animation.set(anim);
+
+    setTimeout(() => {
+      this.animation.set('none');
+      completedCb();
     }, ANIM_DURATION + ANIM_DELAY);
   }
 }
