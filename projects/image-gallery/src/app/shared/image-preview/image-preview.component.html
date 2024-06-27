@@ -17,7 +17,7 @@
 <button
   type="button"
   (click)="previewNext()"
-  [disabled]="idx() === data.images().size - 1"
+  [disabled]="idx() === imagesCount() - 1"
 >
   Next
 </button>

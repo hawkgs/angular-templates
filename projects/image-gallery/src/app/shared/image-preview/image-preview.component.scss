@@ -9,6 +9,7 @@
     animation-iteration-count: 1;
     animation-timing-function: ease;
     animation-fill-mode: forwards;
+    animation-name: focus;
 
     &.slide-left {
       animation-name: slide-out-left;
@@ -40,6 +41,15 @@
     &:last-of-type {
       right: 20px;
     }
+  }
+}
+
+@keyframes focus {
+  from {
+    transform: scale(0.95);
+  }
+  to {
+    transform: scale(1);
   }
 }
 
