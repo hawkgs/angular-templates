@@ -2,6 +2,7 @@
 export type ImageConfig = {
   src: string;
   idx: number;
-  aspectRatio: [number, number];
+  width: number;
+  height: number;
   priority?: boolean;
 };

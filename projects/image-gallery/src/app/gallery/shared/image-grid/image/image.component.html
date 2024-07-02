@@ -5,9 +5,9 @@
 >
   <img
     [ngSrc]="config().src"
-    [style.aspect-ratio]="aspectRatio()"
-    [width]="size().x"
-    [height]="size().y"
+    [width]="config().width"
+    [height]="config().height"
+    [style.aspect-ratio]="config().width + '/' + config().height"
     [priority]="config().priority"
     alt="Test Img"
   />

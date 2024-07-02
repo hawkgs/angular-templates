@@ -47,14 +47,7 @@ export class ImagePreviewComponent {
   IMG_MAX_HEIGHT = IMG_MAX_HEIGHT;
   ANIM_DURATION = ANIM_DURATION;
 
-  // tmp
-  aspectRatioStr = computed(
-    () => this.image().aspectRatio[0] + '/' + this.image().aspectRatio[1],
-  );
-
-  aspectRatio = computed(
-    () => this.image().aspectRatio[0] / this.image().aspectRatio[1],
-  );
+  aspectRatio = computed(() => this.image().width / this.image().height);
 
   constructor() {
     const routerEvents = toSignal(this._router.events);

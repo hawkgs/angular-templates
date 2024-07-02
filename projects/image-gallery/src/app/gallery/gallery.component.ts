@@ -15,9 +15,10 @@ import { Location } from '@angular/common';
 
 const IMG_CFGS = IMAGES.map((ar, i) => ({
   src: 'test-image.jpg?id=' + i,
-  aspectRatio: ar,
+  width: ar[0] * 100,
+  height: ar[1] * 100,
   idx: i,
-  priority: i <= 12,
+  priority: i <= 4,
 }));
 
 @Component({

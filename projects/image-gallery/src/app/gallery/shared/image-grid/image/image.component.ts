@@ -1,4 +1,4 @@
-import { Component, computed, input, output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { ImageConfig } from '../../types';
 
@@ -12,15 +12,4 @@ import { ImageConfig } from '../../types';
 export class ImageComponent {
   config = input.required<ImageConfig>();
   imageClick = output<ImageConfig>();
-
-  // tmp
-  size = computed(() => ({
-    x: this.config().aspectRatio[0] * 100,
-    y: this.config().aspectRatio[1] * 100,
-  }));
-
-  aspectRatio = computed(() => {
-    const [x, y] = this.config().aspectRatio;
-    return x + '/' + y;
-  });
 }

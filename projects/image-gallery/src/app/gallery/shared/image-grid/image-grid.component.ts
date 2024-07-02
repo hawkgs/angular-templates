@@ -1,6 +1,7 @@
 import {
   Component,
   ElementRef,
+  HostListener,
   Renderer2,
   computed,
   effect,
@@ -9,11 +10,14 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { ImageComponent } from './image/image.component';
+import { WINDOW } from '@ngx-templates/shared/services';
 import { List } from 'immutable';
+
+import { ImageComponent } from './image/image.component';
 import { ImageConfig } from '../types';
 
 const COLUMNS_COUNT = 4;
+const RESIZE_DEBOUNCE = 100;
 
 @Component({
   selector: 'ig-image-grid',
@@ -25,6 +29,8 @@ const COLUMNS_COUNT = 4;
 export class ImageGridComponent {
   private _renderer = inject(Renderer2);
   private _elementRef = inject(ElementRef);
+  private _win = inject(WINDOW);
+  private _timeout?: ReturnType<typeof setTimeout>;
 
   images = input.required<List<ImageConfig>>();
   imageClick = output<ImageConfig>();
@@ -47,6 +53,8 @@ export class ImageGridComponent {
   });
 
   constructor() {
+    this._updateColumnsCount();
+
     effect(() => {
       const gridTemplateColumns = `repeat(${this.columnsCount()}, 1fr)`;
       this._renderer.setStyle(
@@ -55,5 +63,33 @@ export class ImageGridComponent {
         gridTemplateColumns,
       );
     });
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    if (this._timeout) {
+      clearTimeout(this._timeout);
+    }
+    this._timeout = setTimeout(
+      () => this._updateColumnsCount(),
+      RESIZE_DEBOUNCE,
+    );
+  }
+
+  private _updateColumnsCount() {
+    const width = this._win.innerWidth;
+    let cols = COLUMNS_COUNT;
+
+    if (width <= 500) {
+      cols = 1;
+    } else if (width <= 700) {
+      cols = 2;
+    } else if (width <= 900) {
+      cols = 3;
+    }
+
+    if (cols !== this.columnsCount()) {
+      this.columnsCount.set(cols);
+    }
   }
 }
