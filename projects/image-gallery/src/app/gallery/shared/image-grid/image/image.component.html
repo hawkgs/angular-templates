@@ -8,7 +8,7 @@
     [width]="config().width"
     [height]="config().height"
     [style.aspect-ratio]="config().width + '/' + config().height"
-    [priority]="config().priority"
+    [priority]="priority()"
     [alt]="metadata()['name'] || 'Image'"
   />
   <p>{{ (config().metadata || {})['index'] }}</p>

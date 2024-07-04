@@ -17,7 +17,6 @@ const IMG_CFGS: ImageConfig[] = IMAGES.map((ar, i) => ({
   src: 'test-image.jpg?id=' + i,
   width: ar[0] * 100,
   height: ar[1] * 100,
-  priority: i <= 4,
   metadata: { index: i, name: 'Test Image' },
 }));
 

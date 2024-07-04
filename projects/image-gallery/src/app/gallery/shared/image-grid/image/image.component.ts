@@ -11,6 +11,7 @@ import { ImageConfig } from '../../types';
 })
 export class ImageComponent {
   config = input.required<ImageConfig>();
+  priority = input<boolean>(false);
   imageClick = output<ImageConfig>();
 
   metadata = computed(() => this.config().metadata || {});

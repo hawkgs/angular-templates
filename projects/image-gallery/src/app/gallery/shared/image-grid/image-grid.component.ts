@@ -18,6 +18,11 @@ import { ImageConfig } from '../types';
 
 const COLUMNS_COUNT = 4;
 const RESIZE_DEBOUNCE = 100;
+const PRIORITIZE_FIRST = 4;
+
+interface ExtendedImageConfig extends ImageConfig {
+  index: number;
+}
 
 @Component({
   selector: 'ig-image-grid',
@@ -32,19 +37,21 @@ export class ImageGridComponent {
   private _win = inject(WINDOW);
   private _timeout?: ReturnType<typeof setTimeout>;
 
+  PRIORITIZE_FIRST = PRIORITIZE_FIRST;
+
   images = input.required<List<ImageConfig>>();
   imageClick = output<ImageConfig>();
 
   columnsCount = signal(COLUMNS_COUNT);
 
-  columns = computed<List<List<ImageConfig>>>(() => {
-    let columns = List<List<ImageConfig>>([]);
+  columns = computed<List<List<ExtendedImageConfig>>>(() => {
+    let columns = List<List<ExtendedImageConfig>>([]);
     const columnsCount = this.columnsCount();
 
-    this.images().forEach((c, i) => {
+    this.images().forEach((cfg, i) => {
       const colIdx = i % columnsCount;
-      let col = columns.get(colIdx) || List<ImageConfig>([]);
-      col = col.push(c);
+      let col = columns.get(colIdx) || List<ExtendedImageConfig>([]);
+      col = col.push({ ...cfg, index: i });
 
       columns = columns.set(colIdx, col);
     });
