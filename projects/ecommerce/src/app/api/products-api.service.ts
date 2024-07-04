@@ -1,11 +1,11 @@
 import { Injectable, inject } from '@angular/core';
 import { List } from 'immutable';
 import { FETCH_API, fetchAbort } from '@ngx-templates/shared/fetch';
+import { buildQueryParamsString } from '@ngx-templates/shared/utils';
 
 import { Product } from '../../models';
 import { environment } from '../../environments/environment';
 import { mapProduct, mapProducts } from './utils/mappers';
-import { buildQueryParamsString } from './utils/query-params-builder';
 
 export type GetProductsParams = Partial<{
   categoryId: string;

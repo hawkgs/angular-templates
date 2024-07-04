@@ -10,7 +10,7 @@ const DEFAULT_PAGE = 1;
  * @param url Request URL
  * @returns
  */
-export function requestResponseMock(url: string): object {
+export function ecommerceRequestResponseMock(url: string): object {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let response: any = {};
   const queryParamsStr = url.split('?').pop();
@@ -36,7 +36,7 @@ export function requestResponseMock(url: string): object {
           availability: p.availability,
           category_ids: p.category_ids,
           images: [p.images[0]],
-        } as ApiProduct),
+        }) as ApiProduct,
     );
 
     // If batchIds is provided, the rest of the filters

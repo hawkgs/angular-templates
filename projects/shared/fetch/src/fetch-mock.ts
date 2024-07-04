@@ -1,10 +1,5 @@
 // Represents a Fetch API mock created
 // purely for demo purposes.
-//
-// Change the provider in app.component.ts
-// in order to use the native fetch.
-
-import { requestResponseMock } from './request-response-mock';
 
 const REQUEST_DELAY = 200;
 const LOGGING_ENABLED = true;
@@ -57,11 +52,10 @@ function simulateRequest(
  * @param init
  * @returns
  */
-export function fetchMock(
-  url: string | URL | Request,
-  init?: RequestInit,
-): Promise<Response> {
-  log('Executing request ' + url);
+export const fetchMock =
+  (mockFn: (url: string) => object) =>
+  (url: string | URL | Request, init?: RequestInit): Promise<Response> => {
+    log('Executing request ' + url);
 
-  return simulateRequest(requestResponseMock(url.toString()), init?.signal);
-}
+    return simulateRequest(mockFn(url.toString()), init?.signal);
+  };
