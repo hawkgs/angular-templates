@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Category } from '../../models';
 import { CategoriesApi } from './categories-api.service';
-import { fetchMockApiProvider } from '../shared/fetch';
+import { fetchMockApiProvider } from '../../../../shared/fetch';
 
 describe('CategoriesApiService', () => {
   beforeEach(() => {

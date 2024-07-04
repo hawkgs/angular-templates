@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { List } from 'immutable';
+import { FETCH_API, fetchAbort } from '@ngx-templates/shared/fetch';
 
 import { Product } from '../../models';
-import { FETCH_API, fetchAbort } from '../shared/fetch';
 import { environment } from '../../environments/environment';
 import { mapProduct, mapProducts } from './utils/mappers';
 import { buildQueryParamsString } from './utils/query-params-builder';

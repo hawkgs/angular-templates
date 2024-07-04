@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router';
 
 import { ProductItemComponent } from './product-item.component';
 import { CategoriesService } from '../../data-access/categories.service';
-import { fetchMockApiProvider } from '../fetch';
+import { fetchMockApiProvider } from '../../../../../shared/fetch';
 import { Product } from '../../../models';
 
 describe('ProductItemComponent', () => {

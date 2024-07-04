@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Product } from '../../models';
-import { fetchMockApiProvider } from '../shared/fetch';
+import { fetchMockApiProvider } from '../../../../shared/fetch';
 import { ProductsApi } from './products-api.service';
 
 describe('ProductsApiService', () => {

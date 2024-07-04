@@ -3,7 +3,7 @@ import { ComponentRef } from '@angular/core';
 
 import { CategoryPickerComponent } from './category-picker.component';
 import { CategoriesService } from '../../../data-access/categories.service';
-import { fetchMockApiProvider } from '../../../shared/fetch';
+import { fetchMockApiProvider } from '../../../../../../shared/fetch';
 import { provideRouter } from '@angular/router';
 
 describe('CategoryPickerComponent', () => {

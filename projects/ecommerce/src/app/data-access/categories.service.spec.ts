@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { fetchMockApiProvider } from '../shared/fetch';
+import { fetchMockApiProvider } from '../../../../shared/fetch';
 import { CategoriesService } from './categories.service';
 
 describe('CategoriesService', () => {

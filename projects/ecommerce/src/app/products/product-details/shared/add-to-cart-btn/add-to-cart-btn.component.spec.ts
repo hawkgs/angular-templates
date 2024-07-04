@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AddToCartBtnComponent } from './add-to-cart-btn.component';
 import { CartService } from '../../../../data-access/cart.service';
-import { fetchMockApiProvider } from '../../../../shared/fetch';
+import { fetchMockApiProvider } from '../../../../../../../shared/fetch';
 import { Product } from '../../../../../models';
 
 describe('AddToCartBtnComponent', () => {

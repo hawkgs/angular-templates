@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { List } from 'immutable';
+import { FETCH_API } from '@ngx-templates/shared/fetch';
 
 import { Category } from '../../models';
-import { FETCH_API } from '../shared/fetch';
 import { environment } from '../../environments/environment';
 import { mapCategories } from './utils/mappers';
 

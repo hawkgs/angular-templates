@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AutocompleteProductSearchComponent } from './autocomplete-product-search.component';
-import { fetchMockApiProvider } from '../../../shared/fetch';
+import { fetchMockApiProvider } from '../../../../../../shared/fetch';
 
 describe('AutocompleteProductSearchComponent', () => {
   let component: AutocompleteProductSearchComponent;

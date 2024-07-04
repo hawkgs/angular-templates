@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { fetchMockApiProvider } from '../shared/fetch';
+import { fetchMockApiProvider } from '../../../../shared/fetch';
 import { CartService } from './cart.service';
 import { Product } from '../../models';
 import { LocalStorage } from '../../../../shared/services/src/local-storage.service';

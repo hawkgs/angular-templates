@@ -57,8 +57,11 @@ function simulateRequest(
  * @param init
  * @returns
  */
-export function fetchMock(url: string, init?: RequestInit): Promise<Response> {
+export function fetchMock(
+  url: string | URL | Request,
+  init?: RequestInit,
+): Promise<Response> {
   log('Executing request ' + url);
 
-  return simulateRequest(requestResponseMock(url), init?.signal);
+  return simulateRequest(requestResponseMock(url.toString()), init?.signal);
 }
