@@ -1,7 +1,5 @@
 :host {
-  position: relative;
   display: block;
-  width: 70vw;
 
   img {
     margin: 0 auto;
@@ -10,6 +8,8 @@
     animation-timing-function: ease;
     animation-fill-mode: forwards;
     animation-name: focus;
+    border-radius: 0.25rem;
+    box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.8);
 
     &.slide-left {
       animation-name: slide-out-left;
@@ -25,21 +25,79 @@
     font-size: 5rem;
     top: calc(50% - 16px);
     left: calc(50% - 16px);
-    color: red;
+    color: rgba(255, 255, 255, 0.8);
+    text-shadow: 0 0 10px black;
     user-select: none;
   }
 
-  button {
-    position: absolute;
-    top: 50%;
-    border: 2px solid white;
+  .btn {
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 300ms ease;
+    background-color: rgba(0, 0, 0, 0.5);
 
-    &:first-of-type {
-      left: 20px;
+    &:not(:disabled):hover {
+      background-color: rgba(255, 255, 255, 0.3);
     }
 
-    &:last-of-type {
-      right: 20px;
+    &:disabled {
+      opacity: 0.3;
+    }
+
+    ngx-icon {
+      color: var(--white);
+    }
+  }
+
+  .controls {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    align-items: center;
+
+    .btn {
+      width: 32px;
+      height: 32px;
+      margin-left: 1rem;
+    }
+  }
+
+  .nav {
+    $ctrl-btn-size: 48px;
+
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    box-sizing: border-box;
+    top: calc(50% - $ctrl-btn-size / 2);
+    left: 0;
+    width: 100%;
+
+    .btn {
+      width: $ctrl-btn-size;
+      height: $ctrl-btn-size;
+
+      ngx-icon {
+        color: var(--white);
+      }
+
+      &.prev {
+        ngx-icon {
+          transform: rotate(180deg);
+          margin-right: 3px;
+        }
+      }
+
+      &.next {
+        ngx-icon {
+          margin-left: 3px;
+        }
+      }
     }
   }
 }

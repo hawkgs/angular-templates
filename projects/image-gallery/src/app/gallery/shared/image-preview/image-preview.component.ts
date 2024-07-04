@@ -1,6 +1,7 @@
 import {
   Component,
   HostListener,
+  Renderer2,
   Signal,
   computed,
   effect,
@@ -9,7 +10,8 @@ import {
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { MODAL_DATA } from '@ngx-templates/shared/modal';
+import { MODAL_DATA, ModalController } from '@ngx-templates/shared/modal';
+import { IconComponent } from '@ngx-templates/shared/icon';
 import { List } from 'immutable';
 import { ImageConfig } from '../types';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -29,14 +31,16 @@ export type ImagePreviewData = {
 @Component({
   selector: 'ig-image-preview',
   standalone: true,
-  imports: [],
+  imports: [IconComponent],
   templateUrl: './image-preview.component.html',
   styleUrl: './image-preview.component.scss',
 })
 export class ImagePreviewComponent {
   data = inject<ImagePreviewData>(MODAL_DATA);
+  ctrl = inject<ModalController<void>>(ModalController);
   private _router = inject(Router);
   private _location = inject(Location);
+  private _renderer = inject(Renderer2);
 
   idx = signal<number>(this.data.imageIdx);
   animation = signal<AnimationType>('none');
@@ -88,6 +92,13 @@ export class ImagePreviewComponent {
         this._location.go('img/' + this.idx());
       }
     });
+  }
+
+  download() {
+    const anchor = this._renderer.createElement('a') as HTMLAnchorElement;
+    this._renderer.setAttribute(anchor, 'href', this.image().src);
+    this._renderer.setAttribute(anchor, 'download', '');
+    anchor.click();
   }
 
   private _animate(

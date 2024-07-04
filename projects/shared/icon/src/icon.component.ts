@@ -14,7 +14,8 @@ export type IconName =
   | 'Delete'
   | 'NoPhoto'
   | 'Close'
-  | 'ArrowDown';
+  | 'ArrowDown'
+  | 'Download';
 
 export type IconSize = 'sm' | 'md' | 'lg' | 'xlg' | 'xxlg';
 
