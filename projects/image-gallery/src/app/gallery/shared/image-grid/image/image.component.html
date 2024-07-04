@@ -1,7 +1,7 @@
 <button
   type="button"
   [title]="'Preview ' + (metadata()['name'] || 'image')"
-  (click)="imageClick.emit(config())"
+  (click)="imageClick.emit({ index: config().index })"
 >
   <img
     [ngSrc]="config().src"
@@ -11,5 +11,5 @@
     [priority]="priority()"
     [alt]="metadata()['name'] || 'Image'"
   />
-  <p>{{ (config().metadata || {})['index'] }}</p>
+  <p>{{ config().index }}</p>
 </button>

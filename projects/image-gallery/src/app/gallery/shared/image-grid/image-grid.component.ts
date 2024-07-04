@@ -14,15 +14,12 @@ import { WINDOW } from '@ngx-templates/shared/services';
 import { List } from 'immutable';
 
 import { ImageComponent } from './image/image.component';
-import { ImageConfig } from '../types';
+import { ImageConfig } from '../../../shared/image-config';
+import { ExtendedImageConfig } from './types';
 
 const COLUMNS_COUNT = 4;
 const RESIZE_DEBOUNCE = 100;
 const PRIORITIZE_FIRST = 4;
-
-interface ExtendedImageConfig extends ImageConfig {
-  index: number;
-}
 
 @Component({
   selector: 'ig-image-grid',
@@ -40,7 +37,7 @@ export class ImageGridComponent {
   PRIORITIZE_FIRST = PRIORITIZE_FIRST;
 
   images = input.required<List<ImageConfig>>();
-  imageClick = output<ImageConfig>();
+  imageClick = output<{ index: number }>();
 
   columnsCount = signal(COLUMNS_COUNT);
 

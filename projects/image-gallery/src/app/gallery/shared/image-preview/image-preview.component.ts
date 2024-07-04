@@ -13,7 +13,7 @@ import { CommonModule, Location } from '@angular/common';
 import { MODAL_DATA, ModalController } from '@ngx-templates/shared/modal';
 import { IconComponent } from '@ngx-templates/shared/icon';
 import { List } from 'immutable';
-import { ImageConfig } from '../types';
+import { ImageConfig } from '../../../shared/image-config';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 const IMG_MAX_WIDTH = '70vw';

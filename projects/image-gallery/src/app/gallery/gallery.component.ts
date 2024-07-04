@@ -7,7 +7,7 @@ import { ModalService } from '@ngx-templates/shared/modal';
 
 import { ImageGridComponent } from './shared/image-grid/image-grid.component';
 import { IMAGES } from './shared/images';
-import { ImageConfig } from './shared/types';
+import { ImageConfig } from '../shared/image-config';
 import {
   ImagePreviewComponent,
   ImagePreviewData,
@@ -17,7 +17,7 @@ const IMG_CFGS: ImageConfig[] = IMAGES.map((ar, i) => ({
   src: 'test-image.jpg?id=' + i,
   width: ar[0] * 100,
   height: ar[1] * 100,
-  metadata: { index: i, name: 'Test Image' },
+  metadata: { name: 'Test Image', 'Focal Length': '50mm', Aperture: 'f/1.8' },
 }));
 
 @Component({
@@ -42,11 +42,9 @@ export class GalleryComponent {
     }
   }
 
-  onImageClick(cfg: ImageConfig) {
-    const imageIdx = this.images().findIndex((c) => c === cfg);
-
-    this._location.go('img/' + imageIdx);
-    this._openImage(imageIdx);
+  onImageClick(e: { index: number }) {
+    this._location.go('img/' + e.index);
+    this._openImage(e.index);
   }
 
   private _openImage(imageIdx: number) {
