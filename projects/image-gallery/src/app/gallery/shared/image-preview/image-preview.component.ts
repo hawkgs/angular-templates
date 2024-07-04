@@ -9,7 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { Location } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { MODAL_DATA, ModalController } from '@ngx-templates/shared/modal';
 import { IconComponent } from '@ngx-templates/shared/icon';
 import { List } from 'immutable';
@@ -31,7 +31,7 @@ export type ImagePreviewData = {
 @Component({
   selector: 'ig-image-preview',
   standalone: true,
-  imports: [IconComponent],
+  imports: [CommonModule, IconComponent],
   templateUrl: './image-preview.component.html',
   styleUrl: './image-preview.component.scss',
 })

@@ -1,15 +1,18 @@
+@import 'typography';
+
 :host {
   display: block;
 
-  img {
+  .img-wrapper {
+    position: relative;
     margin: 0 auto;
-    display: block;
+    border-radius: 0.25rem;
+    box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.8);
+    overflow: hidden;
     animation-iteration-count: 1;
     animation-timing-function: ease;
     animation-fill-mode: forwards;
     animation-name: focus;
-    border-radius: 0.25rem;
-    box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.8);
 
     &.slide-left {
       animation-name: slide-out-left;
@@ -18,13 +21,60 @@
     &.slide-right {
       animation-name: slide-out-right;
     }
+
+    img {
+      display: block;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .metadata {
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.5);
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1rem 0.75rem;
+      opacity: 0;
+      transition: opacity 300ms ease;
+      pointer-events: none;
+      color: var(--grey-50);
+      display: flex;
+
+      .item {
+        background-color: rgba(255, 255, 255, 0.2);
+        padding: 0.25rem 0.5rem;
+        border-radius: 1rem;
+        margin-right: 1rem;
+        display: flex;
+        align-items: center;
+
+        .prop {
+          @extend %chip-text;
+          margin-right: 0.25rem;
+
+          &::after {
+            content: ':';
+          }
+        }
+
+        .value {
+          @extend %body-short-03;
+        }
+      }
+    }
+
+    &:hover > .metadata {
+      opacity: 1;
+      pointer-events: all;
+    }
   }
 
   p {
     position: absolute;
     font-size: 5rem;
-    top: calc(50% - 16px);
-    left: calc(50% - 16px);
+    right: 50px;
+    bottom: 70px;
     color: rgba(255, 255, 255, 0.8);
     text-shadow: 0 0 10px black;
     user-select: none;

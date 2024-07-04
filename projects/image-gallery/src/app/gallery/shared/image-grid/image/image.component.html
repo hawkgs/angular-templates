@@ -1,6 +1,6 @@
 <button
   type="button"
-  aria-label="Preview image"
+  [title]="'Preview ' + (metadata()['name'] || 'image')"
   (click)="imageClick.emit(config())"
 >
   <img
@@ -9,7 +9,7 @@
     [height]="config().height"
     [style.aspect-ratio]="config().width + '/' + config().height"
     [priority]="config().priority"
-    alt="Test Img"
+    [alt]="metadata()['name'] || 'Image'"
   />
-  <p>{{ config().idx }}</p>
+  <p>{{ (config().metadata || {})['index'] }}</p>
 </button>

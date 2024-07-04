@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { ImageConfig } from '../../types';
 
@@ -12,4 +12,6 @@ import { ImageConfig } from '../../types';
 export class ImageComponent {
   config = input.required<ImageConfig>();
   imageClick = output<ImageConfig>();
+
+  metadata = computed(() => this.config().metadata || {});
 }

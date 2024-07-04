@@ -1,21 +1,35 @@
-<img
-  [src]="image().src"
-  [width]="image().width"
-  [height]="image().height"
-  [style.width]="aspectRatio() > 1 ? IMG_MAX_WIDTH : 'initial'"
-  [style.height]="aspectRatio() <= 1 ? IMG_MAX_HEIGHT : 'initial'"
-  [style.aspect-ratio]="image().width + '/' + image().height"
+<div
+  class="img-wrapper"
   [style.animation-duration]="ANIM_DURATION + 'ms'"
   [class.slide-left]="animation() === 'slide-left'"
   [class.slide-right]="animation() === 'slide-right'"
-  alt="Test image"
-/>
-<p>{{ idx() }}</p>
+>
+  <img
+    [src]="image().src"
+    [width]="image().width"
+    [height]="image().height"
+    [style.width]="aspectRatio() > 1 ? IMG_MAX_WIDTH : 'initial'"
+    [style.height]="aspectRatio() <= 1 ? IMG_MAX_HEIGHT : 'initial'"
+    [style.aspect-ratio]="image().width + '/' + image().height"
+    [alt]="(image().metadata || {})['name'] || 'Image'"
+  />
+  @if (image().metadata; as metadata) {
+    <div class="metadata">
+      @for (item of metadata | keyvalue; track item.key) {
+        <div class="item">
+          <span class="prop">{{ item.key }}</span>
+          <span class="value">{{ item.value }}</span>
+        </div>
+      }
+    </div>
+  }
+  <p>{{ idx() }}</p>
+</div>
 <div class="controls">
   <button
     class="btn download"
     type="button"
-    aria-label="Download image"
+    title="Download image"
     (click)="download()"
   >
     <ngx-icon name="Download"></ngx-icon>
@@ -23,7 +37,7 @@
   <button
     class="btn close"
     type="button"
-    aria-label="Close image preview"
+    title="Close image preview"
     (click)="ctrl.close()"
   >
     <ngx-icon name="Close"></ngx-icon>
@@ -35,7 +49,7 @@
     class="btn prev"
     (click)="previewPrev()"
     [disabled]="idx() === 0"
-    aria-label="Previous image"
+    title="Previous image"
   >
     <ngx-icon name="ChevronRight" size="xxlg"></ngx-icon>
   </button>
@@ -44,7 +58,7 @@
     class="btn next"
     (click)="previewNext()"
     [disabled]="idx() === imagesCount() - 1"
-    aria-label="Next image"
+    title="Next image"
   >
     <ngx-icon name="ChevronRight" size="xxlg"></ngx-icon>
   </button>

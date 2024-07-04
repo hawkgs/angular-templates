@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 import { List } from 'immutable';
 import { ModalService } from '@ngx-templates/shared/modal';
@@ -11,14 +12,13 @@ import {
   ImagePreviewComponent,
   ImagePreviewData,
 } from './shared/image-preview/image-preview.component';
-import { Location } from '@angular/common';
 
-const IMG_CFGS = IMAGES.map((ar, i) => ({
+const IMG_CFGS: ImageConfig[] = IMAGES.map((ar, i) => ({
   src: 'test-image.jpg?id=' + i,
   width: ar[0] * 100,
   height: ar[1] * 100,
-  idx: i,
   priority: i <= 4,
+  metadata: { index: i, name: 'Test Image' },
 }));
 
 @Component({
