@@ -5,7 +5,7 @@ import { buildQueryParamsString } from '@ngx-templates/shared/utils';
 
 import { environment } from '../../environments/environment';
 import { mapImages } from './utils/mappers';
-import { ImageConfig } from '../shared/image-config';
+import { Image } from '../shared/image';
 
 export type GetImagesParams = Partial<{
   pageSize: number;
@@ -22,7 +22,7 @@ export class ImagesApi {
    *
    * @returns An images list that matches the given criteria
    */
-  async getImages(params?: GetImagesParams): Promise<List<ImageConfig>> {
+  async getImages(params?: GetImagesParams): Promise<List<Image>> {
     const queryParams = buildQueryParamsString({
       pageSize: environment.imagesListPageSize,
       ...params,

@@ -12,9 +12,9 @@ import { NavigationEnd, Router } from '@angular/router';
 import { CommonModule, Location } from '@angular/common';
 import { MODAL_DATA, ModalController } from '@ngx-templates/shared/modal';
 import { IconComponent } from '@ngx-templates/shared/icon';
-import { List } from 'immutable';
-import { ImageConfig } from '../../../shared/image-config';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { List } from 'immutable';
+import { Image } from '../../../shared/image';
 
 const IMG_MAX_WIDTH = '70vw';
 const IMG_MAX_HEIGHT = '90vh';
@@ -25,7 +25,7 @@ type AnimationType = 'none' | 'slide-left' | 'slide-right';
 
 export type ImagePreviewData = {
   imageIdx: number;
-  images: Signal<List<ImageConfig>>;
+  images: Signal<List<Image>>;
 };
 
 @Component({
@@ -44,7 +44,7 @@ export class ImagePreviewComponent {
 
   idx = signal<number>(this.data.imageIdx);
   animation = signal<AnimationType>('none');
-  image = computed<ImageConfig>(() => this.data.images().get(this.idx())!);
+  image = computed<Image>(() => this.data.images().get(this.idx())!);
   imagesCount = computed(() => this.data.images().size);
 
   IMG_MAX_WIDTH = IMG_MAX_WIDTH;

@@ -1,6 +1,6 @@
 import { Component, computed, input, output } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
-import { ExtendedImageConfig } from '../types';
+import { Image } from '../../../../shared/image';
 
 @Component({
   selector: 'ig-image',
@@ -10,9 +10,10 @@ import { ExtendedImageConfig } from '../types';
   styleUrl: './image.component.scss',
 })
 export class ImageComponent {
-  config = input.required<ExtendedImageConfig>();
+  image = input.required<Image>();
+  index = input.required<number>();
   priority = input<boolean>(false);
   imageClick = output<{ index: number }>();
 
-  metadata = computed(() => this.config().metadata || {});
+  metadata = computed(() => this.image().metadata || {});
 }

@@ -1,15 +1,15 @@
 <button
   type="button"
   [title]="'Preview ' + (metadata()['name'] || 'image')"
-  (click)="imageClick.emit({ index: config().index })"
+  (click)="imageClick.emit({ index: index() })"
 >
   <img
-    [ngSrc]="config().src"
-    [width]="config().width"
-    [height]="config().height"
-    [style.aspect-ratio]="config().width + '/' + config().height"
+    [ngSrc]="image().src"
+    [width]="image().width"
+    [height]="image().height"
+    [style.aspect-ratio]="image().width + '/' + image().height"
     [priority]="priority()"
     [alt]="metadata()['name'] || 'Image'"
   />
-  <p>{{ config().index }}</p>
+  <p>{{ index() }}</p>
 </button>

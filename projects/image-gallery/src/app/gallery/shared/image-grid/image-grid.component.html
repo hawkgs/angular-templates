@@ -1,9 +1,10 @@
 @for (column of columns(); track $index; let i = $index) {
   <div class="col">
-    @for (imageCfg of column; track imageCfg.src) {
+    @for (extImg of column; track extImg.image.src) {
       <ig-image
-        [config]="imageCfg"
-        [priority]="imageCfg.index <= PRIORITIZE_FIRST"
+        [image]="extImg.image"
+        [index]="extImg.index"
+        [priority]="extImg.index <= PRIORITIZE_FIRST"
         (imageClick)="imageClick.emit($event)"
       ></ig-image>
     }

@@ -1,14 +1,14 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { List } from 'immutable';
 
-import { ImageConfig } from '../../shared/image-config';
 import { ImagesApi } from '../../api/images-api.service';
+import { Image } from '../../shared/image';
 
 @Injectable()
 export class ImagesService {
   private _imageApi = inject(ImagesApi);
 
-  private _images = signal<List<ImageConfig>>(List([]));
+  private _images = signal<List<Image>>(List([]));
   value = this._images.asReadonly();
 
   // TBD

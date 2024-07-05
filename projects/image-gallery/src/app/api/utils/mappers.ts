@@ -1,6 +1,6 @@
 import { List } from 'immutable';
-import { ImageConfig } from '../../shared/image-config';
 import { ApiImage } from './api-types';
+import { Image } from '../../shared/image';
 
-// TBD
-export const mapImages = (c: ApiImage[]): List<ImageConfig> => List(c);
+export const mapImages = (c: ApiImage[]): List<Image> =>
+  List(c.map((api) => new Image(api)));

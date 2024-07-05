@@ -14,12 +14,16 @@ import { WINDOW } from '@ngx-templates/shared/services';
 import { List } from 'immutable';
 
 import { ImageComponent } from './image/image.component';
-import { ImageConfig } from '../../../shared/image-config';
-import { ExtendedImageConfig } from './types';
+import { Image } from '../../../shared/image';
 
 const COLUMNS_COUNT = 4;
 const RESIZE_DEBOUNCE = 100;
 const PRIORITIZE_FIRST = 4;
+
+type ExtendedImage = {
+  index: number;
+  image: Image;
+};
 
 @Component({
   selector: 'ig-image-grid',
@@ -36,19 +40,19 @@ export class ImageGridComponent {
 
   PRIORITIZE_FIRST = PRIORITIZE_FIRST;
 
-  images = input.required<List<ImageConfig>>();
+  images = input.required<List<Image>>();
   imageClick = output<{ index: number }>();
 
   columnsCount = signal(COLUMNS_COUNT);
 
-  columns = computed<List<List<ExtendedImageConfig>>>(() => {
-    let columns = List<List<ExtendedImageConfig>>([]);
+  columns = computed<List<List<ExtendedImage>>>(() => {
+    let columns = List<List<ExtendedImage>>([]);
     const columnsCount = this.columnsCount();
 
-    this.images().forEach((cfg, i) => {
+    this.images().forEach((image, i) => {
       const colIdx = i % columnsCount;
-      let col = columns.get(colIdx) || List<ExtendedImageConfig>([]);
-      col = col.push({ ...cfg, index: i });
+      let col = columns.get(colIdx) || List<ExtendedImage>([]);
+      col = col.push({ image, index: i });
 
       columns = columns.set(colIdx, col);
     });
