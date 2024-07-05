@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { ModalService } from '@ngx-templates/shared/modal';
+import { InfiniteScrollComponent } from '@ngx-templates/shared/infinite-scroll';
 
 import { ImageGridComponent } from './shared/image-grid/image-grid.component';
 import {
@@ -13,7 +14,7 @@ import { ImagesService } from './shared/images.service';
 @Component({
   selector: 'ig-gallery',
   standalone: true,
-  imports: [ImageGridComponent],
+  imports: [ImageGridComponent, InfiniteScrollComponent],
   providers: [ImagesService],
   templateUrl: './gallery.component.html',
   styleUrl: './gallery.component.scss',

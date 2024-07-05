@@ -9,6 +9,8 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { InfiniteScrollComponent } from '@ngx-templates/shared/infinite-scroll';
+import { IconComponent } from '@ngx-templates/shared/icon';
 
 import { CategoriesService } from '../data-access/categories.service';
 import { ProductItemComponent } from '../shared/product-item/product-item.component';
@@ -23,9 +25,7 @@ import {
   SortType,
   isOfSortType,
 } from './shared/sort-selector/sort-selector.component';
-import { IconComponent } from '@ngx-templates/shared/icon';
 import { CategoryPickerComponent } from './shared/category-picker/category-picker.component';
-import { InfiniteScrollComponent } from '../shared/infinite-scroll/infinite-scroll.component';
 import { SkeletonProductItemComponent } from '../shared/skeleton-product-item/skeleton-product-item.component';
 import { ScrollPosition } from '../shared/scroll-position.service';
 import { ExpandableContComponent } from '../shared/expandable-cont/expandable-cont.component';

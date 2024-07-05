@@ -56,6 +56,6 @@
     <p class="no-results">No results</p>
   }
   @if (!productsList.isComplete()) {
-    <ec-infinite-scroll (loadNext)="onNextPage($event)"></ec-infinite-scroll>
+    <ngx-infinite-scroll (loadNext)="onNextPage($event)"></ngx-infinite-scroll>
   }
 </section>

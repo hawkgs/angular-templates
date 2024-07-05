@@ -17,7 +17,7 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 const SCROLL_OFFSET = 320;
 
 @Component({
-  selector: 'ec-infinite-scroll',
+  selector: 'ngx-infinite-scroll',
   standalone: true,
   imports: [IconComponent],
   templateUrl: './infinite-scroll.component.html',
