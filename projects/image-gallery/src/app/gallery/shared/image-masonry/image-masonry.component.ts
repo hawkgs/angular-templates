@@ -26,13 +26,13 @@ type ExtendedImage = {
 };
 
 @Component({
-  selector: 'ig-image-grid',
+  selector: 'ig-image-masonry',
   standalone: true,
   imports: [ImageComponent],
-  templateUrl: './image-grid.component.html',
-  styleUrl: './image-grid.component.scss',
+  templateUrl: './image-masonry.component.html',
+  styleUrl: './image-masonry.component.scss',
 })
-export class ImageGridComponent {
+export class ImageMasonryComponent {
   private _renderer = inject(Renderer2);
   private _elementRef = inject(ElementRef);
   private _win = inject(WINDOW);

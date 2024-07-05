@@ -1,7 +1,7 @@
-<ig-image-grid
+<ig-image-masonry
   [images]="images.value()"
   (imageClick)="onImageClick($event)"
-></ig-image-grid>
+></ig-image-masonry>
 @if (!images.isComplete()) {
   <ngx-infinite-scroll (loadNext)="images.loadImages()"></ngx-infinite-scroll>
 }

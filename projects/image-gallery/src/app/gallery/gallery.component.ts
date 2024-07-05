@@ -4,7 +4,7 @@ import { Location } from '@angular/common';
 import { ModalService } from '@ngx-templates/shared/modal';
 import { InfiniteScrollComponent } from '@ngx-templates/shared/infinite-scroll';
 
-import { ImageGridComponent } from './shared/image-grid/image-grid.component';
+import { ImageMasonryComponent } from './shared/image-masonry/image-masonry.component';
 import {
   ImagePreviewComponent,
   ImagePreviewData,
@@ -14,7 +14,7 @@ import { ImagesService } from './shared/images.service';
 @Component({
   selector: 'ig-gallery',
   standalone: true,
-  imports: [ImageGridComponent, InfiniteScrollComponent],
+  imports: [ImageMasonryComponent, InfiniteScrollComponent],
   providers: [ImagesService],
   templateUrl: './gallery.component.html',
   styleUrl: './gallery.component.scss',
