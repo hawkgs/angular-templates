@@ -2,3 +2,7 @@
   [images]="images.value()"
   (imageClick)="onImageClick($event)"
 ></ig-image-grid>
+<!-- tmp -->
+@if (!images.isComplete()) {
+  <button (click)="images.loadImages()">Load more</button>
+}
