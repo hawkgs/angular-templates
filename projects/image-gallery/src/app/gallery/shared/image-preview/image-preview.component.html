@@ -1,3 +1,24 @@
+<div class="nav">
+  <button
+    type="button"
+    class="btn prev"
+    (click)="previewPrev()"
+    [disabled]="idx() === 0"
+    title="Previous image"
+  >
+    <ngx-icon name="ChevronRight" size="xxlg"></ngx-icon>
+  </button>
+  <button
+    type="button"
+    class="btn next"
+    (click)="previewNext()"
+    [disabled]="idx() === imagesCount() - 1"
+    title="Next image"
+  >
+    <ngx-icon name="ChevronRight" size="xxlg"></ngx-icon>
+  </button>
+</div>
+
 <div
   class="img-wrapper"
   [style.animation-duration]="ANIM_DURATION + 'ms'"
@@ -23,7 +44,6 @@
       }
     </div>
   }
-  <p>{{ idx() }}</p>
 </div>
 <div class="controls">
   <button
@@ -41,25 +61,5 @@
     (click)="ctrl.close()"
   >
     <ngx-icon name="Close"></ngx-icon>
-  </button>
-</div>
-<div class="nav">
-  <button
-    type="button"
-    class="btn prev"
-    (click)="previewPrev()"
-    [disabled]="idx() === 0"
-    title="Previous image"
-  >
-    <ngx-icon name="ChevronRight" size="xxlg"></ngx-icon>
-  </button>
-  <button
-    type="button"
-    class="btn next"
-    (click)="previewNext()"
-    [disabled]="idx() === imagesCount() - 1"
-    title="Next image"
-  >
-    <ngx-icon name="ChevronRight" size="xxlg"></ngx-icon>
   </button>
 </div>
