@@ -3,5 +3,5 @@
   (imageClick)="onImageClick($event)"
 ></ig-image-masonry>
 @if (!images.isComplete()) {
-  <ngx-infinite-scroll (loadNext)="images.loadImages()"></ngx-infinite-scroll>
+  <ngx-infinite-scroll (loadNext)="onNextPage($event)"></ngx-infinite-scroll>
 }

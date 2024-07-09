@@ -43,6 +43,11 @@ export class GalleryComponent implements OnInit {
     this._openImage(e.index);
   }
 
+  async onNextPage(loadCompleted: () => void) {
+    await this.images.loadImages();
+    loadCompleted();
+  }
+
   private _openImage(imageIdx: number) {
     this._modals
       .createModal<ImagePreviewData>(
