@@ -11,6 +11,7 @@ const imageRecord = Record<ImageConfig>({
   src: '',
   width: 0,
   height: 0,
+  metadata: undefined,
 });
 
 export class Image extends imageRecord {
