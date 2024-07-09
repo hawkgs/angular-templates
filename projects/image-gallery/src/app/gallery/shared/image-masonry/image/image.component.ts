@@ -11,9 +11,8 @@ import { Image } from '../../../../shared/image';
 })
 export class ImageComponent {
   image = input.required<Image>();
-  index = input.required<number>();
   priority = input<boolean>(false);
-  imageClick = output<{ index: number }>();
+  imageClick = output<{ id: string }>();
 
   metadata = computed(() => this.image().metadata || {});
 }

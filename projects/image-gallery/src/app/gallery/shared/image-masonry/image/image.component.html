@@ -1,7 +1,7 @@
 <button
   type="button"
   [title]="'Preview ' + (metadata()['name'] || 'image')"
-  (click)="imageClick.emit({ index: index() })"
+  (click)="imageClick.emit({ id: image().id })"
 >
   <img
     [ngSrc]="image().src"

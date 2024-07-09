@@ -1,6 +1,7 @@
 import { Record } from 'immutable';
 
 interface ImageConfig {
+  id: string;
   src: string;
   width: number;
   height: number;
@@ -8,6 +9,7 @@ interface ImageConfig {
 }
 
 const imageRecord = Record<ImageConfig>({
+  id: '',
   src: '',
   width: 0,
   height: 0,

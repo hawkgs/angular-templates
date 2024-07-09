@@ -10,7 +10,7 @@ export const APP_ROUTES: Routes = [
         component: GalleryComponent,
       },
       {
-        path: 'img/:idx',
+        path: 'img/:id',
         component: GalleryComponent,
       },
     ],

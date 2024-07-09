@@ -2,7 +2,6 @@ import {
   Component,
   HostListener,
   Renderer2,
-  Signal,
   computed,
   effect,
   inject,
@@ -13,8 +12,8 @@ import { CommonModule, Location, NgOptimizedImage } from '@angular/common';
 import { MODAL_DATA, ModalController } from '@ngx-templates/shared/modal';
 import { IconComponent } from '@ngx-templates/shared/icon';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { List } from 'immutable';
 import { Image } from '../../../shared/image';
+import { ImagesService } from '../../../shared/images.service';
 
 const IMG_MAX_WIDTH = '70vw';
 const IMG_MAX_HEIGHT = '90vh';
@@ -23,8 +22,7 @@ const ANIM_DURATION = 250;
 type AnimationType = 'none' | 'slide-left' | 'slide-right';
 
 export type ImagePreviewData = {
-  imageIdx: number;
-  images: Signal<List<Image>>;
+  imageId: string;
 };
 
 @Component({
@@ -40,13 +38,15 @@ export class ImagePreviewComponent {
   private _router = inject(Router);
   private _location = inject(Location);
   private _renderer = inject(Renderer2);
+  private _images = inject(ImagesService);
 
-  idx = signal<number>(this.data.imageIdx);
+  id = signal<string>(this.data.imageId);
   animation = signal<AnimationType>('none');
   showImage = signal<boolean>(true);
 
-  image = computed<Image>(() => this.data.images().get(this.idx())!);
-  imagesCount = computed(() => this.data.images().size);
+  image = computed<Image>(() => this._images.value().get(this.id())!);
+  isFirst = computed(() => this._images.value().first()?.id === this.id());
+  isLast = computed(() => this._images.value().last()?.id === this.id());
 
   IMG_MAX_WIDTH = IMG_MAX_WIDTH;
   IMG_MAX_HEIGHT = IMG_MAX_HEIGHT;
@@ -69,28 +69,37 @@ export class ImagePreviewComponent {
 
   @HostListener('document:keydown.arrowright')
   previewNext() {
-    if (this.idx() === this.imagesCount() - 1) {
+    if (this.isLast()) {
       return;
     }
 
-    this._animate('slide-left', () => {
-      if (this.idx() < this.imagesCount() - 1) {
-        this.idx.update((idx) => idx + 1);
-        this._location.go('img/' + this.idx());
+    this._animate('slide-left', async () => {
+      if (!this.isLast()) {
+        const seq = this._images.value().toIndexedSeq();
+        const idx = seq.findIndex((img) => img.id === this.id());
+        const nextId = seq.get(idx + 1)!.id;
+        await this._images.loadImage(nextId);
+
+        this.id.set(nextId);
+        this._location.go('img/' + this.id());
       }
     });
   }
 
   @HostListener('document:keydown.arrowleft')
   previewPrev() {
-    if (this.idx() === 0) {
+    if (this.isFirst()) {
       return;
     }
 
-    this._animate('slide-right', () => {
-      if (this.idx() > 0) {
-        this.idx.update((idx) => idx - 1);
-        this._location.go('img/' + this.idx());
+    this._animate('slide-right', async () => {
+      if (!this.isFirst()) {
+        const seq = this._images.value().toIndexedSeq();
+        const idx = seq.findIndex((img) => img.id === this.id());
+        const nextId = seq.get(idx - 1)!.id;
+        await this._images.loadImage(nextId);
+
+        this._location.go('img/' + this.id());
       }
     });
   }

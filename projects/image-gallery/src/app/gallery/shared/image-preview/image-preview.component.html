@@ -3,7 +3,7 @@
     type="button"
     class="btn prev"
     (click)="previewPrev()"
-    [disabled]="idx() === 0"
+    [disabled]="isFirst()"
     title="Previous image"
   >
     <ngx-icon name="ChevronRight" size="xxlg"></ngx-icon>
@@ -12,7 +12,7 @@
     type="button"
     class="btn next"
     (click)="previewNext()"
-    [disabled]="idx() === imagesCount() - 1"
+    [disabled]="isLast()"
     title="Next image"
   >
     <ngx-icon name="ChevronRight" size="xxlg"></ngx-icon>

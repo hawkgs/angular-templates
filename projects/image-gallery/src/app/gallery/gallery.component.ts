@@ -9,13 +9,12 @@ import {
   ImagePreviewComponent,
   ImagePreviewData,
 } from './shared/image-preview/image-preview.component';
-import { ImagesService } from './shared/images.service';
+import { ImagesService } from '../shared/images.service';
 
 @Component({
   selector: 'ig-gallery',
   standalone: true,
   imports: [ImageMasonryComponent, InfiniteScrollComponent],
-  providers: [ImagesService],
   templateUrl: './gallery.component.html',
   styleUrl: './gallery.component.scss',
 })
@@ -27,10 +26,10 @@ export class GalleryComponent implements OnInit {
   private _location = inject(Location);
 
   constructor() {
-    const idx = parseInt(this._route.snapshot.paramMap.get('idx') || '', 10);
+    const id = this._route.snapshot.paramMap.get('id');
 
-    if (!isNaN(idx) && this.images.value().get(idx)) {
-      this._openImage(idx);
+    if (id && this.images.value().get(id)) {
+      this._openImage(id);
     }
   }
 
@@ -38,9 +37,9 @@ export class GalleryComponent implements OnInit {
     this.images.loadImages();
   }
 
-  onImageClick(e: { index: number }) {
-    this._location.go('img/' + e.index);
-    this._openImage(e.index);
+  onImageClick(e: { id: string }) {
+    this._location.go('img/' + e.id);
+    this._openImage(e.id);
   }
 
   async onNextPage(loadCompleted: () => void) {
@@ -48,11 +47,13 @@ export class GalleryComponent implements OnInit {
     loadCompleted();
   }
 
-  private _openImage(imageIdx: number) {
+  private _openImage(imageId: string) {
     this._modals
       .createModal<ImagePreviewData>(
         ImagePreviewComponent,
-        { imageIdx, images: this.images.value },
+        {
+          imageId,
+        },
         {
           modalWindowUi: false,
         },

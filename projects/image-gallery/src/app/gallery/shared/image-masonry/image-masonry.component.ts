@@ -41,7 +41,7 @@ export class ImageMasonryComponent {
   PRIORITIZE_FIRST = PRIORITIZE_FIRST;
 
   images = input.required<List<Image>>();
-  imageClick = output<{ index: number }>();
+  imageClick = output<{ id: string }>();
 
   columnsCount = signal(COLUMNS_COUNT);
 
