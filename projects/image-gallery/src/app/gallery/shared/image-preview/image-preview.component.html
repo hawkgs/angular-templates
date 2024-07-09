@@ -25,15 +25,17 @@
   [class.slide-left]="animation() === 'slide-left'"
   [class.slide-right]="animation() === 'slide-right'"
 >
-  <img
-    [src]="image().src"
-    [width]="image().width"
-    [height]="image().height"
-    [style.width]="aspectRatio() > 1 ? IMG_MAX_WIDTH : 'initial'"
-    [style.height]="aspectRatio() <= 1 ? IMG_MAX_HEIGHT : 'initial'"
-    [style.aspect-ratio]="image().width + '/' + image().height"
-    [alt]="(image().metadata || {})['name'] || 'Image'"
-  />
+  @if (showImage()) {
+    <img
+      [ngSrc]="image().src"
+      [width]="image().width"
+      [height]="image().height"
+      [style.width]="aspectRatio() > 1 ? IMG_MAX_WIDTH : 'initial'"
+      [style.height]="aspectRatio() <= 1 ? IMG_MAX_HEIGHT : 'initial'"
+      [style.aspect-ratio]="image().width + '/' + image().height"
+      [alt]="(image().metadata || {})['name'] || 'Image'"
+    />
+  }
   @if (image().metadata; as metadata) {
     <div class="metadata">
       @for (item of metadata | keyvalue; track item.key) {

@@ -9,7 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule, Location, NgOptimizedImage } from '@angular/common';
 import { MODAL_DATA, ModalController } from '@ngx-templates/shared/modal';
 import { IconComponent } from '@ngx-templates/shared/icon';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -19,7 +19,6 @@ import { Image } from '../../../shared/image';
 const IMG_MAX_WIDTH = '70vw';
 const IMG_MAX_HEIGHT = '90vh';
 const ANIM_DURATION = 250;
-const ANIM_DELAY = 20;
 
 type AnimationType = 'none' | 'slide-left' | 'slide-right';
 
@@ -31,7 +30,7 @@ export type ImagePreviewData = {
 @Component({
   selector: 'ig-image-preview',
   standalone: true,
-  imports: [CommonModule, IconComponent],
+  imports: [CommonModule, IconComponent, NgOptimizedImage],
   templateUrl: './image-preview.component.html',
   styleUrl: './image-preview.component.scss',
 })
@@ -44,6 +43,8 @@ export class ImagePreviewComponent {
 
   idx = signal<number>(this.data.imageIdx);
   animation = signal<AnimationType>('none');
+  showImage = signal<boolean>(true);
+
   image = computed<Image>(() => this.data.images().get(this.idx())!);
   imagesCount = computed(() => this.data.images().size);
 
@@ -108,8 +109,15 @@ export class ImagePreviewComponent {
     this.animation.set(anim);
 
     setTimeout(() => {
-      this.animation.set('none');
       completedCb();
-    }, ANIM_DURATION + ANIM_DELAY);
+
+      // Prevents flasging of the old image
+      // and properly resets the source.
+      this.showImage.set(false);
+      setTimeout(() => {
+        this.showImage.set(true);
+        this.animation.set('none');
+      });
+    }, ANIM_DURATION);
   }
 }
