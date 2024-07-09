@@ -1,5 +1,5 @@
 <ig-image-masonry
-  [images]="images.value()"
+  [images]="images.list()"
   (imageClick)="onImageClick($event)"
 ></ig-image-masonry>
 @if (!images.isComplete()) {

@@ -4,8 +4,9 @@ import { FETCH_API } from '@ngx-templates/shared/fetch';
 import { buildQueryParamsString } from '@ngx-templates/shared/utils';
 
 import { environment } from '../../environments/environment';
-import { mapImages } from './utils/mappers';
+import { mapImage, mapImages } from './utils/mappers';
 import { Image } from '../shared/image';
+import { ApiImage } from './utils/api-types';
 
 export type GetImagesParams = Partial<{
   pageSize: number;
@@ -22,7 +23,9 @@ export class ImagesApi {
    *
    * @returns An images list that matches the given criteria
    */
-  async getImages(params?: GetImagesParams): Promise<List<Image>> {
+  async getImages(
+    params?: GetImagesParams,
+  ): Promise<{ total: number; images: List<Image> }> {
     const queryParams = buildQueryParamsString({
       pageSize: environment.imagesListPageSize,
       ...params,
@@ -31,8 +34,21 @@ export class ImagesApi {
     const response = await this._fetch(
       `${environment.apiUrl}/images${queryParams}`,
     );
+    const json = (await response.json()) as {
+      total: number;
+      images: ApiImage[];
+    };
+
+    return {
+      total: json.total,
+      images: mapImages(json.images),
+    };
+  }
+
+  async getImage(idx: number): Promise<Image> {
+    const response = await this._fetch(`${environment.apiUrl}/image/${idx}`);
     const json = await response.json();
 
-    return mapImages(json);
+    return mapImage(json);
   }
 }

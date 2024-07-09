@@ -26,16 +26,14 @@ export class GalleryComponent implements OnInit {
   private _route = inject(ActivatedRoute);
   private _location = inject(Location);
 
-  constructor() {
+  async ngOnInit() {
+    await this.images.loadImages();
+
     const idx = parseInt(this._route.snapshot.paramMap.get('idx') || '', 10);
 
-    if (!isNaN(idx) && this.images.value().get(idx)) {
+    if (!isNaN(idx) && idx < this.images.totalSize()) {
       this._openImage(idx);
     }
-  }
-
-  ngOnInit() {
-    this.images.loadImages();
   }
 
   onImageClick(e: { index: number }) {
@@ -52,7 +50,7 @@ export class GalleryComponent implements OnInit {
     this._modals
       .createModal<ImagePreviewData>(
         ImagePreviewComponent,
-        { imageIdx, images: this.images.value },
+        { imageIdx, imagesService: this.images },
         {
           modalWindowUi: false,
         },

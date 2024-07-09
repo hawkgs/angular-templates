@@ -12,7 +12,7 @@
     type="button"
     class="btn next"
     (click)="previewNext()"
-    [disabled]="idx() === imagesCount() - 1"
+    [disabled]="idx() === imagesTotal() - 1"
     title="Next image"
   >
     <ngx-icon name="ChevronRight" size="xxlg"></ngx-icon>
@@ -25,7 +25,7 @@
   [class.slide-left]="animation() === 'slide-left'"
   [class.slide-right]="animation() === 'slide-right'"
 >
-  @if (showImage()) {
+  @if (showImage() && image().src) {
     <img
       [ngSrc]="image().src"
       [width]="image().width"

@@ -2,19 +2,20 @@ import {
   Component,
   HostListener,
   Renderer2,
-  Signal,
   computed,
   effect,
   inject,
   signal,
+  untracked,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { CommonModule, Location, NgOptimizedImage } from '@angular/common';
 import { MODAL_DATA, ModalController } from '@ngx-templates/shared/modal';
 import { IconComponent } from '@ngx-templates/shared/icon';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { List } from 'immutable';
+
 import { Image } from '../../../shared/image';
+import { ImagesService } from '../images.service';
 
 const IMG_MAX_WIDTH = '70vw';
 const IMG_MAX_HEIGHT = '90vh';
@@ -24,7 +25,7 @@ type AnimationType = 'none' | 'slide-left' | 'slide-right';
 
 export type ImagePreviewData = {
   imageIdx: number;
-  images: Signal<List<Image>>;
+  imagesService: ImagesService;
 };
 
 @Component({
@@ -45,8 +46,12 @@ export class ImagePreviewComponent {
   animation = signal<AnimationType>('none');
   showImage = signal<boolean>(true);
 
-  image = computed<Image>(() => this.data.images().get(this.idx())!);
-  imagesCount = computed(() => this.data.images().size);
+  image = computed<Image>(
+    () =>
+      this.data.imagesService.previewImages().get(this.idx()) || new Image({}),
+  );
+
+  imagesTotal = this.data.imagesService.totalSize;
 
   IMG_MAX_WIDTH = IMG_MAX_WIDTH;
   IMG_MAX_HEIGHT = IMG_MAX_HEIGHT;
@@ -65,16 +70,21 @@ export class ImagePreviewComponent {
         console.log('route change');
       }
     });
+
+    effect(() => {
+      const idx = this.idx();
+      untracked(() => this.data.imagesService.loadImageForPreview(idx));
+    });
   }
 
   @HostListener('document:keydown.arrowright')
   previewNext() {
-    if (this.idx() === this.imagesCount() - 1) {
+    if (this.idx() === this.imagesTotal() - 1) {
       return;
     }
 
     this._animate('slide-left', () => {
-      if (this.idx() < this.imagesCount() - 1) {
+      if (this.idx() < this.imagesTotal() - 1) {
         this.idx.update((idx) => idx + 1);
         this._location.go('img/' + this.idx());
       }
