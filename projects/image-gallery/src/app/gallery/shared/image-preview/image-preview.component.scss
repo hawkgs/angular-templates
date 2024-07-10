@@ -1,4 +1,5 @@
 @import 'typography';
+@import 'theme-mixins';
 
 :host {
   display: block;
@@ -71,16 +72,6 @@
     }
   }
 
-  p {
-    position: absolute;
-    font-size: 5rem;
-    right: 50px;
-    bottom: 70px;
-    color: rgba(255, 255, 255, 0.8);
-    text-shadow: 0 0 10px black;
-    user-select: none;
-  }
-
   .btn {
     border: none;
     border-radius: 50%;
@@ -148,6 +139,16 @@
         ngx-icon {
           margin-left: 3px;
         }
+      }
+    }
+  }
+}
+
+@include if-light-theme {
+  :host {
+    .img-wrapper {
+      img {
+        background-color: rgba(0, 0, 0, 0.3);
       }
     }
   }

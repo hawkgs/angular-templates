@@ -20,6 +20,7 @@ import { ImagesService } from '../images.service';
 const IMG_MAX_WIDTH = '70vw';
 const IMG_MAX_HEIGHT = '90vh';
 const ANIM_DURATION = 250;
+const PREVIEW_IMG_WIDTH = 1200;
 
 type AnimationType = 'none' | 'slide-left' | 'slide-right';
 
@@ -50,6 +51,19 @@ export class ImagePreviewComponent {
     () =>
       this.data.imagesService.previewImages().get(this.idx()) || new Image({}),
   );
+
+  src = computed(() => {
+    const src = this.image().src.split('.').shift();
+    if (!src) {
+      return this.image().src;
+    }
+    return src + '-' + PREVIEW_IMG_WIDTH + 'w.webp';
+  });
+
+  size = computed(() => ({
+    width: PREVIEW_IMG_WIDTH,
+    height: PREVIEW_IMG_WIDTH * (this.image().height / this.image().width),
+  }));
 
   imagesTotal = this.data.imagesService.totalSize;
 

@@ -4,12 +4,11 @@
   (click)="imageClick.emit({ index: index() })"
 >
   <img
-    [ngSrc]="image().src"
-    [width]="image().width"
-    [height]="image().height"
-    [style.aspect-ratio]="image().width + '/' + image().height"
+    [ngSrc]="src()"
+    [width]="size().width"
+    [height]="size().height"
+    [style.aspect-ratio]="size().width + '/' + size().height"
     [priority]="priority()"
     [alt]="metadata()['name'] || 'Image'"
   />
-  <p>{{ index() }}</p>
 </button>

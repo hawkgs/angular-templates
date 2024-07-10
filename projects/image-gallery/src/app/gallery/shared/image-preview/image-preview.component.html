@@ -25,14 +25,14 @@
   [class.slide-left]="animation() === 'slide-left'"
   [class.slide-right]="animation() === 'slide-right'"
 >
-  @if (showImage() && image().src) {
+  @if (showImage() && src()) {
     <img
-      [ngSrc]="image().src"
-      [width]="image().width"
-      [height]="image().height"
+      [ngSrc]="src()"
+      [width]="size().width"
+      [height]="size().height"
       [style.width]="aspectRatio() > 1 ? IMG_MAX_WIDTH : 'initial'"
       [style.height]="aspectRatio() <= 1 ? IMG_MAX_HEIGHT : 'initial'"
-      [style.aspect-ratio]="image().width + '/' + image().height"
+      [style.aspect-ratio]="size().width + '/' + size().height"
       [alt]="(image().metadata || {})['name'] || 'Image'"
     />
   }
@@ -46,7 +46,6 @@
       }
     </div>
   }
-  <p>{{ idx() }}</p>
 </div>
 <div class="controls">
   <button

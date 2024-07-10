@@ -1,16 +1,52 @@
 import { ApiImage } from '../../api/utils/api-types';
-import { ASPECT_RATIOS } from './aspect-ratios';
 
-const IMAGES: ApiImage[] = ASPECT_RATIOS.map(([x, y], i) => ({
-  src: 'test-image.jpg?id=' + i,
-  width: x * 100,
-  height: y * 100,
-  metadata: {
-    name: 'Test Image ' + i,
-    'Focal Length': '50mm',
-    Aperture: 'f/1.8',
+const IMAGES: ApiImage[] = [
+  {
+    src: 'images/img-1.jpg',
+    width: 6000,
+    height: 4000,
+    metadata: {
+      name: 'Flower',
+    },
   },
-}));
+  {
+    src: 'images/img-2.jpg',
+    width: 7087,
+    height: 4724,
+    metadata: {
+      name: 'Desert',
+    },
+  },
+  {
+    src: 'images/img-3.jpg',
+    width: 5842,
+    height: 3895,
+  },
+  {
+    src: 'images/img-4.jpg',
+    width: 5568,
+    height: 3712,
+    metadata: {
+      name: 'Bridge',
+    },
+  },
+  {
+    src: 'images/img-5.jpg',
+    width: 5500,
+    height: 3668,
+    metadata: {
+      name: 'Landscape',
+    },
+  },
+  {
+    src: 'images/img-6.jpg',
+    width: 3827,
+    height: 5657,
+    metadata: {
+      name: 'Cliffs',
+    },
+  },
+];
 
 const DEFAULT_PAGE_SIZE = 10;
 const DEFAULT_PAGE = 1;
