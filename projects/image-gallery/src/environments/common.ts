@@ -2,5 +2,5 @@ import { CommonEnv } from './env-types';
 
 // Common environment variables
 export const Common: CommonEnv = {
-  imagesListPageSize: 20,
+  imagesListPageSize: 40,
 };

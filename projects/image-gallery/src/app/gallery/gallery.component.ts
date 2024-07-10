@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { ModalService } from '@ngx-templates/shared/modal';
@@ -10,6 +10,8 @@ import {
   ImagePreviewData,
 } from './shared/image-preview/image-preview.component';
 import { ImagesService } from './shared/images.service';
+
+const RENDERED_PAGE_SIZE = 20;
 
 @Component({
   selector: 'ig-gallery',
@@ -26,6 +28,12 @@ export class GalleryComponent implements OnInit {
   private _route = inject(ActivatedRoute);
   private _location = inject(Location);
 
+  private _renderedListPage = signal<number>(1);
+
+  renderedList = computed(() =>
+    this.images.list().take(this._renderedListPage() * RENDERED_PAGE_SIZE),
+  );
+
   async ngOnInit() {
     await this.images.loadImages();
 
@@ -41,8 +49,18 @@ export class GalleryComponent implements OnInit {
     this._openImage(e.index);
   }
 
-  async onNextPage(loadCompleted: () => void) {
-    await this.images.loadImages();
+  async onLoadNext(loadCompleted: () => void) {
+    const nextPage = this._renderedListPage() + 1;
+    const newListSize = RENDERED_PAGE_SIZE * nextPage;
+    const loadedImagesSize = this.images.list().size;
+    const totalSize = this.images.totalSize();
+
+    if (newListSize >= loadedImagesSize && totalSize > loadedImagesSize) {
+      await this.images.loadImages();
+    }
+
+    this._renderedListPage.set(nextPage);
+
     loadCompleted();
   }
 
