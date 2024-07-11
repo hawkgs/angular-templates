@@ -438,6 +438,12 @@
               "projects/image-gallery/src/styles.scss",
               "projects/shared/theme/src/theme.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "projects/shared/styles",
+                "projects/shared/theme/src"
+              ]
+            },
             "scripts": []
           }
         },
