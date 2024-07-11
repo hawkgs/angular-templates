@@ -119,10 +119,12 @@
     top: calc(50% - $ctrl-btn-size / 2);
     left: 0;
     width: 100%;
+    pointer-events: none;
 
     .btn {
       width: $ctrl-btn-size;
       height: $ctrl-btn-size;
+      pointer-events: all;
 
       ngx-icon {
         color: var(--white);
