@@ -3,8 +3,8 @@ import { provideRouter } from '@angular/router';
 
 import { ProductItemComponent } from './product-item.component';
 import { CategoriesService } from '../../data-access/categories.service';
-import { fetchMockApiProvider } from '../../../../../shared/fetch';
 import { Product } from '../../../models';
+import { fetchApiMockProvider } from '../utils/fetch-mock-provider';
 
 describe('ProductItemComponent', () => {
   let component: ProductItemComponent;
@@ -13,7 +13,7 @@ describe('ProductItemComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ProductItemComponent],
-      providers: [provideRouter([]), fetchMockApiProvider, CategoriesService],
+      providers: [provideRouter([]), fetchApiMockProvider, CategoriesService],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProductItemComponent);

@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ComponentRef } from '@angular/core';
+import { provideRouter } from '@angular/router';
 
 import { CategoryPickerComponent } from './category-picker.component';
 import { CategoriesService } from '../../../data-access/categories.service';
-import { fetchMockApiProvider } from '../../../../../../shared/fetch';
-import { provideRouter } from '@angular/router';
+import { fetchApiMockProvider } from '../../../shared/utils/fetch-mock-provider';
 
 describe('CategoryPickerComponent', () => {
   let component: CategoryPickerComponent;
@@ -14,7 +14,7 @@ describe('CategoryPickerComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CategoryPickerComponent],
-      providers: [provideRouter([]), fetchMockApiProvider, CategoriesService],
+      providers: [provideRouter([]), fetchApiMockProvider, CategoriesService],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CategoryPickerComponent);

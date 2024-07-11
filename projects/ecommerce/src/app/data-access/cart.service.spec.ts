@@ -1,9 +1,10 @@
+import { Provider } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { fetchMockApiProvider } from '../../../../shared/fetch';
+
 import { CartService } from './cart.service';
 import { Product } from '../../models';
 import { LocalStorage } from '../../../../shared/services/src/local-storage.service';
-import { Provider } from '@angular/core';
+import { fetchApiMockProvider } from '../shared/utils/fetch-mock-provider';
 
 const lsMockProvider: Provider = {
   provide: LocalStorage,
@@ -22,7 +23,7 @@ describe('CartService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [fetchMockApiProvider, lsMockProvider, CartService],
+      providers: [fetchApiMockProvider, lsMockProvider, CartService],
     });
     cartService = TestBed.inject(CartService);
   });

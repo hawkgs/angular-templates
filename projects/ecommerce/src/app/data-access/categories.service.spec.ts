@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-import { fetchMockApiProvider } from '../../../../shared/fetch';
 import { CategoriesService } from './categories.service';
+import { fetchApiMockProvider } from '../shared/utils/fetch-mock-provider';
 
 describe('CategoriesService', () => {
   let categoriesService: CategoriesService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [fetchMockApiProvider, CategoriesService],
+      providers: [fetchApiMockProvider, CategoriesService],
     });
 
     categoriesService = TestBed.inject(CategoriesService);

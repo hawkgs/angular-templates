@@ -3,8 +3,8 @@ import { provideRouter } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { CategoriesService } from './data-access/categories.service';
-import { fetchMockApiProvider } from '../../../shared/fetch';
 import { CartService } from './data-access/cart.service';
+import { fetchApiMockProvider } from './shared/utils/fetch-mock-provider';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -12,7 +12,7 @@ describe('AppComponent', () => {
       imports: [AppComponent],
       providers: [
         provideRouter([]),
-        fetchMockApiProvider,
+        fetchApiMockProvider,
         CategoriesService,
         CartService,
       ],

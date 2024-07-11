@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ProductsComponent } from './products.component';
-import { fetchApiProvider } from '../../../../shared/fetch';
-import { CategoriesService } from '../data-access/categories.service';
 import { windowProvider } from '@ngx-templates/shared/services';
 import { provideRouter } from '@angular/router';
+
+import { ProductsComponent } from './products.component';
+import { CategoriesService } from '../data-access/categories.service';
+import { fetchApiMockProvider } from '../shared/utils/fetch-mock-provider';
 
 describe('ProductsComponent', () => {
   let component: ProductsComponent;
@@ -16,7 +16,7 @@ describe('ProductsComponent', () => {
       providers: [
         provideRouter([]),
         windowProvider,
-        fetchApiProvider,
+        fetchApiMockProvider,
         CategoriesService,
       ],
     }).compileComponents();

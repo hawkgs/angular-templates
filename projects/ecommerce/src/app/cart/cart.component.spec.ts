@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CartComponent } from './cart.component';
 import { CartService } from '../data-access/cart.service';
-import { fetchMockApiProvider } from '../../../../shared/fetch';
+import { fetchApiMockProvider } from '../shared/utils/fetch-mock-provider';
 
 describe('CartComponent', () => {
   let component: CartComponent;
@@ -11,7 +11,7 @@ describe('CartComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CartComponent],
-      providers: [fetchMockApiProvider, CartService],
+      providers: [fetchApiMockProvider, CartService],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CartComponent);

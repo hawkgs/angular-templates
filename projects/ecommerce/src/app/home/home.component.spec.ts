@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { windowProvider } from '@ngx-templates/shared/services';
 
 import { HomeComponent } from './home.component';
 import { CategoriesService } from '../data-access/categories.service';
-import { fetchMockApiProvider } from '../../../../shared/fetch';
-import { windowProvider } from '@ngx-templates/shared/services';
+import { fetchApiMockProvider } from '../shared/utils/fetch-mock-provider';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -12,7 +12,7 @@ describe('HomeComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HomeComponent],
-      providers: [windowProvider, fetchMockApiProvider, CategoriesService],
+      providers: [windowProvider, fetchApiMockProvider, CategoriesService],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HomeComponent);

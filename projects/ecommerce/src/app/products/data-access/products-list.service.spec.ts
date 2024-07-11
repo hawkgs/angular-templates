@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { fetchMockApiProvider } from '../../../../../shared/fetch';
 import { ProductsListService } from './products-list.service';
 import { Product } from '../../../models';
+import { fetchApiMockProvider } from '../../shared/utils/fetch-mock-provider';
 
 const getPrice = (p: Product | undefined): number =>
   p?.discountPrice || p?.price || 0;
@@ -11,7 +11,7 @@ describe('ProductsListService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [fetchMockApiProvider, ProductsListService],
+      providers: [fetchApiMockProvider, ProductsListService],
     });
 
     productsList = TestBed.inject(ProductsListService);

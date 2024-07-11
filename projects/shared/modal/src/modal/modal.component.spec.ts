@@ -31,6 +31,7 @@ describe('ModalComponent', () => {
         0,
         signal<List<Modal<unknown, unknown>>>(List([])),
       ),
+      config: {},
     });
     fixture.detectChanges();
   });

@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 
 import { CategoryReelComponent } from './category-reel.component';
-import { fetchMockApiProvider } from '../../../../../../shared/fetch';
 import { Category } from '../../../../models';
+import { fetchApiMockProvider } from '../../../shared/utils/fetch-mock-provider';
 
 describe('CategoryReelComponent', () => {
   let component: CategoryReelComponent;
@@ -12,7 +12,7 @@ describe('CategoryReelComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CategoryReelComponent],
-      providers: [provideRouter([]), fetchMockApiProvider],
+      providers: [provideRouter([]), fetchApiMockProvider],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CategoryReelComponent);
