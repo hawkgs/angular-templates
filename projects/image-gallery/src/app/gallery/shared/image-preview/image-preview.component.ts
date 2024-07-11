@@ -85,9 +85,23 @@ export class ImagePreviewComponent {
     effect(() => {
       const event = routerEvents();
 
-      // Todo(Georgi): Handle browser history nav (back and forward)
+      // Handle browser history navigation (back and forward)
       if (event instanceof NavigationEnd) {
-        console.log('route change');
+        if (event.url === '/') {
+          untracked(() => this.ctrl.close());
+          return;
+        }
+
+        const idx = parseInt(event.url.split('/').pop() || '', 10);
+        if (!isNaN(idx)) {
+          untracked(() => {
+            if (idx > this.idx()) {
+              this.previewNext(false);
+            } else {
+              this.previewPrev(false);
+            }
+          });
+        }
       }
     });
 
@@ -98,7 +112,7 @@ export class ImagePreviewComponent {
   }
 
   @HostListener('document:keydown.arrowright')
-  previewNext() {
+  previewNext(updateUrl: boolean = true) {
     if (this.idx() === this.imagesTotal() - 1) {
       return;
     }
@@ -106,13 +120,16 @@ export class ImagePreviewComponent {
     this._animate('slide-left', () => {
       if (this.idx() < this.imagesTotal() - 1) {
         this.idx.update((idx) => idx + 1);
-        this._location.go('img/' + this.idx());
+
+        if (updateUrl) {
+          this._location.go('img/' + this.idx());
+        }
       }
     });
   }
 
   @HostListener('document:keydown.arrowleft')
-  previewPrev() {
+  previewPrev(updateUrl: boolean = true) {
     if (this.idx() === 0) {
       return;
     }
@@ -120,7 +137,10 @@ export class ImagePreviewComponent {
     this._animate('slide-right', () => {
       if (this.idx() > 0) {
         this.idx.update((idx) => idx - 1);
-        this._location.go('img/' + this.idx());
+
+        if (updateUrl) {
+          this._location.go('img/' + this.idx());
+        }
       }
     });
   }
