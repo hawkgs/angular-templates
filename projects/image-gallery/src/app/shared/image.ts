@@ -14,6 +14,9 @@ const imageRecord = Record<ImageConfig>({
   metadata: undefined,
 });
 
+/**
+ * Represents the main image record retrieved from the API
+ */
 export class Image extends imageRecord {
   constructor(config: Partial<ImageConfig>) {
     super(config);

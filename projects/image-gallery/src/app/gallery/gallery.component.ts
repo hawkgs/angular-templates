@@ -11,6 +11,8 @@ import {
 } from './shared/image-preview/image-preview.component';
 import { ImagesService } from './shared/images.service';
 
+// Size of the rendered list page. It differs from the API page size.
+// Keep smaller from the API page size.
 const RENDERED_PAGE_SIZE = 20;
 
 @Component({
@@ -30,13 +32,17 @@ export class GalleryComponent implements OnInit {
 
   private _renderedListPage = signal<number>(1);
 
+  // The rendered list contains all visible/rendered images in the gallery.
+  // Rendered List <= Images Service List (API)
   renderedList = computed(() =>
     this.images.list().take(this._renderedListPage() * RENDERED_PAGE_SIZE),
   );
 
   async ngOnInit() {
+    // Load the first page of images
     await this.images.loadImages();
 
+    // Attempt opening an image preview, if a route param is provided
     const idx = parseInt(this._route.snapshot.paramMap.get('idx') || '', 10);
 
     if (!isNaN(idx) && idx < this.images.totalSize()) {
@@ -55,10 +61,13 @@ export class GalleryComponent implements OnInit {
     const loadedImagesSize = this.images.list().size;
     const totalSize = this.images.totalSize();
 
+    // If the rendered list exceeds or is equal to the size
+    // of the API list, load a new page of images.
     if (newListSize >= loadedImagesSize && totalSize > loadedImagesSize) {
       await this.images.loadImages();
     }
 
+    // Update the rendered list with more already loaded images.
     this._renderedListPage.set(nextPage);
 
     loadCompleted();

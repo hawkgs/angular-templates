@@ -1,3 +1,4 @@
+// API image model
 export type ApiImage = {
   src: string;
   width: number;

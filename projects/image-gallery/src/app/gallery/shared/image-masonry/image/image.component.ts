@@ -17,6 +17,7 @@ export class ImageComponent {
   priority = input<boolean>(false);
   imageClick = output<{ index: number }>();
 
+  // Modify according to your image CDN along with the `NgOptimizedImage`
   src = computed(() => {
     const src = this.image().src.split('.').shift();
 

@@ -17,9 +17,13 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { Image } from '../../../shared/image';
 import { ImagesService } from '../images.service';
 
+// Max image dimensions relative to the viewport
 const IMG_MAX_WIDTH = '70vw';
 const IMG_MAX_HEIGHT = '90vh';
+
+// Navigation animation duration
 const ANIM_DURATION = 250;
+
 const PREVIEW_IMG_WIDTH = 1200;
 
 type AnimationType = 'none' | 'slide-left' | 'slide-right';
@@ -39,6 +43,7 @@ export type ImagePreviewData = {
 export class ImagePreviewComponent {
   data = inject<ImagePreviewData>(MODAL_DATA);
   ctrl = inject<ModalController<void>>(ModalController);
+
   private _router = inject(Router);
   private _location = inject(Location);
   private _renderer = inject(Renderer2);
@@ -52,6 +57,7 @@ export class ImagePreviewComponent {
       this.data.imagesService.previewImages().get(this.idx()) || new Image({}),
   );
 
+  // Modify according to your image CDN along with the `NgOptimizedImage`
   src = computed(() => {
     const src = this.image().src.split('.').shift();
     if (!src) {
@@ -119,6 +125,9 @@ export class ImagePreviewComponent {
     });
   }
 
+  /**
+   * Downloads the source/original image.
+   */
   download() {
     const anchor = this._renderer.createElement('a') as HTMLAnchorElement;
     this._renderer.setAttribute(anchor, 'href', this.image().src);
@@ -135,8 +144,11 @@ export class ImagePreviewComponent {
     setTimeout(() => {
       completedCb();
 
-      // Prevents flasging of the old image
-      // and properly resets the source.
+      // Since we want to re-render the image element with the new
+      // source after the completion of the animation. If we don't
+      // do that, we might have unwanted flash effect after the
+      // animation completes (the previous image will appear for
+      // a moment).
       this.showImage.set(false);
       setTimeout(() => {
         this.showImage.set(true);

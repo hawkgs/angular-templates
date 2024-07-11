@@ -19,9 +19,9 @@ export class ImagesApi {
   private _fetch = inject(FETCH_API);
 
   /**
-   * Fetches images
+   * Fetches images. Supports paging.
    *
-   * @returns An images list that matches the given criteria
+   * @returns A list of `Image`-s
    */
   async getImages(
     params?: GetImagesParams,
@@ -45,6 +45,12 @@ export class ImagesApi {
     };
   }
 
+  /**
+   * Fetches an image by a provided index
+   *
+   * @param idx Index of the image
+   * @returns An `Image`
+   */
   async getImage(idx: number): Promise<Image> {
     const response = await this._fetch(`${environment.apiUrl}/image/${idx}`);
     const json = await response.json();

@@ -17,7 +17,11 @@ import { ImageComponent } from './image/image.component';
 import { Image } from '../../../shared/image';
 
 const COLUMNS_COUNT = 4;
+
+// Debounce of the window resize event
 const RESIZE_DEBOUNCE = 100;
+
+// Set the fetch priority of the first `N` images to high
 const PRIORITIZE_FIRST = 4;
 
 type ExtendedImage = {
@@ -49,6 +53,7 @@ export class ImageMasonryComponent {
     let columns = List<List<ExtendedImage>>([]);
     const columnsCount = this.columnsCount();
 
+    // Add each image in its respective column
     this.images().forEach((image, i) => {
       const colIdx = i % columnsCount;
       let col = columns.get(colIdx) || List<ExtendedImage>([]);
@@ -84,6 +89,13 @@ export class ImageMasonryComponent {
     );
   }
 
+  /**
+   * Update the number of masonry columns based on the viewport width.
+   *
+   * Note(Georgi): Unfortunately, we cannot create a CSS-only masonry
+   * – it requires layout changes as well; hence, the need of this
+   * piece of code.
+   */
   private _updateColumnsCount() {
     const width = this._win.innerWidth;
     let cols = COLUMNS_COUNT;
