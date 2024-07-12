@@ -9,9 +9,6 @@
       [ngSrc]="src()"
       [width]="size().width"
       [height]="size().height"
-      [style.width]="aspectRatio() > 1 ? IMG_MAX_WIDTH : 'initial'"
-      [style.height]="aspectRatio() <= 1 ? IMG_MAX_HEIGHT : 'initial'"
-      [style.aspect-ratio]="size().width + '/' + size().height"
       [alt]="(image().metadata || {})['name'] || 'Image'"
     />
   }

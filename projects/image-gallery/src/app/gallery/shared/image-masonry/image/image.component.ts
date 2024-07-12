@@ -29,7 +29,9 @@ export class ImageComponent {
 
   size = computed(() => ({
     width: THUMB_WIDTH,
-    height: THUMB_WIDTH * (this.image().height / this.image().width),
+    height: Math.round(
+      THUMB_WIDTH * (this.image().height / this.image().width),
+    ),
   }));
 
   metadata = computed(() => this.image().metadata || {});

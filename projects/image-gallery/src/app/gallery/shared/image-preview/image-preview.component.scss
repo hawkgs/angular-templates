@@ -28,6 +28,17 @@
       pointer-events: none;
       user-select: none;
       background-color: rgba(255, 255, 255, 0.2);
+      max-width: 70vw;
+      max-height: 90vh;
+      object-fit: contain;
+      width: auto;
+      height: auto;
+    }
+
+    @media (max-width: 979px) {
+      img {
+        max-width: 95vw;
+      }
     }
 
     .metadata {

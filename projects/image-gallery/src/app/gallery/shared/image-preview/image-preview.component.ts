@@ -17,10 +17,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { Image } from '../../../shared/image';
 import { ImagesService } from '../images.service';
 
-// Max image dimensions relative to the viewport
-const IMG_MAX_WIDTH = '70vw';
-const IMG_MAX_HEIGHT = '90vh';
-
 // Navigation animation duration
 const ANIM_DURATION = 250;
 
@@ -68,16 +64,14 @@ export class ImagePreviewComponent {
 
   size = computed(() => ({
     width: PREVIEW_IMG_WIDTH,
-    height: PREVIEW_IMG_WIDTH * (this.image().height / this.image().width),
+    height: Math.round(
+      PREVIEW_IMG_WIDTH * (this.image().height / this.image().width),
+    ),
   }));
 
   imagesTotal = this.data.imagesService.totalSize;
 
-  IMG_MAX_WIDTH = IMG_MAX_WIDTH;
-  IMG_MAX_HEIGHT = IMG_MAX_HEIGHT;
   ANIM_DURATION = ANIM_DURATION;
-
-  aspectRatio = computed(() => this.image().width / this.image().height);
 
   constructor() {
     const routerEvents = toSignal(this._router.events);
