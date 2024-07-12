@@ -6,9 +6,11 @@
     "start:ecommerce": "ng serve ecommerce",
     "start:dashboard": "ng serve dashboard",
     "start:image-gallery": "ng serve image-gallery",
+    "start:ai-text-editor": "ng serve ai-text-editor",
     "build:ecommerce": "ng build ecommerce",
     "build:dashboard": "ng build dashboard",
     "build:image-gallery": "ng build image-gallery",
+    "build:ai-text-editor": "ng build ai-text-editor",
     "build:shared": "ng build shared",
     "watch:ecommerce": "ng build ecommerce --watch --configuration development",
     "watch:shared": "ng build shared --watch",
@@ -18,11 +20,13 @@
     "test:ecommerce": "ng test ecommerce",
     "test:dashboard": "ng test dashboard",
     "test:image-gallery": "ng test image-gallery",
+    "test:ai-text-editor": "ng test ai-text-editor",
     "test:shared": "ng test shared",
     "e2e:ecommerce": "ng e2e ecommerce",
     "e2e-watch:ecommerce": "nodemon --ext ts --watch 'projects/ecommerce/e2e/tests/**/*.e2e.ts' --exec npm run e2e:ecommerce --signal SIGTERM",
     "serve:ssr:dashboard": "node dist/dashboard/server/server.mjs",
-    "serve:ssr:image-gallery": "node dist/image-gallery/server/server.mjs"
+    "serve:ssr:image-gallery": "node dist/image-gallery/server/server.mjs",
+    "serve:ssr:ai-text-editor": "node dist/ai-text-editor/server/server.mjs"
   },
   "private": true,
   "dependencies": {
