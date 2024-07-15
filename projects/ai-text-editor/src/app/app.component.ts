@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { ThemeSwitchComponent } from '@ngx-templates/shared/theme';
+import { HeaderComponent } from './shared/header/header.component';
+import { FooterComponent } from './shared/footer/footer.component';
+import { TextEditorComponent } from './shared/text-editor/text-editor.component';
 
 @Component({
   selector: 'ate-root',
   standalone: true,
-  imports: [ThemeSwitchComponent],
+  imports: [HeaderComponent, FooterComponent, TextEditorComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
