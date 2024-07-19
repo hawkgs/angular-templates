@@ -9,5 +9,9 @@
     padding: 2.5rem 2rem;
     height: 100%;
     min-height: 40vh;
+
+    &:focus {
+      outline: none;
+    }
   }
 }
