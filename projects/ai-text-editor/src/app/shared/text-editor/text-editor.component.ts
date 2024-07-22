@@ -5,13 +5,17 @@ import {
   Component,
   ElementRef,
   inject,
+  signal,
   viewChild,
 } from '@angular/core';
 
 import { DocStoreService } from './doc-store.service';
 import { SafeHtmlPipe } from '../pipes/safe-html.pipe';
+import { ModalService } from '@ngx-templates/shared/modal';
+import { ConfirmClearModalComponent } from './confirm-clear-modal/confirm-clear-modal.component';
 
 const INPUT_DEBOUNCE = 2000;
+const SAVED_LABEL_TTL = 1500;
 
 @Component({
   selector: 'ate-text-editor',
@@ -24,11 +28,13 @@ const INPUT_DEBOUNCE = 2000;
 export class TextEditorComponent implements AfterViewInit {
   private _win = inject(WINDOW);
   private _doc = inject(DOCUMENT);
+  private _modal = inject(ModalService);
   docStore = inject(DocStoreService);
 
   private _inputTo!: ReturnType<typeof setTimeout>;
 
   editor = viewChild.required<ElementRef>('editor');
+  showSavedLabel = signal<boolean>(false);
 
   ngAfterViewInit() {
     this.docStore.provideTarget(this.editor().nativeElement);
@@ -58,10 +64,23 @@ export class TextEditorComponent implements AfterViewInit {
     if (this._inputTo) {
       clearTimeout(this._inputTo);
     }
+
     this._inputTo = setTimeout(() => {
-      console.log('Saving ...');
       this.docStore.save();
+
+      this.showSavedLabel.set(true);
+      setTimeout(() => this.showSavedLabel.set(false), SAVED_LABEL_TTL);
     }, INPUT_DEBOUNCE);
+  }
+
+  clearDocument() {
+    this._modal
+      .createModal<void, boolean>(ConfirmClearModalComponent)
+      .closed.then((shouldClear: boolean | undefined) => {
+        if (shouldClear) {
+          this.docStore.clearContent();
+        }
+      });
   }
 
   // Note(Georgi): Not finalized

@@ -5,6 +5,24 @@
   box-shadow: 0 5px 15px var(--color-septenary);
   border-radius: 0.25rem;
 
+  .controls {
+    border: 1px solid darkred;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+
+    button {
+      margin-right: 10px;
+    }
+
+    .saving-label {
+      animation: fade-in 300ms ease;
+      animation-iteration-count: 1;
+      animation-fill-mode: forwards;
+    }
+  }
+
   .editor {
     padding: 2.5rem 2rem;
     height: 100%;
@@ -13,5 +31,14 @@
     &:focus {
       outline: none;
     }
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }

@@ -1,7 +1,13 @@
 <!-- TBD -->
 <div class="controls">
-  <button (click)="bold()">B</button>
-  <button (click)="italics()">I</button>
+  <div class="btns">
+    <button (click)="bold()">B</button>
+    <button (click)="italics()">I</button>
+    <button (click)="clearDocument()">Clear</button>
+  </div>
+  @if (showSavedLabel()) {
+    <p class="saved-label">Saved</p>
+  }
 </div>
 <div
   #editor
