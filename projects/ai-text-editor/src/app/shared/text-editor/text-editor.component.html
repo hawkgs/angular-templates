@@ -14,5 +14,14 @@
   class="editor"
   contenteditable
   (input)="onInput()"
+  (selectstart)="onSelectStart()"
   [innerHTML]="docStore.htmlContent() | safeHtml"
 ></div>
+@if (showAiEnhancer()) {
+  <ate-ai-enhancer-menu
+    (mouseup)="onAiEnhancerInteractionEnd($event)"
+    (touchend)="onAiEnhancerInteractionEnd($event)"
+    [style.left]="aiEnhancerPos().x + 'px'"
+    [style.top]="aiEnhancerPos().y + 'px'"
+  ></ate-ai-enhancer-menu>
+}

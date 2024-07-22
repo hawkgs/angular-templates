@@ -4,6 +4,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  HostListener,
   inject,
   signal,
   viewChild,
@@ -13,14 +14,19 @@ import { DocStoreService } from './doc-store.service';
 import { SafeHtmlPipe } from '../pipes/safe-html.pipe';
 import { ModalService } from '@ngx-templates/shared/modal';
 import { ConfirmClearModalComponent } from './confirm-clear-modal/confirm-clear-modal.component';
+import { AiEnhancerMenuComponent } from './ai-enhancer-menu/ai-enhancer-menu.component';
 
 const INPUT_DEBOUNCE = 2000;
 const SAVED_LABEL_TTL = 1500;
+const AI_ENHC_SELECTION_MARGIN = 10;
+const MIN_AI_ENHC_STR_LEN = 5;
+
+type Coor = { x: number; y: number };
 
 @Component({
   selector: 'ate-text-editor',
   standalone: true,
-  imports: [SafeHtmlPipe],
+  imports: [SafeHtmlPipe, AiEnhancerMenuComponent],
   providers: [DocStoreService],
   templateUrl: './text-editor.component.html',
   styleUrl: './text-editor.component.scss',
@@ -32,9 +38,12 @@ export class TextEditorComponent implements AfterViewInit {
   docStore = inject(DocStoreService);
 
   private _inputTo!: ReturnType<typeof setTimeout>;
+  private _selectionInProgress = false;
 
   editor = viewChild.required<ElementRef>('editor');
   showSavedLabel = signal<boolean>(false);
+  showAiEnhancer = signal<boolean>(false);
+  aiEnhancerPos = signal<Coor>({ x: 0, y: 0 });
 
   ngAfterViewInit() {
     this.docStore.provideTarget(this.editor().nativeElement);
@@ -71,6 +80,42 @@ export class TextEditorComponent implements AfterViewInit {
       this.showSavedLabel.set(true);
       setTimeout(() => this.showSavedLabel.set(false), SAVED_LABEL_TTL);
     }, INPUT_DEBOUNCE);
+  }
+
+  onSelectStart() {
+    this._selectionInProgress = true;
+  }
+
+  @HostListener('document:mouseup')
+  @HostListener('document:keyup')
+  @HostListener('document:touchend')
+  onDocumentInteractionEnd() {
+    const selection = this._win.getSelection();
+    const selectionStr = (selection?.toString() || '').trim();
+
+    if (
+      this._selectionInProgress &&
+      selection &&
+      selectionStr.length >= MIN_AI_ENHC_STR_LEN
+    ) {
+      const range = selection.getRangeAt(0);
+      const rect = range.getBoundingClientRect();
+      const selectionPos = {
+        x: rect.x + rect.width + AI_ENHC_SELECTION_MARGIN,
+        y: rect.y + rect.height + AI_ENHC_SELECTION_MARGIN,
+      };
+
+      this.showAiEnhancer.set(true);
+      this.aiEnhancerPos.set(selectionPos);
+    } else {
+      this.showAiEnhancer.set(false);
+    }
+
+    this._selectionInProgress = false;
+  }
+
+  onAiEnhancerInteractionEnd(e: Event) {
+    e.stopPropagation();
   }
 
   clearDocument() {
