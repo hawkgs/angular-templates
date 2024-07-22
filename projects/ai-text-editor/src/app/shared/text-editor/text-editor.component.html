@@ -3,4 +3,10 @@
   <button (click)="bold()">B</button>
   <button (click)="italics()">I</button>
 </div>
-<div #editor class="editor" contenteditable></div>
+<div
+  #editor
+  class="editor"
+  contenteditable
+  (input)="onInput()"
+  [innerHTML]="docStore.htmlContent() | safeHtml"
+></div>
