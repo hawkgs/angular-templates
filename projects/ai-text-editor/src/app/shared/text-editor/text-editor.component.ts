@@ -55,7 +55,7 @@ export class TextEditorComponent implements AfterViewInit {
     });
   }
 
-  onFormat(cmd: FormatCommandType) {
+  async onFormat(cmd: FormatCommandType) {
     switch (cmd) {
       case 'bold':
         this._formatting.makeBold();
@@ -65,6 +65,9 @@ export class TextEditorComponent implements AfterViewInit {
         break;
       case 'underlined':
         this._formatting.makeUnderlined();
+        break;
+      case 'hyperlink':
+        await this._formatting.addHyperlink();
         break;
     }
 

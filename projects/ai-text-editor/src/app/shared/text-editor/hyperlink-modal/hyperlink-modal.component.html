@@ -1,0 +1,10 @@
+<ngx-modal-content [controller]="ctrl">
+  <ng-container title>Add a hyperlink</ng-container>
+  <ng-container content>
+    <input #input />
+    <p>
+      <button (click)="ctrl.close(input.value)">Add</button>
+      <button (click)="ctrl.close()">Cancel</button>
+    </p>
+  </ng-container>
+</ngx-modal-content>

@@ -1,11 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import { SelectionManager } from './selection-manager.service';
 import { DOCUMENT } from '@angular/common';
+import { ModalService } from '@ngx-templates/shared/modal';
+import { HyperlinkModalComponent } from './hyperlink-modal/hyperlink-modal.component';
 
 @Injectable()
 export class FormattingService {
   private _selection = inject(SelectionManager);
   private _doc = inject(DOCUMENT);
+  private _modals = inject(ModalService);
 
   makeBold() {
     this._formatSelection(
@@ -27,6 +30,27 @@ export class FormattingService {
       () => this._doc.createElement('u'),
       (el: HTMLElement) => el.tagName === 'U',
     );
+  }
+
+  addHyperlink() {
+    this._selection.memoize();
+
+    return this._modals
+      .createModal<void, string>(HyperlinkModalComponent)
+      .closed.then((url: string | undefined) => {
+        if (url && url.length) {
+          this._formatSelection(
+            () => {
+              const anchor = this._doc.createElement('a');
+              anchor.href = url;
+              return anchor;
+            },
+            (el: HTMLElement) => el.tagName === 'A',
+          );
+        }
+
+        this._selection.unmemoize();
+      });
   }
 
   private _formatSelection(

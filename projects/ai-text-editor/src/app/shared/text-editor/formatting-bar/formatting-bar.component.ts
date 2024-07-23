@@ -1,6 +1,6 @@
 import { Component, output } from '@angular/core';
 
-export type FormatCommandType = 'bold' | 'italics' | 'underlined';
+export type FormatCommandType = 'bold' | 'italics' | 'underlined' | 'hyperlink';
 
 @Component({
   selector: 'ate-formatting-bar',
