@@ -1,13 +1,11 @@
-<!-- TBD -->
-<div class="controls">
-  <div class="btns">
-    <button (click)="bold()">B</button>
-    <button (click)="italics()">I</button>
+<div class="toolbar">
+  <ate-formatting-bar (format)="onFormat($event)"></ate-formatting-bar>
+  <div class="controls">
+    @if (showSavedLabel()) {
+      <p class="saved-label">Saved</p>
+    }
     <button (click)="clearDocument()">Clear</button>
   </div>
-  @if (showSavedLabel()) {
-    <p class="saved-label">Saved</p>
-  }
 </div>
 <div
   #editor
@@ -15,7 +13,7 @@
   contenteditable
   (input)="onInput()"
   (selectstart)="onSelectStart()"
-  [innerHTML]="docStore.htmlContent() | safeHtml"
+  [innerHTML]="docStore.html() | safeHtml"
 ></div>
 @if (showAiEnhancer()) {
   <ate-ai-enhancer-menu

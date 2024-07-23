@@ -8,12 +8,12 @@ export class DocStoreService {
   private _storage = inject(LocalStorage);
 
   private _target?: HTMLElement;
-  private _htmlContent = signal<string>('');
-  htmlContent = this._htmlContent.asReadonly();
+  private _html = signal<string>('');
+  html = this._html.asReadonly();
 
   constructor() {
     const content = this._storage.get(DOC_STORE_LS_KEY) || '';
-    this._htmlContent.set(content);
+    this._html.set(content);
   }
 
   provideTarget(target: HTMLElement) {
@@ -29,8 +29,8 @@ export class DocStoreService {
     this._storage.set(DOC_STORE_LS_KEY, content);
   }
 
-  clearContent() {
-    this._htmlContent.set('');
+  clear() {
+    this._html.set('');
     this._storage.remove(DOC_STORE_LS_KEY);
   }
 }

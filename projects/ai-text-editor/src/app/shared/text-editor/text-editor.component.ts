@@ -1,5 +1,3 @@
-import { DOCUMENT } from '@angular/common';
-import { WINDOW } from '@ngx-templates/shared/services';
 import {
   AfterViewInit,
   Component,
@@ -9,34 +7,36 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { ModalService } from '@ngx-templates/shared/modal';
 
 import { DocStoreService } from './doc-store.service';
 import { SafeHtmlPipe } from '../pipes/safe-html.pipe';
-import { ModalService } from '@ngx-templates/shared/modal';
 import { ConfirmClearModalComponent } from './confirm-clear-modal/confirm-clear-modal.component';
 import { AiEnhancerMenuComponent } from './ai-enhancer-menu/ai-enhancer-menu.component';
 import { SelectionManager } from './selection-manager.service';
+import { FormattingService } from './formatting.service';
+import {
+  FormatCommandType,
+  FormattingBarComponent,
+} from './formatting-bar/formatting-bar.component';
 
 const INPUT_DEBOUNCE = 2000;
 const SAVED_LABEL_TTL = 1500;
 const AI_ENHC_SELECTION_MARGIN = 10;
 const MIN_AI_ENHC_STR_LEN = 5;
 
-type Coor = { x: number; y: number };
-
 @Component({
   selector: 'ate-text-editor',
   standalone: true,
-  imports: [SafeHtmlPipe, AiEnhancerMenuComponent],
-  providers: [DocStoreService, SelectionManager],
+  imports: [SafeHtmlPipe, AiEnhancerMenuComponent, FormattingBarComponent],
+  providers: [DocStoreService, SelectionManager, FormattingService],
   templateUrl: './text-editor.component.html',
   styleUrl: './text-editor.component.scss',
 })
 export class TextEditorComponent implements AfterViewInit {
-  private _win = inject(WINDOW);
-  private _doc = inject(DOCUMENT);
   private _modal = inject(ModalService);
   private _selection = inject(SelectionManager);
+  private _formatting = inject(FormattingService);
   docStore = inject(DocStoreService);
 
   private _inputTo!: ReturnType<typeof setTimeout>;
@@ -45,7 +45,7 @@ export class TextEditorComponent implements AfterViewInit {
   editor = viewChild.required<ElementRef>('editor');
   showSavedLabel = signal<boolean>(false);
   showAiEnhancer = signal<boolean>(false);
-  aiEnhancerPos = signal<Coor>({ x: 0, y: 0 });
+  aiEnhancerPos = signal<{ x: number; y: number }>({ x: 0, y: 0 });
 
   ngAfterViewInit() {
     this.docStore.provideTarget(this.editor().nativeElement);
@@ -55,20 +55,30 @@ export class TextEditorComponent implements AfterViewInit {
     });
   }
 
-  bold() {
-    this._formatSelection(
-      () => this._doc.createElement('b'),
-      (el: HTMLElement) => el.tagName === 'B',
-    );
+  onFormat(cmd: FormatCommandType) {
+    switch (cmd) {
+      case 'bold':
+        this._formatting.makeBold();
+        break;
+      case 'italics':
+        this._formatting.makeItalics();
+        break;
+      case 'underlined':
+        this._formatting.makeUnderlined();
+        break;
+    }
+
     this.onInput();
   }
 
-  italics() {
-    this._formatSelection(
-      () => this._doc.createElement('em'),
-      (el: HTMLElement) => el.tagName === 'EM',
-    );
-    this.onInput();
+  clearDocument() {
+    this._modal
+      .createModal<void, boolean>(ConfirmClearModalComponent)
+      .closed.then((shouldClear: boolean | undefined) => {
+        if (shouldClear) {
+          this.docStore.clear();
+        }
+      });
   }
 
   onInput() {
@@ -112,47 +122,5 @@ export class TextEditorComponent implements AfterViewInit {
 
   onAiEnhancerInteractionEnd(e: Event) {
     e.stopPropagation();
-  }
-
-  clearDocument() {
-    this._modal
-      .createModal<void, boolean>(ConfirmClearModalComponent)
-      .closed.then((shouldClear: boolean | undefined) => {
-        if (shouldClear) {
-          this.docStore.clearContent();
-        }
-      });
-  }
-
-  private _formatSelection(
-    formattedElementFactory: () => HTMLElement,
-    formattedElementTest: (el: HTMLElement) => boolean,
-  ) {
-    this._selection.updateNode((range) => {
-      // Note(Georgi): Not finalized
-      const text = this._selection.text();
-      const { startContainer, endContainer } = range;
-
-      const isSameParent =
-        startContainer.parentElement === endContainer.parentElement;
-      const isSameData =
-        startContainer.textContent === endContainer.textContent;
-      const isFullOffset =
-        range.startOffset === 0 && range.endOffset === text.length;
-      const isParentElementFormatted = formattedElementTest(
-        startContainer.parentElement!,
-      );
-      const isFormatted =
-        isSameParent && isSameData && isFullOffset && isParentElementFormatted;
-
-      if (!isFormatted) {
-        const formattedEl = formattedElementFactory();
-        formattedEl.innerText = text;
-        return formattedEl;
-      }
-
-      startContainer.parentElement?.remove();
-      return this._doc.createTextNode(text);
-    });
   }
 }
