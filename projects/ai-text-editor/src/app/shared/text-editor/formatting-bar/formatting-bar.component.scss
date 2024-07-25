@@ -1,6 +1,7 @@
 :host {
   display: flex;
   align-items: center;
+  user-select: none;
 
   button,
   ngx-select {

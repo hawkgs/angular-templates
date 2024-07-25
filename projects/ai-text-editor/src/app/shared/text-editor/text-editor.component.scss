@@ -4,6 +4,7 @@
   border: 1px solid var(--color-senary);
   box-shadow: 0 5px 15px var(--color-septenary);
   border-radius: 0.25rem;
+  user-select: none;
 
   .toolbar {
     border: 1px solid darkred;
