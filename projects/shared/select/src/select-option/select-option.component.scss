@@ -1,0 +1,24 @@
+:host {
+  display: block;
+
+  button {
+    display: block;
+    background-color: transparent;
+    color: var(--color-quaternary);
+    width: 100%;
+    text-align: left;
+    border: none;
+    padding: 0.5rem 0.75rem;
+    word-break: break-word;
+    transition:
+      background-color 200ms ease,
+      color 300ms ease;
+
+    &:hover,
+    &:focus {
+      background-color: var(--color-senary);
+      color: var(--color-primary);
+      outline: none;
+    }
+  }
+}

@@ -55,12 +55,14 @@ button:not([disabled]) {
 
 input,
 button,
-select {
+select,
+.ngx-input-element {
   font-family: $font-family;
 }
 
 input,
-select {
+select,
+.ngx-input-element {
   border-radius: 0.25rem;
   font-weight: 300;
   padding: 0.5rem;

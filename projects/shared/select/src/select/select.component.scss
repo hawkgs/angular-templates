@@ -1,0 +1,54 @@
+:host {
+  position: relative;
+  display: block;
+
+  .ngx-input-element {
+    position: relative;
+    padding-left: 0.75rem;
+    padding-right: 2rem;
+    display: block;
+    width: 100%;
+    text-align: left;
+
+    ngx-icon {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      transform: rotate(90deg);
+      transition: transform 300ms ease;
+    }
+
+    &.expanded {
+      ngx-icon {
+        transform: rotate(270deg);
+      }
+    }
+  }
+
+  .options {
+    position: absolute;
+    left: 0;
+    border: 1px solid var(--color-senary);
+    background-color: var(--color-bg);
+    box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 0.25rem;
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    animation: expand 300ms ease;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    box-sizing: border-box;
+    margin-top: 0.25rem;
+  }
+}
+
+@keyframes expand {
+  from {
+    max-height: 0;
+  }
+
+  to {
+    max-height: 500px;
+  }
+}

@@ -1,7 +1,25 @@
 :host {
-  display: block;
+  display: flex;
+  align-items: center;
 
-  button {
+  button,
+  ngx-select {
     margin-right: 10px;
+  }
+
+  ngx-select {
+    min-width: 150px;
+
+    .h1 {
+      font-size: 22px;
+    }
+
+    .h2 {
+      font-size: 18px;
+    }
+
+    .mono {
+      font-family: monospace;
+    }
   }
 }

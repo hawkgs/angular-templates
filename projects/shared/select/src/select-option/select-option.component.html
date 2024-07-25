@@ -1,0 +1,7 @@
+<button
+  #btn
+  (click)="onSelect($event)"
+  [title]="'Select option: ' + presentationText()"
+>
+  <ng-content></ng-content>
+</button>

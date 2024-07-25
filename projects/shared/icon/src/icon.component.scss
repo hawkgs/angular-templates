@@ -9,6 +9,12 @@
     all: inherit;
     margin: initial;
     transform: initial;
+    position: initial;
+    top: initial;
+    left: initial;
+    right: initial;
+    bottom: initial;
+    border: initial;
     width: 1.125rem;
     height: 1.125rem;
     fill: var(--icon-color, currentColor);

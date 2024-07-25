@@ -1,0 +1,22 @@
+<button
+  class="ngx-input-element"
+  [class.expanded]="showOptions()"
+  (click)="toggleOptions($event)"
+  [title]="
+    title() ? title() : (showOptions() ? 'Collapse' : 'Expand') + ' select'
+  "
+>
+  <span>
+    @if (selected(); as selected) {
+      {{ selected.text }}
+    } @else {
+      Select a option
+    }
+  </span>
+  <ngx-icon name="ChevronRight"></ngx-icon>
+</button>
+@if (showOptions()) {
+  <div class="options">
+    <ng-content></ng-content>
+  </div>
+}
