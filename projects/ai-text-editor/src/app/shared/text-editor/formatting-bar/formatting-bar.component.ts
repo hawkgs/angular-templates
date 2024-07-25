@@ -1,7 +1,18 @@
 import { Component, input, output, signal } from '@angular/core';
 import { SELECT_COMPONENTS } from '@ngx-templates/shared/select';
+import { TextStyle } from '../formatting.service';
 
-export type FormatCommandType = 'bold' | 'italics' | 'underlined' | 'hyperlink';
+export type FormatCommandType =
+  | 'bold'
+  | 'italics'
+  | 'underlined'
+  | 'hyperlink'
+  | 'text-style';
+
+export type FormatEvent = {
+  command: FormatCommandType;
+  parameter?: string;
+};
 
 @Component({
   selector: 'ate-formatting-bar',
@@ -12,6 +23,6 @@ export type FormatCommandType = 'bold' | 'italics' | 'underlined' | 'hyperlink';
 })
 export class FormattingBarComponent {
   isTextSelected = input.required<boolean>();
-  format = output<FormatCommandType>();
-  textStyle = signal<string>('h2');
+  format = output<FormatEvent>();
+  textStyle = signal<TextStyle>('body');
 }

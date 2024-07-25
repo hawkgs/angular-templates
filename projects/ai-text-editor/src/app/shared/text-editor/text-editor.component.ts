@@ -5,9 +5,9 @@ import { DocStoreService } from './doc-store.service';
 import { ConfirmClearModalComponent } from './confirm-clear-modal/confirm-clear-modal.component';
 import { AiEnhancerMenuComponent } from './ai-enhancer-menu/ai-enhancer-menu.component';
 import { SelectionManager } from './selection-manager.service';
-import { FormattingService } from './formatting.service';
+import { FormattingService, TextStyle } from './formatting.service';
 import {
-  FormatCommandType,
+  FormatEvent,
   FormattingBarComponent,
 } from './formatting-bar/formatting-bar.component';
 import { TextareaComponent } from './textarea/textarea.component';
@@ -38,8 +38,8 @@ export class TextEditorComponent {
   showAiEnhancer = signal<boolean>(false);
   aiEnhancerPos = signal<{ x: number; y: number }>({ x: 0, y: 0 });
 
-  async onFormat(cmd: FormatCommandType) {
-    switch (cmd) {
+  async onFormat(e: FormatEvent) {
+    switch (e.command) {
       case 'bold':
         this._formatting.makeBold();
         break;
@@ -51,6 +51,9 @@ export class TextEditorComponent {
         break;
       case 'hyperlink':
         await this._formatting.addHyperlink();
+        break;
+      case 'text-style':
+        this._formatting.changeTextStyle(e.parameter as TextStyle);
         break;
     }
 

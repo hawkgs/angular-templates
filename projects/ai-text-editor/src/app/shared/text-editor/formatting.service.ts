@@ -4,6 +4,9 @@ import { DOCUMENT } from '@angular/common';
 import { ModalService } from '@ngx-templates/shared/modal';
 import { HyperlinkModalComponent } from './hyperlink-modal/hyperlink-modal.component';
 
+export type TextStyle = 'heading' | 'monospaced' | 'body';
+
+// Note(Georgi): Under development
 @Injectable()
 export class FormattingService {
   private _selection = inject(SelectionManager);
@@ -30,6 +33,24 @@ export class FormattingService {
       () => this._doc.createElement('u'),
       (el: HTMLElement) => el.tagName === 'U',
     );
+  }
+
+  changeTextStyle(style: TextStyle) {
+    switch (style) {
+      case 'heading':
+        this._formatSelection(
+          () => this._doc.createElement('h3'),
+          (el: HTMLElement) => el.tagName === 'H3',
+        );
+        break;
+
+      case 'monospaced':
+        this._formatSelection(
+          () => this._doc.createElement('pre'),
+          (el: HTMLElement) => el.tagName === 'PRE',
+        );
+        break;
+    }
   }
 
   addHyperlink() {
