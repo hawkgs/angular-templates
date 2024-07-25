@@ -4,14 +4,13 @@ import {
   contentChildren,
   HostListener,
   input,
+  model,
   signal,
 } from '@angular/core';
 import { IconComponent } from '@ngx-templates/shared/icon';
+import { Map } from 'immutable';
 
-import {
-  SelectedOption,
-  SelectOptionComponent,
-} from '../select-option/select-option.component';
+import { SelectOptionComponent } from '../select-option/select-option.component';
 
 @Component({
   selector: 'ngx-select',
@@ -25,15 +24,35 @@ export class SelectComponent implements AfterContentInit {
 
   title = input<string>();
   showOptions = signal<boolean>(false);
-  selected = signal<SelectedOption | null>(null);
+  selected = model<string>('');
+  presentationTexts = signal<Map<string, string>>(Map());
 
   ngAfterContentInit() {
-    this.options().forEach((opt) =>
-      opt.optionSelect.subscribe((so) => {
-        this.selected.set(so);
+    const valueDuplicates = new Set<string>();
+
+    this.options().forEach((opt) => {
+      const value = opt.value();
+
+      // Duplicates check
+      if (valueDuplicates.has(value)) {
+        throw new Error(
+          `SelectComponent (ngx-select) detected two ngx-select-option instances with the same "${value}" value`,
+        );
+      }
+      valueDuplicates.add(value);
+
+      this.presentationTexts.update((m) =>
+        m.set(opt.value(), opt.presentationText()),
+      );
+
+      // Subscribe to the click/select events.
+      // They are automatically disposed when
+      // the components are destroyed.
+      opt.optionSelect.subscribe((value) => {
+        this.selected.set(value);
         this.showOptions.set(false);
-      }),
-    );
+      });
+    });
   }
 
   toggleOptions(e: Event) {

@@ -8,7 +8,7 @@
 >
   <span>
     @if (selected(); as selected) {
-      {{ selected.text }}
+      {{ presentationTexts().get(selected) }}
     } @else {
       Select a option
     }

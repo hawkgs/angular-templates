@@ -8,11 +8,6 @@ import {
   viewChild,
 } from '@angular/core';
 
-export type SelectedOption = {
-  value: string;
-  text: string;
-};
-
 @Component({
   selector: 'ngx-select-option',
   standalone: true,
@@ -23,7 +18,7 @@ export type SelectedOption = {
 export class SelectOptionComponent implements AfterContentInit {
   button = viewChild.required<ElementRef>('btn');
   value = input.required<string>();
-  optionSelect = output<SelectedOption>();
+  optionSelect = output<string>();
 
   presentationText = signal<string>('');
 
@@ -34,10 +29,7 @@ export class SelectOptionComponent implements AfterContentInit {
   onSelect(e: Event) {
     e.stopPropagation();
 
-    this.optionSelect.emit({
-      value: this.value(),
-      text: this.presentationText(),
-    });
+    this.optionSelect.emit(this.value());
   }
 
   private _extractPresentationText() {
