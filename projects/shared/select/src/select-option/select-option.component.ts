@@ -32,6 +32,7 @@ export class SelectOptionComponent implements AfterContentInit {
     this.optionSelect.emit(this.value());
   }
 
+  // Note(Georgi): A rather unorthodox way to obtain the presentation text
   private _extractPresentationText() {
     const btnEl = this.button().nativeElement;
     this.presentationText.set(btnEl.innerText);

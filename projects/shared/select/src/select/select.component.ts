@@ -3,6 +3,7 @@ import {
   Component,
   contentChildren,
   HostListener,
+  inject,
   input,
   model,
   signal,
@@ -11,6 +12,7 @@ import { IconComponent } from '@ngx-templates/shared/icon';
 import { Map } from 'immutable';
 
 import { SelectOptionComponent } from '../select-option/select-option.component';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'ngx-select',
@@ -20,6 +22,8 @@ import { SelectOptionComponent } from '../select-option/select-option.component'
   styleUrl: './select.component.scss',
 })
 export class SelectComponent implements AfterContentInit {
+  private _doc = inject(DOCUMENT);
+
   options = contentChildren(SelectOptionComponent);
 
   title = input<string>();
@@ -63,5 +67,22 @@ export class SelectComponent implements AfterContentInit {
   @HostListener('document:click')
   onDocumentClick() {
     this.showOptions.set(false);
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  onDocumentKeydown(e: KeyboardEvent) {
+    if (this.showOptions() && ['ArrowUp', 'ArrowDown'].includes(e.key)) {
+      e.preventDefault();
+
+      const options = this.options();
+      const focusedIdx = options.findIndex(
+        (cmp) => cmp.button().nativeElement === this._doc.activeElement,
+      );
+
+      let newIdx = focusedIdx + (e.key === 'ArrowDown' ? 1 : -1);
+      newIdx = newIdx >= 0 ? newIdx % options.length : options.length - 1;
+
+      options[newIdx].button().nativeElement.focus();
+    }
   }
 }
