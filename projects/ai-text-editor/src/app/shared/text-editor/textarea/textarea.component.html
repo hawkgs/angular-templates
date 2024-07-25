@@ -1,0 +1,8 @@
+<div
+  #editor
+  class="ate-textarea"
+  contenteditable
+  (input)="input.emit()"
+  (selectstart)="onSelectStart()"
+  [innerHTML]="contents() | safeHtml"
+></div>

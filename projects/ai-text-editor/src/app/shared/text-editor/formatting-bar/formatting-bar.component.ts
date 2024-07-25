@@ -1,4 +1,4 @@
-import { Component, output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 export type FormatCommandType = 'bold' | 'italics' | 'underlined' | 'hyperlink';
 
@@ -10,5 +10,6 @@ export type FormatCommandType = 'bold' | 'italics' | 'underlined' | 'hyperlink';
   styleUrl: './formatting-bar.component.scss',
 })
 export class FormattingBarComponent {
+  isTextSelected = input.required<boolean>();
   format = output<FormatCommandType>();
 }

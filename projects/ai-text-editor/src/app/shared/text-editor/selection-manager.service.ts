@@ -3,6 +3,11 @@ import { inject, Injectable } from '@angular/core';
 import { WINDOW } from '@ngx-templates/shared/services';
 import { EditorSelection } from './editor-selection';
 
+/**
+ * Provides an API for managing text selection within the web page context.
+ *
+ * The service is not bound to the actual editor textarea.
+ */
 @Injectable()
 export class SelectionManager {
   private _win = inject(WINDOW);

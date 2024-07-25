@@ -1,4 +1,6 @@
 <button (click)="format.emit('bold')">B</button>
 <button (click)="format.emit('italics')">I</button>
 <button (click)="format.emit('underlined')">U</button>
-<button (click)="format.emit('hyperlink')">Hyperlink</button>
+<button (click)="format.emit('hyperlink')" [disabled]="!isTextSelected()">
+  Hyperlink
+</button>

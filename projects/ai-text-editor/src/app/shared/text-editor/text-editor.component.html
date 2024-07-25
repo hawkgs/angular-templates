@@ -1,5 +1,8 @@
 <div class="toolbar">
-  <ate-formatting-bar (format)="onFormat($event)"></ate-formatting-bar>
+  <ate-formatting-bar
+    (format)="onFormat($event)"
+    [isTextSelected]="isTextSelected()"
+  ></ate-formatting-bar>
   <div class="controls">
     @if (showSavedLabel()) {
       <p class="saved-label">Saved</p>
@@ -7,14 +10,12 @@
     <button (click)="clearDocument()">Clear</button>
   </div>
 </div>
-<div
-  #editor
-  class="ate-text-editor"
-  contenteditable
+<ate-textarea
+  [contents]="docStore.html()"
+  (ref)="docStore.provideTarget($event)"
   (input)="onInput()"
-  (selectstart)="onSelectStart()"
-  [innerHTML]="docStore.html() | safeHtml"
-></div>
+  (textSelect)="onTextSelect($event)"
+></ate-textarea>
 @if (showAiEnhancer()) {
   <ate-ai-enhancer-menu
     (mouseup)="onAiEnhancerInteractionEnd($event)"

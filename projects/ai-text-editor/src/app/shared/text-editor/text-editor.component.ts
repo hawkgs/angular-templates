@@ -1,16 +1,7 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  HostListener,
-  inject,
-  signal,
-  viewChild,
-} from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ModalService } from '@ngx-templates/shared/modal';
 
 import { DocStoreService } from './doc-store.service';
-import { SafeHtmlPipe } from '../pipes/safe-html.pipe';
 import { ConfirmClearModalComponent } from './confirm-clear-modal/confirm-clear-modal.component';
 import { AiEnhancerMenuComponent } from './ai-enhancer-menu/ai-enhancer-menu.component';
 import { SelectionManager } from './selection-manager.service';
@@ -19,6 +10,7 @@ import {
   FormatCommandType,
   FormattingBarComponent,
 } from './formatting-bar/formatting-bar.component';
+import { TextareaComponent } from './textarea/textarea.component';
 
 const INPUT_DEBOUNCE = 2000;
 const SAVED_LABEL_TTL = 1500;
@@ -28,32 +20,23 @@ const MIN_AI_ENHC_STR_LEN = 5;
 @Component({
   selector: 'ate-text-editor',
   standalone: true,
-  imports: [SafeHtmlPipe, AiEnhancerMenuComponent, FormattingBarComponent],
+  imports: [TextareaComponent, AiEnhancerMenuComponent, FormattingBarComponent],
   providers: [DocStoreService, SelectionManager, FormattingService],
   templateUrl: './text-editor.component.html',
   styleUrl: './text-editor.component.scss',
 })
-export class TextEditorComponent implements AfterViewInit {
+export class TextEditorComponent {
   private _modal = inject(ModalService);
   private _selection = inject(SelectionManager);
   private _formatting = inject(FormattingService);
   docStore = inject(DocStoreService);
 
-  private _inputTo!: ReturnType<typeof setTimeout>;
-  private _selectionInProgress = false;
+  private _inputTimeout!: ReturnType<typeof setTimeout>;
 
-  editor = viewChild.required<ElementRef>('editor');
+  isTextSelected = signal<boolean>(false);
   showSavedLabel = signal<boolean>(false);
   showAiEnhancer = signal<boolean>(false);
   aiEnhancerPos = signal<{ x: number; y: number }>({ x: 0, y: 0 });
-
-  ngAfterViewInit() {
-    this.docStore.provideTarget(this.editor().nativeElement);
-
-    setTimeout(() => {
-      this.editor().nativeElement.focus();
-    });
-  }
 
   async onFormat(cmd: FormatCommandType) {
     switch (cmd) {
@@ -85,11 +68,11 @@ export class TextEditorComponent implements AfterViewInit {
   }
 
   onInput() {
-    if (this._inputTo) {
-      clearTimeout(this._inputTo);
+    if (this._inputTimeout) {
+      clearTimeout(this._inputTimeout);
     }
 
-    this._inputTo = setTimeout(() => {
+    this._inputTimeout = setTimeout(() => {
       this.docStore.save();
 
       this.showSavedLabel.set(true);
@@ -97,18 +80,8 @@ export class TextEditorComponent implements AfterViewInit {
     }, INPUT_DEBOUNCE);
   }
 
-  onSelectStart() {
-    this._selectionInProgress = true;
-  }
-
-  @HostListener('document:mouseup')
-  @HostListener('document:keyup')
-  @HostListener('document:touchend')
-  onDocumentInteractionEnd() {
-    if (
-      this._selectionInProgress &&
-      this._selection.text().length >= MIN_AI_ENHC_STR_LEN
-    ) {
+  onTextSelect(text: string) {
+    if (text.length >= MIN_AI_ENHC_STR_LEN) {
       const { x, y } = this._selection.position();
 
       this.showAiEnhancer.set(true);
@@ -120,7 +93,7 @@ export class TextEditorComponent implements AfterViewInit {
       this.showAiEnhancer.set(false);
     }
 
-    this._selectionInProgress = false;
+    this.isTextSelected.set(!!text.length);
   }
 
   onAiEnhancerInteractionEnd(e: Event) {

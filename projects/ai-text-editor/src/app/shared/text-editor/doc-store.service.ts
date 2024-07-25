@@ -3,6 +3,10 @@ import { LocalStorage } from '@ngx-templates/shared/services';
 
 const DOC_STORE_LS_KEY = 'ate-doc';
 
+/**
+ * Provides an API for storing and managing the
+ * document contents in within the local storage.
+ */
 @Injectable()
 export class DocStoreService {
   private _storage = inject(LocalStorage);
