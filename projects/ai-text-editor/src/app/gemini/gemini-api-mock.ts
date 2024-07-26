@@ -20,9 +20,10 @@ export const geminiApiMock = {
     // Remove ending punctuation marks.
     output = output.replace(/(\.|,)$/g, '');
 
-    // Is lower case
+    // Is not upper case
     const charCode = text.charCodeAt(0);
-    if (97 <= charCode && charCode <= 122) {
+
+    if (!(65 <= charCode && charCode <= 90)) {
       console.log('inside', text, output);
       const chars = output.split('');
       chars[0] = chars[0].toLowerCase();
