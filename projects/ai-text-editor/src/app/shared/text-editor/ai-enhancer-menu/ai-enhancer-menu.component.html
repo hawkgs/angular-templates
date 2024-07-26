@@ -1,2 +1,52 @@
-<p>ai-enhancer-menu works!</p>
-<button (click)="test()">Test</button>
+<p class="title">
+  <ngx-icon name="Gemini" size="sm"></ngx-icon>
+  <span>AI Enhancer</span>
+</p>
+@switch (state()) {
+  @case ('standby') {
+    <div class="options">
+      <button ngx-button btnType="primary" size="minimal" (click)="formalize()">
+        Formalize
+      </button>
+      <button ngx-button btnType="primary" size="minimal" (click)="expand()">
+        Expand
+      </button>
+      <button
+        ngx-button
+        btnType="secondary"
+        size="minimal"
+        (click)="activateUserPrompt()"
+      >
+        Other
+      </button>
+    </div>
+  }
+  @case ('user-prompt') {
+    <form [formGroup]="userPromptForm" (ngSubmit)="executeUserPrompt()">
+      <input placeholder="Type your prompt here" formControlName="prompt" />
+      <button
+        ngx-button
+        btnType="primary"
+        size="minimal"
+        [disabled]="userPromptForm.invalid"
+      >
+        Enhance
+      </button>
+    </form>
+  }
+  @case ('loading') {
+    <p>Loading ...</p>
+  }
+  @case ('ready') {
+    <p>Output: {{ output() }}</p>
+    <br />
+    <button
+      ngx-button
+      btnType="primary"
+      size="minimal"
+      (click)="replaceSelection()"
+    >
+      Replace
+    </button>
+  }
+}

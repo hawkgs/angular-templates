@@ -15,7 +15,8 @@ export type IconName =
   | 'NoPhoto'
   | 'Close'
   | 'ArrowDown'
-  | 'Download';
+  | 'Download'
+  | 'Gemini';
 
 export type IconSize = 'sm' | 'md' | 'lg' | 'xlg' | 'xxlg';
 

@@ -63,6 +63,10 @@ export class SelectionManager {
     this._selectionCache = null;
   }
 
+  deselect() {
+    this._win.getSelection()?.removeAllRanges();
+  }
+
   private _createEditorSelection() {
     const selection = this._win.getSelection();
 

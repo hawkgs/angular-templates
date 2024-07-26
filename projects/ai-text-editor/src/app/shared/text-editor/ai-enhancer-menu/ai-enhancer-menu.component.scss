@@ -1,6 +1,65 @@
+@import 'typography';
+
 :host {
   position: fixed;
   display: block;
-  background-color: red;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-french-violet);
+  padding: 0.5rem;
+  border-radius: 0.25rem;
   user-select: none;
+  animation: fade-in 300ms ease;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  box-shadow: 0 0 10px var(--color-senary);
+
+  .title {
+    display: flex;
+    align-items: center;
+
+    span {
+      @extend %heading-600;
+      background: var(--gradient-magenta-to-light-purple);
+      -webkit-background-clip: text;
+      background-size: 140% 140%;
+      background-clip: text;
+      animation: jiggle 2s ease infinite;
+      color: transparent;
+      margin: 0;
+    }
+
+    ngx-icon {
+      margin-right: 0.25rem;
+      --icon-color: var(--color-french-violet);
+    }
+  }
+
+  .options {
+    button {
+      display: block;
+      margin-top: 0.5rem;
+      width: 100%;
+    }
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes jiggle {
+  0% {
+    background-position: 0;
+  }
+  50% {
+    background-position: 50% 50%;
+  }
+  100% {
+    background-position: 0 0;
+  }
 }

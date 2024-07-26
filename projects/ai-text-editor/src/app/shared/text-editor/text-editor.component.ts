@@ -99,6 +99,11 @@ export class TextEditorComponent {
     this.isTextSelected.set(!!text.length);
   }
 
+  onAiEnhance() {
+    this.showAiEnhancer.set(false);
+    this.onInput();
+  }
+
   onAiEnhancerInteractionEnd(e: Event) {
     e.stopPropagation();
   }
