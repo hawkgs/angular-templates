@@ -36,7 +36,7 @@ export class AiEnhancerMenuComponent {
     this.state.set('loading');
 
     const text = this._selection.text();
-    const output = await this._gemini.execute(
+    const output = await this._gemini.generate(
       'Formalize the following text',
       text,
     );
@@ -49,7 +49,7 @@ export class AiEnhancerMenuComponent {
     this.state.set('loading');
 
     const text = this._selection.text();
-    const output = await this._gemini.execute(
+    const output = await this._gemini.generate(
       'Expand the following text',
       text,
     );
@@ -68,7 +68,7 @@ export class AiEnhancerMenuComponent {
 
     const prompt = this.userPromptForm.get('prompt')?.value as string;
     const text = this._selection.text();
-    const output = await this._gemini.execute(prompt, text);
+    const output = await this._gemini.generate(prompt, text);
 
     this.output.set(output);
     this.state.set('ready');

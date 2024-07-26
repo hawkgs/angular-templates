@@ -1,8 +1,16 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { GEMINI_API } from './gemini-api.provider';
 
 @Injectable({ providedIn: 'root' })
 export class GeminiService {
-  execute(prompt: string, targetText: string): Promise<string> {
-    return new Promise((r) => setTimeout(() => r('<< gemini_output >>'), 400));
+  private _geminiApi = inject(GEMINI_API);
+
+  async generate(prompt: string, targetText: string): Promise<string> {
+    const result = await this._geminiApi.generateContent(
+      `${prompt}: "${targetText}"`,
+    );
+    const response = await result.response;
+
+    return response.text();
   }
 }
