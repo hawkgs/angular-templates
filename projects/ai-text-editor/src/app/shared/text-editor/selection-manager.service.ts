@@ -91,7 +91,7 @@ export class SelectionManager {
     // this by providing the parent (node) element.
     // However, this breaks our formatting detection
     // since the Range.parentElement will not be the
-    // formatted element but most likely the editor
+    // updated element but most likely the editor
     // container.
     if (firstChild && lastChild) {
       range.setStart(firstChild, 0);

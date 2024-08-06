@@ -14,12 +14,28 @@
       font-weight: normal;
     }
 
-    &.ul {
-      text-decoration: underline;
+    &.ul,
+    &.x-ul {
+      position: relative;
+      z-index: 1;
+
+      &::before {
+        content: '';
+        position: absolute;
+        height: 1px;
+        width: 100%;
+        bottom: 1px;
+        left: 0;
+        z-index: -1;
+      }
     }
 
-    &.x-ul {
-      text-decoration: none;
+    &.ul::before {
+      background-color: var(--color-text);
+    }
+
+    &.x-ul::before {
+      background-color: var(--color-octonary);
     }
 
     &.it {
