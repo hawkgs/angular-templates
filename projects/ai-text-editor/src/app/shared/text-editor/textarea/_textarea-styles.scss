@@ -5,18 +5,32 @@
   }
 
   .fmt {
+    // Inline styles
     &.bd {
       font-weight: bold;
+    }
+
+    &.x-bd {
+      font-weight: normal;
     }
 
     &.ul {
       text-decoration: underline;
     }
 
+    &.x-ul {
+      text-decoration: none;
+    }
+
     &.it {
       font-style: italic;
     }
 
+    &.x-it {
+      font-style: normal;
+    }
+
+    // Block styles
     &.hd {
       display: block;
       font-size: 30px;

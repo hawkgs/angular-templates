@@ -6,6 +6,16 @@ import { HyperlinkModalComponent } from './hyperlink-modal/hyperlink-modal.compo
 
 export type TextStyle = 'heading' | 'monospaced' | 'body';
 
+const applyInlineFormatting = (fmtEl: HTMLElement, fmtClass: string) => {
+  fmtEl.classList.add(fmtClass);
+  fmtEl.classList.remove('x-' + fmtClass);
+};
+
+const removeInlineFormatting = (fmtEl: HTMLElement, fmtClass: string) => {
+  fmtEl.classList.add('x-' + fmtClass);
+  fmtEl.classList.remove(fmtClass);
+};
+
 // Note(Georgi): Under development
 @Injectable()
 export class FormattingService {
@@ -15,25 +25,25 @@ export class FormattingService {
 
   makeBold() {
     this._formatSelection(
-      (fmtEl: HTMLElement) => fmtEl.classList.add('bd'),
-      (fmtEl: HTMLElement) => fmtEl.classList.remove('bd'),
-      (fmtEl: HTMLElement) => fmtEl.classList.contains('bd'),
+      (fmtEl) => applyInlineFormatting(fmtEl, 'bd'),
+      (fmtEl) => removeInlineFormatting(fmtEl, 'bd'),
+      (fmtEl) => fmtEl.classList.contains('bd'),
     );
   }
 
   makeItalic() {
     this._formatSelection(
-      (fmtEl: HTMLElement) => fmtEl.classList.add('it'),
-      (fmtEl: HTMLElement) => fmtEl.classList.remove('it'),
-      (fmtEl: HTMLElement) => fmtEl.classList.contains('it'),
+      (fmtEl) => applyInlineFormatting(fmtEl, 'it'),
+      (fmtEl) => removeInlineFormatting(fmtEl, 'it'),
+      (fmtEl) => fmtEl.classList.contains('it'),
     );
   }
 
   makeUnderlined() {
     this._formatSelection(
-      (fmtEl: HTMLElement) => fmtEl.classList.add('ul'),
-      (fmtEl: HTMLElement) => fmtEl.classList.remove('ul'),
-      (fmtEl: HTMLElement) => fmtEl.classList.contains('ul'),
+      (fmtEl) => applyInlineFormatting(fmtEl, 'ul'),
+      (fmtEl) => removeInlineFormatting(fmtEl, 'ul'),
+      (fmtEl) => fmtEl.classList.contains('ul'),
     );
   }
 
@@ -41,22 +51,22 @@ export class FormattingService {
     switch (style) {
       case 'heading':
         this._formatSelection(
-          (fmtEl: HTMLElement) => {
+          (fmtEl) => {
             fmtEl.classList.remove('mono');
             fmtEl.classList.add('hd');
           },
           () => {},
-          (fmtEl: HTMLElement) => fmtEl.classList.contains('hd'),
+          (fmtEl) => fmtEl.classList.contains('hd'),
         );
         break;
 
       case 'monospaced':
         this._formatSelection(
-          (fmtEl: HTMLElement) => {
+          (fmtEl) => {
             fmtEl.classList.add('mono');
           },
           () => {},
-          (fmtEl: HTMLElement) => fmtEl.classList.contains('mono'),
+          (fmtEl) => fmtEl.classList.contains('mono'),
         );
         break;
 
@@ -78,7 +88,7 @@ export class FormattingService {
       .closed.then((url: string | undefined) => {
         if (url && url.length) {
           this._formatSelection(
-            (fmtEl: HTMLElement) => {
+            (fmtEl) => {
               const anchor = this._doc.createElement('a');
               anchor.href = url;
               anchor.innerHTML = fmtEl.innerText;
@@ -87,10 +97,10 @@ export class FormattingService {
 
               fmtEl.classList.add('ach');
             },
-            (fmtEl: HTMLElement) => {
+            (fmtEl) => {
               fmtEl.innerHTML = fmtEl.innerText;
             },
-            (fmtEl: HTMLElement) => fmtEl.classList.contains('ach'),
+            (fmtEl) => fmtEl.classList.contains('ach'),
           );
         }
 
@@ -111,9 +121,22 @@ export class FormattingService {
     const text = this._selection.text();
     const { startContainer, endContainer } = range;
 
+    const isSameParent =
+      startContainer.parentElement === endContainer.parentElement;
+    const isSameData = startContainer.textContent === endContainer.textContent;
+    const isFullOffset =
+      range.startOffset === 0 && range.endOffset === text.length;
+    const isFmtElement =
+      startContainer.parentElement?.classList.contains('fmt');
+
+    // Is current selection wrapper in a fmtElement from end to end
+    const isWrapperInFmtElement =
+      isSameParent && isSameData && isFullOffset && isFmtElement;
+
     let fmtElement = startContainer.parentElement!;
 
-    if (!startContainer.parentElement?.classList.contains('fmt')) {
+    // If not in fmtElement, wrap it
+    if (!isWrapperInFmtElement) {
       fmtElement = this._doc.createElement('span');
       fmtElement.classList.add('fmt');
       fmtElement.setAttribute('data-id', Date.now().toString());
@@ -122,18 +145,8 @@ export class FormattingService {
       this._selection.updateNode(fmtElement);
     }
 
-    const isSameParent =
-      startContainer.parentElement === endContainer.parentElement;
-    const isSameData = startContainer.textContent === endContainer.textContent;
-    const isFullOffset =
-      range.startOffset === 0 && range.endOffset === text.length;
-    const isParentElementFormatted = formattedElementTest(
-      startContainer.parentElement!,
-    );
-    const isFormatted =
-      isSameParent && isSameData && isFullOffset && isParentElementFormatted;
-
-    if (!isFormatted) {
+    // Apply or remove formatting
+    if (!formattedElementTest(fmtElement)) {
       formatElement(fmtElement);
     } else {
       unformatElement(fmtElement);
