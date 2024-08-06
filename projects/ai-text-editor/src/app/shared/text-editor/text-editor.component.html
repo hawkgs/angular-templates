@@ -15,6 +15,7 @@
   (ref)="docStore.provideTarget($event)"
   (input)="onInput()"
   (textSelect)="onTextSelect($event)"
+  (textDeselect)="showAiEnhancer.set(false)"
 ></ate-textarea>
 @if (showAiEnhancer()) {
   <ate-ai-enhancer-menu

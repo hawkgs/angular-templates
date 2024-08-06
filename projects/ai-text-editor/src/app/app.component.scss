@@ -12,4 +12,8 @@
       padding: 1rem 1rem 0 1rem;
     }
   }
+
+  ngx-modal-outlet {
+    z-index: 9999999;
+  }
 }
