@@ -1,6 +1,8 @@
 <ngx-select
   [(selected)]="textStyle"
-  (selectedChange)="format.emit({ command: 'text-style', parameter: $event })"
+  (selectedChange)="changeTextStyle($event)"
+  [disabled]="!isTextSelected()"
+  placeholder="Select a style"
 >
   <ngx-select-option value="heading">
     <span class="heading">Heading</span>
@@ -12,12 +14,9 @@
     <span class="body">Body</span>
   </ngx-select-option>
 </ngx-select>
-<button (click)="format.emit({ command: 'bold' })">B</button>
-<button (click)="format.emit({ command: 'italics' })">I</button>
-<button (click)="format.emit({ command: 'underlined' })">U</button>
-<button
-  (click)="format.emit({ command: 'hyperlink' })"
-  [disabled]="!isTextSelected()"
->
-  Hyperlink
-</button>
+<fieldset [disabled]="!isTextSelected()">
+  <button (click)="format.emit({ command: 'bold' })">B</button>
+  <button (click)="format.emit({ command: 'italics' })">I</button>
+  <button (click)="format.emit({ command: 'underlined' })">U</button>
+  <button (click)="format.emit({ command: 'hyperlink' })">Hyperlink</button>
+</fieldset>

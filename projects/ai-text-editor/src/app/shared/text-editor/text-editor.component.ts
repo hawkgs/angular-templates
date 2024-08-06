@@ -44,7 +44,7 @@ export class TextEditorComponent {
         this._formatting.makeBold();
         break;
       case 'italics':
-        this._formatting.makeItalics();
+        this._formatting.makeItalic();
         break;
       case 'underlined':
         this._formatting.makeUnderlined();

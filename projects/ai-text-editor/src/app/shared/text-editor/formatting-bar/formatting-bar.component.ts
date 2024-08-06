@@ -11,7 +11,7 @@ export type FormatCommandType =
 
 export type FormatEvent = {
   command: FormatCommandType;
-  parameter?: string;
+  parameter?: string | null;
 };
 
 @Component({
@@ -24,5 +24,12 @@ export type FormatEvent = {
 export class FormattingBarComponent {
   isTextSelected = input.required<boolean>();
   format = output<FormatEvent>();
-  textStyle = signal<TextStyle>('body');
+  textStyle = signal<TextStyle | null>(null);
+
+  changeTextStyle(style: string | null) {
+    this.format.emit({ command: 'text-style', parameter: style });
+    setTimeout(() => {
+      this.textStyle.set(null);
+    });
+  }
 }

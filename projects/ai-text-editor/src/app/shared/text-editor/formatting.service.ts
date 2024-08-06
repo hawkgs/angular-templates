@@ -15,23 +15,25 @@ export class FormattingService {
 
   makeBold() {
     this._formatSelection(
-      () => this._doc.createElement('b'),
-      (el: HTMLElement) => el.tagName === 'B',
+      (fmtEl: HTMLElement) => fmtEl.classList.add('bd'),
+      (fmtEl: HTMLElement) => fmtEl.classList.remove('bd'),
+      (fmtEl: HTMLElement) => fmtEl.classList.contains('bd'),
     );
   }
 
-  makeItalics() {
+  makeItalic() {
     this._formatSelection(
-      () => this._doc.createElement('em'),
-      (el: HTMLElement) => el.tagName === 'EM',
+      (fmtEl: HTMLElement) => fmtEl.classList.add('it'),
+      (fmtEl: HTMLElement) => fmtEl.classList.remove('it'),
+      (fmtEl: HTMLElement) => fmtEl.classList.contains('it'),
     );
   }
 
   makeUnderlined() {
-    // Note(Georgi): Deprecated
     this._formatSelection(
-      () => this._doc.createElement('u'),
-      (el: HTMLElement) => el.tagName === 'U',
+      (fmtEl: HTMLElement) => fmtEl.classList.add('ul'),
+      (fmtEl: HTMLElement) => fmtEl.classList.remove('ul'),
+      (fmtEl: HTMLElement) => fmtEl.classList.contains('ul'),
     );
   }
 
@@ -39,15 +41,30 @@ export class FormattingService {
     switch (style) {
       case 'heading':
         this._formatSelection(
-          () => this._doc.createElement('h3'),
-          (el: HTMLElement) => el.tagName === 'H3',
+          (fmtEl: HTMLElement) => {
+            fmtEl.classList.remove('mono');
+            fmtEl.classList.add('hd');
+          },
+          () => {},
+          (fmtEl: HTMLElement) => fmtEl.classList.contains('hd'),
         );
         break;
 
       case 'monospaced':
         this._formatSelection(
-          () => this._doc.createElement('pre'),
-          (el: HTMLElement) => el.tagName === 'PRE',
+          (fmtEl: HTMLElement) => {
+            fmtEl.classList.add('mono');
+          },
+          () => {},
+          (fmtEl: HTMLElement) => fmtEl.classList.contains('mono'),
+        );
+        break;
+
+      case 'body':
+        this._formatSelection(
+          (fmtEl) => fmtEl.classList.remove('hd', 'mono'),
+          () => {},
+          () => false,
         );
         break;
     }
@@ -61,12 +78,19 @@ export class FormattingService {
       .closed.then((url: string | undefined) => {
         if (url && url.length) {
           this._formatSelection(
-            () => {
+            (fmtEl: HTMLElement) => {
               const anchor = this._doc.createElement('a');
               anchor.href = url;
-              return anchor;
+              anchor.innerHTML = fmtEl.innerText;
+              fmtEl.innerHTML = '';
+              fmtEl.appendChild(anchor);
+
+              fmtEl.classList.add('ach');
             },
-            (el: HTMLElement) => el.tagName === 'A',
+            (fmtEl: HTMLElement) => {
+              fmtEl.innerHTML = fmtEl.innerText;
+            },
+            (fmtEl: HTMLElement) => fmtEl.classList.contains('ach'),
           );
         }
 
@@ -75,34 +99,44 @@ export class FormattingService {
   }
 
   private _formatSelection(
-    formattedElementFactory: () => HTMLElement,
+    formatElement: (el: HTMLElement) => void,
+    unformatElement: (el: HTMLElement) => void,
     formattedElementTest: (el: HTMLElement) => boolean,
   ) {
-    this._selection.updateNode((range) => {
-      // Note(Georgi): Not finalized
-      const text = this._selection.text();
-      const { startContainer, endContainer } = range;
+    const range = this._selection.range();
+    if (!range) {
+      return;
+    }
 
-      const isSameParent =
-        startContainer.parentElement === endContainer.parentElement;
-      const isSameData =
-        startContainer.textContent === endContainer.textContent;
-      const isFullOffset =
-        range.startOffset === 0 && range.endOffset === text.length;
-      const isParentElementFormatted = formattedElementTest(
-        startContainer.parentElement!,
-      );
-      const isFormatted =
-        isSameParent && isSameData && isFullOffset && isParentElementFormatted;
+    const text = this._selection.text();
+    const { startContainer, endContainer } = range;
 
-      if (!isFormatted) {
-        const formattedEl = formattedElementFactory();
-        formattedEl.innerText = text;
-        return formattedEl;
-      }
+    let fmtElement = startContainer.parentElement!;
 
-      startContainer.parentElement?.remove();
-      return this._doc.createTextNode(text);
-    });
+    if (!startContainer.parentElement?.classList.contains('fmt')) {
+      fmtElement = this._doc.createElement('span');
+      fmtElement.classList.add('fmt');
+      fmtElement.setAttribute('data-id', Date.now().toString());
+      fmtElement.innerText = text;
+
+      this._selection.updateNode(fmtElement);
+    }
+
+    const isSameParent =
+      startContainer.parentElement === endContainer.parentElement;
+    const isSameData = startContainer.textContent === endContainer.textContent;
+    const isFullOffset =
+      range.startOffset === 0 && range.endOffset === text.length;
+    const isParentElementFormatted = formattedElementTest(
+      startContainer.parentElement!,
+    );
+    const isFormatted =
+      isSameParent && isSameData && isFullOffset && isParentElementFormatted;
+
+    if (!isFormatted) {
+      formatElement(fmtElement);
+    } else {
+      unformatElement(fmtElement);
+    }
   }
 }

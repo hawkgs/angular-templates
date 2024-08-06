@@ -27,8 +27,10 @@ export class SelectComponent implements AfterContentInit {
   options = contentChildren(SelectOptionComponent);
 
   title = input<string>();
+  disabled = input<boolean>();
+  placeholder = input<string>('');
   showOptions = signal<boolean>(false);
-  selected = model<string>('');
+  selected = model<string | null>(null);
   presentationTexts = signal<Map<string, string>>(Map());
 
   ngAfterContentInit() {
@@ -60,6 +62,10 @@ export class SelectComponent implements AfterContentInit {
   }
 
   toggleOptions(e: Event) {
+    if (this.disabled()) {
+      return;
+    }
+
     e.stopPropagation();
     this.showOptions.update((v) => !v);
   }

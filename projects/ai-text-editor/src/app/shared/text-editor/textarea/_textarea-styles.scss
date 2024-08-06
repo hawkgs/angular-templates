@@ -3,4 +3,31 @@
     color: rgb(72, 131, 197);
     text-decoration: underline;
   }
+
+  .fmt {
+    &.bd {
+      font-weight: bold;
+    }
+
+    &.ul {
+      text-decoration: underline;
+    }
+
+    &.it {
+      font-style: italic;
+    }
+
+    &.hd {
+      display: block;
+      font-size: 30px;
+      border-bottom: 1px solid grey;
+    }
+
+    &.mono {
+      display: block;
+      padding: 1rem;
+      font-family: monospace;
+      background-color: grey;
+    }
+  }
 }

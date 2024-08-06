@@ -8,6 +8,11 @@
     margin-right: 10px;
   }
 
+  fieldset {
+    padding: 0;
+    border: none;
+  }
+
   ngx-select {
     min-width: 150px;
 

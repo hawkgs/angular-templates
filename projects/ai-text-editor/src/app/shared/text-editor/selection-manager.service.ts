@@ -25,6 +25,10 @@ export class SelectionManager {
     return this._selection.toString().trim();
   }
 
+  range() {
+    return this._selection.getRange();
+  }
+
   position(): { x: number; y: number } {
     const range = this._selection.getRange();
 
@@ -40,19 +44,20 @@ export class SelectionManager {
   }
 
   updateText(text: string) {
-    this.updateNode(() => this._doc.createTextNode(text));
+    this.updateNode(this._doc.createTextNode(text));
   }
 
-  updateNode(updater: (r: Range) => Node) {
+  updateNode(node: Node) {
     const range = this._selection.getRange();
 
     if (!range) {
       return;
     }
 
-    const node = updater(range);
     range.deleteContents();
     range.insertNode(node);
+
+    this._selectNodeContents(node);
   }
 
   memoize() {
@@ -74,5 +79,34 @@ export class SelectionManager {
       selection?.getRangeAt(0),
       selection?.toString() || '',
     );
+  }
+
+  private _selectNodeContents(node: Node) {
+    const range = this._doc.createRange();
+    const firstChild = node.firstChild;
+    const lastChild = node.lastChild;
+
+    // If we have multiple children, we should
+    // select all of them. We can easily achieve
+    // this by providing the parent (node) element.
+    // However, this breaks our formatting detection
+    // since the Range.parentElement will not be the
+    // formatted element but most likely the editor
+    // container.
+    if (firstChild && lastChild) {
+      range.setStart(firstChild, 0);
+      range.setEnd(lastChild, lastChild.textContent?.length || 0);
+    } else {
+      // If there are no children, i.e. a single text node,
+      // select it.
+      range.selectNodeContents(node);
+    }
+
+    // Since we use the window.selection directly,
+    // we unmemoize in case we have a saved selection.
+    this.unmemoize();
+    const selection = this._win.getSelection();
+    selection?.removeAllRanges();
+    selection?.addRange(range);
   }
 }
