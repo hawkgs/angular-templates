@@ -119,21 +119,18 @@ export class FormattingService {
     }
 
     const text = this._selection.text();
-    const { startContainer, endContainer } = range;
+    const startCont = range.startContainer;
+    const endCont = range.endContainer;
 
-    const isSameParent =
-      startContainer.parentElement === endContainer.parentElement;
-    const isSameData = startContainer.textContent === endContainer.textContent;
-    const isFullOffset =
-      range.startOffset === 0 && range.endOffset === text.length;
-    const isFmtElement =
-      startContainer.parentElement?.classList.contains('fmt');
+    const isSameParent = startCont.parentElement === endCont.parentElement;
+    const isCompleteSelectedData = startCont.parentElement?.innerText === text;
+    const isFmtElement = startCont.parentElement?.classList.contains('fmt');
 
     // Is current selection wrapper in a fmtElement from end to end
     const isWrapperInFmtElement =
-      isSameParent && isSameData && isFullOffset && isFmtElement;
+      isSameParent && isCompleteSelectedData && isFmtElement;
 
-    let fmtElement = startContainer.parentElement!;
+    let fmtElement = startCont.parentElement!;
 
     // If not in fmtElement, wrap it
     if (!isWrapperInFmtElement) {

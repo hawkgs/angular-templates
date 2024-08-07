@@ -98,7 +98,7 @@ export class SelectionManager {
       range.setEnd(lastChild, lastChild.textContent?.length || 0);
     } else {
       // If there are no children, i.e. a single text node,
-      // select it.
+      // select it directly.
       range.selectNodeContents(node);
     }
 
