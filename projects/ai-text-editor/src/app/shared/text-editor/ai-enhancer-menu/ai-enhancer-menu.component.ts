@@ -1,4 +1,4 @@
-import { Component, inject, output, signal } from '@angular/core';
+import { Component, inject, OnDestroy, output, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { ButtonComponent } from '@ngx-templates/shared/button';
@@ -17,7 +17,7 @@ type EnhancerState = 'standby' | 'user-prompt' | 'loading' | 'ready';
   templateUrl: './ai-enhancer-menu.component.html',
   styleUrl: './ai-enhancer-menu.component.scss',
 })
-export class AiEnhancerMenuComponent {
+export class AiEnhancerMenuComponent implements OnDestroy {
   private _selection = inject(SelectionManager);
   private _formBuilder = inject(FormBuilder);
   private _gemini = inject(GeminiService);
@@ -31,6 +31,12 @@ export class AiEnhancerMenuComponent {
 
   state = signal<EnhancerState>('standby');
   output = signal<string>('');
+
+  ngOnDestroy() {
+    // In case we have memoized the selection but
+    // the enhancer is closed/destroyed for some reason.
+    this._selection.unmemoize();
+  }
 
   async formalize() {
     this.state.set('loading');
