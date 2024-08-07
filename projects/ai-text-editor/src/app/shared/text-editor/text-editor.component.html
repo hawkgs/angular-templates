@@ -15,12 +15,12 @@
   (ref)="docStore.provideTarget($event)"
   (input)="onInput()"
   (textSelect)="onTextSelect($event)"
-  (textDeselect)="showAiEnhancer.set(false)"
 ></ate-textarea>
 @if (showAiEnhancer()) {
   <ate-ai-enhancer-menu
-    (mouseup)="onAiEnhancerInteractionEnd($event)"
-    (touchend)="onAiEnhancerInteractionEnd($event)"
+    (mouseup)="$event.stopPropagation()"
+    (touchend)="$event.stopPropagation()"
+    (mousedown)="$event.stopPropagation()"
     (enhance)="onAiEnhance()"
     [style.left]="aiEnhancerPos().x + 'px'"
     [style.top]="aiEnhancerPos().y + 'px'"

@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, HostListener, inject, signal } from '@angular/core';
 import { ModalService } from '@ngx-templates/shared/modal';
 
 import { DocStoreService } from './doc-store.service';
@@ -104,7 +104,8 @@ export class TextEditorComponent {
     this.onInput();
   }
 
-  onAiEnhancerInteractionEnd(e: Event) {
-    e.stopPropagation();
+  @HostListener('document:mousedown')
+  onDocumentClick() {
+    this.showAiEnhancer.set(false);
   }
 }

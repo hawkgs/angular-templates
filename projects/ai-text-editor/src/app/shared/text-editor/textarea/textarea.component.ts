@@ -25,7 +25,6 @@ export class TextareaComponent implements AfterViewInit {
   editor = viewChild.required<ElementRef>('editor');
   contents = input<string>('');
   textSelect = output<string>();
-  textDeselect = output<void>();
   input = output<void>();
   ref = output<HTMLElement>();
 
@@ -47,14 +46,7 @@ export class TextareaComponent implements AfterViewInit {
   onDocumentInteractionEnd() {
     if (this._selectionInProgress) {
       const text = this._selection.text();
-
-      if (text.length) {
-        this.textSelect.emit(text);
-      } else {
-        this.textDeselect.emit();
-      }
-    } else {
-      this.textDeselect.emit();
+      this.textSelect.emit(text);
     }
 
     this._selectionInProgress = false;
