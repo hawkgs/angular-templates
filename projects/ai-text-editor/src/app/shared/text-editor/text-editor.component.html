@@ -19,11 +19,10 @@
 ></ate-textarea>
 @if (showAiEnhancer()) {
   <ate-ai-enhancer-menu
+    [position]="aiEnhancerPos()"
     (mouseup)="$event.stopPropagation()"
     (touchend)="$event.stopPropagation()"
     (mousedown)="$event.stopPropagation()"
     (enhance)="onAiEnhance()"
-    [style.left]="aiEnhancerPos().x + 'px'"
-    [style.top]="aiEnhancerPos().y + 'px'"
   ></ate-ai-enhancer-menu>
 }

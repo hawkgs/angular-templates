@@ -24,7 +24,6 @@ export const geminiApiMock = {
     const charCode = text.charCodeAt(0);
 
     if (!(65 <= charCode && charCode <= 90)) {
-      console.log('inside', text, output);
       const chars = output.split('');
       chars[0] = chars[0].toLowerCase();
       output = chars.join('');

@@ -17,7 +17,6 @@ import {
 
 const INPUT_DEBOUNCE = 2000;
 const SAVED_LABEL_TTL = 1500;
-const AI_ENHC_SELECTION_MARGIN = 10;
 const MIN_AI_ENHC_STR_LEN = 5;
 
 @Component({
@@ -92,10 +91,7 @@ export class TextEditorComponent {
       const { x, y } = this._selection.position();
 
       this.showAiEnhancer.set(true);
-      this.aiEnhancerPos.set({
-        x: x + AI_ENHC_SELECTION_MARGIN,
-        y: y + AI_ENHC_SELECTION_MARGIN,
-      });
+      this.aiEnhancerPos.set({ x, y });
     } else {
       this.showAiEnhancer.set(false);
     }
