@@ -10,7 +10,10 @@ import {
   FormatEvent,
   FormattingBarComponent,
 } from './formatting-bar/formatting-bar.component';
-import { TextareaComponent } from './textarea/textarea.component';
+import {
+  TextareaComponent,
+  TextareaController,
+} from './textarea/textarea.component';
 
 const INPUT_DEBOUNCE = 2000;
 const SAVED_LABEL_TTL = 1500;
@@ -32,6 +35,7 @@ export class TextEditorComponent {
   docStore = inject(DocStoreService);
 
   private _inputTimeout!: ReturnType<typeof setTimeout>;
+  private _textareaCtrl?: TextareaController;
 
   isTextSelected = signal<boolean>(false);
   showSavedLabel = signal<boolean>(false);
@@ -101,11 +105,16 @@ export class TextEditorComponent {
 
   onAiEnhance() {
     this.showAiEnhancer.set(false);
+    this._textareaCtrl?.deselect();
     this.onInput();
   }
 
   @HostListener('document:mousedown')
   onDocumentClick() {
     this.showAiEnhancer.set(false);
+  }
+
+  onTextareaController(ctrl: TextareaController) {
+    this._textareaCtrl = ctrl;
   }
 }

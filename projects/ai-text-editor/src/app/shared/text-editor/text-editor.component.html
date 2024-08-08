@@ -13,6 +13,7 @@
 <ate-textarea
   [contents]="docStore.html()"
   (ref)="docStore.provideTarget($event)"
+  (ctrl)="onTextareaController($event)"
   (input)="onInput()"
   (textSelect)="onTextSelect($event)"
 ></ate-textarea>

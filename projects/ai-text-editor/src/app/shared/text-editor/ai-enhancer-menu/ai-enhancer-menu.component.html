@@ -23,7 +23,11 @@
   }
   @case ('user-prompt') {
     <form [formGroup]="userPromptForm" (ngSubmit)="executeUserPrompt()">
-      <input placeholder="Type your prompt here" formControlName="prompt" />
+      <input
+        #promptInput
+        placeholder="Type your prompt here"
+        formControlName="prompt"
+      />
       <button
         ngx-button
         btnType="primary"

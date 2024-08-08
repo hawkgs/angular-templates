@@ -1,4 +1,13 @@
-import { Component, inject, OnDestroy, output, signal } from '@angular/core';
+import {
+  Component,
+  effect,
+  ElementRef,
+  inject,
+  OnDestroy,
+  output,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { ButtonComponent } from '@ngx-templates/shared/button';
@@ -23,6 +32,8 @@ export class AiEnhancerMenuComponent implements OnDestroy {
   private _gemini = inject(GeminiService);
   private _toasts = inject(ToastsService);
 
+  promptInput = viewChild<ElementRef>('promptInput');
+
   enhance = output<void>();
 
   userPromptForm = this._formBuilder.group({
@@ -31,6 +42,14 @@ export class AiEnhancerMenuComponent implements OnDestroy {
 
   state = signal<EnhancerState>('standby');
   output = signal<string>('');
+
+  constructor() {
+    effect(() => {
+      if (this.state() === 'user-prompt') {
+        this.promptInput()?.nativeElement.focus();
+      }
+    });
+  }
 
   ngOnDestroy() {
     // In case we have memoized the selection but
