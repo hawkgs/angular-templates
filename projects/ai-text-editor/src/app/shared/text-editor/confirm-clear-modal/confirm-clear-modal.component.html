@@ -3,8 +3,12 @@
   <ng-container content>
     <p>Are you sure you want to clear the document?</p>
     <div class="options">
-      <button (click)="ctrl.close(true)">Yes</button>
-      <button (click)="ctrl.close(false)">No, keep it</button>
+      <button ngx-button btnType="secondary" (click)="ctrl.close(true)">
+        Yes
+      </button>
+      <button ngx-button btnType="primary" (click)="ctrl.close(false)">
+        No, keep it
+      </button>
     </div>
   </ng-container>
 </ngx-modal-content>

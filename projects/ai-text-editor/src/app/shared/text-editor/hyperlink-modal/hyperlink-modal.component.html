@@ -8,8 +8,17 @@
         placeholder="e.g. https://angular.dev"
       />
       <p>
-        <button type="submit" [disabled]="form.invalid">Add</button>
-        <button (click)="ctrl.close()">Cancel</button>
+        <button
+          ngx-button
+          btnType="primary"
+          type="submit"
+          [disabled]="form.invalid"
+        >
+          Add
+        </button>
+        <button ngx-button btnType="secondary" (click)="ctrl.close()">
+          Cancel
+        </button>
       </p>
     </form>
   </ng-container>
