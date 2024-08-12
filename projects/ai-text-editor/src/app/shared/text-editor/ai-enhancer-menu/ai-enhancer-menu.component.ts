@@ -143,6 +143,7 @@ export class AiEnhancerMenuComponent implements OnDestroy, AfterViewInit {
       this._win.innerWidth - width - SELECTION_MARGIN - VIEWPORT_PADDING;
 
     p.x = Math.min(p.x, maxX);
+    p.y += this._win.scrollY;
 
     this._renderer.setStyle(el, 'top', p.y + SELECTION_MARGIN + 'px');
     this._renderer.setStyle(el, 'left', p.x + SELECTION_MARGIN + 'px');
