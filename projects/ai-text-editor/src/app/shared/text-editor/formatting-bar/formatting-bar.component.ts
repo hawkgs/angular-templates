@@ -1,10 +1,11 @@
 import { Component, input, output, signal } from '@angular/core';
 import { SELECT_COMPONENTS } from '@ngx-templates/shared/select';
+import { IconComponent } from '@ngx-templates/shared/icon';
 import { TextStyle } from '../formatting.service';
 
 export type FormatCommandType =
   | 'bold'
-  | 'italics'
+  | 'italic'
   | 'underlined'
   | 'hyperlink'
   | 'text-style';
@@ -17,7 +18,7 @@ export type FormatEvent = {
 @Component({
   selector: 'ate-formatting-bar',
   standalone: true,
-  imports: [SELECT_COMPONENTS],
+  imports: [SELECT_COMPONENTS, IconComponent],
   templateUrl: './formatting-bar.component.html',
   styleUrl: './formatting-bar.component.scss',
 })

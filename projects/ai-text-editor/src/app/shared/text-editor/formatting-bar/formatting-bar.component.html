@@ -3,20 +3,37 @@
   (selectedChange)="changeTextStyle($event)"
   [disabled]="!isTextSelected()"
   placeholder="Aa"
+  title="Text style"
 >
   <ngx-select-option value="heading">
     <span class="heading">Heading</span>
   </ngx-select-option>
-  <ngx-select-option value="monospaced">
-    <span class="mono">Monospaced</span>
-  </ngx-select-option>
   <ngx-select-option value="body">
     <span class="body">Body</span>
   </ngx-select-option>
+  <ngx-select-option value="monospaced">
+    <span class="mono">Monospaced</span>
+  </ngx-select-option>
 </ngx-select>
 <fieldset [disabled]="!isTextSelected()">
-  <button (click)="format.emit({ command: 'bold' })">B</button>
-  <button (click)="format.emit({ command: 'italics' })">I</button>
-  <button (click)="format.emit({ command: 'underlined' })">U</button>
-  <button (click)="format.emit({ command: 'hyperlink' })">Hyperlink</button>
+  <button class="bold" title="Bold" (click)="format.emit({ command: 'bold' })">
+    B
+  </button>
+  <button
+    class="italic"
+    title="Italic"
+    (click)="format.emit({ command: 'italic' })"
+  >
+    I
+  </button>
+  <button
+    class="underlined"
+    title="Underlined"
+    (click)="format.emit({ command: 'underlined' })"
+  >
+    U
+  </button>
+  <button title="Hyperlink" (click)="format.emit({ command: 'hyperlink' })">
+    <ngx-icon name="Link" size="md"></ngx-icon>
+  </button>
 </fieldset>

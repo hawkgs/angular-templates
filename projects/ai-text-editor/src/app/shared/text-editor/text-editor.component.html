@@ -7,7 +7,13 @@
     @if (showSavedLabel()) {
       <p class="saved-label">Saved</p>
     }
-    <button (click)="clearDocument()">Clear</button>
+    <button
+      class="clear-btn"
+      (click)="clearDocument()"
+      title="Clear the document"
+    >
+      <ngx-icon name="Delete" size="md"></ngx-icon>
+    </button>
   </div>
 </div>
 <ate-textarea

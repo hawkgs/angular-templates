@@ -1,5 +1,6 @@
 import { Component, HostListener, inject, signal } from '@angular/core';
 import { ModalService } from '@ngx-templates/shared/modal';
+import { IconComponent } from '@ngx-templates/shared/icon';
 
 import { DocStoreService } from './doc-store.service';
 import { ConfirmClearModalComponent } from './confirm-clear-modal/confirm-clear-modal.component';
@@ -22,7 +23,12 @@ const MIN_AI_ENHC_STR_LEN = 5;
 @Component({
   selector: 'ate-text-editor',
   standalone: true,
-  imports: [TextareaComponent, AiEnhancerMenuComponent, FormattingBarComponent],
+  imports: [
+    TextareaComponent,
+    AiEnhancerMenuComponent,
+    FormattingBarComponent,
+    IconComponent,
+  ],
   providers: [DocStoreService, SelectionManager, FormattingService],
   templateUrl: './text-editor.component.html',
   styleUrl: './text-editor.component.scss',
@@ -46,7 +52,7 @@ export class TextEditorComponent {
       case 'bold':
         this._formatting.makeBold();
         break;
-      case 'italics':
+      case 'italic':
         this._formatting.makeItalic();
         break;
       case 'underlined':

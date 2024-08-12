@@ -1,3 +1,6 @@
+@import 'typography';
+@import './styles/control-button';
+
 :host {
   display: block;
   background-color: var(--color-octonary);
@@ -7,22 +10,37 @@
   user-select: none;
 
   .toolbar {
-    border: 1px solid darkred;
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px;
+    padding: 0.75rem 1rem;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0.75rem;
+      right: 0.75rem;
+      bottom: 0;
+      height: 1px;
+      background-color: var(--color-septenary);
+    }
 
     .controls {
       display: flex;
       align-items: center;
 
       .saved-label {
+        @extend %caption-text;
         animation: fade-in 300ms ease;
         animation-iteration-count: 1;
         animation-fill-mode: forwards;
         margin-right: 10px;
       }
+    }
+
+    .clear-btn {
+      @extend %control-button;
     }
   }
 }

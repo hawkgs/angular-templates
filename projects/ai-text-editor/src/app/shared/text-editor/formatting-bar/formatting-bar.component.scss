@@ -1,3 +1,6 @@
+@import '../styles/control-button';
+@import '../textarea/textarea-styles';
+
 :host {
   display: flex;
   align-items: center;
@@ -11,17 +14,39 @@
   fieldset {
     padding: 0;
     border: none;
+    display: flex;
+
+    button {
+      @extend %control-button;
+
+      &.bold {
+        font-weight: bold;
+      }
+
+      &.italic {
+        font-style: italic;
+      }
+
+      &.underlined {
+        text-decoration: underline;
+      }
+    }
   }
 
   ngx-select {
     min-width: 150px;
 
-    .heading {
-      font-size: 22px;
-    }
+    span {
+      font-size: $ate-textarea-font-size;
 
-    .mono {
-      font-family: monospace;
+      &.heading {
+        @extend %heading-text-style;
+      }
+
+      &.mono {
+        @extend %monospaced-text-style;
+        background-color: transparent;
+      }
     }
   }
 }

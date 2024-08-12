@@ -3,6 +3,8 @@
 @import 'global';
 @import './app/shared/text-editor/textarea/textarea-styles';
 
+@include editor-textarea-styles;
+
 // Variables
 
 :root {
