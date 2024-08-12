@@ -17,7 +17,6 @@ import {
 } from './textarea/textarea.component';
 
 const INPUT_DEBOUNCE = 2000;
-const SAVED_LABEL_TTL = 1500;
 const MIN_AI_ENHC_STR_LEN = 5;
 
 @Component({
@@ -84,11 +83,11 @@ export class TextEditorComponent {
       clearTimeout(this._inputTimeout);
     }
 
+    this.showSavedLabel.set(false);
+
     this._inputTimeout = setTimeout(() => {
       this.docStore.save();
-
       this.showSavedLabel.set(true);
-      setTimeout(() => this.showSavedLabel.set(false), SAVED_LABEL_TTL);
     }, INPUT_DEBOUNCE);
   }
 
