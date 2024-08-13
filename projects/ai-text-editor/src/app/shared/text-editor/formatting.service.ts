@@ -91,7 +91,11 @@ export class FormattingService {
             (fmtEl) => {
               const anchor = this._doc.createElement('a');
               anchor.href = url;
+              anchor.target = '_blank';
+              anchor.title = 'Opens ' + url;
               anchor.innerHTML = fmtEl.innerText;
+
+              fmtEl.contentEditable = 'false';
               fmtEl.innerHTML = '';
               fmtEl.appendChild(anchor);
 

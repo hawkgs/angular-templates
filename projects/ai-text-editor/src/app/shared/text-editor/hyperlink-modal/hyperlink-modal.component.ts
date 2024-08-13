@@ -1,4 +1,10 @@
-import { Component, inject } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  inject,
+  viewChild,
+} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
   ModalContentComponent,
@@ -14,14 +20,19 @@ import { urlValidator } from './url.validator';
   templateUrl: './hyperlink-modal.component.html',
   styleUrl: './hyperlink-modal.component.scss',
 })
-export class HyperlinkModalComponent {
+export class HyperlinkModalComponent implements AfterViewInit {
   ctrl: ModalController<string> = inject(ModalController);
 
   private _formBuilder = inject(FormBuilder);
 
+  input = viewChild.required<ElementRef>('input');
   form = this._formBuilder.group({
     url: ['', [Validators.required, urlValidator]],
   });
+
+  ngAfterViewInit() {
+    this.input().nativeElement.focus();
+  }
 
   addLink() {
     let url = this.form.get('url')?.value || '';
