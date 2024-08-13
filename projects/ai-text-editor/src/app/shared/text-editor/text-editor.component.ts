@@ -1,6 +1,7 @@
 import { Component, HostListener, inject, signal } from '@angular/core';
 import { ModalService } from '@ngx-templates/shared/modal';
 import { IconComponent } from '@ngx-templates/shared/icon';
+import { ToastsService, ToastType } from '@ngx-templates/shared/toasts';
 
 import { DocStoreService } from './doc-store.service';
 import { ConfirmClearModalComponent } from './confirm-clear-modal/confirm-clear-modal.component';
@@ -18,6 +19,7 @@ import {
 
 const INPUT_DEBOUNCE = 2000;
 const MIN_AI_ENHC_STR_LEN = 5;
+const HINT_TTL = 7500;
 
 @Component({
   selector: 'ate-text-editor',
@@ -36,9 +38,11 @@ export class TextEditorComponent {
   private _modal = inject(ModalService);
   private _selection = inject(SelectionManager);
   private _formatting = inject(FormattingService);
+  private _toasts = inject(ToastsService);
   docStore = inject(DocStoreService);
 
   private _inputTimeout!: ReturnType<typeof setTimeout>;
+  private _hintCooldown: boolean = false;
   private _textareaCtrl?: TextareaController;
 
   isTextSelected = signal<boolean>(false);
@@ -78,6 +82,24 @@ export class TextEditorComponent {
           this.editorDirty.set(false);
         }
       });
+  }
+
+  async showHint() {
+    if (this._hintCooldown) {
+      return;
+    }
+
+    this._hintCooldown = true;
+
+    await this._toasts.create(
+      'Select the text that you want to modify in order to activate the AI Enhancer',
+      {
+        ttl: HINT_TTL,
+        type: ToastType.Notification,
+        icon: 'Lightbulb',
+      },
+    );
+    this._hintCooldown = false;
   }
 
   onInput() {

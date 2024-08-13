@@ -11,6 +11,7 @@
       <button
         title="Hint"
         [class.new-hint]="editorDirty() && !docStore.html().length"
+        (click)="showHint()"
       >
         <ngx-icon name="Lightbulb" size="md"></ngx-icon>
       </button>
