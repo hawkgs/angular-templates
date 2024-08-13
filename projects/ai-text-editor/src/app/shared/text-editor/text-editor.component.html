@@ -7,11 +7,15 @@
     @if (showSavedLabel()) {
       <p class="saved-label">Saved</p>
     }
-    <button
-      class="clear-btn"
-      (click)="clearDocument()"
-      title="Clear the document"
-    >
+    @if (docStore.html().length || editorDirty()) {
+      <button
+        title="Hint"
+        [class.new-hint]="editorDirty() && !docStore.html().length"
+      >
+        <ngx-icon name="Lightbulb" size="md"></ngx-icon>
+      </button>
+    }
+    <button (click)="clearDocument()" title="Clear the document">
       <ngx-icon name="Delete" size="md"></ngx-icon>
     </button>
   </div>

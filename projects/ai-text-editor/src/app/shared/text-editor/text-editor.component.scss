@@ -37,10 +37,23 @@
         animation-fill-mode: forwards;
         margin-right: 10px;
       }
-    }
 
-    .clear-btn {
-      @extend %control-button;
+      button {
+        @extend %control-button;
+        margin-left: 10px;
+
+        &.new-hint {
+          animation: highlight 2s ease;
+          animation-fill-mode: forwards;
+          animation-iteration-count: 1;
+
+          ngx-icon {
+            animation: shake 0.75s ease;
+            animation-fill-mode: forwards;
+            animation-iteration-count: 1;
+          }
+        }
+      }
     }
   }
 }
@@ -51,5 +64,41 @@
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes highlight {
+  from {
+    box-shadow: 0 0 10px var(--color-electric-lavander);
+  }
+  to {
+    box-shadow: 0 0 0 var(--color-electric-lavander);
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: rotate(20deg);
+  }
+  15% {
+    transform: rotate(-18deg);
+  }
+  30% {
+    transform: rotate(16deg);
+  }
+  45% {
+    transform: rotate(-14deg);
+  }
+  60% {
+    transform: rotate(12deg);
+  }
+  75% {
+    transform: rotate(-10deg);
+  }
+  95% {
+    transform: rotate(8deg);
+  }
+  100% {
+    transform: rotate(0);
   }
 }

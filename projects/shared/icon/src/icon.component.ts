@@ -17,7 +17,8 @@ export type IconName =
   | 'ArrowDown'
   | 'Download'
   | 'Gemini'
-  | 'Link';
+  | 'Link'
+  | 'Lightbulb';
 
 export type IconSize = 'sm' | 'md' | 'lg' | 'xlg' | 'xxlg';
 

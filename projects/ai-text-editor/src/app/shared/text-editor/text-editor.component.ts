@@ -44,6 +44,7 @@ export class TextEditorComponent {
   isTextSelected = signal<boolean>(false);
   showSavedLabel = signal<boolean>(false);
   showAiEnhancer = signal<boolean>(false);
+  editorDirty = signal<boolean>(false);
   aiEnhancerPos = signal<{ x: number; y: number }>({ x: 0, y: 0 });
 
   async onFormat(e: FormatEvent) {
@@ -74,6 +75,7 @@ export class TextEditorComponent {
       .closed.then((shouldClear: boolean | undefined) => {
         if (shouldClear) {
           this.docStore.clear();
+          this.editorDirty.set(false);
         }
       });
   }
@@ -84,6 +86,7 @@ export class TextEditorComponent {
     }
 
     this.showSavedLabel.set(false);
+    this.editorDirty.set(true);
 
     this._inputTimeout = setTimeout(() => {
       this.docStore.save();
