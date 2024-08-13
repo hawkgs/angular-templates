@@ -1,21 +1,40 @@
-<p class="title">
-  <ngx-icon name="Gemini" size="sm"></ngx-icon>
-  <span>AI Enhancer</span>
-</p>
+<div class="logo"></div>
 @switch (state()) {
   @case ('standby') {
     <div class="options">
-      <button ngx-button btnType="primary" size="minimal" (click)="formalize()">
+      <button
+        ngx-button
+        btnType="primary"
+        size="minimal"
+        (click)="formalize()"
+        title="Formalize the current text selection"
+      >
         Formalize
       </button>
-      <button ngx-button btnType="primary" size="minimal" (click)="expand()">
+      <button
+        ngx-button
+        btnType="primary"
+        size="minimal"
+        (click)="expand()"
+        title="Expand the current text selection"
+      >
         Expand
+      </button>
+      <button
+        ngx-button
+        btnType="primary"
+        size="minimal"
+        (click)="useAsPrompt()"
+        title="Use the current text selection as a prompt"
+      >
+        Use as prompt
       </button>
       <button
         ngx-button
         btnType="secondary"
         size="minimal"
         (click)="activateUserPrompt()"
+        title="Use a custom prompt"
       >
         Other
       </button>
@@ -28,29 +47,32 @@
         placeholder="Type your prompt here"
         formControlName="prompt"
       />
-      <button
-        ngx-button
-        btnType="primary"
-        size="minimal"
-        [disabled]="userPromptForm.invalid"
-      >
+      <button ngx-button btnType="primary" [disabled]="userPromptForm.invalid">
         Enhance
       </button>
     </form>
   }
   @case ('loading') {
-    <p>Loading ...</p>
+    <div class="output">
+      <div class="skeleton-line"></div>
+      <div class="skeleton-line"></div>
+      <div class="skeleton-line"></div>
+    </div>
   }
   @case ('ready') {
-    <p class="output">Output: {{ output() }}</p>
-    <br />
-    <button
-      ngx-button
-      btnType="primary"
-      size="minimal"
-      (click)="replaceSelection()"
-    >
-      Replace
-    </button>
+    <p class="output" title="Enhancer output">{{ output() }}</p>
+    <div class="controls">
+      <button ngx-button btnType="secondary" size="minimal" (click)="retry()">
+        Retry
+      </button>
+      <button
+        ngx-button
+        btnType="primary"
+        size="minimal"
+        (click)="replaceSelection()"
+      >
+        Replace
+      </button>
+    </div>
   }
 }

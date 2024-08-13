@@ -16,7 +16,6 @@ export type IconName =
   | 'Close'
   | 'ArrowDown'
   | 'Download'
-  | 'Gemini'
   | 'Link'
   | 'Lightbulb';
 

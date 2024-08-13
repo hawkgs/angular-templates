@@ -1,11 +1,21 @@
 type GeminiResponse = { response: Promise<{ text: () => string }> };
 
 const RESPONSE_DELAY = 2000;
+const LOGGING_ENABLED = true;
+
+const log = (output: string | object) => {
+  if (LOGGING_ENABLED) {
+    console.info('Gemini API Mock:', output);
+  }
+};
+
 const LOREM_IPSUM =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget magna venenatis, tincidunt mi a, efficitur eros. Aenean accumsan, quam eget pulvinar pellentesque, dolor nunc lacinia libero, ac vulputate arcu quam ac nisl. Quisque rutrum lacinia dolor ac pharetra. Suspendisse et lacus ac risus dignissim auctor eu ut enim. Fusce diam ex, porta vitae turpis posuere, imperdiet rhoncus dolor. Etiam efficitur a dui in imperdiet. Morbi porttitor feugiat velit in tempor. Phasellus vulputate lacus quis enim mattis tempor. Sed vel ullamcorper tortor.';
 
 export const geminiApiMock = {
   generateContent: (prompt: string): GeminiResponse => {
+    log({ prompt });
+
     let [, text] = prompt.split(':');
     text = (text || prompt).trim().replace(/"/g, '');
     let output = LOREM_IPSUM;

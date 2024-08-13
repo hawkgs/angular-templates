@@ -22,6 +22,7 @@ import { GeminiService } from '../../../gemini/gemini.service';
 import { SelectionManager } from '../selection-manager.service';
 
 type EnhancerState = 'standby' | 'user-prompt' | 'loading' | 'ready';
+type EnhancerOp = 'formalize' | 'expand' | 'use-as-prompt' | 'user-prompt';
 
 const SELECTION_MARGIN = 10;
 const VIEWPORT_PADDING = 24; // 12 on each side
@@ -54,6 +55,8 @@ export class AiEnhancerMenuComponent implements OnDestroy, AfterViewInit {
   state = signal<EnhancerState>('standby');
   output = signal<string>('');
 
+  private _lastOperation?: EnhancerOp;
+
   constructor() {
     effect(() => {
       if (this.state() === 'user-prompt') {
@@ -82,6 +85,7 @@ export class AiEnhancerMenuComponent implements OnDestroy, AfterViewInit {
 
   async formalize() {
     this.state.set('loading');
+    this._lastOperation = 'formalize';
 
     const text = this._selection.text();
     const output = await this._gemini.generate(
@@ -95,12 +99,24 @@ export class AiEnhancerMenuComponent implements OnDestroy, AfterViewInit {
 
   async expand() {
     this.state.set('loading');
+    this._lastOperation = 'expand';
 
     const text = this._selection.text();
     const output = await this._gemini.generate(
       'Expand the following text',
       text,
     );
+
+    this.output.set(output);
+    this.state.set('ready');
+  }
+
+  async useAsPrompt() {
+    this.state.set('loading');
+    this._lastOperation = 'use-as-prompt';
+
+    const text = this._selection.text();
+    const output = await this._gemini.generate(text);
 
     this.output.set(output);
     this.state.set('ready');
@@ -113,6 +129,7 @@ export class AiEnhancerMenuComponent implements OnDestroy, AfterViewInit {
 
   async executeUserPrompt() {
     this.state.set('loading');
+    this._lastOperation = 'user-prompt';
 
     const prompt = this.userPromptForm.get('prompt')?.value as string;
     const text = this._selection.text();
@@ -120,6 +137,27 @@ export class AiEnhancerMenuComponent implements OnDestroy, AfterViewInit {
 
     this.output.set(output);
     this.state.set('ready');
+  }
+
+  retry() {
+    if (!this._lastOperation) {
+      return;
+    }
+
+    switch (this._lastOperation) {
+      case 'formalize':
+        this.formalize();
+        break;
+      case 'expand':
+        this.expand();
+        break;
+      case 'user-prompt':
+        this.executeUserPrompt();
+        break;
+      case 'use-as-prompt':
+        this.useAsPrompt();
+        break;
+    }
   }
 
   replaceSelection() {
