@@ -1,18 +1,27 @@
 import { WritableSignal } from '@angular/core';
 import { List } from 'immutable';
 
+import { ToastConfig, ToastType } from './types';
+
+const DEFAULT_CFG: ToastConfig = {
+  ttl: 1000,
+  type: ToastType.Default,
+};
+
 /**
  * Toast item
  */
 export class Toast {
   public createdAt = new Date().getTime();
+  config: ToastConfig;
 
   constructor(
     public name: string,
-    public ttl: number,
     private _list: WritableSignal<List<Toast>>,
+    config?: Partial<ToastConfig>,
   ) {
-    setTimeout(() => this.destroy(), this.ttl);
+    this.config = { ...DEFAULT_CFG, ...config };
+    setTimeout(() => this.destroy(), this.config.ttl);
   }
 
   /**

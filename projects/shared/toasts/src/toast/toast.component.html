@@ -1,3 +1,10 @@
-<button (click)="toast().destroy()" title="Close toast">
-  {{ toast().name }}
+<button
+  (click)="toast().destroy()"
+  title="Close toast"
+  [ngClass]="TYPE_TO_CLASS[toast().config.type]"
+>
+  @if (toast().config.type === ToastType.Notification && toast().config.icon) {
+    <ngx-icon [name]="toast().config.icon!" size="lg"></ngx-icon>
+  }
+  <span>{{ toast().name }}</span>
 </button>

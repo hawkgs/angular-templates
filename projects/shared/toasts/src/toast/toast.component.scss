@@ -5,21 +5,46 @@
 
   button {
     display: block;
-    @extend %body-short-03;
-    padding: 0.25rem 0.875rem;
-    border-radius: 0.25rem;
-    background: var(--gradient-pink-to-violet);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    color: var(--white);
     border: none;
-    animation: slide-in 300ms ease;
-    animation-iteration-count: 1;
-    animation-fill-mode: forwards;
     margin-bottom: 0.5rem;
+
+    &.def-type {
+      @extend %body-short-03;
+      padding: 0.25rem 0.875rem;
+      border-radius: 0.25rem;
+      background: var(--gradient-pink-to-violet);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      color: var(--white);
+      animation: slide-down 300ms ease;
+      animation-iteration-count: 1;
+      animation-fill-mode: forwards;
+    }
+
+    &.ntf-type {
+      @extend %body-short-02;
+      padding: 0.75rem 1rem;
+      border-radius: 0.25rem;
+      max-width: 250px;
+      text-align: left;
+      color: var(--color-electric-lavander);
+      background-color: var(--color-septenary);
+      border: 1px solid var(--color-french-violet);
+      box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+      animation: slide-right 300ms ease;
+      animation-iteration-count: 1;
+      animation-fill-mode: forwards;
+      display: flex;
+      align-items: center;
+      line-height: 1.25rem;
+
+      ngx-icon {
+        margin-right: 0.75rem;
+      }
+    }
   }
 }
 
-@keyframes slide-in {
+@keyframes slide-down {
   from {
     opacity: 0;
     transform: translateY(0);
@@ -27,5 +52,16 @@
   to {
     opacity: 1;
     transform: translateY(4.5rem);
+  }
+}
+
+@keyframes slide-right {
+  from {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(1.5rem);
   }
 }

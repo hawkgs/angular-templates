@@ -1,10 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { List } from 'immutable';
 import { Toast } from './toast';
-
-const DEFAULT_TTL = 1000;
-
-type ToastOptions = { ttl: number };
+import { ToastConfig } from './types';
 
 /**
  * Provides a very simple interface for
@@ -16,8 +13,8 @@ export class ToastsService {
 
   readonly value = this._toasts.asReadonly();
 
-  create(text: string, options?: Partial<ToastOptions>) {
-    const toast = new Toast(text, options?.ttl || DEFAULT_TTL, this._toasts);
+  create(text: string, config?: Partial<ToastConfig>) {
+    const toast = new Toast(text, this._toasts, config);
 
     this._toasts.update((l) => l.push(toast));
   }
