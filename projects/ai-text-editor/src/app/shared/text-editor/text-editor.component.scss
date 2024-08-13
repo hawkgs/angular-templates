@@ -30,6 +30,12 @@
       display: flex;
       align-items: center;
 
+      .vr {
+        height: 25px;
+        width: 1px;
+        background-color: var(--color-septenary);
+      }
+
       .saved-label {
         @extend %caption-text;
         animation: fade-in 300ms ease;

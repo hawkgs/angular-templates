@@ -1,13 +1,17 @@
-import { Component, HostListener, inject, signal } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  inject,
+  Renderer2,
+  signal,
+} from '@angular/core';
 import { ModalService } from '@ngx-templates/shared/modal';
 import { IconComponent } from '@ngx-templates/shared/icon';
 import { ToastsService, ToastType } from '@ngx-templates/shared/toasts';
+import { WINDOW } from '@ngx-templates/shared/services';
 
-import { DocStoreService } from './doc-store.service';
 import { ConfirmClearModalComponent } from './confirm-clear-modal/confirm-clear-modal.component';
 import { AiEnhancerMenuComponent } from './ai-enhancer-menu/ai-enhancer-menu.component';
-import { SelectionManager } from './selection-manager.service';
-import { FormattingService, TextStyle } from './formatting.service';
 import {
   FormatEvent,
   FormattingBarComponent,
@@ -16,6 +20,11 @@ import {
   TextareaComponent,
   TextareaController,
 } from './textarea/textarea.component';
+
+import { DocStoreService } from './doc-store.service';
+import { SelectionManager } from './selection-manager.service';
+import { FormattingService, TextStyle } from './formatting.service';
+import { ExportService } from './export.service';
 
 const INPUT_DEBOUNCE = 2000;
 const MIN_AI_ENHC_STR_LEN = 5;
@@ -30,7 +39,12 @@ const HINT_TTL = 7500;
     FormattingBarComponent,
     IconComponent,
   ],
-  providers: [DocStoreService, SelectionManager, FormattingService],
+  providers: [
+    DocStoreService,
+    SelectionManager,
+    FormattingService,
+    ExportService,
+  ],
   templateUrl: './text-editor.component.html',
   styleUrl: './text-editor.component.scss',
 })
@@ -39,6 +53,9 @@ export class TextEditorComponent {
   private _selection = inject(SelectionManager);
   private _formatting = inject(FormattingService);
   private _toasts = inject(ToastsService);
+  private _export = inject(ExportService);
+  private _renderer = inject(Renderer2);
+  private _win = inject(WINDOW);
   docStore = inject(DocStoreService);
 
   private _inputTimeout!: ReturnType<typeof setTimeout>;
@@ -71,6 +88,20 @@ export class TextEditorComponent {
     }
 
     this.onInput();
+  }
+
+  download() {
+    const htmlFile = this._export.exportAsHtml();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const url = (this._win as any).URL.createObjectURL(htmlFile);
+
+    const anchor = this._renderer.createElement('a') as HTMLAnchorElement;
+    this._renderer.setAttribute(anchor, 'href', url);
+    this._renderer.setAttribute(anchor, 'download', 'document.html');
+    anchor.click();
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (this._win as any).URL.revokeObjectURL(url);
   }
 
   clearDocument() {

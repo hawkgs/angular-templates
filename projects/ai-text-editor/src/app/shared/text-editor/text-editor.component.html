@@ -1,8 +1,14 @@
 <div class="toolbar">
-  <ate-formatting-bar
-    (format)="onFormat($event)"
-    [isTextSelected]="isTextSelected()"
-  ></ate-formatting-bar>
+  <div class="controls">
+    <ate-formatting-bar
+      (format)="onFormat($event)"
+      [isTextSelected]="isTextSelected()"
+    ></ate-formatting-bar>
+    <div class="vr"></div>
+    <button (click)="download()" title="Download as an HTML document">
+      <ngx-icon name="Download" size="md"></ngx-icon>
+    </button>
+  </div>
   <div class="controls">
     @if (showSavedLabel()) {
       <p class="saved-label">Saved</p>

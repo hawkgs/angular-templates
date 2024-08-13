@@ -41,14 +41,6 @@ $ate-textarea-font-size: 1rem;
         // Can't undo without adverse effects
       }
 
-      &.ul::before {
-        background-color: var(--color-text);
-      }
-
-      &.x-ul::before {
-        background-color: var(--color-octonary);
-      }
-
       &.it {
         font-style: italic;
       }
