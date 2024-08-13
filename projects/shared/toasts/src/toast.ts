@@ -13,7 +13,13 @@ const DEFAULT_CFG: ToastConfig = {
  */
 export class Toast {
   public createdAt = new Date().getTime();
-  config: ToastConfig;
+  public config: ToastConfig;
+
+  private _destroyTimeout!: ReturnType<typeof setTimeout>;
+  private _destroyResolver!: () => void;
+  public destroyPromise = new Promise<void>((res) => {
+    this._destroyResolver = res;
+  });
 
   constructor(
     public name: string,
@@ -21,16 +27,21 @@ export class Toast {
     config?: Partial<ToastConfig>,
   ) {
     this.config = { ...DEFAULT_CFG, ...config };
-    setTimeout(() => this.destroy(), this.config.ttl);
+    this._destroyTimeout = setTimeout(() => this.destroy(), this.config.ttl);
   }
 
   /**
    * Remove the toast from the list (i.e. the DOM)
    */
   destroy() {
+    if (this._destroyTimeout) {
+      clearTimeout(this._destroyTimeout);
+    }
+
     const list = this._list();
     const idx = list.findIndex((t) => t === this);
 
     this._list.update((l) => l.remove(idx));
+    this._destroyResolver();
   }
 }

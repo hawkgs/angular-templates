@@ -13,9 +13,11 @@ export class ToastsService {
 
   readonly value = this._toasts.asReadonly();
 
-  create(text: string, config?: Partial<ToastConfig>) {
+  create(text: string, config?: Partial<ToastConfig>): Promise<void> {
     const toast = new Toast(text, this._toasts, config);
 
     this._toasts.update((l) => l.push(toast));
+
+    return toast.destroyPromise;
   }
 }
