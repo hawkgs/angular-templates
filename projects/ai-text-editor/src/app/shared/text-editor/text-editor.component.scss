@@ -14,7 +14,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.75rem 1rem;
+    padding: 0.75rem 1rem 0 1rem;
+    flex-wrap: wrap;
 
     &::before {
       content: '';
@@ -29,11 +30,15 @@
     .controls {
       display: flex;
       align-items: center;
+      justify-content: flex-start;
+      flex-wrap: wrap;
 
       .vr {
         height: 25px;
         width: 1px;
         background-color: var(--color-septenary);
+        margin-left: 10px;
+        margin-bottom: 0.75rem;
       }
 
       .saved-label {
@@ -41,12 +46,16 @@
         animation: fade-in 300ms ease;
         animation-iteration-count: 1;
         animation-fill-mode: forwards;
-        margin-right: 10px;
+        margin-right: 20px;
+        margin-bottom: 0.75rem;
       }
 
       button {
         @extend %control-button;
-        margin-left: 10px;
+
+        &:not(:first-of-type) {
+          margin-left: 10px;
+        }
 
         &.new-hint {
           animation: highlight 2s ease;

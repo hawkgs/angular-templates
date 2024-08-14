@@ -1,14 +1,8 @@
 <div class="toolbar">
-  <div class="controls">
-    <ate-formatting-bar
-      (format)="onFormat($event)"
-      [isTextSelected]="isTextSelected()"
-    ></ate-formatting-bar>
-    <div class="vr"></div>
-    <button (click)="download()" title="Download as an HTML document">
-      <ngx-icon name="Download" size="md"></ngx-icon>
-    </button>
-  </div>
+  <ate-formatting-bar
+    (format)="onFormat($event)"
+    [isTextSelected]="isTextSelected()"
+  ></ate-formatting-bar>
   <div class="controls">
     @if (showSavedLabel()) {
       <p class="saved-label">Saved</p>
@@ -21,7 +15,11 @@
       >
         <ngx-icon name="Lightbulb" size="md"></ngx-icon>
       </button>
+      <div class="vr"></div>
     }
+    <button (click)="download()" title="Download as an HTML document">
+      <ngx-icon name="Download" size="md"></ngx-icon>
+    </button>
     <button (click)="clearDocument()" title="Clear the document">
       <ngx-icon name="Delete" size="md"></ngx-icon>
     </button>

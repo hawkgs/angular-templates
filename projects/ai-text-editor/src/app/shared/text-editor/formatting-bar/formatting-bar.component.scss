@@ -4,6 +4,7 @@
 :host {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   user-select: none;
 
   button,
@@ -15,6 +16,7 @@
     padding: 0;
     border: none;
     display: flex;
+    flex-wrap: wrap;
 
     button {
       @extend %control-button;
@@ -35,6 +37,7 @@
 
   ngx-select {
     min-width: 150px;
+    margin-bottom: 0.75rem;
 
     span {
       font-size: $ate-textarea-font-size;
