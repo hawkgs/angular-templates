@@ -26,8 +26,8 @@
   </div>
 </div>
 <ate-textarea
-  [contents]="docStore.html()"
-  (ref)="docStore.provideTarget($event)"
+  [initContents]="docStore.html()"
+  (ref)="docStore.provideSource($event)"
   (ctrl)="onTextareaController($event)"
   (input)="onInput()"
   (textSelect)="onTextSelect($event)"

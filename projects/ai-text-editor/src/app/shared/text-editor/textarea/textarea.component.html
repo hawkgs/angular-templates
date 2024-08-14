@@ -2,7 +2,8 @@
   #editor
   class="ate-textarea"
   contenteditable
-  (input)="input.emit()"
+  (input)="input.emit(editor.innerHTML)"
   (selectstart)="onSelectStart()"
+  (paste)="onPaste($event)"
   [innerHTML]="contents() | safeHtml"
 ></div>

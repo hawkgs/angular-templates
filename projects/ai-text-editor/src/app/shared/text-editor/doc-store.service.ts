@@ -11,7 +11,7 @@ const DOC_STORE_LS_KEY = 'ate-doc';
 export class DocStoreService {
   private _storage = inject(LocalStorage);
 
-  private _target?: HTMLElement;
+  private _source?: HTMLElement;
   private _html = signal<string>('');
   html = this._html.asReadonly();
 
@@ -20,17 +20,18 @@ export class DocStoreService {
     this._html.set(content);
   }
 
-  provideTarget(target: HTMLElement) {
-    this._target = target;
+  provideSource(source: HTMLElement) {
+    this._source = source;
   }
 
   save() {
-    if (!this._target) {
+    if (!this._source) {
       return;
     }
 
-    const content = this._target.innerHTML;
+    const content = this._source.innerHTML;
     this._storage.set(DOC_STORE_LS_KEY, content);
+    this._html.set(content);
   }
 
   clear() {

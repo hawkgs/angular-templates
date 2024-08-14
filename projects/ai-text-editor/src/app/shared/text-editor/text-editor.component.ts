@@ -109,6 +109,7 @@ export class TextEditorComponent {
       .createModal<void, boolean>(ConfirmClearModalComponent)
       .closed.then((shouldClear: boolean | undefined) => {
         if (shouldClear) {
+          this._textareaCtrl?.clear();
           this.docStore.clear();
           this.editorDirty.set(false);
         }

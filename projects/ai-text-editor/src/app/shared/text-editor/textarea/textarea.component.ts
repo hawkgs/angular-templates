@@ -4,8 +4,10 @@ import {
   ElementRef,
   HostListener,
   inject,
+  Input,
   input,
   output,
+  signal,
   viewChild,
 } from '@angular/core';
 import { SelectionManager } from '../selection-manager.service';
@@ -16,6 +18,17 @@ export class TextareaController {
 
   deselect() {
     this._textarea.textSelect.emit('');
+  }
+
+  clear() {
+    if (this._textarea.contents()) {
+      this._textarea.contents.set('');
+    } else {
+      // Special case – if the content is empty (e.g. typing in in a new doc),
+      // setting it again to an empty string will not clear the textarea (no change).
+      // That's why, we have to do this manually.
+      this._textarea.editor().nativeElement.innerHTML = '';
+    }
   }
 }
 
@@ -31,13 +44,9 @@ export class TextareaComponent implements AfterViewInit {
   private _elRef = inject(ElementRef);
 
   private _selectionInProgress: boolean = false;
+  private _contentsInit: boolean = false;
 
   editor = viewChild.required<ElementRef>('editor');
-
-  /**
-   * Textarea contents.
-   */
-  contents = input<string>('');
 
   /**
    * Provide the parent editor wrapper element.
@@ -46,11 +55,25 @@ export class TextareaComponent implements AfterViewInit {
   parent = input<HTMLElement | null>(null);
 
   textSelect = output<string>();
-  input = output<void>();
+  input = output<string>();
   ref = output<HTMLElement>();
   ctrl = output<TextareaController>();
 
-  constructor() {}
+  contents = signal<string>('');
+
+  /**
+   * Textarea initial contents.
+   */
+  // We don't want to update unnecessarily the textarea
+  // on each contents signal update. This is why we are
+  // guarding against it.
+  @Input()
+  set initContents(v: string) {
+    if (!this._contentsInit) {
+      this.contents.set(v);
+      this._contentsInit = true;
+    }
+  }
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -98,5 +121,9 @@ export class TextareaComponent implements AfterViewInit {
       const text = this._selection.text();
       this.textSelect.emit(text);
     }
+  }
+
+  onPaste(e: Event) {
+    // e.preventDefault();
   }
 }
