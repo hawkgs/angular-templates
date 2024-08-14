@@ -44,10 +44,11 @@ const htmlFileTemplate = (contents: string): string =>
         .mono {
           display: block;
           font-family: monospace;
-          padding: 0.25rem 0.5rem;
+          padding: 0.5rem 0.75rem;
           background: #f1f1f1;
           border-radius: 0.2rem;
           margin: 0.375rem 0;
+          font-size: 0.875rem;
         }
       </style>
     </head>

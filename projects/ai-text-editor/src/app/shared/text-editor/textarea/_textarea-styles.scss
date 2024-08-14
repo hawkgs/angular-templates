@@ -7,14 +7,11 @@ $ate-textarea-font-size: 1rem;
 %monospaced-text-style {
   font-family: monospace;
   background-color: var(--color-septenary);
+  font-size: 0.875rem;
 }
 
 @mixin editor-textarea-styles {
   .ate-textarea {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
     line-height: 1.625rem;
     font-size: 1rem;
 
@@ -62,7 +59,7 @@ $ate-textarea-font-size: 1rem;
 
       &.mono {
         @extend %monospaced-text-style;
-        padding: 0.25rem 0.5rem;
+        padding: 0.25rem 0.75rem;
         border-radius: 0.2rem;
         margin: 0.375rem 0;
         flex: 1;
