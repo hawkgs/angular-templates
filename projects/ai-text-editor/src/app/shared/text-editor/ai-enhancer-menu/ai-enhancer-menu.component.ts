@@ -64,6 +64,11 @@ export class AiEnhancerMenuComponent implements OnDestroy, AfterViewInit {
         this.promptInput()?.nativeElement.focus();
       }
     });
+
+    effect(() => {
+      // Update enhancer position on `position` change
+      this._updateElementPos();
+    });
   }
 
   ngAfterViewInit() {

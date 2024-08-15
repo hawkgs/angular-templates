@@ -88,6 +88,7 @@ export class TextEditorComponent {
     }
 
     this.onInput();
+    this.showAiEnhancer.set(false);
   }
 
   download() {
@@ -163,7 +164,6 @@ export class TextEditorComponent {
 
   onAiEnhance() {
     this.showAiEnhancer.set(false);
-    this._textareaCtrl?.deselect();
     this.onInput();
   }
 

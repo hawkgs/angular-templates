@@ -74,11 +74,10 @@ export class SelectionManager {
 
   private _createEditorSelection() {
     const selection = this._win.getSelection();
+    const range =
+      (selection?.rangeCount || 0) > 0 ? selection?.getRangeAt(0) : undefined;
 
-    return new EditorSelection(
-      selection?.getRangeAt(0),
-      selection?.toString() || '',
-    );
+    return new EditorSelection(range, selection?.toString() || '');
   }
 
   private _selectNodeContents(node: Node) {

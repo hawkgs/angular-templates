@@ -16,10 +16,6 @@ import { SafeHtmlPipe } from '../../pipes/safe-html.pipe';
 export class TextareaController {
   constructor(private _textarea: TextareaComponent) {}
 
-  deselect() {
-    this._textarea.textSelect.emit('');
-  }
-
   clear() {
     if (this._textarea.contents()) {
       this._textarea.contents.set('');
@@ -41,10 +37,14 @@ export class TextareaController {
 })
 export class TextareaComponent implements AfterViewInit {
   private _selection = inject(SelectionManager);
-  private _elRef = inject(ElementRef);
+  // private _elRef = inject(ElementRef);
 
-  private _selectionInProgress: boolean = false;
+  // private _selectionInProgress: boolean = false;
   private _contentsInit: boolean = false;
+  private _focused: boolean = false;
+  private _mouseLock: boolean = false;
+  private _storedSelection = '';
+  private _lastSelection = '';
 
   editor = viewChild.required<ElementRef>('editor');
 
@@ -84,43 +84,48 @@ export class TextareaComponent implements AfterViewInit {
     this.ctrl.emit(new TextareaController(this));
   }
 
-  onSelectStart() {
-    this._selectionInProgress = true;
+  onFocus() {
+    this._focused = true;
   }
 
-  @HostListener('document:mouseup', ['$event'])
-  @HostListener('document:keyup', ['$event'])
-  @HostListener('document:touchend', ['$event'])
-  onDocumentInteractionEnd(e: Event) {
-    if (this._selectionInProgress) {
-      const text = this._selection.text();
-      this.textSelect.emit(text);
-    } else {
-      // Since the textarea selection is tightly bound
-      // with the formatting controls, the logic below
-      // clears it [selection], if the formatting controls
-      // are NOT used (i.e. user clicks outside of the editor).
-      // Formatting controls are usually direct descendants of
-      // the parent/editor. You can provide a different parent
-      // from the input if any layout changes are applied to
-      // the text editor.
-      const nativeEl = this._elRef.nativeElement as HTMLElement;
-      const parent = this.parent() || nativeEl.parentElement;
-      const target = e.target as Node;
-      if (!parent?.contains(target)) {
-        this.textSelect.emit('');
-      }
-    }
-    this._selectionInProgress = false;
+  onBlur() {
+    this._focused = false;
   }
 
-  @HostListener('document:keyup', ['$event'])
-  onDocumentKeyup(e: KeyboardEvent) {
-    // Handle keyboard selection
-    if (e.shiftKey && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
-      const text = this._selection.text();
-      this.textSelect.emit(text);
+  @HostListener('document:mousedown')
+  onDocumentMousedown() {
+    this._mouseLock = true;
+  }
+
+  @HostListener('document:mouseup')
+  onDocumentMouseup() {
+    this._mouseLock = false;
+
+    if (this._storedSelection) {
+      this.textSelect.emit(this._storedSelection);
+      this._storedSelection = '';
     }
+  }
+
+  @HostListener('document:selectionchange')
+  onDocumentSelectionChange() {
+    if (!this._focused) {
+      return;
+    }
+
+    const selection = this._selection.text();
+
+    if (this._mouseLock) {
+      this._storedSelection = selection;
+    } else if (selection !== this._lastSelection) {
+      this.textSelect.emit(selection);
+    }
+    this._lastSelection = selection;
+  }
+
+  @HostListener('document:contextmenu')
+  onDocumentCtxMenu() {
+    this._mouseLock = false;
   }
 
   onPaste(e: Event) {

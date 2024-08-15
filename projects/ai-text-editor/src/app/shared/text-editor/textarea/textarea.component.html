@@ -3,7 +3,8 @@
   class="ate-textarea"
   contenteditable
   (input)="input.emit(editor.innerHTML)"
-  (selectstart)="onSelectStart()"
+  (focusin)="onFocus()"
+  (focusout)="onBlur()"
   (paste)="onPaste($event)"
   [innerHTML]="contents() | safeHtml"
 ></div>
