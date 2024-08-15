@@ -1,5 +1,6 @@
 @import 'typography';
 @import './styles/control-button';
+@import 'theme-mixins';
 
 :host {
   display: block;
@@ -69,6 +70,21 @@
           }
         }
       }
+    }
+  }
+}
+
+@include if-light-theme {
+  :host {
+    border-color: var(--color-quinary);
+    box-shadow: 0 5px 15px var(--color-senary);
+
+    .toolbar::before {
+      background-color: var(--color-senary);
+    }
+
+    .vr {
+      background-color: var(--color-senary) !important;
     }
   }
 }
