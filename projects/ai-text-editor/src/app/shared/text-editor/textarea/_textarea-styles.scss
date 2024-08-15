@@ -15,6 +15,10 @@ $ate-textarea-font-size: 1rem;
     line-height: 1.625rem;
     font-size: 1rem;
 
+    p {
+      margin: 0 !important;
+    }
+
     a {
       color: rgb(72, 131, 197);
       text-decoration: underline;

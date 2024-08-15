@@ -90,8 +90,7 @@ export class TextareaComponent implements AfterViewInit {
     this._focused = false;
   }
 
-  @HostListener('document:mousedown')
-  onDocumentMousedown() {
+  onMousedown() {
     this._mouseLock = true;
   }
 
@@ -99,10 +98,8 @@ export class TextareaComponent implements AfterViewInit {
   onDocumentMouseup() {
     this._mouseLock = false;
 
-    if (this._storedSelection) {
-      this.textSelect.emit(this._storedSelection);
-      this._storedSelection = '';
-    }
+    this.textSelect.emit(this._storedSelection);
+    this._storedSelection = '';
   }
 
   @HostListener('document:selectionchange')

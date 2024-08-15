@@ -3,6 +3,7 @@
   class="ate-textarea"
   contenteditable
   (input)="input.emit(editor.innerHTML)"
+  (mousedown)="onMousedown()"
   (focusin)="onFocus()"
   (focusout)="onBlur()"
   (paste)="onPaste($event)"

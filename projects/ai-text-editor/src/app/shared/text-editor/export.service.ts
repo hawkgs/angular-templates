@@ -17,6 +17,9 @@ const htmlFileTemplate = (contents: string): string =>
           background: #fff;
           color: #000;
         }
+        p {
+          margin: 0 !important;
+        }
         a {
           color: #4882c5;
           text-decoration: underline;
