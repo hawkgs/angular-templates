@@ -37,9 +37,7 @@ export class TextareaController {
 })
 export class TextareaComponent implements AfterViewInit {
   private _selection = inject(SelectionManager);
-  // private _elRef = inject(ElementRef);
 
-  // private _selectionInProgress: boolean = false;
   private _contentsInit: boolean = false;
   private _focused: boolean = false;
   private _mouseLock: boolean = false;
@@ -126,6 +124,18 @@ export class TextareaComponent implements AfterViewInit {
   @HostListener('document:contextmenu')
   onDocumentCtxMenu() {
     this._mouseLock = false;
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  onDocumentTabPress(e: KeyboardEvent) {
+    // Handle Tab press
+    if (this._focused && e.key === 'Tab') {
+      e.preventDefault();
+
+      this._selection.insertText('\u2003');
+      const html = this.editor().nativeElement.innerHTML;
+      this.input.emit(html);
+    }
   }
 
   onPaste(e: Event) {

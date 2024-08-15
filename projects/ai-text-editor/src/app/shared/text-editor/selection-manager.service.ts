@@ -60,6 +60,22 @@ export class SelectionManager {
     this._selectNodeContents(node);
   }
 
+  insertText(text: string) {
+    const range = this._selection.getRange();
+    const textNode = this._doc.createTextNode(text);
+    range?.insertNode(textNode);
+
+    // Set the caret to the end of the inserted text
+    const newRange = this._doc.createRange();
+    newRange.setStart(textNode, text.length);
+
+    // Unmemoization required
+    this.unmemoize();
+    const selection = this._win.getSelection();
+    selection?.removeAllRanges();
+    selection?.addRange(newRange);
+  }
+
   memoize() {
     this._selectionCache = this._createEditorSelection();
   }
