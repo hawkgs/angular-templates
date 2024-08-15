@@ -138,7 +138,18 @@ export class TextareaComponent implements AfterViewInit {
     }
   }
 
-  onPaste(e: Event) {
-    // e.preventDefault();
+  onPaste(e: ClipboardEvent) {
+    if (!e.clipboardData) {
+      return;
+    }
+    e.preventDefault();
+
+    const text = e.clipboardData.getData('text/plain');
+
+    if (this._selection.text()) {
+      this._selection.updateText(text);
+    } else {
+      this._selection.insertText(text);
+    }
   }
 }
