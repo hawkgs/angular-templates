@@ -26,7 +26,7 @@ import { SelectionManager } from './selection-manager.service';
 import { FormattingService, TextStyle } from './formatting.service';
 import { ExportService } from './export.service';
 
-const INPUT_DEBOUNCE = 2000;
+const AUTOSAVE_DEBOUNCE = 2000;
 const MIN_AI_ENHC_STR_LEN = 5;
 const HINT_TTL = 7500;
 
@@ -71,13 +71,13 @@ export class TextEditorComponent {
   async onFormat(e: FormatEvent) {
     switch (e.command) {
       case 'bold':
-        this._formatting.makeBold();
+        this._formatting.toggleBold();
         break;
       case 'italic':
-        this._formatting.makeItalic();
+        this._formatting.toggleItalics();
         break;
       case 'underlined':
-        this._formatting.makeUnderlined();
+        this._formatting.toggleUnderlined();
         break;
       case 'hyperlink':
         await this._formatting.addHyperlink();
@@ -146,7 +146,7 @@ export class TextEditorComponent {
     this._inputTimeout = setTimeout(() => {
       this.docStore.save();
       this.showSavedLabel.set(true);
-    }, INPUT_DEBOUNCE);
+    }, AUTOSAVE_DEBOUNCE);
   }
 
   onTextSelect(text: string) {

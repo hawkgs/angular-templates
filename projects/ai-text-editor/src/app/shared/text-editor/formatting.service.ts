@@ -16,14 +16,18 @@ const removeInlineFormatting = (fmtEl: HTMLElement, fmtClass: string) => {
   fmtEl.classList.remove(fmtClass);
 };
 
-// Note(Georgi): Under development
+/**
+ * Applies formatting on the current text selection.
+ *
+ * Not bound to the actual editor textarea.
+ */
 @Injectable()
 export class FormattingService {
   private _selection = inject(SelectionManager);
   private _doc = inject(DOCUMENT);
   private _modals = inject(ModalService);
 
-  makeBold() {
+  toggleBold() {
     this._formatSelection(
       (fmtEl) => applyInlineFormatting(fmtEl, 'bd'),
       (fmtEl) => removeInlineFormatting(fmtEl, 'bd'),
@@ -31,7 +35,7 @@ export class FormattingService {
     );
   }
 
-  makeItalic() {
+  toggleItalics() {
     this._formatSelection(
       (fmtEl) => applyInlineFormatting(fmtEl, 'it'),
       (fmtEl) => removeInlineFormatting(fmtEl, 'it'),
@@ -39,7 +43,7 @@ export class FormattingService {
     );
   }
 
-  makeUnderlined() {
+  toggleUnderlined() {
     this._formatSelection(
       (fmtEl) => applyInlineFormatting(fmtEl, 'ul'),
       (fmtEl) => removeInlineFormatting(fmtEl, 'ul'),
