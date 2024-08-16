@@ -5,6 +5,11 @@
     margin-bottom: 1rem;
   }
 
+  div {
+    display: flex;
+    justify-content: flex-end;
+  }
+
   button {
     min-width: 64px;
 
