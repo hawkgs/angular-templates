@@ -17,6 +17,7 @@ $enhancer-blue: #45b2e8;
   box-shadow: 0 0 10px rgba($enhancer-purple, 0.5);
   box-sizing: border-box;
   min-width: 120px;
+  z-index: 1;
 
   .logo {
     background: url('../../../../../public/ai-enhancer.svg') no-repeat;
