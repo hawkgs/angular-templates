@@ -17,6 +17,7 @@ describe('AiEnhancerMenuComponent', () => {
 
     fixture = TestBed.createComponent(AiEnhancerMenuComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('position', { x: 0, y: 0 });
     fixture.detectChanges();
   });
 
