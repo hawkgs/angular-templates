@@ -1,6 +1,7 @@
 <div class="toolbar">
   <ate-formatting-bar
     (format)="onFormat($event)"
+    (controlsInit)="formatCtrls.set($event)"
     [isTextSelected]="isTextSelected()"
   ></ate-formatting-bar>
   <div class="controls">
@@ -27,8 +28,9 @@
 </div>
 <ate-textarea
   [initContents]="docStore.html()"
+  [formatCtrls]="formatCtrls()"
   (ref)="docStore.provideSource($event)"
-  (ctrl)="onTextareaController($event)"
+  (ctrl)="onTextareaControllerInit($event)"
   (input)="onInput()"
   (textSelect)="onTextSelect($event)"
 ></ate-textarea>

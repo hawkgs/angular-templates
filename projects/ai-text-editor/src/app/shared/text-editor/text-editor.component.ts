@@ -67,6 +67,7 @@ export class TextEditorComponent {
   showAiEnhancer = signal<boolean>(false);
   editorDirty = signal<boolean>(false);
   aiEnhancerPos = signal<{ x: number; y: number }>({ x: 0, y: 0 });
+  formatCtrls = signal<Set<HTMLElement>>(new Set());
 
   async onFormat(e: FormatEvent) {
     switch (e.command) {
@@ -150,6 +151,8 @@ export class TextEditorComponent {
   }
 
   onTextSelect(text: string) {
+    console.log('ET: ', '"' + text + '"');
+
     if (text.length >= MIN_AI_ENHC_STR_LEN) {
       const { x, y } = this._selection.position();
 
@@ -172,7 +175,7 @@ export class TextEditorComponent {
     this.showAiEnhancer.set(false);
   }
 
-  onTextareaController(ctrl: TextareaController) {
+  onTextareaControllerInit(ctrl: TextareaController) {
     this._textareaCtrl = ctrl;
   }
 }

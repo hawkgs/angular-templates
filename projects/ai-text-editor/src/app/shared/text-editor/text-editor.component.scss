@@ -8,7 +8,6 @@
   border: 1px solid var(--color-senary);
   box-shadow: 0 5px 15px var(--color-septenary);
   border-radius: 0.25rem;
-  user-select: none;
 
   .toolbar {
     position: relative;
@@ -49,6 +48,7 @@
         animation-fill-mode: forwards;
         margin-right: 20px;
         margin-bottom: 0.75rem;
+        user-select: none;
       }
 
       button {

@@ -52,6 +52,15 @@ export class TextareaComponent implements AfterViewInit {
    */
   parent = input<HTMLElement | null>(null);
 
+  /**
+   * Format controls (references) that are outside
+   * of the textarea.
+   *
+   * If they aren't provided, clicking on them
+   * won't preserve the focus and selected text.
+   */
+  formatCtrls = input<Set<HTMLElement>>(new Set());
+
   textSelect = output<string>();
   input = output<string>();
   ref = output<HTMLElement>();
@@ -94,11 +103,24 @@ export class TextareaComponent implements AfterViewInit {
     this._mouseLock = true;
   }
 
-  @HostListener('document:mouseup')
-  onDocumentMouseup() {
+  @HostListener('document:mouseup', ['$event'])
+  onDocumentMouseup(e: MouseEvent) {
     this._mouseLock = false;
 
-    this.textSelect.emit(this._storedSelection);
+    const target = e.target as HTMLElement;
+    const ctrls = this.formatCtrls();
+
+    // If a formatting control has been clicked,
+    // don't emit an empty string since this will
+    // break consecutive selection formatting.
+    if (
+      !ctrls.has(target) &&
+      target.parentElement &&
+      !ctrls.has(target.parentElement)
+    ) {
+      this.textSelect.emit(this._storedSelection);
+    }
+
     this._storedSelection = '';
   }
 

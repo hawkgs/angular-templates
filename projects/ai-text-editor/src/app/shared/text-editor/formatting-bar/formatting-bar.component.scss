@@ -41,6 +41,7 @@
 
     span {
       font-size: $ate-textarea-font-size;
+      pointer-events: none;
 
       &.heading {
         @extend %heading-text-style;
