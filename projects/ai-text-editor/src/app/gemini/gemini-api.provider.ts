@@ -24,7 +24,7 @@ export const GEMINI_API = new InjectionToken<any>('GEMINI_API');
 export const API_KEY = 'XXXXxxxxXXXXxxxxXXXX';
 
 // Gemini API provider
-export const geminiApiProvider = (): Provider => {
+export const provideGeminiApi = (): Provider => {
   const genAI = new GoogleGenerativeAI(API_KEY);
   const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
@@ -35,7 +35,7 @@ export const geminiApiProvider = (): Provider => {
 };
 
 // Gemini API mock provider
-export const geminiApiMockProvider = (): Provider => {
+export const providerGeminiApiMock = (): Provider => {
   return {
     provide: GEMINI_API,
     useValue: geminiApiMock,

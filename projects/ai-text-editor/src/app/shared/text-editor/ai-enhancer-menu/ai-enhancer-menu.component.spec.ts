@@ -3,7 +3,7 @@ import { windowProvider } from '@ngx-templates/shared/services';
 
 import { AiEnhancerMenuComponent } from './ai-enhancer-menu.component';
 import { SelectionManager } from '../selection-manager.service';
-import { geminiApiMockProvider } from '../../../gemini/gemini-api.provider';
+import { providerGeminiApiMock } from '../../../gemini/gemini-api.provider';
 
 describe('AiEnhancerMenuComponent', () => {
   let component: AiEnhancerMenuComponent;
@@ -12,7 +12,7 @@ describe('AiEnhancerMenuComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AiEnhancerMenuComponent],
-      providers: [windowProvider, geminiApiMockProvider(), SelectionManager],
+      providers: [windowProvider, providerGeminiApiMock(), SelectionManager],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AiEnhancerMenuComponent);
