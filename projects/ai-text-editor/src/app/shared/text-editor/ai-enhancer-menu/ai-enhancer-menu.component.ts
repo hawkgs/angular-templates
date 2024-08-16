@@ -94,7 +94,7 @@ export class AiEnhancerMenuComponent implements OnDestroy, AfterViewInit {
 
     const text = this._selection.text();
     const output = await this._gemini.generate(
-      'Formalize the following text',
+      'Formalize the following text directly, without formatting',
       text,
     );
 
@@ -108,7 +108,7 @@ export class AiEnhancerMenuComponent implements OnDestroy, AfterViewInit {
 
     const text = this._selection.text();
     const output = await this._gemini.generate(
-      'Expand the following text',
+      'Expand the following text directly, without formatting',
       text,
     );
 

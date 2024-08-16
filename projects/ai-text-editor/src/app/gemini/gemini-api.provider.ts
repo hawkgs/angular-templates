@@ -3,7 +3,8 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { geminiApiMock } from './gemini-api-mock';
 
-// import { GoogleGenerativeAI } from "@google/generative-ai";
+// Uncomment the following line and comment the next one
+// import { GoogleGenerativeAI } from '@google/generative-ai';
 
 declare const GoogleGenerativeAI: any;
 
