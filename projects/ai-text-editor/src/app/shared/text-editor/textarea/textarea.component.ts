@@ -170,5 +170,8 @@ export class TextareaComponent implements AfterViewInit {
     } else {
       this._selection.insertText(text);
     }
+
+    const html = this.editor().nativeElement.innerHTML;
+    this.input.emit(html);
   }
 }
