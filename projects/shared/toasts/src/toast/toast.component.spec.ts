@@ -16,11 +16,11 @@ describe('ToastComponent', () => {
 
     fixture = TestBed.createComponent(ToastComponent);
     component = fixture.componentInstance;
-
-    TestBed.runInInjectionContext(() => {
-      component.toast = input(new Toast('', 0, signal(List([]))));
-      fixture.detectChanges();
-    });
+    fixture.componentRef.setInput(
+      'toast',
+      new Toast('', signal<List<Toast>>(List([]))),
+    );
+    fixture.detectChanges();
   });
 
   it('should create', () => {
