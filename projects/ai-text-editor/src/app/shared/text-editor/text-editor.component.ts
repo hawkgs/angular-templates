@@ -151,8 +151,6 @@ export class TextEditorComponent {
   }
 
   onTextSelect(text: string) {
-    console.log('ET: ', '"' + text + '"');
-
     if (text.length >= MIN_AI_ENHC_STR_LEN) {
       const { x, y } = this._selection.position();
 
