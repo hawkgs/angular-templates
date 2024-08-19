@@ -1,6 +1,12 @@
 import { inject, Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
+/**
+ * Bypasses the built-in HTML sanitization.
+ * Used for rendering HTML from a source.
+ *
+ * Script tags are stripped in order to prevent XSS.
+ */
 @Pipe({
   name: 'safeHtml',
   standalone: true,

@@ -83,7 +83,7 @@ export class AiEnhancerMenuComponent implements OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
-    // In case we have memoized the selection but
+    // Unmemoize in case we have memoized the selection but
     // the enhancer is closed/destroyed for some reason.
     this._selection.unmemoize();
   }

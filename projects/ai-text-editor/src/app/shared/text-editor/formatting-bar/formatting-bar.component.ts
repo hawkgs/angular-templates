@@ -38,7 +38,7 @@ export class FormattingBarComponent implements AfterViewInit {
   formatCtrls = viewChildren(FormatControlDirective);
 
   /**
-   * Returns a set with all format controls HTML elements.
+   * Returns a set with all format control HTML elements.
    */
   controlsInit = output<Set<HTMLElement>>();
 

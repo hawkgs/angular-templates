@@ -22,7 +22,7 @@ export class TextareaController {
     } else {
       // Special case – if the content is empty (e.g. typing in in a new doc),
       // setting it again to an empty string will not clear the textarea (no change).
-      // That's why, we have to do this manually.
+      // That's why, we have to do this manually by altering the actual HTML.
       this._textarea.editor().nativeElement.innerHTML = '';
     }
   }
@@ -157,6 +157,7 @@ export class TextareaComponent implements AfterViewInit {
     }
   }
 
+  // Strips text from any formatting on paste
   onPaste(e: ClipboardEvent) {
     if (!e.clipboardData) {
       return;

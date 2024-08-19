@@ -1,6 +1,9 @@
 const LOREM_IPSUM =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget magna venenatis, tincidunt mi a, efficitur eros. Aenean accumsan, quam eget pulvinar pellentesque, dolor nunc lacinia libero, ac vulputate arcu quam ac nisl. Quisque rutrum lacinia dolor ac pharetra. Suspendisse et lacus ac risus dignissim auctor eu ut enim. Fusce diam ex, porta vitae turpis posuere, imperdiet rhoncus dolor. Etiam efficitur a dui in imperdiet. Morbi porttitor feugiat velit in tempor. Phasellus vulputate lacus quis enim mattis tempor. Sed vel ullamcorper tortor.';
 
+/**
+ * Gemini API mock that uses "Lorem ipsum" as an output source
+ */
 export function geminiApiMock(
   _: string,
   body?: { [key: string]: string },
@@ -25,9 +28,9 @@ export function geminiApiMock(
   // Remove ending punctuation marks.
   output = output.replace(/(\.|,)$/g, '');
 
-  // Is not upper case
   const charCode = text.charCodeAt(0);
 
+  // Is not upper case
   if (!(65 <= charCode && charCode <= 90)) {
     const chars = output.split('');
     chars[0] = chars[0].toLowerCase();

@@ -7,6 +7,13 @@ import { environment } from '../../environments/environment';
 export class GeminiApi {
   private _fetch = inject(FETCH_API);
 
+  /**
+   * Generate content via Gemini API by a provided prompt and target text
+   *
+   * @param prompt A prompt that will be used for enhancing the target text
+   * @param targetText Target text the will undergo an enhancement
+   * @returns
+   */
   async generate(prompt: string, targetText?: string): Promise<string> {
     const apiPrompt = targetText ? `${prompt}: "${targetText}"` : prompt;
     const response = await this._fetch(environment.geminiApiUrl, {

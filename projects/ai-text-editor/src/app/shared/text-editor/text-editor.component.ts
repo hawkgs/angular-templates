@@ -27,8 +27,10 @@ import { FormattingService, TextStyle } from './formatting.service';
 import { ExportService } from './export.service';
 
 const AUTOSAVE_DEBOUNCE = 2000;
-const MIN_AI_ENHC_STR_LEN = 5;
 const HINT_TTL = 7500;
+
+// Minimal required length for the AI Enhancer to activate
+const MIN_AI_ENHC_STR_LEN = 5;
 
 @Component({
   selector: 'ate-text-editor',
@@ -151,6 +153,7 @@ export class TextEditorComponent {
   }
 
   onTextSelect(text: string) {
+    // Show the enhancer, if the selection length is sufficient
     if (text.length >= MIN_AI_ENHC_STR_LEN) {
       const { x, y } = this._selection.position();
 

@@ -61,6 +61,10 @@ const htmlFileTemplate = (contents: string): string =>
   </html>
 `.replace(/(?:\r\n|\r|\n)/gm, '');
 
+/**
+ * Provides an API for exporting the currently
+ * saved document (in the `DocStore`).
+ */
 @Injectable()
 export class ExportService {
   private _docStore = inject(DocStoreService);
