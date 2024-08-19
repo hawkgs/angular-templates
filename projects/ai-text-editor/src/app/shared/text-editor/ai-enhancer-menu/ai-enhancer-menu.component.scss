@@ -86,6 +86,27 @@ $enhancer-blue: #45b2e8;
       width: 100%;
     }
   }
+
+  @media (max-width: 500px) {
+    position: fixed;
+    bottom: 0;
+    top: unset !important;
+    left: 1rem !important;
+    bottom: 1rem;
+    right: 1rem;
+
+    .output {
+      max-width: unset;
+
+      .skeleton-line {
+        width: 100%;
+      }
+    }
+
+    form {
+      width: auto;
+    }
+  }
 }
 
 @keyframes fade-in {

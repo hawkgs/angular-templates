@@ -1,3 +1,5 @@
+@import '../../styles/screen-breakpoints';
+
 :host {
   font-weight: 500;
   border-radius: 0.25rem;
@@ -11,6 +13,10 @@
     font-size: 0.75rem;
     padding: 0.25rem 0.75rem;
     border-radius: 0.2rem;
+
+    @include bp-600w {
+      font-size: 1rem;
+    }
   }
 
   &.large-size-btn {
