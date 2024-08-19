@@ -178,7 +178,7 @@ export class AiEnhancerMenuComponent implements OnDestroy, AfterViewInit {
   }
 
   private _updateElementPos() {
-    const p = this.position();
+    let { x, y } = this.position();
     const el = this._elRef.nativeElement;
 
     const width = this._elRef.nativeElement.offsetWidth;
@@ -187,10 +187,10 @@ export class AiEnhancerMenuComponent implements OnDestroy, AfterViewInit {
       this._win.innerWidth - width - SELECTION_MARGIN - VIEWPORT_PADDING;
     const maxY = this._win.innerHeight - height - SELECTION_MARGIN;
 
-    p.x = Math.min(p.x, maxX);
-    p.y = Math.min(p.y, maxY) + this._win.scrollY;
+    x = Math.min(x, maxX);
+    y = Math.min(y, maxY) + this._win.scrollY;
 
-    this._renderer.setStyle(el, 'top', p.y + SELECTION_MARGIN + 'px');
-    this._renderer.setStyle(el, 'left', p.x + SELECTION_MARGIN + 'px');
+    this._renderer.setStyle(el, 'top', y + SELECTION_MARGIN + 'px');
+    this._renderer.setStyle(el, 'left', x + SELECTION_MARGIN + 'px');
   }
 }
