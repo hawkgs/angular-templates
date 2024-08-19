@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { FETCH_API } from '@ngx-templates/shared/fetch';
 
-import { environment } from '../../../environments/environment';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class GeminiApi {
