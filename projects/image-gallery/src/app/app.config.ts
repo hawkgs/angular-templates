@@ -11,6 +11,8 @@ export const appConfig: ApplicationConfig = {
     provideRouter(APP_ROUTES),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideClientHydration(),
+    // Drop the `fetchMock` implementation argument in order to
+    // perform actual network requests via the native Fetch API.
     provideFetchApi(fetchMock(imgGalleryRequestResponseMock)),
     windowProvider,
   ],

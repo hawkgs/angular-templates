@@ -389,7 +389,13 @@
                   "maximumError": "4kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "projects/image-gallery/src/environments/environment.ts",
+                  "with": "projects/image-gallery/src/environments/environment.prod.ts"
+                }
+              ]
             },
             "development": {
               "optimization": false,
@@ -522,7 +528,13 @@
                   "maximumError": "4kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "projects/ai-text-editor/src/environments/environment.ts",
+                  "with": "projects/ai-text-editor/src/environments/environment.prod.ts"
+                }
+              ]
             },
             "development": {
               "optimization": false,

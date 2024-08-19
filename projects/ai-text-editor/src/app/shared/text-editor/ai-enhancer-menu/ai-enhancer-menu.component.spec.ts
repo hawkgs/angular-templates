@@ -3,7 +3,7 @@ import { windowProvider } from '@ngx-templates/shared/services';
 
 import { AiEnhancerMenuComponent } from './ai-enhancer-menu.component';
 import { SelectionManager } from '../selection-manager.service';
-import { providerGeminiApiMock } from '../../../gemini/gemini-api.provider';
+import { providerGeminiApiMock } from '../../../api/gemini-api.provider';
 
 describe('AiEnhancerMenuComponent', () => {
   let component: AiEnhancerMenuComponent;

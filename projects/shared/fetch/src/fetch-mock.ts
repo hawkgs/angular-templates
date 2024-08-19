@@ -1,19 +1,13 @@
 // Represents a Fetch API mock created
 // purely for demo purposes.
 
-const REQUEST_DELAY = 200;
-const LOGGING_ENABLED = true;
-
-// Used for logging the operation in the console
-const log = (msg: string, obj?: object) => {
-  if (LOGGING_ENABLED) {
-    console.info('Fetch API Mock:', msg, obj || '');
-  }
-};
+type LogFn = (msg: string, obj?: object) => void;
 
 // A delayed promise response
 function simulateRequest(
   jsonData: object,
+  config: FetchMockConfig,
+  log: LogFn,
   abortSignal?: AbortSignal | null,
 ): Promise<Response> {
   let timeout: ReturnType<typeof setTimeout>;
@@ -41,9 +35,29 @@ function simulateRequest(
         ok: true,
         json: () => Promise.resolve(jsonData),
       } as Response);
-    }, REQUEST_DELAY);
+    }, config.requestDelay);
   });
 }
+
+/**
+ * Fetch Mock configuration object
+ */
+export type FetchMockConfig = {
+  /**
+   * Delay of the request response in milliseconds (Default: `200`)
+   */
+  requestDelay: number;
+
+  /**
+   * Print the requests and their responses in the console (Default: `true`)
+   */
+  logging: boolean;
+};
+
+const DEFAULT_CFG: FetchMockConfig = {
+  requestDelay: 200,
+  logging: true,
+};
 
 /**
  * Fetch API Mock
@@ -53,9 +67,31 @@ function simulateRequest(
  * @returns
  */
 export const fetchMock =
-  (mockFn: (url: string) => object) =>
-  (url: string | URL | Request, init?: RequestInit): Promise<Response> => {
+  (
+    mockFn: (url: string, body?: { [key: string]: string }) => object,
+    config?: Partial<FetchMockConfig>,
+  ) =>
+  (url: string | URL | Request, options?: RequestInit): Promise<Response> => {
+    const fullCfg: FetchMockConfig = { ...DEFAULT_CFG, ...config };
+
+    // Used for logging the operation in the console
+    const log = (msg: string, obj?: object) => {
+      if (fullCfg?.logging) {
+        console.info('Fetch API Mock:', msg, obj || '');
+      }
+    };
+
     log('Executing request ' + url);
 
-    return simulateRequest(mockFn(url.toString()), init?.signal);
+    const body = options?.body ? JSON.parse(options.body as string) : null;
+    if (body) {
+      log('Body', body);
+    }
+
+    return simulateRequest(
+      mockFn(url.toString(), body),
+      fullCfg,
+      log,
+      options?.signal,
+    );
   };

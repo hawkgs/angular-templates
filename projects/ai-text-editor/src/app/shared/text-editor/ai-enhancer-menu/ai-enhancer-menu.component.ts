@@ -18,7 +18,7 @@ import { IconComponent } from '@ngx-templates/shared/icon';
 import { ToastsService } from '@ngx-templates/shared/toasts';
 import { WINDOW } from '@ngx-templates/shared/services';
 
-import { GeminiService } from '../../../gemini/gemini.service';
+import { GeminiApi } from '../../../api/gemini-api.service';
 import { SelectionManager } from '../selection-manager.service';
 
 type EnhancerState = 'standby' | 'user-prompt' | 'loading' | 'ready';
@@ -37,7 +37,7 @@ const VIEWPORT_PADDING = 24; // 12 on each side
 export class AiEnhancerMenuComponent implements OnDestroy, AfterViewInit {
   private _selection = inject(SelectionManager);
   private _formBuilder = inject(FormBuilder);
-  private _gemini = inject(GeminiService);
+  private _gemini = inject(GeminiApi);
   private _toasts = inject(ToastsService);
   private _elRef = inject(ElementRef);
   private _renderer = inject(Renderer2);
