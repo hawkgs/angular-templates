@@ -20,6 +20,11 @@ export class SafeHtmlPipe implements PipeTransform {
   }
 
   private _sanitizeHtml(html: string) {
-    return html.replace(/<script>|<\/script>/gm, '');
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    const scriptTags = doc.querySelectorAll('script');
+    scriptTags.forEach((s) => s.remove());
+
+    return doc.body.innerHTML;
   }
 }
