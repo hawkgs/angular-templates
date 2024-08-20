@@ -1,5 +1,6 @@
-import { inject, Pipe, PipeTransform } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { isPlatformBrowser } from '@angular/common';
+import { inject, Pipe, PipeTransform, PLATFORM_ID } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 /**
  * Bypasses the built-in HTML sanitization.
@@ -13,13 +14,18 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class SafeHtmlPipe implements PipeTransform {
   private _sanitizer = inject(DomSanitizer);
+  private _platformId = inject(PLATFORM_ID);
 
-  transform(html: string) {
+  transform(html: string): SafeHtml {
     const sanitized = this._sanitizeHtml(html);
     return this._sanitizer.bypassSecurityTrustHtml(sanitized);
   }
 
-  private _sanitizeHtml(html: string) {
+  private _sanitizeHtml(html: string): string {
+    if (!isPlatformBrowser(this._platformId)) {
+      return '';
+    }
+
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
     const scriptTags = doc.querySelectorAll('script');
