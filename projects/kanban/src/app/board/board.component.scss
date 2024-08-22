@@ -1,0 +1,9 @@
+:host {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  width: 100%;
+  overflow-x: auto;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}

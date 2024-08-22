@@ -1,0 +1,23 @@
+:host {
+  display: block;
+  flex: 0 0 275px;
+  height: calc(100vh - 64px - 2rem);
+  border: 1px solid red;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  border-radius: 0.2rem;
+
+  &:not(:last-of-type) {
+    margin-right: 1rem;
+  }
+
+  .header {
+    margin-bottom: 1rem;
+  }
+
+  .cards {
+    border: 1px dashed grey;
+    overflow-y: auto;
+    max-height: calc(100% - 40px); // header height
+  }
+}
