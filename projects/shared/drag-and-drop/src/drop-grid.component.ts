@@ -328,14 +328,15 @@ export class DropGridComponent
     this._spacialGrid = this._getOrderedDraggables().map((d) => {
       const { x, y, width, height } =
         d.directive.element.getBoundingClientRect();
+      const yWithScroll = y + this._scrollCont.scrollTop;
 
       return {
         id: d.id,
         viewRefIdx: d.idx,
         x1: x,
-        y1: y,
+        y1: yWithScroll,
         x2: width + x,
-        y2: height + y,
+        y2: height + yWithScroll,
       };
     });
   }
