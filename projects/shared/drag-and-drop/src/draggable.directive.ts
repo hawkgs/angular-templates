@@ -103,7 +103,7 @@ export class DraggableDirective implements OnDestroy {
    * coordinates of the draggable target
    * - `id` is the ID of the draggable
    */
-  dragStart = output<{ elContPos: Coor; id: string }>();
+  dragStart = output<{ elContPos: Coor; rect: Rect; id: string }>();
 
   /**
    * Emitted on drag move.
@@ -209,8 +209,15 @@ export class DraggableDirective implements OnDestroy {
       }
 
       this.dragStart.emit({
-        elContPos: pos,
         id: this.id(),
+        elContPos: pos,
+        rect: {
+          p1: pos,
+          p2: {
+            x: x + width,
+            y: y + height,
+          },
+        },
       });
     }, DRAG_ACTIVE_AFTER);
   }

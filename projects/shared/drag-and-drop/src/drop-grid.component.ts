@@ -6,6 +6,7 @@ import {
   EmbeddedViewRef,
   Input,
   NgZone,
+  Renderer2,
   TemplateRef,
   ViewContainerRef,
   ViewRef,
@@ -46,6 +47,7 @@ export class DropGridComponent
 {
   private _zone = inject(NgZone);
   private _elRef = inject(ElementRef);
+  private _renderer = inject(Renderer2);
 
   slotTemplate = viewChild.required('slotTemplate', { read: TemplateRef });
   gridVcr = viewChild.required('grid', { read: ViewContainerRef });
@@ -71,6 +73,11 @@ export class DropGridComponent
    * Set the cell gap/spacing. Default: `16px`
    */
   cellGap = input<number>(DEFAULT_CELL_GAP);
+
+  /**
+   * Enable when the height of the draggable items could vary. Default: `false`
+   */
+  variableHeight = input<boolean>(false);
 
   gridTemplateColumns = computed(() => `repeat(${this.columns()}, 1fr)`);
 
@@ -134,16 +141,30 @@ export class DropGridComponent
     }
   }
 
-  onDragStart({ elContPos, id }: { elContPos: Coor; id: string }) {
+  onDragStart({
+    elContPos,
+    rect,
+    id,
+  }: {
+    elContPos: Coor;
+    rect: Rect;
+    id: string;
+  }) {
     this._zone.run(() => {
       const directive = this._draggablesDirectives.get(id);
 
       directive?.anchor.set(elContPos);
 
       const draggableSize = directive?.elementSize() || 1;
-      this._slot = this.slotTemplate().createEmbeddedView({
-        $implicit: draggableSize,
-      });
+      this._slot = this.slotTemplate().createEmbeddedView({});
+
+      // Note(Georgi): Don't use the $implicit context of createEmbeddedView
+      // to pass the col span and the height of the slot to the template.
+      // The changes are applied after the spacial grid calculation which
+      // breaks the grid, unless it's deferred via setTimeout.
+      const [node] = this._slot.rootNodes;
+      this._renderer.setStyle(node, 'height', rect.p2.y - rect.p1.y + 'px');
+      this._renderer.setStyle(node, 'grid-column', 'span ' + draggableSize);
 
       this._dragged = this._draggablesViewRefs.get(id);
 
@@ -293,6 +314,33 @@ export class DropGridComponent
       return;
     }
 
+    // If the items don't have a variable height,
+    // we can use a more performant way for calculating
+    // the grid.
+    if (!this.variableHeight()) {
+      this._calculateStaticSpacialGrid();
+    } else {
+      this._calculateDynamicSpacialGrid();
+    }
+  }
+
+  private _calculateDynamicSpacialGrid() {
+    this._spacialGrid = this._getOrderedDraggables().map((d) => {
+      const { x, y, width, height } =
+        d.directive.element.getBoundingClientRect();
+
+      return {
+        id: d.id,
+        viewRefIdx: d.idx,
+        x1: x,
+        y1: y,
+        x2: width + x,
+        y2: height + y,
+      };
+    });
+  }
+
+  private _calculateStaticSpacialGrid() {
     // This implementation relies on a single call of `getBoundingClientRect`.
     // The rest of the grid cell position are deduced from the first one.
     // It's a more complex approach compared to the straightforward
