@@ -21,7 +21,7 @@ const boardRecord = Record<BoardConfig>({
 });
 
 export class Board extends boardRecord {
-  constructor(config: BoardConfig) {
+  constructor(config: Partial<BoardConfig>) {
     super(config);
   }
 }

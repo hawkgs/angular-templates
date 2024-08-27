@@ -15,7 +15,7 @@ const boardListRecord = Record<BoardListConfig>({
 });
 
 export class BoardList extends boardListRecord {
-  constructor(config: BoardListConfig) {
+  constructor(config: Partial<BoardListConfig>) {
     super(config);
   }
 }

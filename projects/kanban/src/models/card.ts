@@ -19,7 +19,7 @@ const cardRecord = Record<CardConfig>({
 });
 
 export class Card extends cardRecord {
-  constructor(config: CardConfig) {
+  constructor(config: Partial<CardConfig>) {
     super(config);
   }
 }

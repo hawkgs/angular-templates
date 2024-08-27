@@ -13,7 +13,7 @@ const labelRecord = Record<LabelConfig>({
 });
 
 export class Label extends labelRecord {
-  constructor(config: LabelConfig) {
+  constructor(config: Partial<LabelConfig>) {
     super(config);
   }
 }
