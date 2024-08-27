@@ -53,7 +53,7 @@ export class WidgetConfigModalComponent {
 
   titleInput = viewChild.required<ElementRef>('titleInput');
   dataSourceId = signal<string>('');
-  size = signal<string>('1');
+  size = signal<string>('');
 
   iterate = (size: number) => new Array(size);
 
@@ -62,9 +62,17 @@ export class WidgetConfigModalComponent {
   );
 
   addWidget() {
+    const supportedSizes = this.data.supportedSizes;
+    // If the supported size is only one,
+    // the size signal will remain empty.
+    const size =
+      supportedSizes.length === 1
+        ? supportedSizes[0]
+        : parseInt(this.size(), 10);
+
     this.ctrl.close({
       dataSourceId: this.dataSourceId(),
-      size: parseInt(this.size(), 10),
+      size,
       title: this.titleInput().nativeElement.value,
     });
   }

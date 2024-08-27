@@ -44,7 +44,10 @@
       ngx-button
       btnType="primary"
       (click)="addWidget()"
-      [disabled]="!dataSourceId().length"
+      [disabled]="
+        !dataSourceId().length ||
+        (data.supportedSizes.length > 1 && !size().length)
+      "
     >
       Add widget
     </button>
