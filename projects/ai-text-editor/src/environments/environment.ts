@@ -5,5 +5,5 @@
 import { Environment } from './env-types';
 
 export const environment: Environment = {
-  geminiApiUrl: 'http://localhost:5001/MY_PROJECT/us-central1/gemini',
+  geminiApiUrl: 'http://localhost:3000/gemini',
 };
