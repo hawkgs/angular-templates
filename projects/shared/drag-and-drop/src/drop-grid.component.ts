@@ -16,8 +16,10 @@ import {
   inject,
   input,
   output,
+  signal,
   viewChild,
 } from '@angular/core';
+import { Set } from 'immutable';
 
 import { Coor, DraggableDirective, Rect } from './draggable.directive';
 import { DROP_GRID_GROUP } from './drop-grid-group.directive';
@@ -78,7 +80,15 @@ export class DropGridComponent
 
   slotTemplate = viewChild.required('slotTemplate', { read: TemplateRef });
   gridVcr = viewChild.required('grid', { read: ViewContainerRef });
-  draggables = contentChildren(DraggableDirective);
+
+  draggablesContent = contentChildren(DraggableDirective);
+  draggablesManual = signal<Set<DraggableDirective>>(Set());
+
+  draggables = computed<DraggableDirective[]>(() => {
+    const contentSet = Set(this.draggablesContent());
+    const jointSet = contentSet.concat(this.draggablesManual());
+    return jointSet.toArray();
+  });
 
   /**
    * Emits an event when a draggable has been moved and return new positions.
@@ -119,6 +129,8 @@ export class DropGridComponent
   private _spacialGrid: GridCell[] = [];
   private _viewIdxHover = 0; // Index of the currently hovered `ViewRef`
   private _disabled = false;
+
+  // Grouping-related
   private _slotSize: SlotSize = { colSpan: 0, height: 0 };
   private _isGrouped = false;
 
@@ -189,7 +201,7 @@ export class DropGridComponent
       const targetDraggableIdx = currDraggables.findIndex(
         (d) => !newDraggables.find((ud) => ud === d),
       );
-      // this._destroyDraggable(currDraggables[targetDraggableIdx]);
+      this._destroyDraggable(currDraggables[targetDraggableIdx]);
     }
   }
 
@@ -235,8 +247,6 @@ export class DropGridComponent
     if (!this._slot) {
       return;
     }
-
-    console.log('Slot drag at Grid ', this._instance);
 
     // Since the coordinates returned from `ngxDraggable` are
     // relative to the viewport, we must add the `scrollTop`
@@ -320,7 +330,7 @@ export class DropGridComponent
       return;
     }
 
-    console.log('1. Control taken over from Grid', this._instance);
+    // console.log('1. Control taken over from Grid', this._instance);
 
     // Request a transfer from the old/current host and
     // set all required state properties
@@ -373,13 +383,14 @@ export class DropGridComponent
     directive.anchor.set({ x, y });
 
     // Save the references and subscribe to the draggable event handlers
+    this.draggablesManual.update((d) => d.add(directive));
     this._draggablesDirectives.set(directive.id(), directive);
     this._draggablesViewRefs.set(directive.id(), viewRef);
     this._subscribeToDraggableEvents(directive);
   }
 
   /**
-   * Hands over all needed state to the new drag grid host
+   * Hands over all needed state to the new drop grid host
    * and cleans the state of the current grid (old host).
    *
    * Used only for grouped grids.
@@ -389,7 +400,7 @@ export class DropGridComponent
     viewRef: EmbeddedViewRef<unknown>;
     slotSize: SlotSize;
   } {
-    console.log('2. Hand over happening at Grid', this._instance);
+    // console.log('2. Hand over happening at Grid', this._instance);
 
     // Destroy the slot
     this._slot?.destroy();
@@ -408,10 +419,20 @@ export class DropGridComponent
     const id = this._draggedId!;
     const directive = this._draggablesDirectives.get(id)!;
 
-    // Clear all references of the tranferred draggable
-    this._draggablesDirectives.delete(id);
+    // Clear all of the state related to the tranferred draggable
+    // that is no longer needed or might interfere with proper
+    // functioning of the feature
+
+    // Note(Georgi): Check
+    // this._draggablesDirectives.delete(id);
     this._draggablesViewRefs.delete(id);
-    this._draggableEventsUnsubscribers.get(id)!();
+    this.draggablesManual.update((d) => d.delete(directive));
+
+    // Note(Georgi): Check
+    const collectiveUnsubscriber = this._draggableEventsUnsubscribers.get(id);
+    if (collectiveUnsubscriber) {
+      collectiveUnsubscriber();
+    }
 
     return {
       directive,
