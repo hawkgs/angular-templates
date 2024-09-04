@@ -1,10 +1,9 @@
 import {
-  AfterContentChecked,
-  AfterContentInit,
   Component,
   ElementRef,
   EmbeddedViewRef,
   HostListener,
+  InjectionToken,
   Input,
   NgZone,
   Renderer2,
@@ -12,14 +11,11 @@ import {
   ViewContainerRef,
   ViewRef,
   computed,
-  contentChildren,
   inject,
   input,
   output,
-  signal,
   viewChild,
 } from '@angular/core';
-import { Set } from 'immutable';
 
 import { Coor, DraggableDirective, Rect } from './draggable.directive';
 import { DROP_GRID_GROUP } from './drop-grid-group.directive';
@@ -58,37 +54,28 @@ const getDistanceToCell = (cell: GridCell, pt: Coor) => {
   return Math.sqrt(xDelta * xDelta + yDelta * yDelta);
 };
 
-// Note(Georgi): Temp
-let instance = 1;
+export const DROP_GRID = new InjectionToken<DropGridComponent>('DROP_GRID');
 
 @Component({
   selector: 'ngx-drop-grid',
   standalone: true,
   templateUrl: './drop-grid.component.html',
   styleUrl: './drop-grid.component.scss',
+  providers: [
+    {
+      provide: DROP_GRID,
+      useExisting: DropGridComponent,
+    },
+  ],
 })
-export class DropGridComponent
-  implements AfterContentInit, AfterContentChecked
-{
+export class DropGridComponent {
   private _zone = inject(NgZone);
   private _elRef = inject(ElementRef);
   private _renderer = inject(Renderer2);
-  private _grids = inject(DROP_GRID_GROUP, { optional: true });
-
-  // Note(Georgi): Temp
-  private _instance = -1;
+  private _group = inject(DROP_GRID_GROUP, { optional: true });
 
   slotTemplate = viewChild.required('slotTemplate', { read: TemplateRef });
   gridVcr = viewChild.required('grid', { read: ViewContainerRef });
-
-  draggablesContent = contentChildren(DraggableDirective);
-  draggablesManual = signal<Set<DraggableDirective>>(Set());
-
-  draggables = computed<DraggableDirective[]>(() => {
-    const contentSet = Set(this.draggablesContent());
-    const jointSet = contentSet.concat(this.draggablesManual());
-    return jointSet.toArray();
-  });
 
   /**
    * Emits an event when a draggable has been moved and return new positions.
@@ -118,39 +105,38 @@ export class DropGridComponent
 
   gridTemplateColumns = computed(() => `repeat(${this.columns()}, 1fr)`);
 
-  private _draggablesViewRefs = new Map<string, EmbeddedViewRef<unknown>>();
+  // ContentChildren does not work in our case due to the dynamic
+  // nature of adding and remove views when transferring from one
+  // group to another (the content children are not updated after
+  // such operations).
   private _draggablesDirectives = new Map<string, DraggableDirective>();
+  private _draggablesViewRefs = new Map<string, EmbeddedViewRef<unknown>>();
   private _draggableEventsUnsubscribers = new Map<string, () => void>();
+  private _orderedDirectives: DraggableDirective[] = [];
 
   private _slot: EmbeddedViewRef<unknown> | null = null; // Slot spacer `ViewRef`
   private _dragged: EmbeddedViewRef<unknown> | null = null; // Currently dragged
   private _draggedId?: string; // Currently dragged directive ID
 
+  // Store in case you have to pass it to a group
+  private _slotSize: SlotSize = { colSpan: 0, height: 0 };
+
   private _spacialGrid: GridCell[] = [];
   private _viewIdxHover = 0; // Index of the currently hovered `ViewRef`
   private _disabled = false;
 
-  // Grouping-related
-  private _slotSize: SlotSize = { colSpan: 0, height: 0 };
-  private _isGrouped = false;
-
   constructor() {
     // Add the current grid to the
     // grids set, if part of a group.
-    if (this._grids) {
-      this._grids.add(this);
-      this._isGrouped = true;
+    if (this._group) {
+      this._group.add(this);
     }
-
-    // Note(Georgi): Temp
-    this._instance = instance;
-    instance++;
   }
 
   @Input()
   set disabled(v: boolean) {
     this._disabled = v;
-    this.draggables().forEach((d) => {
+    this._draggablesDirectives.forEach((d) => {
       d.disabled.set(v);
     });
   }
@@ -167,42 +153,52 @@ export class DropGridComponent
     return this.scrollCont() || this._elRef.nativeElement.parentElement;
   }
 
-  ngAfterContentInit() {
-    const draggables = this.draggables();
+  insertDraggable(d: DraggableDirective) {
+    const draggableViewRef = d.templateRef.createEmbeddedView(null);
+    const pos = d.position();
+    let insertionIdx = 0;
 
-    if (draggables) {
-      // Sort and then insert the draggable according to the
-      // initially provided position
-      const sorted = [...draggables];
-      sorted.sort((a, b) => a.position() - b.position());
-      sorted.forEach((d) => this._insertDraggable(d));
+    if (this._orderedDirectives.length) {
+      insertionIdx = this._orderedDirectives.length;
+
+      for (let i = 0; i < this._orderedDirectives.length; i++) {
+        const dirPos = this._orderedDirectives[i].position();
+
+        if (dirPos > pos) {
+          insertionIdx = i;
+          break;
+        }
+      }
+      this._orderedDirectives.splice(insertionIdx, 0, d);
+    } else {
+      this._orderedDirectives.push(d);
     }
+
+    this.gridVcr().insert(draggableViewRef, insertionIdx);
+
+    // We need to set the native element of the draggable target and
+    // subscribe to the events that are going to be emitted on user
+    // interaction. This is an unconventional approach of using/applying
+    // structural directives.
+    d.element = getViewRefElement(draggableViewRef);
+    d.initEvents();
+
+    this._subscribeToDraggableEvents(d);
+
+    if (this._disabled) {
+      d.disabled.set(true);
+    }
+
+    this._draggablesDirectives.set(d.id(), d);
+    this._draggablesViewRefs.set(d.id(), draggableViewRef);
   }
 
-  ngAfterContentChecked() {
-    const newDraggables = this.draggables();
+  destroyDraggable(d: DraggableDirective) {
+    const draggableViewRef = this._draggablesViewRefs.get(d.id());
+    draggableViewRef?.destroy();
 
-    // Determine whether there is a change in the draggables.
-    // This check should be sufficient for our use case.
-    if (this._draggablesDirectives.size === newDraggables.length) {
-      return;
-    }
-
-    const currDraggables = [...this._draggablesDirectives].map(([, d]) => d);
-
-    // Add a new draggable
-    if (newDraggables.length > currDraggables.length) {
-      const targetDraggable = newDraggables.find(
-        (d) => !this._draggablesDirectives.get(d.id()),
-      )!;
-      this._insertDraggable(targetDraggable);
-    } else {
-      // Remove an existing draggable
-      const targetDraggableIdx = currDraggables.findIndex(
-        (d) => !newDraggables.find((ud) => ud === d),
-      );
-      this._destroyDraggable(currDraggables[targetDraggableIdx]);
-    }
+    this._draggablesDirectives.delete(d.id());
+    this._draggablesViewRefs.delete(d.id());
   }
 
   onDragStart({
@@ -318,19 +314,17 @@ export class DropGridComponent
    */
   @HostListener('mouseenter', ['$event'])
   onGridMouseEnter(e: MouseEvent) {
-    if (!this._isGrouped) {
+    if (!this._group) {
       return;
     }
 
     // Determine if there are is a drag host
-    const grids = [...(this._grids || [])].filter((g) => g !== this);
+    const grids = Array.from(this._group).filter((g) => g !== this);
     const dragHost = grids.find((g) => g.isDragHost);
 
     if (!dragHost) {
       return;
     }
-
-    // console.log('1. Control taken over from Grid', this._instance);
 
     // Request a transfer from the old/current host and
     // set all required state properties
@@ -341,6 +335,16 @@ export class DropGridComponent
     this._draggedId = directive.id();
     this._slot = this._createSlot(slotSize);
 
+    // Save the references and subscribe to the draggable event handlers
+    this._draggablesDirectives.set(directive.id(), directive);
+    this._draggablesViewRefs.set(directive.id(), viewRef);
+
+    // Note(Georgi): There might be a more efficient way
+    // where we don't have unsubscribe and subscribe to the event
+    // handlers on each transfer but that'll require a more
+    // major overhaul of the drop grid.
+    this._subscribeToDraggableEvents(directive);
+
     this._calculateSpacialGrid();
 
     // Set the default position/index of the slot to 0
@@ -350,7 +354,7 @@ export class DropGridComponent
     // If there are other draggables in the list,
     // find the closest one and use its position for
     // the slot
-    if (this._spacialGrid.length) {
+    if (this._spacialGrid.length > 1) {
       const pos = {
         x: e.clientX,
         y: e.clientY,
@@ -381,12 +385,6 @@ export class DropGridComponent
 
     // Set the new anchor
     directive.anchor.set({ x, y });
-
-    // Save the references and subscribe to the draggable event handlers
-    this.draggablesManual.update((d) => d.add(directive));
-    this._draggablesDirectives.set(directive.id(), directive);
-    this._draggablesViewRefs.set(directive.id(), viewRef);
-    this._subscribeToDraggableEvents(directive);
   }
 
   /**
@@ -400,8 +398,6 @@ export class DropGridComponent
     viewRef: EmbeddedViewRef<unknown>;
     slotSize: SlotSize;
   } {
-    // console.log('2. Hand over happening at Grid', this._instance);
-
     // Destroy the slot
     this._slot?.destroy();
     this._slot = null;
@@ -422,17 +418,11 @@ export class DropGridComponent
     // Clear all of the state related to the tranferred draggable
     // that is no longer needed or might interfere with proper
     // functioning of the feature
-
-    // Note(Georgi): Check
-    // this._draggablesDirectives.delete(id);
+    this._draggablesDirectives.delete(id);
     this._draggablesViewRefs.delete(id);
-    this.draggablesManual.update((d) => d.delete(directive));
 
-    // Note(Georgi): Check
-    const collectiveUnsubscriber = this._draggableEventsUnsubscribers.get(id);
-    if (collectiveUnsubscriber) {
-      collectiveUnsubscriber();
-    }
+    const unsubscriber = this._draggableEventsUnsubscribers.get(id)!;
+    unsubscriber();
 
     return {
       directive,
@@ -457,36 +447,6 @@ export class DropGridComponent
     this._renderer.setStyle(node, 'grid-column', 'span ' + colSpan);
 
     return slot;
-  }
-
-  private _insertDraggable(d: DraggableDirective) {
-    const draggableViewRef = d.templateRef.createEmbeddedView(null);
-    this.gridVcr().insert(draggableViewRef);
-
-    // We need to set the native element of the draggable target and
-    // subscribe to the events that are going to be emitted on user
-    // interaction. This is an unconventional approach of using/applying
-    // structural directives.
-
-    d.element = getViewRefElement(draggableViewRef);
-    d.initEvents();
-
-    this._subscribeToDraggableEvents(d);
-
-    if (this._disabled) {
-      d.disabled.set(true);
-    }
-
-    this._draggablesDirectives.set(d.id(), d);
-    this._draggablesViewRefs.set(d.id(), draggableViewRef);
-  }
-
-  private _destroyDraggable(d: DraggableDirective) {
-    const draggableViewRef = this._draggablesViewRefs.get(d.id());
-    draggableViewRef?.destroy();
-
-    this._draggablesDirectives.delete(d.id());
-    this._draggablesViewRefs.delete(d.id());
   }
 
   /**
