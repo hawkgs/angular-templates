@@ -111,7 +111,7 @@ export class DropGridComponent {
   // such operations).
   private _draggablesDirectives = new Map<string, DraggableDirective>();
   private _draggablesViewRefs = new Map<string, EmbeddedViewRef<unknown>>();
-  private _draggableEventsUnsubscribers = new Map<string, () => void>();
+  private _draggablesEventsUnsubscribers = new Map<string, () => void>();
   private _orderedDirectives: DraggableDirective[] = [];
 
   private _slot: EmbeddedViewRef<unknown> | null = null; // Slot spacer `ViewRef`
@@ -421,7 +421,7 @@ export class DropGridComponent {
     this._draggablesDirectives.delete(id);
     this._draggablesViewRefs.delete(id);
 
-    const unsubscriber = this._draggableEventsUnsubscribers.get(id)!;
+    const unsubscriber = this._draggablesEventsUnsubscribers.get(id)!;
     unsubscriber();
 
     return {
@@ -463,7 +463,7 @@ export class DropGridComponent {
 
     const unsubscribeFn = () => unsubscribers.forEach((fn) => fn.unsubscribe());
 
-    this._draggableEventsUnsubscribers.set(d.id(), unsubscribeFn);
+    this._draggablesEventsUnsubscribers.set(d.id(), unsubscribeFn);
   }
 
   /**
