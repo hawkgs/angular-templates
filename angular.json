@@ -741,6 +741,9 @@
     "analytics": "c4c2a0b2-4080-475e-8960-7eee1de84d9d",
     "schematicCollections": [
       "@angular-eslint/schematics"
-    ]
+    ],
+    "cache": {
+      "enabled": false
+    }
   }
 }
