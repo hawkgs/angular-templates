@@ -40,10 +40,14 @@
 <section class="main">
   <div class="list">
     @for (p of productsList.value(); track p.id; let i = $index) {
-      <ec-product-item
-        [product]="p"
-        [isLcp]="i < STANDARD_ROW_SIZE"
-      ></ec-product-item>
+      <ec-hydration-visualizer trigger="viewport">
+        @defer (on immediate; hydrate on viewport) {
+          <ec-product-item
+            [product]="p"
+            [isLcp]="i < STANDARD_ROW_SIZE"
+          ></ec-product-item>
+        }
+      </ec-hydration-visualizer>
     }
     @if (productsList.isLoading() === 'update') {
       <ec-skeleton-product-item></ec-skeleton-product-item>

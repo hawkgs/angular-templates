@@ -32,6 +32,7 @@ import { ExpandableContComponent } from '../shared/expandable-cont/expandable-co
 import { ProductSearchComponent } from './shared/product-search/product-search.component';
 import { getRoutePath, isProductDetailsRoute } from '../shared/utils/routing';
 import { maintainScrollPosEffect } from '../shared/utils/maintain-scroll-pos-effect';
+import { HydrationVisualizerComponent } from '../shared/hydration-visualizer/hydration-visualizer.component';
 
 const DEFAULT_PRICE_RANGE = { from: 0, to: 10000 };
 const DEFAULT_CAT_NAME = 'All Products';
@@ -51,6 +52,7 @@ const STANDARD_ROW_SIZE = 4; // Used for marking the first N product items as LC
     SkeletonProductItemComponent,
     InfiniteScrollComponent,
     ExpandableContComponent,
+    HydrationVisualizerComponent,
   ],
   providers: [ProductsListService, ScrollPosition],
   templateUrl: './products.component.html',
