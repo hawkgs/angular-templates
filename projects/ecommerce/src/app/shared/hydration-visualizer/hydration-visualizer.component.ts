@@ -1,5 +1,7 @@
 import { isPlatformServer } from '@angular/common';
 import {
+  afterNextRender,
+  AfterRenderPhase,
   Component,
   ElementRef,
   inject,
@@ -10,7 +12,7 @@ import {
 } from '@angular/core';
 
 // Supported hydration triggers
-type HydrationTrigger = 'immediate' | 'hover' | 'interaction';
+type HydrationTrigger = 'immediate' | 'hover' | 'interaction' | 'viewport';
 
 const NON_HYDRATED_CLASS = 'ec-non-hydrated';
 const HYDRATING_CLASS = 'ec-hydrating';
@@ -31,6 +33,11 @@ export class HydrationVisualizerComponent implements OnInit {
   private _element = inject(ElementRef);
   private _platformId = inject(PLATFORM_ID);
 
+  private _observerResolver!: (io: IntersectionObserver) => void;
+  private _observer = new Promise<IntersectionObserver>(
+    (res) => (this._observerResolver = res),
+  );
+
   /**
    * The hydration trigger MUST be provided and be the same,
    * as the one in the @defer block, for the proper operation of the component.
@@ -44,6 +51,24 @@ export class HydrationVisualizerComponent implements OnInit {
     if (isPlatformServer(this._platformId)) {
       this._renderer.addClass(this._el, NON_HYDRATED_CLASS);
     }
+
+    // Initializing the intersection observer during SSR
+    // breaks the UI. This is why we are forced to do it
+    // in the browser; hence, all the prerequisite code.
+    afterNextRender(
+      () => {
+        const observer = new IntersectionObserver(
+          ([entry]) => {
+            if (entry.isIntersecting) {
+              this._hydrate();
+            }
+          },
+          { threshold: 0.1 },
+        );
+        this._observerResolver(observer);
+      },
+      { phase: AfterRenderPhase.Read },
+    );
   }
 
   private get _el(): HTMLElement {
@@ -64,6 +89,9 @@ export class HydrationVisualizerComponent implements OnInit {
         break;
       case 'interaction':
         this._renderer.listen(this._el, 'click', () => this._hydrate());
+        break;
+      case 'viewport':
+        this._observer.then((observer) => observer.observe(this._el));
         break;
     }
   }
