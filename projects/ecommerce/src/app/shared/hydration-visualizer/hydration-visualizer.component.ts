@@ -1,9 +1,11 @@
+import { isPlatformServer } from '@angular/common';
 import {
-  Directive,
+  Component,
   ElementRef,
   inject,
   input,
   OnInit,
+  PLATFORM_ID,
   Renderer2,
 } from '@angular/core';
 
@@ -16,30 +18,40 @@ const HYDRATION_ANIM_DURATION = 1500;
 
 /**
  * Visualizes the hydration process of a component.
- *
- * The hydration trigger MUST be provided and the same,
- * as the one in the @defer block, for the proper operation of the directive.
- * Note that not all of the triggers are currently supported.
+ * Should wrap the @defer block.
  */
-@Directive({
-  selector: '[ecHydrationVisualizer]',
+@Component({
+  selector: 'ec-hydration-visualizer',
   standalone: true,
+  template: '<ng-content></ng-content>',
+  styleUrl: './hydration-visualizer.component.scss',
 })
-export class HydrationVisualizerDirective implements OnInit {
+export class HydrationVisualizerComponent implements OnInit {
   private _renderer = inject(Renderer2);
   private _element = inject(ElementRef);
-  private _hydrated = false;
+  private _platformId = inject(PLATFORM_ID);
 
-  trigger = input.required<HydrationTrigger>({
-    alias: 'ecHydrationVisualizer',
-  });
+  /**
+   * The hydration trigger MUST be provided and be the same,
+   * as the one in the @defer block, for the proper operation of the component.
+   * Note that not all of the triggers are currently supported.
+   */
+  trigger = input.required<HydrationTrigger>();
 
   constructor() {
-    this._renderer.addClass(this._el, NON_HYDRATED_CLASS);
+    // Only initiate hydration visualization for
+    // server-rendered components.
+    if (isPlatformServer(this._platformId)) {
+      this._renderer.addClass(this._el, NON_HYDRATED_CLASS);
+    }
   }
 
-  private get _el() {
+  private get _el(): HTMLElement {
     return this._element.nativeElement;
+  }
+
+  private get _isHydrated() {
+    return !this._el.classList.contains(NON_HYDRATED_CLASS);
   }
 
   ngOnInit() {
@@ -48,7 +60,7 @@ export class HydrationVisualizerDirective implements OnInit {
         this._hydrate();
         break;
       case 'hover':
-        this._renderer.listen(this._el, 'mouseover', () => this._hydrate());
+        this._renderer.listen(this._el, 'mouseenter', () => this._hydrate());
         break;
       case 'interaction':
         this._renderer.listen(this._el, 'click', () => this._hydrate());
@@ -57,11 +69,9 @@ export class HydrationVisualizerDirective implements OnInit {
   }
 
   private _hydrate() {
-    if (this._hydrated) {
+    if (this._isHydrated) {
       return;
     }
-
-    this._hydrated = true;
 
     // Animate hydration
     this._renderer.removeClass(this._el, NON_HYDRATED_CLASS);

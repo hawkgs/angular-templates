@@ -1,0 +1,24 @@
+:host {
+  display: block;
+  border-radius: 0.25rem;
+
+  &.ec-non-hydrated {
+    filter: grayscale(1);
+    opacity: 0.8;
+  }
+
+  &.ec-hydrating {
+    animation: hydration-glow 1.5s ease;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }
+}
+
+@keyframes hydration-glow {
+  from {
+    box-shadow: 0 0 30px rgb(254, 74, 236);
+  }
+  to {
+    box-shadow: 0 0 0 rgb(254, 74, 236);
+  }
+}

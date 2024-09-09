@@ -17,11 +17,12 @@
 </section>
 <div class="spacer"></div>
 @for (category of categories(); track category.id; let i = $index) {
-  @defer (on immediate; hydrate on hover) {
-    <ec-category-reel
-      ecHydrationVisualizer="hover"
-      [category]="category"
-      [isLcp]="i === 0"
-    ></ec-category-reel>
-  }
+  <ec-hydration-visualizer trigger="hover">
+    @defer (on immediate; hydrate on hover) {
+      <ec-category-reel
+        [category]="category"
+        [isLcp]="i === 0"
+      ></ec-category-reel>
+    }
+  </ec-hydration-visualizer>
 }

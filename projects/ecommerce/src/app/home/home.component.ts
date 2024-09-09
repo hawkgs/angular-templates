@@ -7,7 +7,7 @@ import { CategoriesService } from '../data-access/categories.service';
 import { ScrollPosition } from '../shared/scroll-position.service';
 import { isProductDetailsRoute } from '../shared/utils/routing';
 import { maintainScrollPosEffect } from '../shared/utils/maintain-scroll-pos-effect';
-import { HydrationVisualizerDirective } from '../shared/hydration-visualizer.directive';
+import { HydrationVisualizerComponent } from '../shared/hydration-visualizer/hydration-visualizer.component';
 
 // Limit the number of categories
 // that are shown on the home page.
@@ -20,7 +20,7 @@ const CATEGORY_REELS_COUNT = 3;
     ProductItemComponent,
     AutocompleteProductSearchComponent,
     CategoryReelComponent,
-    HydrationVisualizerDirective,
+    HydrationVisualizerComponent,
   ],
   providers: [ScrollPosition],
   templateUrl: './home.component.html',
