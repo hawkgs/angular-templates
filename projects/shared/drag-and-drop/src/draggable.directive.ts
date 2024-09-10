@@ -197,6 +197,8 @@ export class DraggableDirective implements OnInit, OnDestroy {
       return;
     }
 
+    this._firefoxUserSelectMouseEventsPatch();
+
     this._dragActivatorTimeout = setTimeout(() => {
       this._dragging = true;
 
@@ -294,7 +296,32 @@ export class DraggableDirective implements OnInit, OnDestroy {
       'pointer-events': 'none',
       'z-index': '99999999',
     });
+
+    // Doc styles
+    this._renderer.setStyle(this._doc.body, 'user-select', 'none');
+    this._renderer.setStyle(this._doc.body, '-webkit-user-select', 'none');
+
     this._move(initPos);
+  }
+
+  private _removeDraggableStyles() {
+    this._removeStyles([
+      'transition',
+      'position',
+      'top',
+      'left',
+      'opacity',
+      'transform',
+      'width',
+      'height',
+      'pointer-events',
+      'user-select',
+      'z-index',
+    ]);
+
+    // Doc styles
+    this._renderer.removeStyle(this._doc.body, 'user-select');
+    this._renderer.removeStyle(this._doc.body, '-webkit-user-select');
   }
 
   private _move(coor: Coor) {
@@ -324,22 +351,12 @@ export class DraggableDirective implements OnInit, OnDestroy {
     this._move(anchor);
 
     setTimeout(() => {
-      this._removeStyles([
-        'transition',
-        'position',
-        'top',
-        'left',
-        'opacity',
-        'transform',
-        'width',
-        'height',
-        'pointer-events',
-        'z-index',
-      ]);
+      this._removeDraggableStyles();
       this.anchored.emit();
     }, RAPPEL_ANIM_DURR);
   }
 
+  /** Set styles to the target element */
   private _setStyles(stylesObj: { [key: string]: string }) {
     for (const cssProp in stylesObj) {
       const value = stylesObj[cssProp];
@@ -347,7 +364,30 @@ export class DraggableDirective implements OnInit, OnDestroy {
     }
   }
 
+  /** Remove styles from the target element */
   private _removeStyles(cssProps: string[]) {
     cssProps.forEach((p) => this._renderer.removeStyle(this._element, p));
+  }
+
+  /**
+   * This is a patch for an undetermined issue occurring only in Firefox.
+   * If the draggable contains any sort of selectable text that is selected
+   * prior to the activation of the drag functionality (timeout execution),
+   * dragging the draggable across grids outside of the current host grid
+   * (e.g. in a group setting) won't trigger any of their mouse events that
+   * are crucial for performing a successful draggable transfer. This, in
+   * effect, breaks the groups functionality. Unfortunately, the only viable
+   * option at this stage is to disable text selection for the target element
+   * prior to the drag functionality activation since programatically clearing
+   * the text selection doesn't render positive results, nor disabling the
+   * selection after activation as intended; therefore, draggable elements in
+   * a group, in Firefox doesn't support text selection for now.
+   */
+  private _firefoxUserSelectMouseEventsPatch() {
+    const userAgent = this._win.navigator.userAgent.toLowerCase();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if (userAgent.includes('firefox') && !!(this._grid as any)._group) {
+      this._setStyles({ 'user-select': 'none' });
+    }
   }
 }
