@@ -3,6 +3,7 @@ import {
   Directive,
   NgZone,
   OnDestroy,
+  OnInit,
   Renderer2,
   TemplateRef,
   computed,
@@ -13,6 +14,7 @@ import {
   signal,
 } from '@angular/core';
 import { WINDOW, windowProvider } from '@ngx-templates/shared/services';
+import { DROP_GRID } from './drop-grid.component';
 
 export type Coor = { x: number; y: number };
 export type Rect = { p1: Coor; p2: Coor };
@@ -50,12 +52,13 @@ const getClientPointerPos = (e: MouseEvent | TouchEvent): Coor => {
   providers: [windowProvider],
   standalone: true,
 })
-export class DraggableDirective implements OnDestroy {
+export class DraggableDirective implements OnInit, OnDestroy {
   templateRef = inject(TemplateRef);
   private _doc = inject(DOCUMENT);
   private _win = inject(WINDOW);
   private _zone = inject(NgZone);
   private _renderer = inject(Renderer2);
+  private _grid = inject(DROP_GRID, { optional: true });
 
   private _listeners: (() => void)[] = [];
   private _dragging = false;
@@ -148,8 +151,18 @@ export class DraggableDirective implements OnDestroy {
     });
   }
 
+  ngOnInit() {
+    if (this._grid) {
+      this._grid.insertDraggable(this);
+    }
+  }
+
   ngOnDestroy() {
     this._listeners.forEach((cb) => cb());
+
+    if (this._grid) {
+      this._grid.destroyDraggable(this);
+    }
   }
 
   /**

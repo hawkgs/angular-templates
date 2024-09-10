@@ -37,6 +37,7 @@
   [cellGap]="16"
   [disabled]="!editMode()"
   [scrollCont]="doc.documentElement"
+  [variableHeight]="false"
   (moved)="onWidgetMoved($event)"
 >
   @for (w of widgets(); track w.id) {
