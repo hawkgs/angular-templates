@@ -9,6 +9,7 @@ import { PriceTagComponent } from '../../shared/price-tag/price-tag.component';
 import { AddToCartBtnComponent } from './shared/add-to-cart-btn/add-to-cart-btn.component';
 import { LoaderService } from '../../shared/loader.service';
 import { ScrollPosition } from '../../shared/scroll-position.service';
+import { HydrationVisualizerComponent } from '../../shared/hydration-visualizer/hydration-visualizer.component';
 
 @Component({
   selector: 'ec-product-details',
@@ -18,6 +19,7 @@ import { ScrollPosition } from '../../shared/scroll-position.service';
     PriceTagComponent,
     AddToCartBtnComponent,
     RouterModule,
+    HydrationVisualizerComponent,
   ],
   providers: [ScrollPosition],
   templateUrl: './product-details.component.html',
