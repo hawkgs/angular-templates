@@ -122,6 +122,7 @@ export class DropGridComponent {
   private _slot: EmbeddedViewRef<unknown> | null = null; // Slot spacer `ViewRef`
   private _dragged: EmbeddedViewRef<unknown> | null = null; // Currently dragged
   private _draggedId?: string; // Currently dragged directive ID
+  private _dropInProgress = false;
 
   // Store in case you have to pass it to a group
   private _slotSize: SlotSize = { colSpan: 0, height: 0 };
@@ -152,6 +153,10 @@ export class DropGridComponent {
    */
   get isDragHost() {
     return !!this._slot;
+  }
+
+  get dropInProgress() {
+    return this._dropInProgress;
   }
 
   private get _scrollCont(): Element {
@@ -279,6 +284,8 @@ export class DropGridComponent {
       return;
     }
 
+    this._dropInProgress = true;
+
     const { x, y } = getViewRefElement(this._slot).getBoundingClientRect();
     this._zone.run(() => {
       this._draggablesDirectives.get(e.id)?.anchor.set({ x, y });
@@ -289,6 +296,8 @@ export class DropGridComponent {
     if (!this._slot) {
       return;
     }
+
+    this._dropInProgress = false;
 
     this._slot.destroy();
     // We have to manually clear the the slot
@@ -323,10 +332,16 @@ export class DropGridComponent {
       return;
     }
 
-    // Determine if there are is a drag host
     const grids = Array.from(this._group).filter((g) => g !== this);
-    const dragHost = grids.find((g) => g.isDragHost);
 
+    // Abort if there is a drop in progress somewhere
+    const dropInProgress = grids.find((g) => g.dropInProgress);
+    if (dropInProgress) {
+      return;
+    }
+
+    // Determine if there is a drag host
+    const dragHost = grids.find((g) => g.isDragHost);
     if (!dragHost) {
       return;
     }
