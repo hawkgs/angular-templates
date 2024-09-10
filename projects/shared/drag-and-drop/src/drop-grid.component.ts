@@ -19,7 +19,6 @@ import {
 
 import { Coor, DraggableDirective, Rect } from './draggable.directive';
 import { DROP_GRID_GROUP } from './drop-grid-group.directive';
-import { devRemoveSpacialGrid, devRenderSpacialGrid } from './dev-render-grid';
 
 const DEFAULT_GRID_COLS = 4;
 const DEFAULT_CELL_GAP = 16;
@@ -311,8 +310,6 @@ export class DropGridComponent {
       positions.push({ id, pos: this.gridVcr().indexOf(vr) });
     });
     this.moved.emit(positions);
-
-    devRemoveSpacialGrid();
   }
 
   /**
@@ -525,8 +522,6 @@ export class DropGridComponent {
     } else {
       this._calculateDynamicSpacialGrid();
     }
-
-    devRenderSpacialGrid(this._spacialGrid);
   }
 
   private _calculateDynamicSpacialGrid() {
