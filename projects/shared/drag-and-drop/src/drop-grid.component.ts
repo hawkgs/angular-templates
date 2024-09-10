@@ -19,6 +19,7 @@ import {
 
 import { Coor, DraggableDirective, Rect } from './draggable.directive';
 import { DROP_GRID_GROUP } from './drop-grid-group.directive';
+import { devRemoveSpacialGrid, devRenderSpacialGrid } from './dev-render-grid';
 
 const DEFAULT_GRID_COLS = 4;
 const DEFAULT_CELL_GAP = 16;
@@ -99,9 +100,14 @@ export class DropGridComponent {
   cellGap = input<number>(DEFAULT_CELL_GAP);
 
   /**
-   * Enable when the height of the draggable items could vary. Default: `false`
+   * Disable when the height of the draggable items can't vary.
+   * This will activate more performant calculations upon drag.
+   * The option is overrided irrespective of the provided value,
+   * if the grid is part of a group (i.e. always enabled/true).
+   *
+   * Default: `true`
    */
-  variableHeight = input<boolean>(false);
+  variableHeight = input<boolean>(true);
 
   gridTemplateColumns = computed(() => `repeat(${this.columns()}, 1fr)`);
 
@@ -305,6 +311,8 @@ export class DropGridComponent {
       positions.push({ id, pos: this.gridVcr().indexOf(vr) });
     });
     this.moved.emit(positions);
+
+    devRemoveSpacialGrid();
   }
 
   /**
@@ -381,9 +389,14 @@ export class DropGridComponent {
     gridVcr.insert(this._dragged, this._viewIdxHover);
     gridVcr.insert(this._slot, this._viewIdxHover);
 
-    const { x, y } = this._slot.rootNodes[0].getBoundingClientRect();
+    // We have to recalculate the grid after insertion of
+    // the newly transferred item.
+    //
+    // Note(Georgi): There is room for some optimizations.
+    this._calculateSpacialGrid();
 
     // Set the new anchor
+    const { x, y } = this._slot.rootNodes[0].getBoundingClientRect();
     directive.anchor.set({ x, y });
   }
 
@@ -504,25 +517,33 @@ export class DropGridComponent {
       return;
     }
 
-    // If the items don't have a variable height,
-    // we can use a more performant way for calculating
+    // If the items don't have a variable height or are part
+    // of a group, we can use a more performant way for calculating
     // the grid.
-    if (!this.variableHeight()) {
+    if (!this.variableHeight() && !this._group) {
       this._calculateStaticSpacialGrid();
     } else {
       this._calculateDynamicSpacialGrid();
     }
+
+    devRenderSpacialGrid(this._spacialGrid);
   }
 
   private _calculateDynamicSpacialGrid() {
-    this._spacialGrid = this._getOrderedDraggables().map((d) => {
-      const { x, y, width, height } =
-        d.directive.element.getBoundingClientRect();
+    this._spacialGrid = this._getOrderedDraggables().map((draggable) => {
+      // Ensure that we are using the slot position in
+      // case the dragged element is outside the grid
+      let element = draggable.directive.element;
+      if (draggable.id === this._draggedId) {
+        element = this._slot?.rootNodes[0];
+      }
+
+      const { x, y, width, height } = element.getBoundingClientRect();
       const yWithScroll = y + this._scrollCont.scrollTop;
 
       return {
-        id: d.id,
-        viewRefIdx: d.idx,
+        id: draggable.id,
+        viewRefIdx: draggable.idx,
         x1: x,
         y1: yWithScroll,
         x2: width + x,
