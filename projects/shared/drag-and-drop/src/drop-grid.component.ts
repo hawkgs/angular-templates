@@ -352,18 +352,21 @@ export class DropGridComponent
     const draggables = this._getOrderedDraggables();
 
     // Calculate the bounding rectangle for the first element
-    const firstEl = draggables[0].directive.element;
+    const firstItem = draggables[0].directive;
     const {
       x: startX,
       y,
-      width: cellWidth,
+      width,
       height: cellHeight,
-    } = firstEl.getBoundingClientRect();
+    } = firstItem.element.getBoundingClientRect();
 
     // Setup the initial positions and the gaps/spacing
     const startY = y + this._scrollCont.scrollTop;
     const cols = this.columns();
     const gap = this.cellGap();
+
+    const firstItemSize = firstItem.elementSize();
+    const cellWidth = (width - gap * (firstItemSize - 1)) / firstItemSize;
 
     let currX = startX;
     let currY = startY;
