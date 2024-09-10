@@ -131,6 +131,11 @@ export class DropGridComponent {
   private _viewIdxHover = 0; // Index of the currently hovered `ViewRef`
   private _disabled = false;
 
+  // Used for groups; Keeps a function that triggers `moved` event
+  // on the former host after a draggable handover is completed
+  // (in order to notify the users for the transfer).
+  private _exHostPosNotifier: (() => void) | null = null;
+
   constructor() {
     // Add the current grid to the
     // grids set, if part of a group.
@@ -314,11 +319,12 @@ export class DropGridComponent {
     gridVcr.move(this._dragged!, newIdx);
 
     // Notify for the updated positions
-    const positions: { id: string; pos: number }[] = [];
-    this._draggablesViewRefs.forEach((vr, id) => {
-      positions.push({ id, pos: this.gridVcr().indexOf(vr) });
-    });
-    this.moved.emit(positions);
+    this._emitUpdatedPositions();
+
+    if (this._exHostPosNotifier) {
+      this._exHostPosNotifier();
+      this._exHostPosNotifier = null;
+    }
   }
 
   /**
@@ -348,12 +354,14 @@ export class DropGridComponent {
 
     // Request a transfer from the old/current host and
     // set all required state properties
-    const { viewRef, directive, slotSize } = dragHost.handOverDragging();
+    const { viewRef, directive, slotSize, positionsNotifier } =
+      dragHost.handOverDragging();
 
     this._dragged = viewRef;
     this._slotSize = slotSize;
     this._draggedId = directive.id();
     this._slot = this._createSlot(slotSize);
+    this._exHostPosNotifier = positionsNotifier;
 
     // Save the references and subscribe to the draggable event handlers
     this._draggablesDirectives.set(directive.id(), directive);
@@ -422,6 +430,7 @@ export class DropGridComponent {
     directive: DraggableDirective;
     viewRef: EmbeddedViewRef<unknown>;
     slotSize: SlotSize;
+    positionsNotifier: () => void;
   } {
     // Destroy the slot
     this._slot?.destroy();
@@ -453,6 +462,7 @@ export class DropGridComponent {
       directive,
       viewRef,
       slotSize: { ...this._slotSize },
+      positionsNotifier: () => this._emitUpdatedPositions(),
     };
   }
 
@@ -515,6 +525,15 @@ export class DropGridComponent {
         behavior: 'smooth',
       });
     }
+  }
+
+  private _emitUpdatedPositions() {
+    const positions: { id: string; pos: number }[] = [];
+    this._draggablesViewRefs.forEach((vr, id) => {
+      positions.push({ id, pos: this.gridVcr().indexOf(vr) });
+    });
+
+    this.moved.emit(positions);
   }
 
   /**
