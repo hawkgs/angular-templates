@@ -4,7 +4,7 @@ import { FETCH_API } from '@ngx-templates/shared/fetch';
 import { Card } from '../../models';
 import { environment } from '../../environments/environment.prod';
 import { mapCard } from './utils/internal-mappers';
-import { mapApiCard } from './utils/external-mappers';
+import { mapApiRequestCard } from './utils/external-mappers';
 
 // Unlike, lists and label – that have direct relation
 // with the board – cards rely on the their relation with
@@ -12,7 +12,7 @@ import { mapApiCard } from './utils/external-mappers';
 // relation with boards; therefore, we have a simplified API
 // that's separated from the Boards API.
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CardsApi {
   private _fetch = inject(FETCH_API);
 
@@ -28,7 +28,7 @@ export class CardsApi {
       `${environment.apiUrl}/cards/${card.id}`,
       {
         method: 'PUT',
-        body: JSON.stringify(mapApiCard(card)),
+        body: JSON.stringify(mapApiRequestCard(card)),
         headers: {
           'Content-Type': 'application/json',
         },

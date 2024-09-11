@@ -11,7 +11,10 @@ import {
 } from './utils/internal-mappers';
 import { environment } from '../../environments/environment';
 import { BoardList, Card, Label } from '../../models';
-import { mapApiLabel } from './utils/external-mappers';
+import {
+  mapApiRequestBoardList,
+  mapApiRequestLabel,
+} from './utils/external-mappers';
 
 @Injectable({ providedIn: 'root' })
 export class BoardsApi {
@@ -40,16 +43,12 @@ export class BoardsApi {
 
   // Lists
 
-  async createBoardList(
-    boardId: string,
-    name: string,
-    idx: number,
-  ): Promise<BoardList> {
+  async createBoardList(boardId: string, list: BoardList): Promise<BoardList> {
     const response = await this._fetch(
       `${environment.apiUrl}/boards/${boardId}/lists`,
       {
         method: 'POST',
-        body: JSON.stringify({ name, idx }),
+        body: JSON.stringify(mapApiRequestBoardList(list)),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -62,14 +61,13 @@ export class BoardsApi {
 
   async updateBoardListName(
     boardId: string,
-    listId: string,
-    name: string,
+    list: BoardList,
   ): Promise<BoardList> {
     const response = await this._fetch(
-      `${environment.apiUrl}/boards/${boardId}/lists/${listId}`,
+      `${environment.apiUrl}/boards/${boardId}/lists/${list.id}`,
       {
         method: 'PUT',
-        body: JSON.stringify({ name }),
+        body: JSON.stringify(mapApiRequestBoardList(list)),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -96,7 +94,7 @@ export class BoardsApi {
       `${environment.apiUrl}/boards/${boardId}/labels`,
       {
         method: 'POST',
-        body: JSON.stringify(mapApiLabel(label)),
+        body: JSON.stringify(mapApiRequestLabel(label)),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -112,7 +110,7 @@ export class BoardsApi {
       `${environment.apiUrl}/boards/${boardId}/labels/${label.id}`,
       {
         method: 'PUT',
-        body: JSON.stringify(mapApiLabel(label)),
+        body: JSON.stringify(mapApiRequestLabel(label)),
         headers: {
           'Content-Type': 'application/json',
         },
