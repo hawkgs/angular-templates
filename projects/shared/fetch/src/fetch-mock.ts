@@ -66,7 +66,7 @@ const DEFAULT_CFG: FetchMockConfig = {
  * @param init
  * @returns
  */
-export const fetchMock =
+export const withFetchMock =
   (
     mockFn: (url: string, body?: { [key: string]: string }) => object,
     config?: Partial<FetchMockConfig>,
