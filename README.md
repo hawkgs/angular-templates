@@ -11,6 +11,6 @@ npm run build:shared
 then
 
 ```shell
-# Projects: `ecommerce`, `dashboard`, `image-gallery`, `ai-text-editor`
+# Projects: `ecommerce`, `dashboard`, `image-gallery`, `ai-text-editor`, `kanban`
 npm run start:<PROJECT>
 ```
