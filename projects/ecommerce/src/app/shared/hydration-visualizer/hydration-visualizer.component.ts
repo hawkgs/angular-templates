@@ -9,6 +9,7 @@ import {
   OnInit,
   PLATFORM_ID,
   Renderer2,
+  OnDestroy,
 } from '@angular/core';
 
 // Supported hydration triggers
@@ -17,6 +18,8 @@ type HydrationTrigger = 'immediate' | 'hover' | 'interaction' | 'viewport';
 const NON_HYDRATED_CLASS = 'ec-non-hydrated';
 const HYDRATING_CLASS = 'ec-hydrating';
 const HYDRATION_ANIM_DURATION = 1500;
+
+let once = false;
 
 /**
  * Visualizes the hydration process of a component.
@@ -28,11 +31,12 @@ const HYDRATION_ANIM_DURATION = 1500;
   template: '<ng-content></ng-content>',
   styleUrl: './hydration-visualizer.component.scss',
 })
-export class HydrationVisualizerComponent implements OnInit {
+export class HydrationVisualizerComponent implements OnInit, OnDestroy {
   private _renderer = inject(Renderer2);
   private _element = inject(ElementRef);
   private _platformId = inject(PLATFORM_ID);
 
+  private _listeners: (() => void)[] = [];
   private _observerResolver!: (io: IntersectionObserver) => void;
   private _observer = new Promise<IntersectionObserver>(
     (res) => (this._observerResolver = res),
@@ -85,15 +89,26 @@ export class HydrationVisualizerComponent implements OnInit {
         this._hydrate();
         break;
       case 'hover':
-        this._renderer.listen(this._el, 'mouseenter', () => this._hydrate());
+        this._listeners.push(
+          this._renderer.listen(this._el, 'mouseenter', () => {
+            this._hydrate();
+          }),
+        );
         break;
       case 'interaction':
-        this._renderer.listen(this._el, 'click', () => this._hydrate());
+        this._listeners.push(
+          this._renderer.listen(this._el, 'click', () => this._hydrate()),
+        );
         break;
       case 'viewport':
-        this._observer.then((observer) => observer.observe(this._el));
+        this._observer.then((o) => o.observe(this._el));
         break;
     }
+  }
+
+  ngOnDestroy() {
+    this._listeners.forEach((fn) => fn());
+    this._observer.then((o) => o.unobserve(this._el));
   }
 
   private _hydrate() {
