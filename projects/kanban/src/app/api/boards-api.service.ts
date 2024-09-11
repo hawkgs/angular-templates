@@ -7,6 +7,7 @@ import {
   mapBoardListsCards,
   mapBoardLists,
   mapLabel,
+  mapLabels,
 } from './utils/internal-mappers';
 import { environment } from '../../environments/environment';
 import { BoardList, Card, Label } from '../../models';
@@ -19,18 +20,21 @@ export class BoardsApi {
   async getBoardData(boardId: string): Promise<{
     lists: List<BoardList>;
     cards: List<Card>;
+    labels: List<Label>;
   }> {
     const response = await this._fetch(
-      `${environment.apiUrl}/boards/${boardId}/lists`,
+      `${environment.apiUrl}/boards/${boardId}`,
     );
     const json = await response.json();
 
     const lists = mapBoardLists(json);
     const cards = mapBoardListsCards(json);
+    const labels = mapLabels(json);
 
     return {
       lists,
       cards,
+      labels,
     };
   }
 
