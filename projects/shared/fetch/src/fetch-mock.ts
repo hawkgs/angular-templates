@@ -59,6 +59,10 @@ const DEFAULT_CFG: FetchMockConfig = {
   logging: true,
 };
 
+export interface MockFn {
+  (url: string, method?: string, body?: { [key: string]: string }): object;
+}
+
 /**
  * Fetch API Mock
  *
@@ -66,11 +70,8 @@ const DEFAULT_CFG: FetchMockConfig = {
  * @param init
  * @returns
  */
-export const fetchMock =
-  (
-    mockFn: (url: string, body?: { [key: string]: string }) => object,
-    config?: Partial<FetchMockConfig>,
-  ) =>
+export const withFetchMock =
+  (mockFn: MockFn, config?: Partial<FetchMockConfig>) =>
   (url: string | URL | Request, options?: RequestInit): Promise<Response> => {
     const fullCfg: FetchMockConfig = { ...DEFAULT_CFG, ...config };
 
@@ -83,13 +84,14 @@ export const fetchMock =
 
     log('Executing request ' + url);
 
+    const method = options?.method || 'GET';
     const body = options?.body ? JSON.parse(options.body as string) : null;
     if (body) {
       log('Body', body);
     }
 
     return simulateRequest(
-      mockFn(url.toString(), body),
+      mockFn(url.toString(), method, body),
       fullCfg,
       log,
       options?.signal,

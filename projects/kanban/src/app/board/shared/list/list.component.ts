@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
+import { BoardList } from '../../../../models';
 
 @Component({
   selector: 'kb-list',
@@ -7,4 +8,6 @@ import { Component } from '@angular/core';
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
 })
-export class ListComponent {}
+export class ListComponent {
+  list = input.required<BoardList>();
+}

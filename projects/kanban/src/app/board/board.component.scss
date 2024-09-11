@@ -1,9 +1,22 @@
 :host {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  width: 100%;
-  overflow-x: auto;
-  padding: 0 1rem;
-  box-sizing: border-box;
+  display: block;
+
+  .wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 100%;
+    overflow-x: auto;
+    padding: 0 1rem;
+    box-sizing: border-box;
+
+    ngx-drop-grid {
+      --grid-slot-background: transparent;
+      --grid-slot-border: 1px solid var(--color-electric-lavander);
+      --grid-slot-border-radius: 0.5rem;
+      --grid-slot-height: 50px;
+      min-height: 20vh;
+      display: block;
+    }
+  }
 }

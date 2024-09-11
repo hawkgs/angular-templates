@@ -1,0 +1,78 @@
+{
+  "board": {
+    "boardId": "bd1",
+    "lists": [
+      {
+        "id": "ls1",
+        "name": "Backlog",
+        "cards": [
+          {
+            "id": "c1",
+            "title": "Do something",
+            "labelIds": []
+          },
+          {
+            "id": "c2",
+            "title": "Drink a glass of cold water",
+            "labelIds": []
+          }
+        ]
+      },
+      {
+        "id": "ls2",
+        "name": "To-dos",
+        "cards": []
+      },
+      {
+        "id": "ls3",
+        "name": "In Progress",
+        "cards": []
+      },
+      {
+        "id": "ls4",
+        "name": "Completed",
+        "cards": []
+      }
+    ],
+    "labels": [
+      {
+        "id": "l1",
+        "name": "P1",
+        "color": "red"
+      },
+      {
+        "id": "l2",
+        "name": "P2",
+        "color": "orange"
+      },
+      {
+        "id": "l3",
+        "name": "P3",
+        "color": "yellow"
+      },
+      {
+        "id": "l4",
+        "name": "Bug",
+        "color": "purple"
+      }
+    ]
+  },
+  "cards": [
+    {
+      "id": "c1",
+      "title": "Do something",
+      "listId": "ls1",
+      "description": "A description",
+      "idx": 0,
+      "labelIds": []
+    },
+    {
+      "id": "c2",
+      "title": "Drink a glass of cold water",
+      "listId": "ls1",
+      "description": "What the title says",
+      "idx": 1,
+      "labelIds": []
+    }
+  ]
+}
