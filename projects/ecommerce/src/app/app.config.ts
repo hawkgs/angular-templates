@@ -13,7 +13,7 @@ import { CategoriesService } from './data-access/categories.service';
 import { ProductsService } from './data-access/products.service';
 import { CartService } from './data-access/cart.service';
 import { CachedRouteReuseStrategy } from './shared/cached-route-reuse-strategy.service';
-import { ecommerceRequestResponseMock } from './shared/utils/request-response-mock';
+import { ecommerceRequestResponseMock } from './shared/utils/ec-request-response-mock';
 
 export const appConfig: ApplicationConfig = {
   providers: [
