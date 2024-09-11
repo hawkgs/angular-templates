@@ -667,7 +667,13 @@
                   "maximumError": "4kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "projects/kanban/src/environments/environment.ts",
+                  "with": "projects/kanban/src/environments/environment.prod.ts"
+                }
+              ]
             },
             "development": {
               "optimization": false,
