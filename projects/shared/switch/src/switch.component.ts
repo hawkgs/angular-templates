@@ -35,18 +35,14 @@ export class SwitchComponent implements ControlValueAccessor {
   }
 
   writeValue(value: boolean): void {
-    console.log('on', value);
     this.on.set(value);
   }
 
   registerOnChange(fn: (v: boolean) => void): void {
-    console.log('accessor init');
     this._onChange = fn;
   }
 
   registerOnTouched(fn: () => void) {
-    console.log('accessor init');
-
     this._onTouched = fn;
   }
 
