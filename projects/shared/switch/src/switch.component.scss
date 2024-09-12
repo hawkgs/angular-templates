@@ -1,0 +1,49 @@
+:host {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  border-radius: 25px;
+  overflow: hidden;
+
+  input {
+    position: absolute;
+    width: inherit;
+    height: inherit;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .switch {
+    position: absolute;
+    background: var(--color-quinary);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      top: 2px;
+      left: 2px;
+      background-color: var(--color-bg);
+      transition: transform 200ms ease;
+    }
+  }
+
+  input:checked + .switch {
+    background: var(--gradient-pink-to-violet);
+
+    &::after {
+      transform: translateX(20px);
+    }
+  }
+}

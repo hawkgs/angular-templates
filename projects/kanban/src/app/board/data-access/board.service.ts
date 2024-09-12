@@ -25,8 +25,10 @@ export class BoardService {
   );
 
   cards = (listId: string): Signal<List<Card>> => {
-    if (!this._computedCardsLists.has(listId)) {
-      const computedList = computed(() =>
+    let computedList = this._computedCardsLists.get(listId);
+
+    if (!computedList) {
+      computedList = computed(() =>
         this._board()
           .cards.filter((c) => c.listId === listId)
           .sort((a, b) => a.idx - b.idx)
@@ -34,7 +36,8 @@ export class BoardService {
       );
       this._computedCardsLists.set(listId, computedList);
     }
-    return this._computedCardsLists.get(listId)!;
+
+    return computedList;
   };
 
   async loadLists() {
