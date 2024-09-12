@@ -1,0 +1,7 @@
+<input
+  type="checkbox"
+  [checked]="on()"
+  (change)="onSwitchToggle($event)"
+  [attr.title]="title() ? title() : null"
+/>
+<div class="switch"></div>

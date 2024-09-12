@@ -14,7 +14,7 @@ import { DOCUMENT } from '@angular/common';
   standalone: true,
   imports: [ModalComponent],
   templateUrl: './modal-outlet.component.html',
-  styleUrl: './modal-outlet.component.css',
+  styleUrl: './modal-outlet.component.scss',
 })
 export class ModalOutletComponent {
   private _doc = inject(DOCUMENT);
