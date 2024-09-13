@@ -17,32 +17,37 @@
   }
 </section>
 <section class="preview">
-  <ec-hydration-visualizer trigger="hover">
-    @defer (on immediate; hydrate on hover) {
-      <ec-image-gallery [product]="product()"></ec-image-gallery>
+  <ec-hydration-visualizer trigger="interaction">
+    @defer (on immediate; hydrate on interaction) {
+      <ec-image-gallery
+        ecHydrationTarget
+        [product]="product()"
+      ></ec-image-gallery>
     }
   </ec-hydration-visualizer>
 </section>
 <section class="details">
   <ec-hydration-visualizer trigger="hover">
     @defer (on immediate; hydrate on hover) {
-      <ec-price-tag [product]="product()" size="large"></ec-price-tag>
-      <ec-add-to-cart-btn [product]="product()"></ec-add-to-cart-btn>
-      <hr />
-      <p class="description">{{ product().description }}</p>
-      @if (product().parameters.size) {
-        <hr class="params-hr" />
-        <table class="parameters">
-          <tbody>
-            @for (p of product().parameters; track $index) {
-              <tr>
-                <td>{{ p.name }}</td>
-                <td>{{ p.value }}</td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      }
+      <div ecHydrationTarget>
+        <ec-price-tag [product]="product()" size="large"></ec-price-tag>
+        <ec-add-to-cart-btn [product]="product()"></ec-add-to-cart-btn>
+        <hr />
+        <p class="description">{{ product().description }}</p>
+        @if (product().parameters.size) {
+          <hr class="params-hr" />
+          <table class="parameters">
+            <tbody>
+              @for (p of product().parameters; track $index) {
+                <tr>
+                  <td>{{ p.name }}</td>
+                  <td>{{ p.value }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+      </div>
     }
   </ec-hydration-visualizer>
 </section>

@@ -9,7 +9,7 @@ import { PriceTagComponent } from '../../shared/price-tag/price-tag.component';
 import { AddToCartBtnComponent } from './shared/add-to-cart-btn/add-to-cart-btn.component';
 import { LoaderService } from '../../shared/loader.service';
 import { ScrollPosition } from '../../shared/scroll-position.service';
-import { HydrationVisualizerComponent } from '../../shared/hydration-visualizer/hydration-visualizer.component';
+import { HYDRATION_DIRECTIVES } from '../../shared/hydration';
 
 @Component({
   selector: 'ec-product-details',
@@ -19,7 +19,7 @@ import { HydrationVisualizerComponent } from '../../shared/hydration-visualizer/
     PriceTagComponent,
     AddToCartBtnComponent,
     RouterModule,
-    HydrationVisualizerComponent,
+    HYDRATION_DIRECTIVES,
   ],
   providers: [ScrollPosition],
   templateUrl: './product-details.component.html',

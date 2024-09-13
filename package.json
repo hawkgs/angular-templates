@@ -80,7 +80,7 @@
     "nodemon": "^3.1.0",
     "prettier": "^3.2.5",
     "puppeteer": "22.6.3",
-    "typescript": "~5.4.5"
+    "typescript": "5.5"
   },
   "overrides": {
     "@angular/animations": "file:packages/animations",
@@ -93,5 +93,5 @@
     "@angular/platform-server": "file:packages/platform-server",
     "@angular/router": "file:packages/router",
     "@angular/compiler-cli": "file:packages/compiler-cli"
- }
+  }
 }

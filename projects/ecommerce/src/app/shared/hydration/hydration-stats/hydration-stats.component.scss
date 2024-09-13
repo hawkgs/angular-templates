@@ -1,0 +1,20 @@
+:host {
+  display: block;
+  position: fixed;
+  background-color: white;
+  color: black;
+  border-radius: 0.2rem;
+  left: 20px;
+  bottom: 20px;
+  width: 140px;
+  padding: 10px;
+  font-size: 1rem;
+
+  p {
+    margin-bottom: 5px;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+}

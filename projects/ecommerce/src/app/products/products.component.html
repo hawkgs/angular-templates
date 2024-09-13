@@ -43,6 +43,7 @@
       <ec-hydration-visualizer trigger="viewport">
         @defer (on immediate; hydrate on viewport) {
           <ec-product-item
+            ecHydrationTarget
             [product]="p"
             [isLcp]="i < STANDARD_ROW_SIZE"
           ></ec-product-item>

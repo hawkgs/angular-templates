@@ -20,6 +20,7 @@
   <ec-hydration-visualizer trigger="hover">
     @defer (on immediate; hydrate on hover) {
       <ec-category-reel
+        ecHydrationTarget
         [category]="category"
         [isLcp]="i === 0"
       ></ec-category-reel>
