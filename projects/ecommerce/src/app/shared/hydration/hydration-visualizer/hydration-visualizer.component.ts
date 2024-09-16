@@ -17,8 +17,9 @@ import { HydrationService } from '../hydration.service';
 // Supported hydration triggers
 type HydrationTrigger = 'immediate' | 'hover' | 'interaction' | 'viewport';
 
-const NON_HYDRATED_CLASS = 'ec-non-hydrated';
-const HYDRATING_CLASS = 'ec-hydrating';
+const NON_HYDRATED_CLASS = 'non-hydrated';
+const HYDRATING_CLASS = 'hydrating';
+const DELAY_CLASS = 'artificial-delay';
 const HYDRATION_ANIM_DURATION = 1500;
 
 export type HydrationState = 'started' | 'hydrated';
@@ -27,8 +28,7 @@ export const VISUALIZER = new InjectionToken<HydrationVisualizerComponent>(
   'VISUALIZER',
 );
 
-// Note(Georgi): Temp
-let id = 0;
+let instanceId = 0;
 
 /**
  * Visualizes the hydration process of a component.
@@ -75,8 +75,8 @@ export class HydrationVisualizerComponent implements OnInit, OnDestroy {
       this._renderer.addClass(this._el, NON_HYDRATED_CLASS);
     }
 
-    this._id = id.toString();
-    id++;
+    this._id = instanceId.toString();
+    instanceId++;
 
     // Initializing the intersection observer during SSR
     // breaks the UI. This is why we are forced to do it
@@ -144,11 +144,21 @@ export class HydrationVisualizerComponent implements OnInit, OnDestroy {
     this.notify('started');
 
     // Animate hydration
-    this._renderer.removeClass(this._el, NON_HYDRATED_CLASS);
-    this._renderer.addClass(this._el, HYDRATING_CLASS);
-    setTimeout(
-      () => this._renderer.removeClass(this._el, HYDRATING_CLASS),
-      HYDRATION_ANIM_DURATION,
-    );
+
+    if (this._hydrationService.fetchDelay) {
+      // Enable an additional animation, if there is a fetch delay
+      this._renderer.addClass(this._el, DELAY_CLASS);
+    }
+
+    setTimeout(() => {
+      this._renderer.removeClass(this._el, NON_HYDRATED_CLASS);
+      this._renderer.removeClass(this._el, DELAY_CLASS);
+      this._renderer.addClass(this._el, HYDRATING_CLASS);
+
+      setTimeout(
+        () => this._renderer.removeClass(this._el, HYDRATING_CLASS),
+        HYDRATION_ANIM_DURATION,
+      );
+    }, this._hydrationService.fetchDelay);
   }
 }

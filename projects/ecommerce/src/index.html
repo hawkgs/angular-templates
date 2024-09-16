@@ -23,6 +23,19 @@
       if (themePreference) {
         document.documentElement.classList.add(`ngx-${themePreference}-theme`);
       }
+
+      // Hydration
+      // Register the SW that is used for delaying requests during hydration
+      navigator.serviceWorker.register('./sw.js').then(
+        () => {},
+        (error) =>
+          console.error(`Service worker registration failed: ${error}`),
+      );
+      navigator.serviceWorker.ready.then(
+        (registration) =>
+          (window.swSetFetchDelay = (delay) =>
+            registration.active.postMessage(delay)),
+      );
     </script>
   </head>
   <body>

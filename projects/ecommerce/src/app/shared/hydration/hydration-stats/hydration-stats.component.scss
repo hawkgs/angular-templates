@@ -35,6 +35,10 @@
   animation-fill-mode: forwards;
 }
 
+input {
+  width: 100%;
+}
+
 @keyframes fade-in {
   from {
     opacity: 0;

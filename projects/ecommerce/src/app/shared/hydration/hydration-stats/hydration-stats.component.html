@@ -16,6 +16,16 @@
     }
     <hr />
     <div>
+      Delay:
+      <input
+        type="number"
+        value="0"
+        (input)="onDelayInput($event)"
+        [disabled]="hydration.disabled"
+      />
+    </div>
+    <hr />
+    <div>
       Hydration:
       <ngx-switch
         [on]="!hydration.disabled"

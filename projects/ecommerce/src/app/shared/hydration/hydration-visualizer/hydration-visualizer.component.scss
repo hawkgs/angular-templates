@@ -1,17 +1,21 @@
 :host {
   display: block;
   border-radius: 0.25rem;
-  transition: filter 1s ease;
+  transition: filter 300ms ease;
 
-  &.ec-non-hydrated {
+  &.non-hydrated {
     filter: grayscale(1);
     opacity: 0.8;
   }
 
-  &.ec-hydrating {
+  &.hydrating {
     animation: hydration-glow 1.5s ease;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
+  }
+
+  &.artificial-delay {
+    animation: pulse 0.5s ease infinite;
   }
 }
 
@@ -21,5 +25,17 @@
   }
   to {
     box-shadow: 0 0 0 rgb(254, 74, 236);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0.8;
   }
 }

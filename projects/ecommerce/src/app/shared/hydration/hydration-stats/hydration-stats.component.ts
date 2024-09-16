@@ -75,4 +75,10 @@ export class HydrationStatsComponent {
     // We need to force a reload
     this._win.location.href = url;
   }
+
+  onDelayInput(e: Event) {
+    const target = e.target as HTMLInputElement;
+    const delay = parseInt(target.value, 10);
+    this.hydration.fetchDelay = !isNaN(delay) ? delay : 0;
+  }
 }

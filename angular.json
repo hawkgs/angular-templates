@@ -32,7 +32,8 @@
                 "glob": "**/*",
                 "input": "projects/shared/assets",
                 "output": "assets"
-              }
+              },
+              "projects/ecommerce/src/sw.js"
             ],
             "styles": [
               "projects/ecommerce/src/styles.scss",
