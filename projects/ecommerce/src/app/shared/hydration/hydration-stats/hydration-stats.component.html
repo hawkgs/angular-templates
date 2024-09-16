@@ -1,12 +1,17 @@
-<p>
-  Hydrated cmps: <strong>{{ hydration.hydratedCmps() }}</strong>
-</p>
-<p>
-  Fetched: <strong>{{ hydration.fetchedKbs() | number: '1.0-1' }} kB</strong>
-</p>
-@if (hydration.fetchedKbs()) {
-  <p>
-    <strong>{{ percentHydrated() | number: '1.0-1' }}%</strong> hydrated of
-    total size
-  </p>
+@if (showHydrationStats()) {
+  <div class="hydration-stats">
+    <p>
+      Hydrated cmps: <strong>{{ hydration.hydratedCmps() }}</strong>
+    </p>
+    <p>
+      Fetched:
+      <strong>{{ hydration.fetchedKbs() | number: '1.0-1' }} kB</strong>
+    </p>
+    @if (hydration.fetchedKbs()) {
+      <p>
+        <strong>{{ percentHydrated() | number: '1.0-1' }}%</strong> hydrated of
+        total size
+      </p>
+    }
+  </div>
 }
