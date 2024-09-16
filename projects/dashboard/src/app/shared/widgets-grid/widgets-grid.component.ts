@@ -1,6 +1,5 @@
 import { DOCUMENT } from '@angular/common';
 import {
-  AfterRenderPhase,
   Component,
   HostListener,
   afterNextRender,
@@ -62,9 +61,7 @@ export class WidgetsGridComponent {
     });
 
     // Mark widgets as loaded on the browser
-    afterNextRender(() => this.widgetsLoaded.set(true), {
-      phase: AfterRenderPhase.Read,
-    });
+    afterNextRender({ read: () => this.widgetsLoaded.set(true) });
   }
 
   @HostListener('window:resize')
