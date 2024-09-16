@@ -1,0 +1,30 @@
+@import 'screen-breakpoints';
+
+:host {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: 1fr;
+  grid-column-gap: 0.875rem;
+  margin: 1rem 0;
+  padding-top: 50px;
+
+  @include bp-1100w {
+    overflow-x: scroll;
+    padding-bottom: 1rem;
+
+    ec-product-item {
+      min-width: 24ch;
+    }
+  }
+
+  @include bp-600w {
+    display: flex;
+    overflow-x: initial;
+    flex-wrap: wrap;
+
+    ec-product-item {
+      margin-bottom: 1rem;
+      min-width: initial;
+    }
+  }
+}

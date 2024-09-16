@@ -1,7 +1,6 @@
 import { isPlatformServer } from '@angular/common';
 import {
   afterNextRender,
-  AfterRenderPhase,
   Component,
   ElementRef,
   inject,
@@ -10,7 +9,6 @@ import {
   PLATFORM_ID,
   Renderer2,
   OnDestroy,
-  HostBinding,
   InjectionToken,
   output,
 } from '@angular/core';
@@ -68,11 +66,6 @@ export class HydrationVisualizerComponent implements OnInit, OnDestroy {
    */
   trigger = input.required<HydrationTrigger>();
 
-  /**
-   * Disable hydration of the wrapped component.
-   */
-  disabled = input<boolean>(false);
-
   hydration = output<{ visId: string; state: HydrationState }>();
 
   constructor() {
@@ -88,27 +81,19 @@ export class HydrationVisualizerComponent implements OnInit, OnDestroy {
     // Initializing the intersection observer during SSR
     // breaks the UI. This is why we are forced to do it
     // in the browser; hence, all the prerequisite code.
-    afterNextRender(
-      () => {
-        const observer = new IntersectionObserver(
-          ([entry]) => {
-            if (entry.isIntersecting) {
-              this._hydrate();
-            }
-          },
-          { threshold: 0.1 },
-        );
-        this._observerResolver(observer);
-      },
-      { phase: AfterRenderPhase.Read },
-    );
+    afterNextRender(() => {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            this._hydrate();
+          }
+        },
+        { threshold: 0.1 },
+      );
+      this._observerResolver(observer);
+    });
 
     this._hydrationService.registerVisualizer(this);
-  }
-
-  @HostBinding('style.pointer-events')
-  private get _pointerEvents() {
-    return this.disabled() ? 'none' : 'initial';
   }
 
   private get _el(): HTMLElement {

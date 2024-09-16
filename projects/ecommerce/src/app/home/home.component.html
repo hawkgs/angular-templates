@@ -17,13 +17,24 @@
 </section>
 <div class="spacer"></div>
 @for (category of categories(); track category.id; let i = $index) {
-  <ec-hydration-visualizer trigger="hover">
-    @defer (on immediate; hydrate on hover) {
+  @if (!hydration.disabled) {
+    <ec-hydration-visualizer trigger="hover">
+      @defer (on immediate; hydrate on hover) {
+        <ec-category-reel
+          ecHydrationTarget
+          [category]="category"
+          [isLcp]="i === 0"
+        ></ec-category-reel>
+      }
+    </ec-hydration-visualizer>
+  } @else {
+    @defer {
       <ec-category-reel
-        ecHydrationTarget
         [category]="category"
         [isLcp]="i === 0"
       ></ec-category-reel>
+    } @placeholder {
+      <ec-category-reel-skeleton></ec-category-reel-skeleton>
     }
-  </ec-hydration-visualizer>
+  }
 }

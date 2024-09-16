@@ -6,21 +6,26 @@ import {
   signal,
   untracked,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { SwitchComponent } from '@ngx-templates/shared/switch';
+import { WINDOW } from '@ngx-templates/shared/services';
 import { HydrationService } from '../hydration.service';
+import { LoaderComponent } from '../../loader/loader.component';
 
 @Component({
   selector: 'ec-hydration-stats',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SwitchComponent, LoaderComponent],
   templateUrl: './hydration-stats.component.html',
   styleUrl: './hydration-stats.component.scss',
 })
 export class HydrationStatsComponent {
   hydration = inject(HydrationService);
+  private _win = inject(WINDOW);
   private _router = inject(Router);
+  private _location = inject(Location);
 
   private _firstSkipped = false;
 
@@ -30,6 +35,7 @@ export class HydrationStatsComponent {
   );
 
   showHydrationStats = signal<boolean>(true);
+  showOverlay = signal<boolean>(false);
 
   constructor() {
     const routerEvents = toSignal(this._router.events);
@@ -45,5 +51,28 @@ export class HydrationStatsComponent {
         this._firstSkipped = true;
       }
     });
+  }
+
+  onDisabledChange() {
+    // We need to block the UI until the page is reloaded
+    this.showOverlay.set(true);
+
+    const disabled = !this.hydration.disabled;
+    const queryParam = disabled ? 'hydration=false' : '';
+    const path = this._location.path();
+    let url = '';
+
+    if (path.indexOf('?') > -1) {
+      if (!disabled && path.includes('hydration=false')) {
+        url = path.replace('hydration=false', '');
+      } else {
+        url = path + '&' + queryParam;
+      }
+    } else {
+      url = path + '?' + queryParam;
+    }
+
+    // We need to force a reload
+    this._win.location.href = url;
   }
 }

@@ -1,6 +1,7 @@
 :host {
   display: block;
   border-radius: 0.25rem;
+  transition: filter 1s ease;
 
   &.ec-non-hydrated {
     filter: grayscale(1);

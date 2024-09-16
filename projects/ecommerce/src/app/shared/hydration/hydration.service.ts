@@ -3,16 +3,18 @@ import { Map, Set as ImmutSet } from 'immutable';
 import { WINDOW } from '@ngx-templates/shared/services';
 
 import { HydrationVisualizerComponent } from './hydration-visualizer/hydration-visualizer.component';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Injectable({ providedIn: 'root' })
 export class HydrationService {
   private _win = inject(WINDOW);
+  private _route = inject(ActivatedRoute);
+  private _location = inject(Location);
 
   private _hydratedCmps = signal<ImmutSet<string>>(ImmutSet());
   private _fetchedResources = signal<Map<string, number>>(Map());
   private _totalFetched = signal<number>(0);
-
-  private _componentsHydrating = new Set<string>();
 
   hydratedCmps = computed(() => this._hydratedCmps().size);
 
@@ -23,6 +25,10 @@ export class HydrationService {
 
   // Everything
   totalFetchedKbs = computed(() => this._totalFetched() / 1024);
+
+  disabled = this._location.path().includes('hydration=false');
+
+  private _componentsHydrating = new Set<string>();
 
   constructor() {
     this._listenForNetworkCalls();

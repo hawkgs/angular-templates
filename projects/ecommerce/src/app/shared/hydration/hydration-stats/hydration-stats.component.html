@@ -1,5 +1,5 @@
 @if (showHydrationStats()) {
-  <div class="hydration-stats">
+  <div class="hydration-stats" [class.disabled]="hydration.disabled">
     <p>
       Hydrated cmps: <strong>{{ hydration.hydratedCmps() }}</strong>
     </p>
@@ -8,10 +8,24 @@
       <strong>{{ hydration.fetchedKbs() | number: '1.0-1' }} kB</strong>
     </p>
     @if (hydration.fetchedKbs()) {
+      <hr />
       <p>
         <strong>{{ percentHydrated() | number: '1.0-1' }}%</strong> hydrated of
         total size
       </p>
     }
+    <hr />
+    <div>
+      Hydration:
+      <ngx-switch
+        [on]="!hydration.disabled"
+        (onChange)="onDisabledChange()"
+      ></ngx-switch>
+    </div>
+  </div>
+}
+@if (showOverlay()) {
+  <div class="overlay">
+    <ec-loader></ec-loader>
   </div>
 }

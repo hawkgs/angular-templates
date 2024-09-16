@@ -7,6 +7,8 @@ import { ScrollPosition } from '../shared/scroll-position.service';
 import { isProductDetailsRoute } from '../shared/utils/routing';
 import { maintainScrollPosEffect } from '../shared/utils/maintain-scroll-pos-effect';
 import { HYDRATION_DIRECTIVES } from '../shared/hydration';
+import { HydrationService } from '../shared/hydration/hydration.service';
+import { CategoryReelSkeletonComponent } from './shared/category-reel-skeleton/category-reel-skeleton.component';
 
 // Limit the number of categories
 // that are shown on the home page.
@@ -18,6 +20,7 @@ const CATEGORY_REELS_COUNT = 3;
   imports: [
     AutocompleteProductSearchComponent,
     CategoryReelComponent,
+    CategoryReelSkeletonComponent,
     HYDRATION_DIRECTIVES,
   ],
   providers: [ScrollPosition],
@@ -26,6 +29,7 @@ const CATEGORY_REELS_COUNT = 3;
 })
 export class HomeComponent {
   private _categories = inject(CategoriesService);
+  hydration = inject(HydrationService);
 
   categories = computed(() =>
     this._categories.categoriesList().take(CATEGORY_REELS_COUNT),
