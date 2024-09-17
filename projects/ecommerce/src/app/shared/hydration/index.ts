@@ -6,4 +6,4 @@ export const HYDRATION_DIRECTIVES = [
   HydrationTargetDirective,
 ] as const;
 
-export { HydrationStatsComponent } from './hydration-stats/hydration-stats.component';
+export { HydrationControlPanelComponent } from './hydration-control-panel/hydration-control-panel.component';

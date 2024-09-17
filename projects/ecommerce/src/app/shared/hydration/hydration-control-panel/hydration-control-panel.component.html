@@ -1,0 +1,64 @@
+@if (showHydrationStats()) {
+  <div
+    class="hydration-stats"
+    [class.visible]="visible()"
+    [class.disabled]="hydration.disabled"
+  >
+    <button class="toggle-btn" (click)="visible.set(!visible())">
+      <ngx-icon name="ChevronRight" size="md"></ngx-icon>
+    </button>
+    <p class="title">Hydration Control Panel</p>
+    <hr />
+    <div class="row">
+      <span>Hydrated components:</span>
+      <span>{{ hydration.hydratedCmps() }}</span>
+    </div>
+    <div class="row" title="Fetched resources during hydration">
+      <span>Fetched resources:</span>
+      <span>{{ hydration.fetchedKbs() | number: '1.0-1' }} kB</span>
+    </div>
+    <div
+      class="row"
+      [class.disabled]="!hydration.fetchedKbs()"
+      title="The amount of hydrated resources relative to the total page size at the current moment"
+    >
+      <span>
+        <strong>{{ percentHydrated() | number: '1.0-1' }}%</strong> hydrated of
+        total page size
+      </span>
+    </div>
+    <hr />
+    <div
+      class="row"
+      title="Delays the requests initiated by the hydration (Max: 10s)"
+    >
+      <span>Fetch delay:</span>
+      <span class="delay-input-cont">
+        <input
+          type="number"
+          value="0"
+          min="0"
+          [max]="MAX_DELAY"
+          (input)="onDelayInput($event)"
+          [disabled]="hydration.disabled"
+        />
+        &nbsp;ms
+      </span>
+    </div>
+    <hr />
+    <div class="row" title="Enable or disable hydration">
+      <span>Hydration:</span>
+      <span>
+        <ngx-switch
+          [on]="!hydration.disabled"
+          (onChange)="onDisabledChange()"
+        ></ngx-switch>
+      </span>
+    </div>
+  </div>
+}
+@if (showOverlay()) {
+  <div class="overlay">
+    <ec-loader></ec-loader>
+  </div>
+}

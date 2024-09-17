@@ -1,0 +1,116 @@
+@import 'typography';
+
+.hydration-stats {
+  position: fixed;
+  display: block;
+  background-color: color-mix(in srgb, var(--color-primary) 75%, transparent);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  color: var(--color-octonary);
+  border-radius: 0.2rem;
+  left: 16px;
+  bottom: 16px;
+  width: 270px;
+  box-sizing: border-box;
+  padding: 0.75rem;
+  transition: transform 300ms ease;
+  transform: translateY(227px + 16px);
+  @extend %body-short-02;
+
+  &.visible {
+    transform: translateY(0);
+
+    ngx-icon {
+      transform: rotate(90deg) !important;
+    }
+  }
+
+  .toggle-btn {
+    position: absolute;
+    background-color: color-mix(in srgb, var(--color-primary) 85%, transparent);
+    border-top-left-radius: 0.2rem;
+    border-top-right-radius: 0.2rem;
+    color: var(--color-octonary);
+    top: -24px;
+    left: 12px;
+    height: 24px;
+    border: none;
+    display: block;
+
+    ngx-icon {
+      transform: rotate(-90deg);
+    }
+  }
+
+  .title {
+    @extend %caption-text;
+    font-weight: bold;
+    background: var(--gradient-magenta-to-light-purple);
+    -webkit-background-clip: text;
+    background-size: 100% 100%;
+    background-clip: text;
+    color: transparent;
+  }
+
+  hr {
+    margin: 12px 0;
+
+    &:first-of-type {
+      margin-top: 6px;
+    }
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    user-select: none;
+
+    span:nth-child(2) {
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+
+  .delay-input-cont {
+    display: flex;
+    align-items: center;
+
+    input {
+      width: 80px;
+      font-family: monospace;
+      padding: 0.25rem;
+    }
+  }
+
+  &.disabled > .row:not(:last-of-type),
+  .row.disabled {
+    opacity: 0.5;
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  animation: fade-in 200ms ease;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

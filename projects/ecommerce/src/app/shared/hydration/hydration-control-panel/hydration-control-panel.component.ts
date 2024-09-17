@@ -11,17 +11,21 @@ import { Router, NavigationEnd } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SwitchComponent } from '@ngx-templates/shared/switch';
 import { WINDOW } from '@ngx-templates/shared/services';
+import { IconComponent } from '@ngx-templates/shared/icon';
+
 import { HydrationService } from '../hydration.service';
 import { LoaderComponent } from '../../loader/loader.component';
 
+const MAX_DELAY = 10000;
+
 @Component({
-  selector: 'ec-hydration-stats',
+  selector: 'ec-hydration-control-panel',
   standalone: true,
-  imports: [CommonModule, SwitchComponent, LoaderComponent],
-  templateUrl: './hydration-stats.component.html',
-  styleUrl: './hydration-stats.component.scss',
+  imports: [CommonModule, SwitchComponent, LoaderComponent, IconComponent],
+  templateUrl: './hydration-control-panel.component.html',
+  styleUrl: './hydration-control-panel.component.scss',
 })
-export class HydrationStatsComponent {
+export class HydrationControlPanelComponent {
   hydration = inject(HydrationService);
   private _win = inject(WINDOW);
   private _router = inject(Router);
@@ -34,6 +38,9 @@ export class HydrationStatsComponent {
       (this.hydration.fetchedKbs() / this.hydration.totalFetchedKbs()) * 100,
   );
 
+  MAX_DELAY = MAX_DELAY;
+
+  visible = signal<boolean>(true);
   showHydrationStats = signal<boolean>(true);
   showOverlay = signal<boolean>(false);
 
@@ -78,7 +85,10 @@ export class HydrationStatsComponent {
 
   onDelayInput(e: Event) {
     const target = e.target as HTMLInputElement;
-    const delay = parseInt(target.value, 10);
-    this.hydration.fetchDelay = !isNaN(delay) ? delay : 0;
+    let delay = parseInt(target.value, 10);
+    delay = !isNaN(delay) ? delay : 0;
+    delay = Math.max(Math.min(delay, MAX_DELAY), 0);
+
+    this.hydration.fetchDelay = delay;
   }
 }
