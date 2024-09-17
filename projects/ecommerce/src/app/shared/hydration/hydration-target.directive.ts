@@ -41,6 +41,7 @@ export class HydrationTargetDirective implements AfterViewInit {
 
     setTimeout(() => {
       this._visualizer.notify('hydrated');
+      this._visualizer.hydrating = false;
     }, delay);
   }
 }

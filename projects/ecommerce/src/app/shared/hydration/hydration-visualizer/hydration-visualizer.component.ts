@@ -52,6 +52,8 @@ export class HydrationVisualizerComponent implements OnInit, OnDestroy {
   private _platformId = inject(PLATFORM_ID);
   private _hydrationService = inject(HydrationService);
 
+  hydrating = false;
+
   private _id: string;
   private _listeners: (() => void)[] = [];
   private _observerResolver!: (io: IntersectionObserver) => void;
@@ -138,10 +140,11 @@ export class HydrationVisualizerComponent implements OnInit, OnDestroy {
   }
 
   private _hydrate() {
-    if (this._isHydrated) {
+    if (this._isHydrated || this.hydrating) {
       return;
     }
     this.notify('started');
+    this.hydrating = true;
 
     // Animate hydration
 
