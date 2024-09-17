@@ -31,6 +31,7 @@ import { ProductSearchComponent } from './shared/product-search/product-search.c
 import { getRoutePath, isProductDetailsRoute } from '../shared/utils/routing';
 import { maintainScrollPosEffect } from '../shared/utils/maintain-scroll-pos-effect';
 import { HYDRATION_DIRECTIVES } from '../shared/hydration';
+import { HydrationService } from '../shared/hydration/hydration.service';
 
 const DEFAULT_PRICE_RANGE = { from: 0, to: 10000 };
 const DEFAULT_CAT_NAME = 'All Products';
@@ -56,7 +57,7 @@ const STANDARD_ROW_SIZE = 4; // Used for marking the first N product items as LC
 })
 export class ProductsComponent implements OnInit {
   productsList = inject(ProductsListService);
-
+  hydration = inject(HydrationService);
   private _router = inject(Router);
   private _route = inject(ActivatedRoute);
   private _categories = inject(CategoriesService);

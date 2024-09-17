@@ -1,0 +1,17 @@
+<ec-price-tag [product]="product()" size="large"></ec-price-tag>
+<ec-add-to-cart-btn [product]="product()"></ec-add-to-cart-btn>
+<hr />
+<p class="description">{{ product().description }}</p>
+@if (product().parameters.size) {
+  <hr class="params-hr" />
+  <table class="parameters">
+    <tbody>
+      @for (p of product().parameters; track $index) {
+        <tr>
+          <td>{{ p.name }}</td>
+          <td>{{ p.value }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}

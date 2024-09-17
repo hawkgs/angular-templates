@@ -40,15 +40,26 @@
 <section class="main">
   <div class="list">
     @for (p of productsList.value(); track p.id; let i = $index) {
-      <ec-hydration-visualizer trigger="viewport">
-        @defer (on immediate; hydrate on viewport) {
+      @if (!hydration.disabled) {
+        <ec-hydration-visualizer trigger="viewport">
+          @defer (on immediate; hydrate on viewport) {
+            <ec-product-item
+              ecHydrationTarget
+              [product]="p"
+              [isLcp]="i < STANDARD_ROW_SIZE"
+            ></ec-product-item>
+          }
+        </ec-hydration-visualizer>
+      } @else {
+        @defer {
           <ec-product-item
-            ecHydrationTarget
             [product]="p"
             [isLcp]="i < STANDARD_ROW_SIZE"
           ></ec-product-item>
+        } @placeholder {
+          <ec-skeleton-product-item></ec-skeleton-product-item>
         }
-      </ec-hydration-visualizer>
+      }
     }
     @if (productsList.isLoading() === 'update') {
       <ec-skeleton-product-item></ec-skeleton-product-item>

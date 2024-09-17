@@ -5,19 +5,18 @@ import { ImageGalleryComponent } from './shared/image-gallery/image-gallery.comp
 import { ProductsService } from '../../data-access/products.service';
 import { Product } from '../../../models';
 import { CategoriesService } from '../../data-access/categories.service';
-import { PriceTagComponent } from '../../shared/price-tag/price-tag.component';
-import { AddToCartBtnComponent } from './shared/add-to-cart-btn/add-to-cart-btn.component';
 import { LoaderService } from '../../shared/loader.service';
 import { ScrollPosition } from '../../shared/scroll-position.service';
 import { HYDRATION_DIRECTIVES } from '../../shared/hydration';
+import { ProductInfobarComponent } from './shared/product-infobar/product-infobar.component';
+import { HydrationService } from '../../shared/hydration/hydration.service';
 
 @Component({
   selector: 'ec-product-details',
   standalone: true,
   imports: [
     ImageGalleryComponent,
-    PriceTagComponent,
-    AddToCartBtnComponent,
+    ProductInfobarComponent,
     RouterModule,
     HYDRATION_DIRECTIVES,
   ],
@@ -26,6 +25,7 @@ import { HYDRATION_DIRECTIVES } from '../../shared/hydration';
   styleUrl: './product-details.component.scss',
 })
 export class ProductDetailsComponent implements OnInit {
+  hydration = inject(HydrationService);
   private _route = inject(ActivatedRoute);
   private _products = inject(ProductsService);
   private _categories = inject(CategoriesService);
