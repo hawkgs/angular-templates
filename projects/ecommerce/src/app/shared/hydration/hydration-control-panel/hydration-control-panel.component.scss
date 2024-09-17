@@ -14,7 +14,7 @@
   box-sizing: border-box;
   padding: 0.75rem;
   transition: transform 300ms ease;
-  transform: translateY(227px + 16px);
+  transform: translateY(251px + 16px);
   @extend %body-short-02;
 
   &.visible {
@@ -75,6 +75,10 @@
     &:last-of-type {
       margin-bottom: 0;
     }
+  }
+
+  .info {
+    @extend %body-short-03;
   }
 
   .delay-input-cont {
