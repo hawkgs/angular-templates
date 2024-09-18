@@ -11,6 +11,7 @@ import {
   OnDestroy,
   InjectionToken,
   output,
+  NgZone,
 } from '@angular/core';
 import { HydrationService } from '../hydration.service';
 
@@ -51,6 +52,9 @@ export class HydrationVisualizerComponent implements OnInit, OnDestroy {
   private _element = inject(ElementRef);
   private _platformId = inject(PLATFORM_ID);
   private _hydrationService = inject(HydrationService);
+
+  // Until we transition to zoneless mode
+  private _zone = inject(NgZone);
 
   hydrating = false;
 
@@ -153,15 +157,20 @@ export class HydrationVisualizerComponent implements OnInit, OnDestroy {
       this._renderer.addClass(this._el, DELAY_CLASS);
     }
 
-    setTimeout(() => {
-      this._renderer.removeClass(this._el, NON_HYDRATED_CLASS);
-      this._renderer.removeClass(this._el, DELAY_CLASS);
-      this._renderer.addClass(this._el, HYDRATING_CLASS);
+    // Note(Georgi): This is temporary needed to mark the
+    // component as stable as soon as possible and proceed
+    // with partial hydation (else, it will be delayed).
+    this._zone.runOutsideAngular(() => {
+      setTimeout(() => {
+        this._renderer.removeClass(this._el, NON_HYDRATED_CLASS);
+        this._renderer.removeClass(this._el, DELAY_CLASS);
+        this._renderer.addClass(this._el, HYDRATING_CLASS);
 
-      setTimeout(
-        () => this._renderer.removeClass(this._el, HYDRATING_CLASS),
-        HYDRATION_ANIM_DURATION,
-      );
-    }, this._hydrationService.fetchDelay);
+        setTimeout(
+          () => this._renderer.removeClass(this._el, HYDRATING_CLASS),
+          HYDRATION_ANIM_DURATION,
+        );
+      }, this._hydrationService.fetchDelay);
+    });
   }
 }
