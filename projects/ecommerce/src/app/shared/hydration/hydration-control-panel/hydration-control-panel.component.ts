@@ -47,7 +47,7 @@ export class HydrationControlPanelComponent {
       if (event instanceof NavigationEnd) {
         if (this._firstSkipped) {
           untracked(() => {
-            this.showHydrationStats.set(false);
+            // this.showHydrationStats.set(false);
           });
         }
         this._firstSkipped = true;

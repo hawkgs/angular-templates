@@ -1,0 +1,22 @@
+<ec-product-search (search)="productSearch.emit($event)"></ec-product-search>
+<ec-expandable-cont activateAt="600w">
+  <div class="expandable-cont-header" header>Categories & Filter</div>
+  <ng-container content>
+    <ec-category-picker
+      [categoryId]="categoryId()"
+      [defaultCategoryName]="defaults().categoryName"
+    ></ec-category-picker>
+    <hr />
+    <ec-price-filter
+      [default]="defaults().priceRange"
+      [range]="priceRange()"
+      (rangeChange)="priceRangeChange.emit($event)"
+    ></ec-price-filter>
+    <ec-sort-selector
+      type="vertical"
+      [value]="sortType()"
+      (valueChange)="sort.emit($event)"
+    ></ec-sort-selector>
+  </ng-container>
+</ec-expandable-cont>
+<hr class="expandable-cont-hr" />

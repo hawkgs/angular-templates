@@ -14,24 +14,19 @@ import { InfiniteScrollComponent } from '@ngx-templates/shared/infinite-scroll';
 import { CategoriesService } from '../data-access/categories.service';
 import { ProductItemComponent } from '../shared/product-item/product-item.component';
 import { ProductsListService } from './data-access/products-list.service';
-import {
-  PriceFilterComponent,
-  PriceRange,
-} from './shared/price-filter/price-filter.component';
+import { PriceRange } from './shared/price-filter/price-filter.component';
 import {
   SortSelectorComponent,
   SortType,
   isOfSortType,
 } from './shared/sort-selector/sort-selector.component';
-import { CategoryPickerComponent } from './shared/category-picker/category-picker.component';
 import { SkeletonProductItemComponent } from '../shared/skeleton-product-item/skeleton-product-item.component';
 import { ScrollPosition } from '../shared/scroll-position.service';
-import { ExpandableContComponent } from '../shared/expandable-cont/expandable-cont.component';
-import { ProductSearchComponent } from './shared/product-search/product-search.component';
 import { getRoutePath, isProductDetailsRoute } from '../shared/utils/routing';
 import { maintainScrollPosEffect } from '../shared/utils/maintain-scroll-pos-effect';
 import { HYDRATION_DIRECTIVES } from '../shared/hydration';
 import { HydrationService } from '../shared/hydration/hydration.service';
+import { SidebarComponent } from './shared/sidebar/sidebar.component';
 
 const DEFAULT_PRICE_RANGE = { from: 0, to: 10000 };
 const DEFAULT_CAT_NAME = 'All Products';
@@ -42,13 +37,10 @@ const STANDARD_ROW_SIZE = 4; // Used for marking the first N product items as LC
   standalone: true,
   imports: [
     ProductItemComponent,
-    PriceFilterComponent,
     SortSelectorComponent,
-    CategoryPickerComponent,
-    ProductSearchComponent,
+    SidebarComponent,
     SkeletonProductItemComponent,
     InfiniteScrollComponent,
-    ExpandableContComponent,
     HYDRATION_DIRECTIVES,
   ],
   providers: [ProductsListService, ScrollPosition],

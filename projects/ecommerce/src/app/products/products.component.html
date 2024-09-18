@@ -14,35 +14,47 @@
   <hr />
 </section>
 <section class="sidebar">
-  <ec-product-search (search)="onProductSearch($event)"></ec-product-search>
-  <ec-expandable-cont activateAt="600w">
-    <div class="expandable-cont-header" header>Categories & Filter</div>
-    <ng-container content>
-      <ec-category-picker
+  @if (!hydration.disabled) {
+    <ec-hydration-visualizer trigger="interaction">
+      @defer (on immediate; hydrate on interaction) {
+        <ec-sidebar
+          ecHydrationTarget
+          [defaults]="{
+            categoryName: DEFAULT_CAT_NAME,
+            priceRange: DEFAULT_PRICE_RANGE,
+          }"
+          [categoryId]="categoryId()"
+          [priceRange]="priceRange()"
+          [sortType]="sortType()"
+          (productSearch)="onProductSearch($event)"
+          (priceRangeChange)="onPriceRangeChange($event)"
+          (sort)="onSort($event)"
+        ></ec-sidebar>
+      }
+    </ec-hydration-visualizer>
+  } @else {
+    @defer {
+      <ec-sidebar
+        [defaults]="{
+          categoryName: DEFAULT_CAT_NAME,
+          priceRange: DEFAULT_PRICE_RANGE,
+        }"
         [categoryId]="categoryId()"
-        [defaultCategoryName]="DEFAULT_CAT_NAME"
-      ></ec-category-picker>
-      <hr />
-      <ec-price-filter
-        [default]="DEFAULT_PRICE_RANGE"
-        [range]="priceRange()"
-        (rangeChange)="onPriceRangeChange($event)"
-      ></ec-price-filter>
-      <ec-sort-selector
-        type="vertical"
-        [value]="sortType()"
-        (valueChange)="onSort($event)"
-      ></ec-sort-selector>
-    </ng-container>
-  </ec-expandable-cont>
-  <hr class="expandable-cont-hr" />
+        [priceRange]="priceRange()"
+        [sortType]="sortType()"
+        (productSearch)="onProductSearch($event)"
+        (priceRangeChange)="onPriceRangeChange($event)"
+        (sort)="onSort($event)"
+      ></ec-sidebar>
+    }
+  }
 </section>
 <section class="main">
   <div class="list">
     @for (p of productsList.value(); track p.id; let i = $index) {
       @if (!hydration.disabled) {
-        <ec-hydration-visualizer trigger="viewport">
-          @defer (on immediate; hydrate on viewport) {
+        <ec-hydration-visualizer trigger="interaction">
+          @defer (on immediate; hydrate on interaction) {
             <ec-product-item
               ecHydrationTarget
               [product]="p"

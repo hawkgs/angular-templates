@@ -1,0 +1,34 @@
+@import 'typography';
+@import 'screen-breakpoints';
+
+:host {
+  display: block;
+
+  ec-product-search,
+  ec-categories-picker,
+  ec-price-filter {
+    margin-bottom: 2rem;
+  }
+
+  ec-sort-selector {
+    display: none;
+
+    @include bp-600w {
+      display: flex;
+    }
+  }
+
+  .expandable-cont-header {
+    @extend %heading-400;
+    color: var(--color-primary);
+    margin: 0;
+  }
+
+  .expandable-cont-hr {
+    display: none;
+
+    @include bp-600w {
+      display: block;
+    }
+  }
+}

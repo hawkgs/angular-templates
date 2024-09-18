@@ -4,6 +4,10 @@
   align-items: center;
   height: 100%;
 
+  ec-hydration-visualizer {
+    width: 100%;
+  }
+
   .main-wrapper {
     max-width: calc(var(--app-max-width) + 2rem);
     width: 100%;
