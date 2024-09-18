@@ -17,16 +17,6 @@
       <span>Fetched resources:</span>
       <span>{{ hydration.fetchedKbs() | number: '1.0-1' }} kB</span>
     </div>
-    <div
-      class="row"
-      [class.disabled]="!hydration.fetchedKbs()"
-      title="The amount of hydrated resources relative to the total page size at the current moment"
-    >
-      <span>
-        <strong>{{ percentHydrated() | number: '1.0-1' }}%</strong> hydrated of
-        total page size
-      </span>
-    </div>
     <hr />
     <div
       class="row"

@@ -33,11 +33,6 @@ export class HydrationControlPanelComponent {
 
   private _firstSkipped = false;
 
-  percentHydrated = computed(
-    () =>
-      (this.hydration.fetchedKbs() / this.hydration.totalFetchedKbs()) * 100,
-  );
-
   MAX_DELAY = MAX_DELAY;
 
   visible = signal<boolean>(true);
