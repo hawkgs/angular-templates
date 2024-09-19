@@ -4,7 +4,7 @@
       <ngx-drop-grid [columns]="1" [cellGap]="8">
         @for (card of board.cards(list.id)(); track card.id) {
           <kb-card
-            *ngxDraggable="card.id; size: 1; position: card.idx; cols: 1"
+            *ngxDraggable="card.id; size: 1; position: card.pos; cols: 1"
             [card]="card"
           ></kb-card>
         }
