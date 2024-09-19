@@ -2,7 +2,12 @@ import { MockFn } from '@ngx-templates/shared/fetch';
 
 import MockData from '../../../../public/mock-data.json';
 import { environment } from '../../../environments/environment';
-import { ApiBoardDataResponse, ApiCard } from '../../api/utils/api-types';
+import {
+  ApiBoardDataResponse,
+  ApiCard,
+  ApiRequestCard,
+  ApiRequestLabel,
+} from '../../api/utils/api-types';
 
 type MockData = {
   board: ApiBoardDataResponse;
@@ -10,8 +15,6 @@ type MockData = {
 };
 
 const Store = MockData as MockData;
-
-let listsCount = Store.board.lists.length;
 
 /**
  * Returns mocked data based on a request URL
@@ -24,19 +27,15 @@ export const kanbanRequestResponseMock: MockFn = (
   method?: string,
   body?: { [key: string]: string | number },
 ) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let response: any = {};
   const routeParams = url.replace(environment.apiUrl + '/', '').split('/');
   const resource = routeParams[0];
 
   // POST /boards/{id}/lists
-  const handleListCreate = (boardId: string, listId: string) => {
+  const handleListsCreate = (_: string) => {
     const list = {
-      id: listId,
+      id: 'ls' + Date.now(),
       name: body ? (body['name'] as string) : '',
       cards: [],
-      pos: body && body['pos'] ? (body['pos'] as number) : listsCount++,
-      boardId,
     };
 
     Store.board.lists.push(list);
@@ -45,55 +44,136 @@ export const kanbanRequestResponseMock: MockFn = (
   };
 
   // PUT /boards/{id}/lists/{list_id}
-  const handleListUpdate = (_: string, listId: string) => {
-    const changes = {
-      name: body ? (body['name'] as string) : '',
-      pos: body && body['pos'] ? (body['pos'] as number) : listsCount++,
-    };
+  const handleListsUpdate = (_: string, listId: string) => {
+    const name = body ? (body['name'] as string) : '';
+    const pos = body && body['pos'] ? (body['pos'] as number) : -1;
 
     // WARNING: The code assumes that the ID exists. No handling for missing IDs.
     const idx = Store.board.lists.findIndex((l) => l.id === listId);
 
     const currentList = Store.board.lists[idx];
     const updatedList = {
-      ...changes,
+      ...{ name },
       ...currentList,
     };
 
-    Store.board.lists[idx] = updatedList;
+    if (pos === -1) {
+      Store.board.lists[idx] = updatedList;
+    } else {
+      Store.board.lists.splice(pos, 0, updatedList);
+    }
 
     return updatedList;
   };
 
   // DELETE /boards/{id}/lists/{list_id}
-  const handleListDelete = (boardId: string, listId: string) => {
+  const handleListsDelete = (_: string, listId: string) => {
     // WARNING: The code assumes that the ID exists. No handling for missing IDs.
     const idx = Store.board.lists.findIndex((l) => l.id === listId);
 
-    // TBD
+    Store.board.lists.splice(idx, 1);
+  };
+
+  // Resource: /boards/{id}/lists
+  const resourceLists = (boardId: string, listId: string) => {
+    switch (method) {
+      case 'POST':
+        return handleListsCreate(boardId);
+      case 'PUT':
+        return handleListsUpdate(boardId, listId);
+      case 'DELETE':
+        return handleListsDelete(boardId, listId);
+    }
+    return {};
+  };
+
+  // POST /boards/{id}/labels
+  const handleLabelsCreate = (_: string) => {
+    const cBody = body as ApiRequestLabel;
+    const label = {
+      id: 'l' + Date.now(),
+      name: cBody['name'] || '',
+      color: cBody['color'] || '',
+    };
+
+    Store.board.labels.push(label);
+
+    return label;
+  };
+
+  // PUT /boards/{id}/labels/{label_id}
+  const handleLabelsUpdate = (_: string, labelId: string) => {
+    const cBody = body as ApiRequestLabel;
+    const changes = {
+      ...(cBody['name'] ? { name: cBody['name'] } : {}),
+      ...(cBody['color'] ? { color: cBody['color'] } : {}),
+    };
+
+    // WARNING: The code assumes that the ID exists. No handling for missing IDs.
+    const idx = Store.board.labels.findIndex((l) => l.id === labelId);
+
+    const currentLabel = Store.board.labels[idx];
+    const updatedLabel = {
+      ...changes,
+      ...currentLabel,
+    };
+
+    Store.board.labels[idx] = updatedLabel;
+
+    return updatedLabel;
+  };
+
+  // DELETE /boards/{id}/labels/{label_id}
+  const handleLabelsDelete = (_: string, labelId: string) => {
+    // WARNING: The code assumes that the ID exists. No handling for missing IDs.
+    const idx = Store.board.labels.findIndex((l) => l.id === labelId);
+
+    Store.board.labels.splice(idx, 1);
+
+    // Remove from cards
+    const removeLabelIdFromCard = (card: ApiCard) => {
+      const lIdx = card.labelIds.indexOf(labelId);
+      if (lIdx > -1) {
+        card.labelIds.splice(lIdx, 1);
+      }
+    };
+
+    Store.board.lists.forEach((list) =>
+      list.cards.forEach(removeLabelIdFromCard),
+    );
+
+    Store.cards.forEach(removeLabelIdFromCard);
+  };
+
+  // Resource: /boards/{id}/labels
+  const resourceLabels = (boardId: string, labelId: string) => {
+    switch (method) {
+      case 'POST':
+        return handleLabelsCreate(boardId);
+      case 'PUT':
+        return handleLabelsUpdate(boardId, labelId);
+      case 'DELETE':
+        return handleLabelsDelete(boardId, labelId);
+    }
+    return {};
   };
 
   // GET /boards/{id}
-  const handleBoardsGet = () => Store.board; // We have a single board
+  const handleBoardsGet = (_: string) => Store.board; // We have a single board for now
 
   // Resource: /boards
-  const handleBoards = () => {
+  const resourceBoards = () => {
     const [, boardId, secondaryResource, secId] = routeParams;
 
     if (method === 'GET' && !secondaryResource) {
-      return handleBoardsGet();
+      return handleBoardsGet(boardId);
     }
 
-    // Resource: /boards/{id}/lists
-    if (secondaryResource === 'lists') {
-      switch (method) {
-        case 'POST':
-          return handleListCreate(boardId, secId);
-        case 'PUT':
-          return handleListUpdate(boardId, secId);
-        case 'DELETE':
-          return handleListDelete(boardId, secId);
-      }
+    switch (secondaryResource) {
+      case 'lists':
+        return resourceLists(boardId, secId);
+      case 'labels':
+        return resourceLabels(boardId, secId);
     }
 
     return {};
@@ -108,7 +188,33 @@ export const kanbanRequestResponseMock: MockFn = (
 
   // POST /cards/{id}
   const handleCardsPost = () => {
-    // TBD
+    const cBody = body as ApiRequestCard;
+    const partialCard = {
+      id: 'c' + Date.now(),
+      title: cBody['title'] || '',
+      labelIds: [],
+    };
+
+    const listId = cBody['listId'] || '';
+
+    // WARNING: The code assumes that the ID exists. No handling for missing IDs.
+    const listIdx = Store.board.lists.findIndex((l) => l.id === listId);
+    const list = Store.board.lists[listIdx];
+
+    const fullCard = {
+      ...partialCard,
+      listId: cBody['listId'] || '',
+      description: cBody['description'] || '',
+      pos: list.cards.length,
+    };
+
+    // Push in the main cards store
+    Store.cards.push(fullCard);
+
+    // Push the partial card in the list
+    list.cards.push(partialCard);
+
+    return fullCard;
   };
 
   // PUT /cards/{id}
@@ -116,8 +222,13 @@ export const kanbanRequestResponseMock: MockFn = (
     // TBD
   };
 
+  // DELETE /cards/{id}
+  const handleCardsDelete = (cardId: string) => {
+    // TBD
+  };
+
   // Resource: /cards
-  const handleCards = () => {
+  const resourceCards = () => {
     const [, cardId] = routeParams;
 
     switch (method) {
@@ -127,18 +238,23 @@ export const kanbanRequestResponseMock: MockFn = (
         return handleCardsPost();
       case 'PUT':
         return handleCardsUpdate(cardId);
+      case 'DELETE':
+        return handleCardsDelete(cardId);
     }
 
     return {};
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let response: any = {};
+
   // Route handling
   switch (resource) {
     case 'boards':
-      response = handleBoards();
+      response = resourceBoards();
       break;
     case 'cards':
-      response = handleCards();
+      response = resourceCards();
       break;
   }
 
