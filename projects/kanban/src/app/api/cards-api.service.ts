@@ -23,6 +23,19 @@ export class CardsApi {
     return mapCard(json);
   }
 
+  async createCard(card: Card): Promise<Card> {
+    const response = await this._fetch(`${environment.apiUrl}/cards`, {
+      method: 'POST',
+      body: JSON.stringify(mapApiRequestCard(card)),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const json = await response.json();
+
+    return mapCard(json);
+  }
+
   async updateCard(card: Card): Promise<Card> {
     const response = await this._fetch(
       `${environment.apiUrl}/cards/${card.id}`,
