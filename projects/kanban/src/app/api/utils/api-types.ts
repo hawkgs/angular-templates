@@ -4,7 +4,7 @@ export type ApiCard = {
   id: string;
   title: string;
   labelIds: string[];
-  idx?: number;
+  pos?: number;
   listId?: string;
   description?: string;
 };
@@ -13,7 +13,7 @@ export type ApiBoardList = {
   id: string;
   name: string;
   cards: ApiCard[];
-  idx?: number;
+  pos?: number;
   boardId?: string;
 };
 
@@ -32,14 +32,14 @@ export type ApiBoardDataResponse = {
 // Request types
 
 export type ApiRequestBoardList = {
-  idx?: number;
+  pos?: number;
   name?: string;
 };
 
 export type ApiRequestCard = {
   title?: string;
   labelIds?: string[];
-  idx?: number;
+  pos?: number;
   listId?: string;
   description?: string;
 };

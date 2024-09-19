@@ -12,7 +12,7 @@ export const mapCard = (card: ApiCard) =>
     id: card.id,
     title: card.title,
     labelIds: List(card.labelIds),
-    idx: card.idx,
+    pos: card.pos,
     listId: card.listId,
     description: card.description,
   });
@@ -20,7 +20,7 @@ export const mapCard = (card: ApiCard) =>
 export const mapBoardList = (list: ApiBoardList) =>
   new BoardList({
     id: list.id,
-    idx: list.idx,
+    pos: list.pos,
     name: list.name,
     boardId: list.boardId,
   });
@@ -36,7 +36,7 @@ export const mapBoardLists = ({
   boardId,
   lists,
 }: ApiBoardDataResponse): List<BoardList> =>
-  List(lists.map((l, i) => mapBoardList({ ...l, idx: i, boardId })));
+  List(lists.map((l, i) => mapBoardList({ ...l, pos: i, boardId })));
 
 export const mapBoardListsCards = ({
   lists,
@@ -44,7 +44,7 @@ export const mapBoardListsCards = ({
   List(
     lists
       .map((l) =>
-        List(l.cards.map((c, i) => mapCard({ ...c, idx: i, listId: l.id }))),
+        List(l.cards.map((c, i) => mapCard({ ...c, pos: i, listId: l.id }))),
       )
       .reduce((prev, curr) => prev.concat(curr), List()),
   );

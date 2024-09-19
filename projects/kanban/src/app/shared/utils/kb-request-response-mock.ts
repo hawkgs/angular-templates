@@ -35,7 +35,7 @@ export const kanbanRequestResponseMock: MockFn = (
       id: listId,
       name: body ? (body['name'] as string) : '',
       cards: [],
-      idx: body && body['idx'] ? (body['idx'] as number) : listsCount++,
+      pos: body && body['pos'] ? (body['pos'] as number) : listsCount++,
       boardId,
     };
 
@@ -48,7 +48,7 @@ export const kanbanRequestResponseMock: MockFn = (
   const handleListUpdate = (_: string, listId: string) => {
     const changes = {
       name: body ? (body['name'] as string) : '',
-      idx: body && body['idx'] ? (body['idx'] as number) : listsCount++,
+      pos: body && body['pos'] ? (body['pos'] as number) : listsCount++,
     };
 
     // WARNING: The code assumes that the ID exists. No handling for missing IDs.

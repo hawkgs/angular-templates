@@ -21,7 +21,7 @@ export class BoardService {
   lists = computed<List<BoardList>>(() =>
     this._board()
       .lists.toList()
-      .sort((a, b) => a.idx - b.idx),
+      .sort((a, b) => a.pos - b.pos),
   );
 
   cards = (listId: string): Signal<List<Card>> => {
@@ -31,7 +31,7 @@ export class BoardService {
       computedList = computed(() =>
         this._board()
           .cards.filter((c) => c.listId === listId)
-          .sort((a, b) => a.idx - b.idx)
+          .sort((a, b) => a.pos - b.pos)
           .toList(),
       );
       this._computedCardsLists.set(listId, computedList);

@@ -63,7 +63,7 @@
       "title": "Do something",
       "listId": "ls1",
       "description": "A description",
-      "idx": 0,
+      "pos": 0,
       "labelIds": []
     },
     {
@@ -71,7 +71,7 @@
       "title": "Drink a glass of cold water",
       "listId": "ls1",
       "description": "What the title says",
-      "idx": 1,
+      "pos": 1,
       "labelIds": []
     }
   ]

@@ -3,14 +3,14 @@ import { Record } from 'immutable';
 interface BoardListConfig {
   id: string;
   name: string;
-  idx: number;
+  pos: number;
   boardId: string;
 }
 
 const boardListRecord = Record<BoardListConfig>({
   id: '',
   name: '',
-  idx: -1,
+  pos: -1,
   boardId: '',
 });
 
