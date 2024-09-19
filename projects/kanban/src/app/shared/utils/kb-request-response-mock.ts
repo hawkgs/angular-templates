@@ -29,54 +29,117 @@ export const kanbanRequestResponseMock: MockFn = (
   const routeParams = url.replace(environment.apiUrl + '/', '').split('/');
   const resource = routeParams[0];
 
-  // Boards resource
-  if (resource === 'boards') {
+  // POST /boards/{id}/lists
+  const handleListCreate = (boardId: string, listId: string) => {
+    const list = {
+      id: listId,
+      name: body ? (body['name'] as string) : '',
+      cards: [],
+      idx: body && body['idx'] ? (body['idx'] as number) : listsCount++,
+      boardId,
+    };
+
+    Store.board.lists.push(list);
+
+    return list;
+  };
+
+  // PUT /boards/{id}/lists/{list_id}
+  const handleListUpdate = (_: string, listId: string) => {
+    const changes = {
+      name: body ? (body['name'] as string) : '',
+      idx: body && body['idx'] ? (body['idx'] as number) : listsCount++,
+    };
+
+    // WARNING: The code assumes that the ID exists. No handling for missing IDs.
+    const idx = Store.board.lists.findIndex((l) => l.id === listId);
+
+    const currentList = Store.board.lists[idx];
+    const updatedList = {
+      ...changes,
+      ...currentList,
+    };
+
+    Store.board.lists[idx] = updatedList;
+
+    return updatedList;
+  };
+
+  // DELETE /boards/{id}/lists/{list_id}
+  const handleListDelete = (boardId: string, listId: string) => {
+    // WARNING: The code assumes that the ID exists. No handling for missing IDs.
+    const idx = Store.board.lists.findIndex((l) => l.id === listId);
+
+    // TBD
+  };
+
+  // GET /boards/{id}
+  const handleBoardsGet = () => Store.board; // We have a single board
+
+  // Resource: /boards
+  const handleBoards = () => {
     const [, boardId, secondaryResource, secId] = routeParams;
 
-    // Boards data
-    if (!secondaryResource) {
-      response = Store.board;
+    if (method === 'GET' && !secondaryResource) {
+      return handleBoardsGet();
     }
 
-    // Lists resource – create and update
-    if (
-      secondaryResource === 'lists' &&
-      (method === 'POST' || method === 'PUT')
-    ) {
-      const list = {
-        id: secId,
-        name: body ? (body['name'] as string) : '',
-        cards: [],
-        idx: body && body['idx'] ? (body['idx'] as number) : listsCount++,
-        boardId,
-      };
-
-      const idx = Store.board.lists.findIndex((l) => l.id === secId);
-      if (idx > -1) {
-        Store.board.lists[idx] = list;
-      } else {
-        Store.board.lists.push(list);
+    // Resource: /boards/{id}/lists
+    if (secondaryResource === 'lists') {
+      switch (method) {
+        case 'POST':
+          return handleListCreate(boardId, secId);
+        case 'PUT':
+          return handleListUpdate(boardId, secId);
+        case 'DELETE':
+          return handleListDelete(boardId, secId);
       }
-
-      response = list;
     }
-  }
 
-  // Cards resource
-  if (resource === 'cards') {
-    const [, cardId] = routeParams;
+    return {};
+  };
+
+  // GET /cards/{id}
+  const handleCardsGet = (cardId: string) => {
     const idx = Store.cards.findIndex((c) => c.id === cardId);
 
-    let card = {};
-    if (idx > -1) {
-      card = Store.cards[idx];
+    return Store.cards[idx] || {};
+  };
+
+  // POST /cards/{id}
+  const handleCardsPost = () => {
+    // TBD
+  };
+
+  // PUT /cards/{id}
+  const handleCardsUpdate = (cardId: string) => {
+    // TBD
+  };
+
+  // Resource: /cards
+  const handleCards = () => {
+    const [, cardId] = routeParams;
+
+    switch (method) {
+      case 'GET':
+        return handleCardsGet(cardId);
+      case 'POST':
+        return handleCardsPost();
+      case 'PUT':
+        return handleCardsUpdate(cardId);
     }
 
-    if (method === 'GET') {
-      response = card;
+    return {};
+  };
 
-      // In progress - TBD
-    }
+  // Route handling
+  switch (resource) {
+    case 'boards':
+      response = handleBoards();
+      break;
+    case 'cards':
+      response = handleCards();
+      break;
   }
 
   return response;
