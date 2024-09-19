@@ -14,6 +14,11 @@ type MockData = {
   cards: ApiCard[];
 };
 
+// Note(Georgi): The cards and lists have specific order/position in their
+// respective containers. In Store.cards, this is represented by the `pos`
+// property (i.e. the array order is not important). However, in Store.lists and
+// Store.lists.cards (small ver of cards) the order of the items in the array is
+// crucial since they represent the actual position.
 const Store = MockData as MockData;
 
 /**
@@ -29,6 +34,9 @@ export const kanbanRequestResponseMock: MockFn = (
 ) => {
   const routeParams = url.replace(environment.apiUrl + '/', '').split('/');
   const resource = routeParams[0];
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (window as any).devDbStoreState = () => Store;
 
   // POST /boards/{id}/lists
   const handleListsCreate = (_: string) => {
@@ -53,14 +61,15 @@ export const kanbanRequestResponseMock: MockFn = (
 
     const currentList = Store.board.lists[idx];
     const updatedList = {
-      ...{ name },
       ...currentList,
+      ...{ name },
     };
 
     if (pos === -1) {
       Store.board.lists[idx] = updatedList;
     } else {
-      Store.board.lists.splice(pos, 0, updatedList);
+      Store.board.lists.splice(currentList.pos!, 1); // Remove from old pos
+      Store.board.lists.splice(pos, 0, updatedList); // Insert at new pos
     }
 
     return updatedList;
@@ -114,8 +123,8 @@ export const kanbanRequestResponseMock: MockFn = (
 
     const currentLabel = Store.board.labels[idx];
     const updatedLabel = {
-      ...changes,
       ...currentLabel,
+      ...changes,
     };
 
     Store.board.labels[idx] = updatedLabel;
@@ -219,12 +228,79 @@ export const kanbanRequestResponseMock: MockFn = (
 
   // PUT /cards/{id}
   const handleCardsUpdate = (cardId: string) => {
-    // TBD
+    const cBody = body as ApiRequestCard;
+    const pos = cBody['pos'] ? cBody['pos'] : -1;
+    const listId = cBody['listId'] ? cBody['listId'] : '';
+
+    const changes = {
+      ...(pos > -1 ? { pos } : {}),
+      ...(listId ? { listId } : {}),
+      ...(cBody['title'] ? { title: cBody['title'] } : {}),
+      ...(cBody['description'] ? { description: cBody['description'] } : {}),
+      ...(cBody['labelIds'] ? { labelIds: cBody['labelIds'] } : {}),
+    };
+
+    // WARNING: The code assumes that the ID exists. No handling for missing IDs.
+    const idx = Store.cards.findIndex((c) => c.id === cardId);
+    const currentCard = Store.cards[idx];
+    const updatedCard = {
+      ...currentCard,
+      ...changes,
+    };
+
+    // We can just substitute the card in the cards list
+    // since the position is already part of the object and
+    // the order in the array doesn't matter.
+    Store.cards[idx] = updatedCard;
+
+    const updatedPartialCard = {
+      id: updatedCard.id,
+      title: updatedCard.title,
+      labelIds: updatedCard.labelIds,
+    };
+
+    // WARNING: The code assumes that the ID exists. No handling for missing IDs.
+    const listIdx = Store.board.lists.findIndex((l) => l.id === listId);
+    const list = Store.board.lists[listIdx];
+
+    if (currentCard.listId === listId) {
+      if (pos === -1) {
+        list.cards[idx] = updatedPartialCard; // Replace
+      } else {
+        list.cards.splice(currentCard.pos!, 1); // Remove from old pos
+        list.cards.splice(pos, 0, updatedPartialCard); // Insert at new pos
+      }
+    } else {
+      // WARNING: The code assumes that the ID exists. No handling for missing IDs.
+      const formerListIdx = Store.board.lists.findIndex(
+        (l) => l.id === currentCard.listId,
+      );
+      const formerList = Store.board.lists[formerListIdx];
+
+      // Remove from the old/former list
+      formerList.cards.splice(currentCard.pos!, 1);
+
+      // Insert in the new list
+      list.cards.splice(pos, 0, updatedPartialCard);
+    }
+
+    return updatedCard;
   };
 
   // DELETE /cards/{id}
   const handleCardsDelete = (cardId: string) => {
-    // TBD
+    // WARNING: The code assumes that the ID exists. No handling for missing IDs.
+    const idx = Store.cards.findIndex((c) => c.id === cardId);
+    const card = Store.cards[idx];
+
+    Store.cards.splice(idx, 1);
+
+    // WARNING: The code assumes that the ID exists. No handling for missing IDs.
+    const listIdx = Store.board.lists.findIndex((l) => l.id === card.listId);
+    const list = Store.board.lists[listIdx];
+
+    // The card position should correspond to the index in Store.lists.cards.
+    list.cards.splice(card.pos as number, 1);
   };
 
   // Resource: /cards
