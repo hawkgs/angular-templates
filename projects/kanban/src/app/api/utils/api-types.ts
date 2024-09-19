@@ -25,6 +25,7 @@ export type ApiLabel = {
 
 export type ApiBoardDataResponse = {
   boardId: string;
+  boardName: string;
   lists: ApiBoardList[];
   labels: ApiLabel[];
 };

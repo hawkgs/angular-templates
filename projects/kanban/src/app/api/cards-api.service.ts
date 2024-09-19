@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { FETCH_API } from '@ngx-templates/shared/fetch';
 
 import { Card } from '../../models';
-import { environment } from '../../environments/environment.prod';
+import { environment } from '../../environments/environment';
 import { mapCard } from './utils/internal-mappers';
 import { mapApiRequestCard } from './utils/external-mappers';
 
@@ -23,10 +23,13 @@ export class CardsApi {
     return mapCard(json);
   }
 
-  async createCard(card: Card): Promise<Card> {
+  async createCard(card: Card, insertOnTop = false): Promise<Card> {
     const response = await this._fetch(`${environment.apiUrl}/cards`, {
       method: 'POST',
-      body: JSON.stringify(mapApiRequestCard(card)),
+      body: JSON.stringify({
+        card: mapApiRequestCard(card),
+        insertOnTop,
+      }),
       headers: {
         'Content-Type': 'application/json',
       },

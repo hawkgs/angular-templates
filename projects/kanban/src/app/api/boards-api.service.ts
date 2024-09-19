@@ -1,16 +1,9 @@
 import { Injectable, inject } from '@angular/core';
-import { List } from 'immutable';
 import { FETCH_API } from '@ngx-templates/shared/fetch';
 
-import {
-  mapBoardList,
-  mapBoardListsCards,
-  mapBoardLists,
-  mapLabel,
-  mapLabels,
-} from './utils/internal-mappers';
+import { mapBoardList, mapLabel, mapBoard } from './utils/internal-mappers';
 import { environment } from '../../environments/environment';
-import { BoardList, Card, Label } from '../../models';
+import { Board, BoardList, Label } from '../../models';
 import {
   mapApiRequestBoardList,
   mapApiRequestLabel,
@@ -20,25 +13,13 @@ import {
 export class BoardsApi {
   private _fetch = inject(FETCH_API);
 
-  async getBoardData(boardId: string): Promise<{
-    lists: List<BoardList>;
-    cards: List<Card>;
-    labels: List<Label>;
-  }> {
+  async getBoardData(boardId: string): Promise<Board> {
     const response = await this._fetch(
       `${environment.apiUrl}/boards/${boardId}`,
     );
     const json = await response.json();
 
-    const lists = mapBoardLists(json);
-    const cards = mapBoardListsCards(json);
-    const labels = mapLabels(json);
-
-    return {
-      lists,
-      cards,
-      labels,
-    };
+    return mapBoard(json);
   }
 
   // Lists
@@ -59,15 +40,16 @@ export class BoardsApi {
     return mapBoardList(json);
   }
 
-  async updateBoardListName(
+  async updateBoardList(
     boardId: string,
-    list: BoardList,
+    listId: string,
+    changes: { name?: string; pos?: number },
   ): Promise<BoardList> {
     const response = await this._fetch(
-      `${environment.apiUrl}/boards/${boardId}/lists/${list.id}`,
+      `${environment.apiUrl}/boards/${boardId}/lists/${listId}`,
       {
         method: 'PUT',
-        body: JSON.stringify(mapApiRequestBoardList(list)),
+        body: JSON.stringify(changes),
         headers: {
           'Content-Type': 'application/json',
         },

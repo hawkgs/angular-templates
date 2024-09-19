@@ -1,6 +1,7 @@
 {
   "board": {
     "boardId": "bd1",
+    "boardName": "",
     "lists": [
       {
         "id": "ls1",

@@ -19,4 +19,8 @@ export class BoardComponent implements OnInit {
   ngOnInit() {
     this.board.loadLists();
   }
+
+  createList() {
+    this.board.createList('Dummy');
+  }
 }

@@ -1,5 +1,5 @@
-import { List } from 'immutable';
-import { BoardList, Card, Label } from '../../../models';
+import { List, Map } from 'immutable';
+import { Board, BoardList, Card, Label } from '../../../models';
 import {
   ApiBoardList,
   ApiBoardDataResponse,
@@ -20,7 +20,6 @@ export const mapCard = (card: ApiCard) =>
 export const mapBoardList = (list: ApiBoardList) =>
   new BoardList({
     id: list.id,
-    pos: list.pos,
     name: list.name,
     boardId: list.boardId,
   });
@@ -40,14 +39,35 @@ export const mapBoardLists = ({
 
 export const mapBoardListsCards = ({
   lists,
-}: ApiBoardDataResponse): List<Card> =>
-  List(
-    lists
-      .map((l) =>
-        List(l.cards.map((c, i) => mapCard({ ...c, pos: i, listId: l.id }))),
-      )
-      .reduce((prev, curr) => prev.concat(curr), List()),
+}: ApiBoardDataResponse): Map<string, Card> => {
+  let map = Map<string, Card>();
+
+  lists.forEach((list) =>
+    list.cards.forEach((card, cIdx) => {
+      map = map.set(card.id, mapCard({ ...card, pos: cIdx, listId: list.id }));
+    }),
   );
 
-export const mapLabels = ({ labels }: ApiBoardDataResponse): List<Label> =>
-  List(labels.map((l) => mapLabel(l)));
+  return map;
+};
+
+export const mapLabels = ({
+  labels,
+}: ApiBoardDataResponse): Map<string, Label> => {
+  let map = Map<string, Label>();
+
+  labels.forEach((l) => {
+    map = map.set(l.id, mapLabel(l));
+  });
+
+  return map;
+};
+
+export const mapBoard = (board: ApiBoardDataResponse): Board =>
+  new Board({
+    id: board.boardId,
+    name: board.boardName,
+    lists: mapBoardLists(board),
+    cards: mapBoardListsCards(board),
+    labels: mapLabels(board),
+  });

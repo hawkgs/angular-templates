@@ -1,17 +1,27 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { MockFn } from '@ngx-templates/shared/fetch';
 
 import MockData from '../../../../public/mock-data.json';
 import { environment } from '../../../environments/environment';
 import {
-  ApiCard,
   ApiLabel,
   ApiRequestCard,
   ApiRequestLabel,
 } from '../../api/utils/api-types';
 
+type ApiCard = {
+  id: string;
+  title: string;
+  labelIds: string[];
+  pos: number;
+  listId: string;
+  description: string;
+};
+
 type MockData = {
   board: {
     boardId: string;
+    boardName: string;
     labels: ApiLabel[];
     lists: {
       id: string;
@@ -43,7 +53,6 @@ export const kanbanRequestResponseMock: MockFn = (
   const resource = routeParams[0];
 
   // Note(Georgi): Temp
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (window as any).devDbStoreState = () => Store;
 
   // POST /boards/{id}/lists
@@ -177,7 +186,7 @@ export const kanbanRequestResponseMock: MockFn = (
       // The cards are populated from Store.cards
       cards: Store.cards
         .filter((c) => c.listId === list.id)
-        .sort((a, b) => a.pos! - b.pos!)
+        .sort((a, b) => a.pos - b.pos)
         .map((c) => ({
           id: c.id,
           title: c.title,
@@ -213,23 +222,29 @@ export const kanbanRequestResponseMock: MockFn = (
 
   // POST /cards/{id}
   const handleCardsPost = () => {
-    const cBody = body as ApiRequestCard;
+    const insertOnTop = (body as any)['insertOnTop'] as boolean;
+    const rCard = (body as any)['card'] as ApiRequestCard;
+
     const card = {
       id: 'c' + Date.now(),
-      title: cBody['title'] || '',
+      title: rCard['title'] || '',
       labelIds: [],
-      listId: cBody['listId'] || '',
-      description: cBody['description'] || '',
-      pos: -1, // Populated down
+      listId: rCard['listId'] || '',
+      description: rCard['description'] || '',
+      pos: !insertOnTop ? -1 : 0,
     };
 
-    const listId = cBody['listId'] || '';
+    if (!insertOnTop) {
+      const listId = rCard['listId'] || '';
 
-    // WARNING: The code assumes that the ID exists. No handling for missing IDs.
-    const listCardsCount = Store.cards.filter(
-      (c) => c.listId === listId,
-    ).length;
-    card.pos = listCardsCount;
+      // WARNING: The code assumes that the ID exists. No handling for missing IDs.
+      const listCardsCount = Store.cards.filter(
+        (c) => c.listId === listId,
+      ).length;
+      card.pos = listCardsCount;
+    } else {
+      Store.cards.forEach((card) => card.pos++);
+    }
 
     Store.cards.push(card);
 
@@ -290,7 +305,6 @@ export const kanbanRequestResponseMock: MockFn = (
     return {};
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let response: any = {};
 
   // Route handling

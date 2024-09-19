@@ -9,7 +9,6 @@ export const mapApiRequestBoardList = (
   list: BoardList,
 ): ApiRequestBoardList => ({
   name: list.name,
-  pos: list.pos,
 });
 
 export const mapApiRequestCard = (card: Card): ApiRequestCard => ({

@@ -82,9 +82,11 @@ export const withFetchMock =
       }
     };
 
-    log('Executing request ' + url);
-
     const method = options?.method || 'GET';
+
+    console.log(''); // Add some spacing in the console
+    log(`Executing request ${method} ${url}`);
+
     const body = options?.body ? JSON.parse(options.body as string) : null;
     if (body) {
       log('Body', body);

@@ -1,5 +1,5 @@
 import { computed, inject, Injectable, Signal, signal } from '@angular/core';
-import { List, Map as ImmutMap } from 'immutable';
+import { List } from 'immutable';
 
 import { Board, BoardList, Card } from '../../../models';
 import { BoardsApi } from '../../api/boards-api.service';
@@ -18,11 +18,8 @@ export class BoardService {
 
   private _computedCardsLists = new Map<string, Signal<List<Card>>>();
 
-  lists = computed<List<BoardList>>(() =>
-    this._board()
-      .lists.toList()
-      .sort((a, b) => a.pos - b.pos),
-  );
+  lists = computed(() => this._board().lists);
+  labels = computed(() => this._board().labels);
 
   cards = (listId: string): Signal<List<Card>> => {
     let computedList = this._computedCardsLists.get(listId);
@@ -41,21 +38,27 @@ export class BoardService {
   };
 
   async loadLists() {
-    const { lists, cards } = await this._boardsApi.getBoardData(BOARD_ID);
+    const board = await this._boardsApi.getBoardData(BOARD_ID);
+    this._board.set(board);
+  }
 
-    let listsMap = ImmutMap<string, BoardList>();
-    let cardsMap = ImmutMap<string, Card>();
-
-    // Note(Georgi): Reconsider if maps are needed
-    lists.forEach((l) => {
-      listsMap = listsMap.set(l.id, l);
-    });
-    cards.forEach((c) => {
-      cardsMap = cardsMap.set(c.id, c);
+  async createList(name: string) {
+    const list = new BoardList({
+      name,
+      boardId: BOARD_ID,
     });
 
-    this._board.update((board) =>
-      board.set('cards', cardsMap).set('lists', listsMap),
-    );
+    const dbList = await this._boardsApi.createBoardList(BOARD_ID, list);
+    this._board.update((b) => b.set('lists', b.lists.push(dbList)));
+  }
+
+  async createCard(listId: string, title: string) {
+    const card = new Card({
+      listId,
+      title,
+    });
+
+    const dbCard = await this._cardsApi.createCard(card);
+    this._board.update((b) => b.set('cards', b.cards.set(dbCard.id, dbCard)));
   }
 }
