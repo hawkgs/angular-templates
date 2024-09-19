@@ -4,34 +4,19 @@
     "lists": [
       {
         "id": "ls1",
-        "name": "Backlog",
-        "cards": [
-          {
-            "id": "c1",
-            "title": "Do something",
-            "labelIds": []
-          },
-          {
-            "id": "c2",
-            "title": "Drink a glass of cold water",
-            "labelIds": []
-          }
-        ]
+        "name": "Backlog"
       },
       {
         "id": "ls2",
-        "name": "To-dos",
-        "cards": []
+        "name": "To-dos"
       },
       {
         "id": "ls3",
-        "name": "In Progress",
-        "cards": []
+        "name": "In Progress"
       },
       {
         "id": "ls4",
-        "name": "Completed",
-        "cards": []
+        "name": "Completed"
       }
     ],
     "labels": [
@@ -63,7 +48,7 @@
       "title": "Do something",
       "listId": "ls1",
       "description": "A description",
-      "pos": 0,
+      "pos": 1,
       "labelIds": []
     },
     {
@@ -71,7 +56,7 @@
       "title": "Drink a glass of cold water",
       "listId": "ls1",
       "description": "What the title says",
-      "pos": 1,
+      "pos": 0,
       "labelIds": []
     }
   ]

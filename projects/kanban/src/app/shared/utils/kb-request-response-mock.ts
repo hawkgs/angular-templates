@@ -3,22 +3,29 @@ import { MockFn } from '@ngx-templates/shared/fetch';
 import MockData from '../../../../public/mock-data.json';
 import { environment } from '../../../environments/environment';
 import {
-  ApiBoardDataResponse,
   ApiCard,
+  ApiLabel,
   ApiRequestCard,
   ApiRequestLabel,
 } from '../../api/utils/api-types';
 
 type MockData = {
-  board: ApiBoardDataResponse;
+  board: {
+    boardId: string;
+    labels: ApiLabel[];
+    lists: {
+      id: string;
+      name: string;
+    }[];
+  };
   cards: ApiCard[];
 };
 
 // Note(Georgi): The cards and lists have specific order/position in their
 // respective containers. In Store.cards, this is represented by the `pos`
-// property (i.e. the array order is not important). However, in Store.lists and
-// Store.lists.cards (small ver of cards) the order of the items in the array is
-// crucial since they represent the actual position.
+// property (i.e. the array order is not important). However, in Store.lists
+// the order of the items in the array is crucial since it represents the
+// actual position.
 const Store = MockData as MockData;
 
 /**
@@ -35,6 +42,7 @@ export const kanbanRequestResponseMock: MockFn = (
   const routeParams = url.replace(environment.apiUrl + '/', '').split('/');
   const resource = routeParams[0];
 
+  // Note(Georgi): Temp
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (window as any).devDbStoreState = () => Store;
 
@@ -43,7 +51,6 @@ export const kanbanRequestResponseMock: MockFn = (
     const list = {
       id: 'ls' + Date.now(),
       name: body ? (body['name'] as string) : '',
-      cards: [],
     };
 
     Store.board.lists.push(list);
@@ -68,7 +75,7 @@ export const kanbanRequestResponseMock: MockFn = (
     if (pos === -1) {
       Store.board.lists[idx] = updatedList;
     } else {
-      Store.board.lists.splice(currentList.pos!, 1); // Remove from old pos
+      Store.board.lists.splice(idx, 1); // Remove from old pos
       Store.board.lists.splice(pos, 0, updatedList); // Insert at new pos
     }
 
@@ -140,18 +147,12 @@ export const kanbanRequestResponseMock: MockFn = (
     Store.board.labels.splice(idx, 1);
 
     // Remove from cards
-    const removeLabelIdFromCard = (card: ApiCard) => {
+    Store.cards.forEach((card) => {
       const lIdx = card.labelIds.indexOf(labelId);
       if (lIdx > -1) {
         card.labelIds.splice(lIdx, 1);
       }
-    };
-
-    Store.board.lists.forEach((list) =>
-      list.cards.forEach(removeLabelIdFromCard),
-    );
-
-    Store.cards.forEach(removeLabelIdFromCard);
+    });
   };
 
   // Resource: /boards/{id}/labels
@@ -168,7 +169,22 @@ export const kanbanRequestResponseMock: MockFn = (
   };
 
   // GET /boards/{id}
-  const handleBoardsGet = (_: string) => Store.board; // We have a single board for now
+  const handleBoardsGet = (_: string) => ({
+    ...Store.board,
+    lists: Store.board.lists.map((list) => ({
+      id: list.id,
+      name: list.name,
+      // The cards are populated from Store.cards
+      cards: Store.cards
+        .filter((c) => c.listId === list.id)
+        .sort((a, b) => a.pos! - b.pos!)
+        .map((c) => ({
+          id: c.id,
+          title: c.title,
+          labelIds: c.labelIds,
+        })),
+    })),
+  });
 
   // Resource: /boards
   const resourceBoards = () => {
@@ -198,43 +214,35 @@ export const kanbanRequestResponseMock: MockFn = (
   // POST /cards/{id}
   const handleCardsPost = () => {
     const cBody = body as ApiRequestCard;
-    const partialCard = {
+    const card = {
       id: 'c' + Date.now(),
       title: cBody['title'] || '',
       labelIds: [],
+      listId: cBody['listId'] || '',
+      description: cBody['description'] || '',
+      pos: -1, // Populated down
     };
 
     const listId = cBody['listId'] || '';
 
     // WARNING: The code assumes that the ID exists. No handling for missing IDs.
-    const listIdx = Store.board.lists.findIndex((l) => l.id === listId);
-    const list = Store.board.lists[listIdx];
+    const listCardsCount = Store.cards.filter(
+      (c) => c.listId === listId,
+    ).length;
+    card.pos = listCardsCount;
 
-    const fullCard = {
-      ...partialCard,
-      listId: cBody['listId'] || '',
-      description: cBody['description'] || '',
-      pos: list.cards.length,
-    };
+    Store.cards.push(card);
 
-    // Push in the main cards store
-    Store.cards.push(fullCard);
-
-    // Push the partial card in the list
-    list.cards.push(partialCard);
-
-    return fullCard;
+    return card;
   };
 
   // PUT /cards/{id}
   const handleCardsUpdate = (cardId: string) => {
     const cBody = body as ApiRequestCard;
-    const pos = cBody['pos'] ? cBody['pos'] : -1;
-    const listId = cBody['listId'] ? cBody['listId'] : '';
 
     const changes = {
-      ...(pos > -1 ? { pos } : {}),
-      ...(listId ? { listId } : {}),
+      ...(cBody['pos'] ? { pos: cBody['pos'] } : {}),
+      ...(cBody['listId'] ? { listId: cBody['listId'] } : {}),
       ...(cBody['title'] ? { title: cBody['title'] } : {}),
       ...(cBody['description'] ? { description: cBody['description'] } : {}),
       ...(cBody['labelIds'] ? { labelIds: cBody['labelIds'] } : {}),
@@ -253,37 +261,6 @@ export const kanbanRequestResponseMock: MockFn = (
     // the order in the array doesn't matter.
     Store.cards[idx] = updatedCard;
 
-    const updatedPartialCard = {
-      id: updatedCard.id,
-      title: updatedCard.title,
-      labelIds: updatedCard.labelIds,
-    };
-
-    // WARNING: The code assumes that the ID exists. No handling for missing IDs.
-    const listIdx = Store.board.lists.findIndex((l) => l.id === listId);
-    const list = Store.board.lists[listIdx];
-
-    if (currentCard.listId === listId) {
-      if (pos === -1) {
-        list.cards[idx] = updatedPartialCard; // Replace
-      } else {
-        list.cards.splice(currentCard.pos!, 1); // Remove from old pos
-        list.cards.splice(pos, 0, updatedPartialCard); // Insert at new pos
-      }
-    } else {
-      // WARNING: The code assumes that the ID exists. No handling for missing IDs.
-      const formerListIdx = Store.board.lists.findIndex(
-        (l) => l.id === currentCard.listId,
-      );
-      const formerList = Store.board.lists[formerListIdx];
-
-      // Remove from the old/former list
-      formerList.cards.splice(currentCard.pos!, 1);
-
-      // Insert in the new list
-      list.cards.splice(pos, 0, updatedPartialCard);
-    }
-
     return updatedCard;
   };
 
@@ -291,16 +268,8 @@ export const kanbanRequestResponseMock: MockFn = (
   const handleCardsDelete = (cardId: string) => {
     // WARNING: The code assumes that the ID exists. No handling for missing IDs.
     const idx = Store.cards.findIndex((c) => c.id === cardId);
-    const card = Store.cards[idx];
 
     Store.cards.splice(idx, 1);
-
-    // WARNING: The code assumes that the ID exists. No handling for missing IDs.
-    const listIdx = Store.board.lists.findIndex((l) => l.id === card.listId);
-    const list = Store.board.lists[listIdx];
-
-    // The card position should correspond to the index in Store.lists.cards.
-    list.cards.splice(card.pos as number, 1);
   };
 
   // Resource: /cards
