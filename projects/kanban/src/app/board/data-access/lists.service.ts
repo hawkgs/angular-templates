@@ -1,5 +1,5 @@
 import { computed, inject, Injectable } from '@angular/core';
-import { BOARD_ID, BOARD_STATE } from './board-state.provider';
+import { BOARD_STATE } from './board-state.provider';
 import { BoardList } from '../../../models';
 import { BoardsApi } from '../../api/boards-api.service';
 
@@ -13,10 +13,51 @@ export class ListsService {
   async createList(name: string) {
     const list = new BoardList({
       name,
-      boardId: BOARD_ID,
+      boardId: this._board().id,
     });
 
-    const dbList = await this._boardsApi.createBoardList(BOARD_ID, list);
-    this._board.update((b) => b.set('lists', b.lists.push(dbList)));
+    const dbList = await this._boardsApi.createBoardList(
+      this._board().id,
+      list,
+    );
+
+    if (dbList) {
+      this._board.update((b) => b.set('lists', b.lists.push(dbList)));
+    }
+  }
+
+  async updateListName(listId: string, name: string) {
+    const dbLabel = await this._boardsApi.updateBoardList(
+      this._board().id,
+      listId,
+      { name },
+    );
+
+    if (dbLabel) {
+      this._board.update((b) => {
+        const idx = b.lists.findIndex((l) => l.id === listId);
+        return b.set('lists', b.lists.set(idx, dbLabel));
+      });
+    }
+  }
+
+  async updateListPosition(listId: string, pos: number) {
+    const dbLabel = await this._boardsApi.updateBoardList(
+      this._board().id,
+      listId,
+      { pos },
+    );
+
+    if (dbLabel) {
+      this._board.update((b) => {
+        const idx = b.lists.findIndex((l) => l.id === listId);
+        const lists = b.lists.remove(idx).set(pos, dbLabel);
+        return b.set('lists', lists);
+      });
+    }
+  }
+
+  async deleteList(listId: string) {
+    await this._boardsApi.deleteBoardList(this._board().id, listId);
   }
 }

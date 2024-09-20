@@ -1,3 +1,5 @@
+export type Response<T> = Promise<T | undefined>;
+
 // Response types
 
 export type ApiCard = {

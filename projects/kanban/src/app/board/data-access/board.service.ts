@@ -12,6 +12,8 @@ export class BoardService {
 
   async loadBoardData() {
     const board = await this._boardsApi.getBoardData(BOARD_ID);
-    this._board.set(board);
+    if (board) {
+      this._board.set(board);
+    }
   }
 }

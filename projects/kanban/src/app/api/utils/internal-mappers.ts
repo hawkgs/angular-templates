@@ -1,11 +1,6 @@
 import { List, Map } from 'immutable';
 import { Board, BoardList, Card, Label } from '../../../models';
-import {
-  ApiBoardList,
-  ApiBoardDataResponse,
-  ApiCard,
-  ApiLabel,
-} from './api-types';
+import { ApiBoardList, ApiBoardDataResponse, ApiCard, ApiLabel } from './types';
 
 export const mapCard = (card: ApiCard) =>
   new Card({

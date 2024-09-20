@@ -35,6 +35,10 @@ export class CardsService {
 
     const dbCard = await this._cardsApi.createCard(card, insertOnTop);
 
+    if (!dbCard) {
+      return;
+    }
+
     this._board.update((b) => {
       if (insertOnTop) {
         const listCards = b.cards
@@ -42,11 +46,47 @@ export class CardsService {
           .map((c) => c.set('pos', c.pos + 1));
 
         b = b.set('cards', b.cards.concat(listCards));
-
-        console.log(b.cards.toJS());
       }
 
       return b.set('cards', b.cards.set(dbCard.id, dbCard));
     });
+  }
+
+  async updateCardPosition(
+    cardId: string,
+    changes: { pos: number; listId?: string },
+  ) {
+    const dbCard = await this._cardsApi.updateCard(cardId, changes);
+
+    if (!dbCard) {
+      return;
+    }
+
+    this._board.update((b) => {
+      const withUpdatedPos = b.cards
+        .filter((c) => c.listId && c.pos >= changes.pos)
+        .map((c) => c.set('pos', c.pos + 1));
+
+      return b
+        .set('cards', b.cards.concat(withUpdatedPos))
+        .set('cards', b.cards.set(dbCard.id, dbCard));
+    });
+  }
+
+  async updateCardContent(
+    cardId: string,
+    content: { title?: string; description?: string; labelIds?: string[] },
+  ) {
+    const dbCard = await this._cardsApi.updateCard(cardId, content);
+
+    if (dbCard) {
+      this._board.update((b) => {
+        return b.set('cards', b.cards.set(dbCard.id, dbCard));
+      });
+    }
+  }
+
+  async deleteCard(cardId: string) {
+    await this._cardsApi.deleteCard(cardId);
   }
 }

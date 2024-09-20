@@ -1,9 +1,5 @@
 import { BoardList, Card, Label } from '../../../models';
-import {
-  ApiRequestBoardList,
-  ApiRequestCard,
-  ApiRequestLabel,
-} from './api-types';
+import { ApiRequestBoardList, ApiRequestCard, ApiRequestLabel } from './types';
 
 export const mapApiRequestBoardList = (
   list: BoardList,

@@ -7,7 +7,7 @@ import {
   ApiLabel,
   ApiRequestCard,
   ApiRequestLabel,
-} from '../../api/utils/api-types';
+} from '../../api/utils/types';
 
 type ApiCard = {
   id: string;

@@ -6,8 +6,6 @@ import {
 } from '@angular/core';
 import { Board } from '../../../models';
 
-export const BOARD_ID = 'bd1';
-
 export const BOARD_STATE = new InjectionToken<WritableSignal<Board>>(
   'BOARD_STATE',
 );
