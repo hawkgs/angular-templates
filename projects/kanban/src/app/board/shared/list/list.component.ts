@@ -1,7 +1,7 @@
 import { Component, inject, input, signal } from '@angular/core';
 import { BoardList } from '../../../../models';
-import { BoardService } from '../../data-access/board.service';
 import { AddCardComponent } from './add-card/add-card.component';
+import { CardsService } from '../../data-access/cards.service';
 
 @Component({
   selector: 'kb-list',
@@ -11,13 +11,13 @@ import { AddCardComponent } from './add-card/add-card.component';
   styleUrl: './list.component.scss',
 })
 export class ListComponent {
-  private _board = inject(BoardService);
+  private _cards = inject(CardsService);
 
   list = input.required<BoardList>();
 
   topCardCreator = signal<boolean>(false);
 
   createCard(title: string, insertOnTop?: boolean) {
-    this._board.createCard(this.list().id, title, insertOnTop);
+    this._cards.createCard(this.list().id, title, insertOnTop);
   }
 }

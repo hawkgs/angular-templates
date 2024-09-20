@@ -1,8 +1,8 @@
 <div ngxDropGridGroup class="wrapper">
-  @for (list of board.lists(); track list.id) {
+  @for (list of lists.value(); track list.id) {
     <kb-list [list]="list">
       <ngx-drop-grid [columns]="1" [cellGap]="8">
-        @for (card of board.cards(list.id)(); track card.id) {
+        @for (card of cards.fromList(list.id)(); track card.id) {
           <kb-card
             *ngxDraggable="card.id; size: 1; position: card.pos; cols: 1"
             [card]="card"
@@ -11,5 +11,5 @@
       </ngx-drop-grid>
     </kb-list>
   }
-  <kb-add-list (listCreate)="createList($event)"></kb-add-list>
+  <kb-add-list (listCreate)="lists.createList($event)"></kb-add-list>
 </div>
