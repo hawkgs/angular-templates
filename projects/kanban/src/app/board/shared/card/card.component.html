@@ -1,1 +1,5 @@
-<p>{{ card().title }}</p>
+<p>
+  <button (click)="open.emit(card())" title="Open card">
+    {{ card().title }}
+  </button>
+</p>

@@ -9,6 +9,10 @@ export const APP_ROUTES: Routes = [
         path: '',
         component: BoardComponent,
       },
+      {
+        path: 'c/:id',
+        component: BoardComponent,
+      },
     ],
   },
 ];

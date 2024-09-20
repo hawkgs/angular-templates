@@ -11,6 +11,8 @@ export class CardsService {
 
   private _computedCardsLists = new Map<string, Signal<List<Card>>>();
 
+  value = computed(() => this._board().cards);
+
   fromList = (listId: string): Signal<List<Card>> => {
     let computedList = this._computedCardsLists.get(listId);
 
@@ -26,6 +28,16 @@ export class CardsService {
 
     return computedList;
   };
+
+  async loadCard(cardId: string) {
+    const dbCard = await this._cardsApi.getCard(cardId);
+
+    if (dbCard) {
+      this._board.update((b) => b.set('cards', b.cards.set(dbCard.id, dbCard)));
+    }
+
+    return dbCard;
+  }
 
   async createCard(listId: string, title: string, insertOnTop?: boolean) {
     const card = new Card({

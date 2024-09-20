@@ -7,6 +7,7 @@ interface CardConfig {
   pos: number;
   listId: string;
   labelIds: List<string>;
+  complete: boolean;
 }
 
 const cardRecord = Record<CardConfig>({
@@ -16,6 +17,7 @@ const cardRecord = Record<CardConfig>({
   pos: -1,
   listId: '',
   labelIds: List([]),
+  complete: false,
 });
 
 export class Card extends cardRecord {

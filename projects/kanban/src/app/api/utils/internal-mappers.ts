@@ -2,7 +2,7 @@ import { List, Map } from 'immutable';
 import { Board, BoardList, Card, Label } from '../../../models';
 import { ApiBoardList, ApiBoardDataResponse, ApiCard, ApiLabel } from './types';
 
-export const mapCard = (card: ApiCard) =>
+export const mapCard = (card: ApiCard, complete: boolean = true) =>
   new Card({
     id: card.id,
     title: card.title,
@@ -10,6 +10,7 @@ export const mapCard = (card: ApiCard) =>
     pos: card.pos,
     listId: card.listId,
     description: card.description,
+    complete,
   });
 
 export const mapBoardList = (list: ApiBoardList) =>
@@ -39,7 +40,10 @@ export const mapBoardListsCards = ({
 
   lists.forEach((list) =>
     list.cards.forEach((card, cIdx) => {
-      map = map.set(card.id, mapCard({ ...card, pos: cIdx, listId: list.id }));
+      map = map.set(
+        card.id,
+        mapCard({ ...card, pos: cIdx, listId: list.id }, false),
+      );
     }),
   );
 

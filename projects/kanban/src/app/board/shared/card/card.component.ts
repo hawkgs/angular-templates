@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { Card } from '../../../../models';
 
 @Component({
@@ -10,4 +10,5 @@ import { Card } from '../../../../models';
 })
 export class CardComponent {
   card = input.required<Card>();
+  open = output<Card>();
 }

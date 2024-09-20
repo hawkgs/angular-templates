@@ -5,6 +5,7 @@
         @for (card of cards.fromList(list.id)(); track card.id) {
           <kb-card
             *ngxDraggable="card.id; size: 1; position: card.pos; cols: 1"
+            (open)="openCard($event.id)"
             [card]="card"
           ></kb-card>
         }
