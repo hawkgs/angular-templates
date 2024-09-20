@@ -4,11 +4,17 @@ import { DRAG_AND_DROP_DIRECTIVES } from '@ngx-templates/shared/drag-and-drop';
 import { ListComponent } from './shared/list/list.component';
 import { CardComponent } from './shared/card/card.component';
 import { BoardService } from './data-access/board.service';
+import { AddListComponent } from './shared/add-list/add-list.component';
 
 @Component({
   selector: 'kb-board',
   standalone: true,
-  imports: [ListComponent, CardComponent, DRAG_AND_DROP_DIRECTIVES],
+  imports: [
+    ListComponent,
+    CardComponent,
+    DRAG_AND_DROP_DIRECTIVES,
+    AddListComponent,
+  ],
   providers: [BoardService],
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss',
@@ -20,7 +26,7 @@ export class BoardComponent implements OnInit {
     this.board.loadLists();
   }
 
-  createList() {
-    this.board.createList('Dummy');
+  createList(name: string) {
+    this.board.createList(name);
   }
 }

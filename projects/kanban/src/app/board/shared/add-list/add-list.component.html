@@ -1,0 +1,8 @@
+@if (!listCreator()) {
+  <button (click)="listCreator.set(true)">Add a list</button>
+} @else {
+  <form [formGroup]="form" (ngSubmit)="addList()">
+    <input formControlName="name" />
+    <button [disabled]="form.invalid">Add</button>
+  </form>
+}

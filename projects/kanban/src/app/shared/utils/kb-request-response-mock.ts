@@ -221,7 +221,7 @@ export const kanbanRequestResponseMock: MockFn = (
   };
 
   // POST /cards/{id}
-  const handleCardsPost = () => {
+  const handleCardsCreate = () => {
     const insertOnTop = (body as any)['insertOnTop'] as boolean;
     const rCard = (body as any)['card'] as ApiRequestCard;
 
@@ -295,7 +295,7 @@ export const kanbanRequestResponseMock: MockFn = (
       case 'GET':
         return handleCardsGet(cardId);
       case 'POST':
-        return handleCardsPost();
+        return handleCardsCreate();
       case 'PUT':
         return handleCardsUpdate(cardId);
       case 'DELETE':

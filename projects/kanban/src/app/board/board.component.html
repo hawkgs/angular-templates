@@ -11,7 +11,5 @@
       </ngx-drop-grid>
     </kb-list>
   }
-  <div class="createlist">
-    <button (click)="createList()">Create list</button>
-  </div>
+  <kb-add-list (listCreate)="createList($event)"></kb-add-list>
 </div>
