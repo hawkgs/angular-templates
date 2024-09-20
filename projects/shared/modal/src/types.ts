@@ -1,4 +1,4 @@
-import { Type } from '@angular/core';
+import { Injector, Type } from '@angular/core';
 import { ModalController } from './modal.controller';
 
 /**
@@ -10,6 +10,10 @@ export type ModalConfig = {
    * Enabled by default.
    */
   modalWindowUi: boolean;
+  /**
+   * Provide a custom injector.
+   */
+  injector?: Injector;
 };
 
 /**
