@@ -2,10 +2,10 @@ import {
   Component,
   effect,
   ElementRef,
+  HostListener,
   inject,
   output,
   signal,
-  untracked,
   viewChild,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -31,8 +31,9 @@ export class AddListComponent {
 
   constructor() {
     effect(() => {
-      if (this.listCreator() && this.nameInput()) {
-        this.nameInput()!.nativeElement.focus();
+      const nameInput = this.nameInput();
+      if (this.listCreator() && nameInput) {
+        nameInput.nativeElement.focus();
       }
     });
   }
@@ -42,5 +43,12 @@ export class AddListComponent {
 
     const name = this.form.value.name as string;
     this.listCreate.emit(name);
+
+    this.form.reset();
+  }
+
+  @HostListener('document:click')
+  onDocumntClick() {
+    this.listCreator.set(false);
   }
 }

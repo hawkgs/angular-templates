@@ -1,7 +1,15 @@
 <div class="header">
   <p>{{ list().name }}</p>
+  <button (click)="topCardCreator.set(true)" title="Add a card">+</button>
 </div>
 <div class="cards">
+  @if (topCardCreator()) {
+    <kb-add-card
+      [creatorAlwaysEnabled]="true"
+      (cardCreate)="createCard($event, true); topCardCreator.set(false)"
+      (blur)="topCardCreator.set(false)"
+    ></kb-add-card>
+  }
   <ng-content></ng-content>
+  <kb-add-card (cardCreate)="createCard($event)"></kb-add-card>
 </div>
-<button (click)="createCard()">Create card</button>

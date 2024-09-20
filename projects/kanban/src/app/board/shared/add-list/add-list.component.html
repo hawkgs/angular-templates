@@ -1,8 +1,16 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 @if (!listCreator()) {
-  <button (click)="listCreator.set(true)">Add a list</button>
+  <button (click)="$event.stopPropagation(); listCreator.set(true)">
+    Add a list
+  </button>
 } @else {
-  <form [formGroup]="form" (ngSubmit)="addList()">
-    <input formControlName="name" />
+  <form
+    [formGroup]="form"
+    (ngSubmit)="addList()"
+    (click)="$event.stopPropagation()"
+  >
+    <input #nameInput formControlName="name" placeholder="List name" />
     <button [disabled]="form.invalid">Add</button>
   </form>
 }

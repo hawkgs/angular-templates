@@ -25,10 +25,10 @@ export class BoardService {
     let computedList = this._computedCardsLists.get(listId);
 
     if (!computedList) {
+      // Note(Georgi): No need to sort. The drop-grid does that internally.
       computedList = computed(() =>
         this._board()
           .cards.filter((c) => c.listId === listId)
-          .sort((a, b) => a.pos - b.pos)
           .toList(),
       );
       this._computedCardsLists.set(listId, computedList);
@@ -52,13 +52,26 @@ export class BoardService {
     this._board.update((b) => b.set('lists', b.lists.push(dbList)));
   }
 
-  async createCard(listId: string, title: string) {
+  async createCard(listId: string, title: string, insertOnTop?: boolean) {
     const card = new Card({
       listId,
       title,
     });
 
-    const dbCard = await this._cardsApi.createCard(card);
-    this._board.update((b) => b.set('cards', b.cards.set(dbCard.id, dbCard)));
+    const dbCard = await this._cardsApi.createCard(card, insertOnTop);
+
+    this._board.update((b) => {
+      if (insertOnTop) {
+        const listCards = b.cards
+          .filter((c) => c.listId === listId)
+          .map((c) => c.set('pos', c.pos + 1));
+
+        b = b.set('cards', b.cards.concat(listCards));
+
+        console.log(b.cards.toJS());
+      }
+
+      return b.set('cards', b.cards.set(dbCard.id, dbCard));
+    });
   }
 }
