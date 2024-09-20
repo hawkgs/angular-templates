@@ -173,13 +173,18 @@ export class DropGridComponent {
     const pos = d.position();
     let insertionIdx = 0;
 
+    // Since we might receive the draggables unordered
+    // and in non-consecutive order,
+    // i.e. "pos 5" first, "pos 3" second, "pos 7" third, etc.
+    // we need to make sure they are inserted at the
+    // correct index in the view container.
     if (this._orderedDirectives.length) {
       insertionIdx = this._orderedDirectives.length;
 
       for (let i = 0; i < this._orderedDirectives.length; i++) {
         const dirPos = this._orderedDirectives[i].position();
 
-        if (dirPos > pos) {
+        if (dirPos >= pos) {
           insertionIdx = i;
           break;
         }
