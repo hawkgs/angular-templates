@@ -11,8 +11,6 @@ export const mapApiRequestCard = (card: Card): ApiRequestCard => ({
   title: card.title,
   listId: card.listId,
   description: card.description,
-  labelIds: card.labelIds.toArray(),
-  pos: card.pos,
 });
 
 export const mapApiRequestLabel = (label: Label): ApiRequestLabel => ({
