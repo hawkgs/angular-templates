@@ -107,9 +107,9 @@ export class WidgetsGridComponent {
     this._widgets.update((m) => m.delete(id));
   }
 
-  onWidgetMoved(positions: { id: string; pos: number }[]) {
+  onWidgetMoved({ affected }: { affected: { id: string; pos: number }[] }) {
     this._widgets.update((widgets) => {
-      positions.forEach(({ id, pos }) => {
+      affected.forEach(({ id, pos }) => {
         widgets = widgets.set(id, widgets.get(id)!.set('position', pos));
       });
       return widgets;

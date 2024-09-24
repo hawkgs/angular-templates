@@ -78,9 +78,14 @@ export class DropGridComponent {
   gridVcr = viewChild.required('grid', { read: ViewContainerRef });
 
   /**
-   * Emits an event when a draggable has been moved and return new positions.
+   * Emits an event when a draggable has been moved and
+   * returns the new positions of all affected items.
    */
-  moved = output<{ id: string; pos: number }[]>();
+  moved = output<{
+    id: string;
+    pos: number;
+    affected: { id: string; pos: number }[];
+  }>();
 
   /**
    * Set the scroll container of the drop grid. If not set,
@@ -134,6 +139,8 @@ export class DropGridComponent {
   // Used for groups; Keeps a function that triggers `moved` event
   // on the former host after a draggable handover is completed
   // (in order to notify the users for the transfer).
+  //
+  // Note(Georgi): This is currently disabled since it's not needed.
   private _exHostPosNotifier: (() => void) | null = null;
 
   constructor() {
@@ -195,6 +202,12 @@ export class DropGridComponent {
     }
 
     this.gridVcr().insert(draggableViewRef, insertionIdx);
+
+    // If the element exists, this means we are dealing with a re-rendering.
+    // So, we have to clean up the old view.
+    if (this._draggablesDirectives.has(d.id())) {
+      this._draggablesViewRefs.get(d.id())?.destroy();
+    }
 
     // We need to set the native element of the draggable target and
     // subscribe to the events that are going to be emitted on user
@@ -327,7 +340,8 @@ export class DropGridComponent {
     this._emitUpdatedPositions();
 
     if (this._exHostPosNotifier) {
-      this._exHostPosNotifier();
+      // Note(Georgi): Currently disabled
+      // this._exHostPosNotifier();
       this._exHostPosNotifier = null;
     }
   }
@@ -533,12 +547,22 @@ export class DropGridComponent {
   }
 
   private _emitUpdatedPositions() {
-    const positions: { id: string; pos: number }[] = [];
+    const affected: { id: string; pos: number }[] = [];
+    let targetPos = -1;
+
     this._draggablesViewRefs.forEach((vr, id) => {
-      positions.push({ id, pos: this.gridVcr().indexOf(vr) });
+      const pos = this.gridVcr().indexOf(vr);
+      if (id === this._draggedId) {
+        targetPos = pos;
+      }
+      affected.push({ id, pos });
     });
 
-    this.moved.emit(positions);
+    this.moved.emit({
+      id: this._draggedId!,
+      pos: targetPos,
+      affected,
+    });
   }
 
   /**

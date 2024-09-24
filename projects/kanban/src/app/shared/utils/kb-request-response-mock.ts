@@ -297,7 +297,7 @@ export const kanbanRequestResponseMock: MockFn = (
     const cBody = body as ApiRequestCard;
 
     const changes = {
-      ...(cBody['pos'] ? { pos: cBody['pos'] } : {}),
+      ...(cBody['pos'] !== undefined ? { pos: cBody['pos'] } : {}),
       ...(cBody['listId'] ? { listId: cBody['listId'] } : {}),
       ...(cBody['title'] ? { title: cBody['title'] } : {}),
       ...(cBody['description'] ? { description: cBody['description'] } : {}),
@@ -312,10 +312,23 @@ export const kanbanRequestResponseMock: MockFn = (
       ...changes,
     };
 
-    // We can just substitute the card in the cards list
-    // since the position is already part of the object and
-    // the order in the array doesn't matter.
     updateStore((s) => {
+      // We should update the positions in the old and new lists,
+      // if the list is changed
+      if (updatedCard.listId !== currentCard.listId) {
+        s.cards.forEach((c) => {
+          if (c.listId === updatedCard.listId && c.pos >= updatedCard.pos) {
+            c.pos++;
+          }
+          if (c.listId === currentCard.listId && c.pos > currentCard.pos) {
+            c.pos--;
+          }
+        });
+      }
+
+      // We can just substitute the card in the cards list
+      // since the position is already part of the object and
+      // the order in the array doesn't matter.
       s.cards[idx] = updatedCard;
       return s;
     });

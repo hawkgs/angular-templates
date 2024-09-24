@@ -75,13 +75,28 @@ export class CardsService {
     }
 
     this._board.update((b) => {
-      const withUpdatedPos = b.cards
-        .filter((c) => c.listId && c.pos >= changes.pos)
-        .map((c) => c.set('pos', c.pos + 1));
+      let cards = b.cards;
+      const card = cards.get(cardId);
 
-      return b
-        .set('cards', b.cards.concat(withUpdatedPos))
-        .set('cards', b.cards.set(dbCard.id, dbCard));
+      // Handle transfer between lists
+      // Note(Georgi): There is a room for optimization
+      // by introducing some store denormalization which
+      // will make filter calculations redundant.
+      if (card?.listId !== changes.listId) {
+        const oldCard = b.cards.get(cardId);
+        const oldListUpdatedPos = b.cards
+          .filter((c) => c.listId === oldCard?.listId && c.pos > oldCard.pos)
+          .map((c) => c.set('pos', c.pos - 1));
+        const newListUpdatedPos = b.cards
+          .filter((c) => c.listId === dbCard.listId && c.pos >= changes.pos)
+          .map((c) => c.set('pos', c.pos + 1));
+
+        cards = cards.concat(oldListUpdatedPos).concat(newListUpdatedPos);
+      }
+
+      cards = cards.set(dbCard.id, dbCard);
+
+      return b.set('cards', cards);
     });
   }
 

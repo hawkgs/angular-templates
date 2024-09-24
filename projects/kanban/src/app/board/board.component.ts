@@ -1,5 +1,6 @@
 import { Component, inject, Injector, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 import { DRAG_AND_DROP_DIRECTIVES } from '@ngx-templates/shared/drag-and-drop';
 import { ModalService } from '@ngx-templates/shared/modal';
 
@@ -12,12 +13,10 @@ import { LabelsService } from './data-access/labels.service';
 import { ListComponent } from './shared/list/list.component';
 import { CardComponent } from './shared/card/card.component';
 import { AddListComponent } from './shared/add-list/add-list.component';
-import { Card } from '../../models';
 import {
   CardDetailsComponent,
   CardDetailsData,
 } from './shared/card-details/card-details.component';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'kb-board',
@@ -72,5 +71,9 @@ export class BoardComponent implements OnInit {
       .closed.then(() => {
         this._location.go('/');
       });
+  }
+
+  onCardMoved(listId: string, moved: { id: string; pos: number }) {
+    this.cards.updateCardPosition(moved.id, { listId, pos: moved.pos });
   }
 }

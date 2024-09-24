@@ -79,7 +79,7 @@ export class DraggableDirective implements OnInit, OnDestroy {
   elementSize = input<number>(1, { alias: 'ngxDraggableSize' });
 
   /**
-   * Position or order of the draggable element in the `ngx-drop-grid`.
+   * Zero-based position or order of the draggable element in the `ngx-drop-grid`.
    * Not dynamic.
    */
   position = input<number>(0, { alias: 'ngxDraggablePosition' });
