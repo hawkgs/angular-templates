@@ -1,3 +1,4 @@
+import { MockFn } from '@ngx-templates/shared/fetch';
 import Images from '../../../../public/data.json';
 
 const DEFAULT_PAGE_SIZE = 10;
@@ -9,7 +10,7 @@ const DEFAULT_PAGE = 1;
  * @param url Request URL
  * @returns
  */
-export function imgGalleryRequestResponseMock(url: string): object {
+export const imgGalleryRequestResponseMock: MockFn = (url: string): object => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let response: any = {};
   const paramsStr = url.split('?').pop();
@@ -42,4 +43,4 @@ export function imgGalleryRequestResponseMock(url: string): object {
   }
 
   return response;
-}
+};

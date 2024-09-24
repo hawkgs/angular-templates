@@ -1,3 +1,4 @@
+import { MockFn } from '@ngx-templates/shared/fetch';
 import Data from '../../../assets/mock-data/data.json';
 import { ApiProduct } from '../../api/utils/api-types';
 
@@ -10,7 +11,7 @@ const DEFAULT_PAGE = 1;
  * @param url Request URL
  * @returns
  */
-export function ecommerceRequestResponseMock(url: string): object {
+export const ecommerceRequestResponseMock: MockFn = (url: string): object => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let response: any = {};
   const queryParamsStr = url.split('?').pop();
@@ -133,4 +134,4 @@ export function ecommerceRequestResponseMock(url: string): object {
   }
 
   return response;
-}
+};
