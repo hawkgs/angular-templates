@@ -59,5 +59,13 @@ export class ListsService {
 
   async deleteList(listId: string) {
     await this._boardsApi.deleteBoardList(this._board().id, listId);
+
+    this._board.update((b) => {
+      const listIdx = b.lists.findIndex((l) => l.id === listId);
+      const updatedLists = b.lists.remove(listIdx);
+      const updatedCards = b.cards.filter((c) => c.listId !== listId);
+
+      return b.set('lists', updatedLists).set('cards', updatedCards);
+    });
   }
 }

@@ -138,5 +138,7 @@ export class CardsService {
 
   async deleteCard(cardId: string) {
     await this._cardsApi.deleteCard(cardId);
+
+    this._board.update((b) => b.set('cards', b.cards.remove(cardId)));
   }
 }

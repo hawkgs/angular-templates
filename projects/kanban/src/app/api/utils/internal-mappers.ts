@@ -1,4 +1,4 @@
-import { List, Map } from 'immutable';
+import { List, Map, Set } from 'immutable';
 import { Board, BoardList, Card, Label } from '../../../models';
 import { ApiBoardList, ApiBoardDataResponse, ApiCard, ApiLabel } from './types';
 
@@ -6,7 +6,7 @@ export const mapCard = (card: ApiCard, complete: boolean = true) =>
   new Card({
     id: card.id,
     title: card.title,
-    labelIds: List(card.labelIds),
+    labelIds: Set(card.labelIds),
     pos: card.pos,
     listId: card.listId,
     description: card.description,

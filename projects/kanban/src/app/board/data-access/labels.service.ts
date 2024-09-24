@@ -43,5 +43,14 @@ export class LabelsService {
 
   async deleteLabel(labelId: string) {
     await this._boardsApi.deleteLabel(this._board().id, labelId);
+
+    this._board.update((b) => {
+      const updatedCards = b.cards.map((c) =>
+        c.set('labelIds', c.labelIds.delete(labelId)),
+      );
+      const updatedLabels = b.labels.remove(labelId);
+
+      return b.set('cards', updatedCards).set('labels', updatedLabels);
+    });
   }
 }

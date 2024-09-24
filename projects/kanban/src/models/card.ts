@@ -1,4 +1,4 @@
-import { List, Record } from 'immutable';
+import { Record, Set } from 'immutable';
 
 interface CardConfig {
   id: string;
@@ -6,7 +6,7 @@ interface CardConfig {
   description: string;
   pos: number;
   listId: string;
-  labelIds: List<string>;
+  labelIds: Set<string>;
   complete: boolean;
 }
 
@@ -16,7 +16,7 @@ const cardRecord = Record<CardConfig>({
   description: '',
   pos: -1,
   listId: '',
-  labelIds: List([]),
+  labelIds: Set([]),
   complete: false,
 });
 

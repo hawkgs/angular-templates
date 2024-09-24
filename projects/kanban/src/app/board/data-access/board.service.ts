@@ -19,19 +19,19 @@ export class BoardService {
 
   constructor() {
     // Debug
-    effect(() => {
-      const debug = this._board()
-        .lists.map((l) =>
-          this._board()
-            .cards.filter((c) => c.listId === l.id)
-            .toList()
-            .sort((a, b) => a.pos - b.pos)
-            .map((c) => `[${c.pos}] ${c.title}`)
-            .toJS(),
-        )
-        .filter((c) => !!c.length)
-        .toJS();
-      console.log(debug);
-    });
+    // effect(() => {
+    //   const debug = this._board()
+    //     .lists.map((l) =>
+    //       this._board()
+    //         .cards.filter((c) => c.listId === l.id)
+    //         .toList()
+    //         .sort((a, b) => a.pos - b.pos)
+    //         .map((c) => `[${c.pos}] ${c.title}`)
+    //         .toJS(),
+    //     )
+    //     .filter((c) => !!c.length)
+    //     .toJS();
+    //   console.log(debug);
+    // });
   }
 }
