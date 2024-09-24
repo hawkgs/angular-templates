@@ -1,6 +1,7 @@
 import { computed, inject, Injectable, Signal } from '@angular/core';
+import { List, Map as ImmutMap } from 'immutable';
+
 import { BOARD_STATE } from './board-state.provider';
-import { List } from 'immutable';
 import { Card } from '../../../models';
 import { CardsApi } from '../../api/cards-api.service';
 
@@ -68,33 +69,55 @@ export class CardsService {
     cardId: string,
     changes: { pos: number; listId?: string },
   ) {
-    const dbCard = await this._cardsApi.updateCard(cardId, changes);
-
-    if (!dbCard) {
+    const oldCard = this.value().get(cardId)!;
+    // Case I. No change; No need for request. new pos = old pos
+    if (oldCard?.pos === changes.pos && oldCard.listId === changes.listId) {
       return;
     }
 
+    const newCard = await this._cardsApi.updateCard(cardId, changes);
+    if (!newCard) {
+      return;
+    }
+
+    // Note(Georgi): We can spare ourselves from all those
+    // calculations by providing the output of affected items
+    // from the drop grid moved event. However, this will make
+    // the usage of the method more restrictive.
     this._board.update((b) => {
       let cards = b.cards;
-      const card = cards.get(cardId);
+      const oldPos = oldCard.pos;
+      const newPos = newCard.pos;
 
-      // Handle transfer between lists
-      // Note(Georgi): There is a room for optimization
-      // by introducing some store denormalization which
-      // will make filter calculations redundant.
-      if (card?.listId !== changes.listId) {
-        const oldCard = b.cards.get(cardId);
+      if (oldCard.listId === newCard.listId) {
+        const listCards = cards.filter((c) => c.listId === oldCard.listId);
+        let updated: ImmutMap<string, Card>;
+
+        // Case II. new pos > old pos
+        if (newPos > oldPos) {
+          updated = listCards
+            .filter((c) => oldPos < c.pos && c.pos <= newPos)
+            .map((c) => c.set('pos', c.pos - 1));
+        } else {
+          // Case III. old pos > new pos
+          updated = listCards
+            .filter((c) => newPos <= c.pos && c.pos < oldPos)
+            .map((c) => c.set('pos', c.pos + 1));
+        }
+        cards = cards.concat(updated);
+      } else {
+        // Case IV. List change
         const oldListUpdatedPos = b.cards
-          .filter((c) => c.listId === oldCard?.listId && c.pos > oldCard.pos)
+          .filter((c) => c.listId === oldCard.listId && c.pos > oldPos)
           .map((c) => c.set('pos', c.pos - 1));
         const newListUpdatedPos = b.cards
-          .filter((c) => c.listId === dbCard.listId && c.pos >= changes.pos)
+          .filter((c) => c.listId === newCard.listId && c.pos >= newPos)
           .map((c) => c.set('pos', c.pos + 1));
 
         cards = cards.concat(oldListUpdatedPos).concat(newListUpdatedPos);
       }
 
-      cards = cards.set(dbCard.id, dbCard);
+      cards = cards.set(newCard.id, newCard);
 
       return b.set('cards', cards);
     });

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injector } from '@angular/core';
 import { MockFn } from '@ngx-templates/shared/fetch';
-import { LocalStorage } from '@ngx-templates/shared/services';
+import { LocalStorage, WINDOW } from '@ngx-templates/shared/services';
 
 import MockData from '../../../../public/mock-data.json';
 import { environment } from '../../../environments/environment';
@@ -68,6 +68,9 @@ export const kanbanRequestResponseMock: MockFn = (
     Store = updater(structuredClone(getStore()));
     ls.setJSON(STORE_KEY, Store);
   };
+
+  (injector.get(WINDOW) as any).devPrintCards = () =>
+    getStore().cards.map((c) => ({ t: c.title, p: c.pos }));
 
   const routeParams = url.replace(environment.apiUrl + '/', '').split('/');
   const resource = routeParams[0];
@@ -226,6 +229,7 @@ export const kanbanRequestResponseMock: MockFn = (
           id: c.id,
           title: c.title,
           labelIds: c.labelIds,
+          p: c.pos,
         })),
     })),
   });
@@ -312,14 +316,29 @@ export const kanbanRequestResponseMock: MockFn = (
       ...changes,
     };
 
+    const newPos = updatedCard.pos;
+    const oldPos = currentCard.pos;
+
     updateStore((s) => {
-      // We should update the positions in the old and new lists,
-      // if the list is changed
-      if (updatedCard.listId !== currentCard.listId) {
+      // We should update the positions in the old and new lists
+      if (currentCard.listId === updatedCard.listId) {
         s.cards.forEach((c) => {
+          // II. new pos > old pos
+          if (newPos > oldPos && oldPos < c.pos && c.pos <= newPos) {
+            c.pos--;
+          } else if (newPos <= c.pos && c.pos < oldPos) {
+            // III. old pos > new pos
+            c.pos++;
+          }
+        });
+      } else {
+        // IV. List change
+        s.cards.forEach((c) => {
+          // New list pos
           if (c.listId === updatedCard.listId && c.pos >= updatedCard.pos) {
             c.pos++;
           }
+          // Old list pos
           if (c.listId === currentCard.listId && c.pos > currentCard.pos) {
             c.pos--;
           }
