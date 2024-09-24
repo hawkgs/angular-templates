@@ -1,6 +1,8 @@
 // Represents a Fetch API mock created
 // purely for demo purposes.
 
+import { Injector } from '@angular/core';
+
 type LogFn = (msg: string, obj?: object) => void;
 
 // A delayed promise response
@@ -60,7 +62,12 @@ const DEFAULT_CFG: FetchMockConfig = {
 };
 
 export interface MockFn {
-  (url: string, method?: string, body?: { [key: string]: string }): object;
+  (
+    url: string,
+    method: string,
+    body: { [key: string]: string } | null,
+    injector: Injector,
+  ): object;
 }
 
 /**
@@ -70,32 +77,36 @@ export interface MockFn {
  * @param init
  * @returns
  */
-export const withFetchMock =
-  (mockFn: MockFn, config?: Partial<FetchMockConfig>) =>
-  (url: string | URL | Request, options?: RequestInit): Promise<Response> => {
-    const fullCfg: FetchMockConfig = { ...DEFAULT_CFG, ...config };
+export const withFetchMock = (
+  mockFn: MockFn,
+  config?: Partial<FetchMockConfig>,
+) => {
+  const fullCfg: FetchMockConfig = { ...DEFAULT_CFG, ...config };
 
-    // Used for logging the operation in the console
-    const log = (msg: string, obj?: object) => {
-      if (fullCfg?.logging) {
-        console.info('Fetch API Mock:', msg, obj || '');
-      }
-    };
-
-    const method = options?.method || 'GET';
-
-    console.log(''); // Add some spacing in the console
-    log(`Executing request ${method} ${url}`);
-
-    const body = options?.body ? JSON.parse(options.body as string) : null;
-    if (body) {
-      log('Body', body);
+  // Used for logging the operation in the console
+  const log = (msg: string, obj?: object) => {
+    if (fullCfg?.logging) {
+      console.info('Fetch API Mock:', msg, obj || '');
     }
-
-    return simulateRequest(
-      mockFn(url.toString(), method, body),
-      fullCfg,
-      log,
-      options?.signal,
-    );
   };
+
+  return (injector: Injector) =>
+    (url: string | URL | Request, options?: RequestInit): Promise<Response> => {
+      const method = options?.method || 'GET';
+
+      console.log(''); // Add some spacing in the console
+      log(`Executing request ${method} ${url}`);
+
+      const body = options?.body ? JSON.parse(options.body as string) : null;
+      if (body) {
+        log('Body', body);
+      }
+
+      return simulateRequest(
+        mockFn(url.toString(), method, body, injector),
+        fullCfg,
+        log,
+        options?.signal,
+      );
+    };
+};
