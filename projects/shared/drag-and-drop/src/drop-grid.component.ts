@@ -473,6 +473,8 @@ export class DropGridComponent {
     // functioning of the feature
     this._draggablesDirectives.delete(id);
     this._draggablesViewRefs.delete(id);
+    const orderedIdx = this._orderedDirectives.findIndex((d) => d.id() === id);
+    this._orderedDirectives.splice(orderedIdx, 1);
 
     const unsubscriber = this._draggablesEventsUnsubscribers.get(id)!;
     unsubscriber();
