@@ -7,6 +7,7 @@ import MockData from '../../../../public/mock-data.json';
 import { environment } from '../../../environments/environment';
 import {
   ApiLabel,
+  ApiRequestBoardList,
   ApiRequestCard,
   ApiRequestLabel,
 } from '../../api/utils/types';
@@ -92,16 +93,22 @@ export const kanbanRequestResponseMock: MockFn = (
 
   // PUT /boards/{id}/lists/{list_id}
   const handleListsUpdate = (_: string, listId: string) => {
-    const name = body ? (body['name'] as string) : '';
-    const pos = body && body['pos'] ? (body['pos'] as number) : -1;
+    const cBody = body as ApiRequestBoardList;
+    const changes = {
+      ...(cBody['name'] ? { name: cBody['name'] } : {}),
+    };
+    const pos = cBody['pos'] !== undefined ? cBody['pos'] : -1;
+
+    const store = getStore();
 
     // WARNING: The code assumes that the ID exists. No handling for missing IDs.
-    const idx = getStore().board.lists.findIndex((l) => l.id === listId);
+    const idx = store.board.lists.findIndex((l) => l.id === listId);
 
-    const currentList = getStore().board.lists[idx];
+    const currentList = store.board.lists[idx];
     const updatedList = {
+      boardId: store.board.boardId,
       ...currentList,
-      ...{ name },
+      ...changes,
     };
 
     updateStore((s) => {

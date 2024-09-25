@@ -51,7 +51,7 @@ export class ListsService {
     if (dbLabel) {
       this._board.update((b) => {
         const idx = b.lists.findIndex((l) => l.id === listId);
-        const lists = b.lists.remove(idx).set(pos, dbLabel);
+        const lists = b.lists.remove(idx).insert(pos, dbLabel);
         return b.set('lists', lists);
       });
     }

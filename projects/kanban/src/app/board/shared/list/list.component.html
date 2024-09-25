@@ -1,6 +1,8 @@
 <div class="header">
   <p>{{ list().name }}</p>
   <button (click)="topCardCreator.set(true)" title="Add a card">+</button>
+  <button (click)="moveList('left')"><</button>
+  <button (click)="moveList('right')">></button>
 </div>
 <div class="cards">
   @if (topCardCreator()) {
