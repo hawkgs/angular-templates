@@ -1,8 +1,8 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   EmbeddedViewRef,
-  HostListener,
   InjectionToken,
   Input,
   NgZone,
@@ -22,6 +22,8 @@ import { DROP_GRID_GROUP } from './drop-grid-group.directive';
 
 const DEFAULT_GRID_COLS = 4;
 const DEFAULT_CELL_GAP = 16;
+
+const MOUSEOVER_DELAY = 150;
 
 // Represents a grid cell in our spacial grid
 type GridCell = {
@@ -68,7 +70,7 @@ export const DROP_GRID = new InjectionToken<DropGridComponent>('DROP_GRID');
     },
   ],
 })
-export class DropGridComponent {
+export class DropGridComponent implements AfterViewInit {
   private _zone = inject(NgZone);
   private _elRef = inject(ElementRef);
   private _renderer = inject(Renderer2);
@@ -128,6 +130,7 @@ export class DropGridComponent {
   private _dragged: EmbeddedViewRef<unknown> | null = null; // Currently dragged
   private _draggedId?: string; // Currently dragged directive ID
   private _dropInProgress = false;
+  private _mouseOverTimeout?: ReturnType<typeof setTimeout>;
 
   // Store in case you have to pass it to a group
   private _slotSize: SlotSize = { colSpan: 0, height: 0 };
@@ -173,6 +176,30 @@ export class DropGridComponent {
 
   private get _scrollCont(): Element {
     return this.scrollCont() || this._elRef.nativeElement.parentElement;
+  }
+
+  ngAfterViewInit() {
+    this._zone.runOutsideAngular(() => {
+      const el = this._elRef.nativeElement;
+
+      this._renderer.listen(el, 'mouseenter', (e) => this._initiateHandover(e));
+
+      // Sometimes the hand over initiation can't happen, if the drag occurred
+      // very fast (mouseenter event precedes the slot creation). That's why,
+      // there is a fallback mouseover handler that guarantees a handover.
+      this._renderer.listen(el, 'mouseover', (e) => {
+        if (this.isDragHost) {
+          return;
+        }
+        if (this._mouseOverTimeout) {
+          clearTimeout(this._mouseOverTimeout);
+        }
+        this._mouseOverTimeout = setTimeout(
+          () => this._initiateHandover(e),
+          MOUSEOVER_DELAY,
+        );
+      });
+    });
   }
 
   insertDraggable(d: DraggableDirective) {
@@ -243,33 +270,31 @@ export class DropGridComponent {
     rect: Rect;
     id: string;
   }) {
-    this._zone.run(() => {
-      const directive = this._draggablesDirectives.get(id);
+    const directive = this._draggablesDirectives.get(id);
 
-      directive?.anchor.set(elContPos);
+    directive?.anchor.set(elContPos);
 
-      const draggableSize = directive?.elementSize() || 1;
+    const draggableSize = directive?.elementSize() || 1;
 
-      // Store the size of the slot in case the
-      // grid is part of a group (we'll need to pass
-      // that data during a hand over).
-      this._slotSize = {
-        colSpan: draggableSize,
-        height: rect.p2.y - rect.p1.y,
-      };
-      this._slot = this._createSlot(this._slotSize);
+    // Store the size of the slot in case the
+    // grid is part of a group (we'll need to pass
+    // that data during a hand over).
+    this._slotSize = {
+      colSpan: draggableSize,
+      height: rect.p2.y - rect.p1.y,
+    };
+    this._slot = this._createSlot(this._slotSize);
 
-      this._dragged = this._draggablesViewRefs.get(id) || null;
-      this._draggedId = id;
+    this._dragged = this._draggablesViewRefs.get(id) || null;
+    this._draggedId = id;
 
-      const gridVcr = this.gridVcr();
-      const viewIdx = gridVcr.indexOf(this._dragged!);
-      gridVcr.insert(this._slot, viewIdx);
+    const gridVcr = this.gridVcr();
+    const viewIdx = gridVcr.indexOf(this._dragged!);
+    gridVcr.insert(this._slot, viewIdx);
 
-      this._viewIdxHover = viewIdx;
+    this._viewIdxHover = viewIdx;
 
-      this._calculateSpacialGrid();
-    });
+    this._calculateSpacialGrid();
   }
 
   onDrag({ pos, rect }: { pos: Coor; rect: Rect }) {
@@ -347,13 +372,60 @@ export class DropGridComponent {
   }
 
   /**
+   * Hands over all needed state to the new drop grid host
+   * and cleans the state of the current grid (old host).
+   *
+   * Used only for grouped grids.
+   */
+  handOverDragging(): {
+    directive: DraggableDirective;
+    viewRef: EmbeddedViewRef<unknown>;
+    slotSize: SlotSize;
+    positionsNotifier: () => void;
+  } {
+    // Destroy the slot
+    this._slot?.destroy();
+    this._slot = null;
+
+    // Detach the draggable view ref from the current grid
+    // without destroying it
+    const viewRef = this._dragged!;
+    const idx = this.gridVcr().indexOf(viewRef);
+    if (idx > -1) {
+      this.gridVcr().detach(idx);
+    }
+
+    this._dragged = null;
+
+    const id = this._draggedId!;
+    const directive = this._draggablesDirectives.get(id)!;
+
+    // Clear all of the state related to the tranferred draggable
+    // that is no longer needed or might interfere with proper
+    // functioning of the feature
+    this._draggablesDirectives.delete(id);
+    this._draggablesViewRefs.delete(id);
+    const orderedIdx = this._orderedDirectives.findIndex((d) => d.id() === id);
+    this._orderedDirectives.splice(orderedIdx, 1);
+
+    const unsubscriber = this._draggablesEventsUnsubscribers.get(id)!;
+    unsubscriber();
+
+    return {
+      directive,
+      viewRef,
+      slotSize: { ...this._slotSize },
+      positionsNotifier: () => this._emitUpdatedPositions(),
+    };
+  }
+
+  /**
    * Handles transfer from one draggable grid (host) to the current one.
    *
    * Available only for grouped grids.
    */
-  @HostListener('mouseenter', ['$event'])
-  onGridMouseEnter(e: MouseEvent) {
-    if (!this._group) {
+  private _initiateHandover(e: MouseEvent) {
+    if (!this._group || this.isDragHost) {
       return;
     }
 
@@ -365,7 +437,7 @@ export class DropGridComponent {
       return;
     }
 
-    // Determine if there is a drag host
+    // Determine if there is a drag host (excl. `this`)
     const dragHost = grids.find((g) => g.isDragHost);
     if (!dragHost) {
       return;
@@ -437,54 +509,6 @@ export class DropGridComponent {
     // Set the new anchor
     const { x, y } = this._slot.rootNodes[0].getBoundingClientRect();
     directive.anchor.set({ x, y });
-  }
-
-  /**
-   * Hands over all needed state to the new drop grid host
-   * and cleans the state of the current grid (old host).
-   *
-   * Used only for grouped grids.
-   */
-  handOverDragging(): {
-    directive: DraggableDirective;
-    viewRef: EmbeddedViewRef<unknown>;
-    slotSize: SlotSize;
-    positionsNotifier: () => void;
-  } {
-    // Destroy the slot
-    this._slot?.destroy();
-    this._slot = null;
-
-    // Detach the draggable view ref from the current grid
-    // without destroying it
-    const viewRef = this._dragged!;
-    const idx = this.gridVcr().indexOf(viewRef);
-    if (idx > -1) {
-      this.gridVcr().detach(idx);
-    }
-
-    this._dragged = null;
-
-    const id = this._draggedId!;
-    const directive = this._draggablesDirectives.get(id)!;
-
-    // Clear all of the state related to the tranferred draggable
-    // that is no longer needed or might interfere with proper
-    // functioning of the feature
-    this._draggablesDirectives.delete(id);
-    this._draggablesViewRefs.delete(id);
-    const orderedIdx = this._orderedDirectives.findIndex((d) => d.id() === id);
-    this._orderedDirectives.splice(orderedIdx, 1);
-
-    const unsubscriber = this._draggablesEventsUnsubscribers.get(id)!;
-    unsubscriber();
-
-    return {
-      directive,
-      viewRef,
-      slotSize: { ...this._slotSize },
-      positionsNotifier: () => this._emitUpdatedPositions(),
-    };
   }
 
   /**
