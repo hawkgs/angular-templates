@@ -28,7 +28,7 @@ export class ListComponent {
   private _lists = inject(ListsService);
   private _modals = inject(ModalService);
 
-  titleInput = viewChild.required<ElementRef>('titleInput');
+  nameInput = viewChild.required<ElementRef>('nameInput');
 
   list = input.required<BoardList>();
 
@@ -62,13 +62,13 @@ export class ListComponent {
       });
   }
 
-  onTitleInputBlur(e: Event) {
-    const name = this.titleInput().nativeElement.value;
+  updateName() {
+    const name = this.nameInput().nativeElement.value;
 
     if (name) {
       this._lists.updateListName(this.list().id, name);
     } else {
-      this.titleInput().nativeElement.value = this.list().name;
+      this.nameInput().nativeElement.value = this.list().name;
     }
   }
 }

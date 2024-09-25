@@ -1,10 +1,5 @@
 <div class="header">
-  <input
-    #titleInput
-    type="text"
-    [value]="list().name"
-    (blur)="onTitleInputBlur($event)"
-  />
+  <input #nameInput type="text" [value]="list().name" (blur)="updateName()" />
   <button (click)="topCardCreator.set(true)" title="Add a card">+</button>
   <button (click)="moveList('left')"><</button>
   <button (click)="moveList('right')">></button>

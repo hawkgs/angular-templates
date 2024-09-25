@@ -43,7 +43,7 @@ export class BoardComponent implements OnInit {
 
   private _board = inject(BoardService);
   private _location = inject(Location);
-  private _modals = inject(ModalService);
+  private _modal = inject(ModalService);
   private _injector = inject(Injector);
   private _route = inject(ActivatedRoute);
 
@@ -57,7 +57,7 @@ export class BoardComponent implements OnInit {
 
   openCard(cardId: string) {
     this._location.go('c/' + cardId);
-    this._modals
+    this._modal
       .createModal<CardDetailsData>(
         CardDetailsComponent,
         {

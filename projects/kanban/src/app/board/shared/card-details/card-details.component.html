@@ -1,2 +1,17 @@
-<p>{{ card().title }}</p>
+<input #titleInput [value]="card().title" (blur)="updateTitle()" />
 <button (click)="ctrl.close()">close</button>
+<div class="labels">labels tbd</div>
+<hr />
+<form [formGroup]="descriptionForm" (ngSubmit)="updateDescription()">
+  <textarea
+    formControlName="description"
+    placeholder="Enter a description"
+  ></textarea>
+  @if (descriptionForm.dirty) {
+    <div>
+      <button>Save</button>
+      <button type="button" (click)="resetDescriptionForm()">Discard</button>
+    </div>
+  }
+</form>
+<button (click)="deleteCard()">DEL</button>
