@@ -1,8 +1,14 @@
 <div class="header">
-  <p>{{ list().name }}</p>
+  <input
+    #titleInput
+    type="text"
+    [value]="list().name"
+    (blur)="onTitleInputBlur($event)"
+  />
   <button (click)="topCardCreator.set(true)" title="Add a card">+</button>
   <button (click)="moveList('left')"><</button>
   <button (click)="moveList('right')">></button>
+  <button (click)="deleteList()">DEL</button>
 </div>
 <div class="cards">
   @if (topCardCreator()) {

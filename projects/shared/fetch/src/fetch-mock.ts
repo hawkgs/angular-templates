@@ -30,7 +30,7 @@ function simulateRequest(
     rejector = rej;
 
     timeout = setTimeout(() => {
-      log('Responding with data', jsonData);
+      log('Responding with data', jsonData || '<<EMPTY>>');
       completed = true;
 
       res({
