@@ -29,6 +29,8 @@ export class ModalComponent<D, R> implements AfterViewInit {
   modal = input.required<Modal<D, R>>();
   content = viewChild.required('content', { read: ViewContainerRef });
 
+  private _clickFlag = false;
+
   /**
    * Create the modal content component and insert it
    * in the host view container.
@@ -51,7 +53,14 @@ export class ModalComponent<D, R> implements AfterViewInit {
    */
   @HostListener('click')
   onHostClick() {
-    this.modal().controller.close();
+    if (!this._clickFlag) {
+      this.modal().controller.close();
+    }
+    this._clickFlag = false;
+  }
+
+  onModalClick() {
+    this._clickFlag = true;
   }
 
   /**
