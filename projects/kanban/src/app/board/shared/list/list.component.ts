@@ -2,19 +2,21 @@ import {
   Component,
   ElementRef,
   inject,
+  Injector,
   input,
   signal,
   viewChild,
 } from '@angular/core';
-import { ModalService } from '@ngx-templates/shared/modal';
+import { CtxMenuService } from '@ngx-templates/shared/context-menu';
+
 import { BoardList } from '../../../../models';
 import { AddCardComponent } from './add-card/add-card.component';
 import { CardsService } from '../../data-access/cards.service';
 import { ListsService } from '../../data-access/lists.service';
 import {
-  ConfirmDeleteData,
-  ConfirmDeleteModalComponent,
-} from '../confirm-delete-modal/confirm-delete-modal.component';
+  ListCtxMenuComponent,
+  ListCtxMenuData,
+} from './list-ctx-menu/list-ctx-menu.component';
 
 @Component({
   selector: 'kb-list',
@@ -26,7 +28,8 @@ import {
 export class ListComponent {
   private _cards = inject(CardsService);
   private _lists = inject(ListsService);
-  private _modals = inject(ModalService);
+  private _ctxMenu = inject(CtxMenuService);
+  private _injector = inject(Injector);
 
   nameInput = viewChild.required<ElementRef>('nameInput');
 
@@ -38,30 +41,6 @@ export class ListComponent {
     this._cards.createCard(this.list().id, title, insertOnTop);
   }
 
-  moveList(dir: 'left' | 'right') {
-    const id = this.list().id;
-    const pos = this._lists.value().findIndex((l) => l.id === id);
-    const newPos =
-      dir === 'left'
-        ? Math.max(0, pos - 1)
-        : Math.min(pos + 1, this._lists.value().size);
-
-    this._lists.updateListPosition(this.list().id, newPos);
-  }
-
-  deleteList() {
-    this._modals
-      .createModal<
-        ConfirmDeleteData,
-        boolean
-      >(ConfirmDeleteModalComponent, { entity: 'list' })
-      .closed.then((shouldDelete) => {
-        if (shouldDelete) {
-          this._lists.deleteList(this.list().id);
-        }
-      });
-  }
-
   updateName() {
     const name = this.nameInput().nativeElement.value;
 
@@ -70,5 +49,14 @@ export class ListComponent {
     } else {
       this.nameInput().nativeElement.value = this.list().name;
     }
+  }
+
+  openCtxMenu(e: MouseEvent) {
+    this._ctxMenu.openMenu<ListCtxMenuData>(
+      ListCtxMenuComponent,
+      e,
+      { listId: this.list().id },
+      { injector: this._injector },
+    );
   }
 }

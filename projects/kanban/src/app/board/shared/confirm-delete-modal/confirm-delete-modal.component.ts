@@ -6,9 +6,9 @@ import {
 } from '@ngx-templates/shared/modal';
 import { ButtonComponent } from '@ngx-templates/shared/button';
 
-export interface ConfirmDeleteData {
+export type ConfirmDeleteData = {
   entity: string;
-}
+};
 
 @Component({
   selector: 'kb-confirm-delete-modal',

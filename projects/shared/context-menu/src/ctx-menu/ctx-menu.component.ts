@@ -63,7 +63,6 @@ export class CtxMenuComponent<D, R> implements AfterViewInit {
 
   @HostListener('document:click')
   onHostClick() {
-    console.log('closing');
     this.menu()?.controller.close();
   }
 

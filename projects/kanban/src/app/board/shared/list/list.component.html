@@ -1,9 +1,7 @@
 <div class="header">
   <input #nameInput type="text" [value]="list().name" (blur)="updateName()" />
   <button (click)="topCardCreator.set(true)" title="Add a card">+</button>
-  <button (click)="moveList('left')"><</button>
-  <button (click)="moveList('right')">></button>
-  <button (click)="deleteList()">DEL</button>
+  <button (click)="openCtxMenu($event)">Menu</button>
 </div>
 <div class="cards">
   @if (topCardCreator()) {
