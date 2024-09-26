@@ -1,0 +1,9 @@
+<!-- eslint-disable-next-line -->
+<div
+  #container
+  class="ctx-menu"
+  [style.transform]="translate()"
+  (click)="$event.stopPropagation()"
+>
+  <ng-container #content></ng-container>
+</div>
