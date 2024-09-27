@@ -3,21 +3,31 @@ import {
   computed,
   ElementRef,
   inject,
+  Injector,
   OnInit,
   viewChild,
 } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import {
   MODAL_DATA,
   ModalController,
   ModalService,
 } from '@ngx-templates/shared/modal';
+import { CtxMenuService } from '@ngx-templates/shared/context-menu';
+import { Set } from 'immutable';
+
 import { CardsService } from '../../data-access/cards.service';
-import { Card } from '../../../../models';
+import { Card, Label } from '../../../../models';
 import {
   ConfirmDeleteData,
   ConfirmDeleteModalComponent,
 } from '../confirm-delete-modal/confirm-delete-modal.component';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { LabelsService } from '../../data-access/labels.service';
+import {
+  LabelManagerComponent,
+  LabelManagerData,
+} from './label-manager/label-manager.component';
+import { LabelComponent } from '../label/label.component';
 
 export interface CardDetailsData {
   cardId: string;
@@ -26,7 +36,7 @@ export interface CardDetailsData {
 @Component({
   selector: 'kb-card-details',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, LabelComponent],
   templateUrl: './card-details.component.html',
   styleUrl: './card-details.component.scss',
 })
@@ -35,8 +45,11 @@ export class CardDetailsComponent implements OnInit {
   ctrl = inject(ModalController);
 
   private _cards = inject(CardsService);
+  private _labels = inject(LabelsService);
   private _modal = inject(ModalService);
+  private _ctxMenu = inject(CtxMenuService);
   private _formBuilder = inject(FormBuilder);
+  private _injector = inject(Injector);
 
   descriptionForm = this._formBuilder.group({
     description: [''],
@@ -46,6 +59,14 @@ export class CardDetailsComponent implements OnInit {
 
   card = computed<Card>(
     () => this._cards.value().get(this.data.cardId) || new Card({}),
+  );
+
+  labels = computed<Set<Label>>(() =>
+    this.card().labelIds.map((id) => this._labels.value().get(id)!),
+  );
+
+  private _labelsIds = computed<Set<string>>(() =>
+    this.labels().map((l) => l.id),
   );
 
   async ngOnInit() {
@@ -64,7 +85,7 @@ export class CardDetailsComponent implements OnInit {
   updateTitle() {
     const title = this.titleInput().nativeElement.value;
 
-    if (title) {
+    if (title && title !== this.card().title) {
       this._cards.updateCardContent(this.data.cardId, { title });
     } else {
       this.titleInput().nativeElement.value = this.card().title;
@@ -82,6 +103,18 @@ export class CardDetailsComponent implements OnInit {
     this._setDescription();
   }
 
+  openLabelManager(e: MouseEvent) {
+    this._ctxMenu.openMenu<LabelManagerData>(
+      LabelManagerComponent,
+      e,
+      {
+        cardId: this.card().id,
+        cardLabelsIds: this._labelsIds,
+      },
+      { injector: this._injector },
+    );
+  }
+
   deleteCard() {
     this._modal
       .createModal<
@@ -94,6 +127,11 @@ export class CardDetailsComponent implements OnInit {
           this.ctrl.close();
         }
       });
+  }
+
+  removeLabelFromCard(labelId: string) {
+    const labelIds = this.card().labelIds.remove(labelId).toJS();
+    this._cards.updateCardContent(this.card().id, { labelIds });
   }
 
   private _setDescription() {

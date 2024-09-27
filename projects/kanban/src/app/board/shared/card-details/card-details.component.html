@@ -1,6 +1,14 @@
 <input #titleInput [value]="card().title" (blur)="updateTitle()" />
 <button (click)="ctrl.close()">close</button>
-<div class="labels">labels tbd</div>
+<div class="labels">
+  @for (label of labels(); track label.id) {
+    <kb-label
+      [label]="label"
+      (labelClick)="removeLabelFromCard(label.id)"
+    ></kb-label>
+  }
+  <button (click)="openLabelManager($event)">+ label</button>
+</div>
 <hr />
 <form [formGroup]="descriptionForm" (ngSubmit)="updateDescription()">
   <textarea

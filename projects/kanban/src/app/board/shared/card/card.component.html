@@ -1,5 +1,10 @@
-<p>
+<div>
   <button (click)="open.emit(card())" title="Open card">
     {{ card().title }}
   </button>
-</p>
+  <div>
+    @for (label of labels(); track label.id) {
+      <kb-label [label]="label"></kb-label>
+    }
+  </div>
+</div>

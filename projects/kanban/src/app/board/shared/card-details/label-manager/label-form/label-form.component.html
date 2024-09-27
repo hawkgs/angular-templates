@@ -1,0 +1,6 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <input placeholder="Label Name" formControlName="name" />
+  <kb-color-picker formControlName="color"></kb-color-picker>
+  <hr />
+  <button [disabled]="form.invalid">{{ submitButtonName() }}</button>
+</form>

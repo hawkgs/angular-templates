@@ -1,0 +1,35 @@
+@switch (mode()) {
+  @case ('card-labels') {
+    <input
+      type="text"
+      (input)="onFilterInput($event)"
+      placeholder="Search label"
+    />
+    @for (label of filteredLabels(); track label.id) {
+      <div>
+        <kb-label [label]="label" (labelClick)="addLabel($event)"></kb-label>
+        <button (click)="editLabel(label)">Edit</button>
+      </div>
+    } @empty {
+      <p>no labels</p>
+    }
+    <hr />
+    <button (click)="mode.set('creator')">Create label</button>
+  }
+  @case ('creator') {
+    <kb-label-form
+      submitButtonName="Create"
+      (formSubmit)="createLabel($event)"
+    ></kb-label-form>
+    <button (click)="returnToHome()">Cancel</button>
+  }
+  @case ('editor') {
+    <kb-label-form
+      submitButtonName="Update"
+      [label]="editedLabel()!"
+      (formSubmit)="updateLabel($event)"
+    ></kb-label-form>
+    <button (click)="deleteLabel()">Delete</button>
+    <button (click)="returnToHome()">Cancel</button>
+  }
+}
