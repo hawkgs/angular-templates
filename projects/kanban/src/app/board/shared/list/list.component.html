@@ -3,7 +3,7 @@
   <button (click)="topCardCreator.set(true)" title="Add a card">+</button>
   <button (click)="openCtxMenu($event)">Menu</button>
 </div>
-<div class="cards">
+<div class="cards" #cards>
   @if (topCardCreator()) {
     <kb-add-card
       [creatorAlwaysEnabled]="true"

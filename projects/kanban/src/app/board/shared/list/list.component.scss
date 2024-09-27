@@ -1,24 +1,25 @@
+@import '../variables';
+
 :host {
-  display: block;
-  flex: 0 0 275px;
-  height: calc(100vh - 64px - 2rem);
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 $list-width;
+  width: 100%;
+  height: $list-height;
   border: 1px solid var(--color-quinary);
   background-color: var(--color-septenary);
   padding: 0.5rem;
   box-sizing: border-box;
-  border-radius: 0.2rem;
-
-  &:not(:last-of-type) {
-    margin-right: 1rem;
-  }
+  border-radius: $list-border-radius;
 
   .header {
     margin-bottom: 1rem;
   }
 
   .cards {
-    border: 1px dashed rgba(255, 255, 255, 0.2);
     overflow-y: auto;
-    max-height: calc(100% - 40px); // header height
+    flex: 1;
+    display: flex;
+    flex-direction: column;
   }
 }

@@ -9,11 +9,13 @@ import {
   viewChild,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { IconComponent } from '@ngx-templates/shared/icon';
+import { ButtonComponent } from '@ngx-templates/shared/button';
 
 @Component({
   selector: 'kb-add-list',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, IconComponent, ButtonComponent],
   templateUrl: './add-list.component.html',
   styleUrl: './add-list.component.scss',
 })

@@ -1,8 +1,12 @@
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 @if (!listCreator()) {
-  <button (click)="$event.stopPropagation(); listCreator.set(true)">
-    Add a list
+  <button
+    class="add-list"
+    (click)="$event.stopPropagation(); listCreator.set(true)"
+  >
+    <ngx-icon name="Close" size="xlg"></ngx-icon>
+    <p>Add a list</p>
   </button>
 } @else {
   <form
@@ -11,6 +15,6 @@
     (click)="$event.stopPropagation()"
   >
     <input #nameInput formControlName="name" placeholder="List name" />
-    <button [disabled]="form.invalid">Add</button>
+    <button ngx-button btnType="primary" [disabled]="form.invalid">Add</button>
   </form>
 }
