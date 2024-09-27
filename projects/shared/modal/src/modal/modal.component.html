@@ -2,7 +2,7 @@
 <div
   class="modal"
   [class.window-ui]="modal().config.modalWindowUi"
-  (click)="onModalClick()"
+  (mousedown)="onModalMousedown()"
 >
   <ng-container #content></ng-container>
 </div>

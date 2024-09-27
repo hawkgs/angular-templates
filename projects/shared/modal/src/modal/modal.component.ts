@@ -51,15 +51,15 @@ export class ModalComponent<D, R> implements AfterViewInit {
   /**
    * Close the modal, if the overlay is clicked.
    */
-  @HostListener('click')
-  onHostClick() {
+  @HostListener('mousedown')
+  onHostMousedown() {
     if (!this._clickFlag) {
       this.modal().controller.close();
     }
     this._clickFlag = false;
   }
 
-  onModalClick() {
+  onModalMousedown() {
     this._clickFlag = true;
   }
 

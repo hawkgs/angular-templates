@@ -61,8 +61,8 @@ export class CtxMenuComponent<D, R> implements AfterViewInit {
     this._calculatePositionOffset();
   }
 
-  @HostListener('document:click')
-  onHostClick() {
+  @HostListener('document:mousedown')
+  onDocumentMousedown() {
     this.menu()?.controller.close();
   }
 
