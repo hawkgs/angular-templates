@@ -3,7 +3,6 @@ import {
   CTX_MENU_DATA,
   CtxMenuController,
 } from '@ngx-templates/shared/context-menu';
-import { ModalService } from '@ngx-templates/shared/modal';
 import { Set } from 'immutable';
 
 import { LabelFormComponent } from './label-form/label-form.component';
@@ -11,17 +10,13 @@ import { LabelsService } from '../../../data-access/labels.service';
 import { Label } from '../../../../../models';
 import { LabelComponent } from '../../label/label.component';
 import { CardsService } from '../../../data-access/cards.service';
-import {
-  ConfirmDeleteData,
-  ConfirmDeleteModalComponent,
-} from '../../confirm-delete-modal/confirm-delete-modal.component';
 
 export type LabelManagerData = {
   cardId: string;
   cardLabelsIds: Signal<Set<string>>;
 };
 
-type Mode = 'card-labels' | 'creator' | 'editor';
+type Mode = 'card-labels' | 'creator' | 'editor' | 'delete-label-confirmation';
 
 @Component({
   selector: 'kb-label-manager',
@@ -35,7 +30,6 @@ export class LabelManagerComponent {
   private _ctrl = inject(CtxMenuController);
   private _labels = inject(LabelsService);
   private _cards = inject(CardsService);
-  private _modal = inject(ModalService);
 
   filteredLabels = computed(() =>
     this._labels
@@ -72,22 +66,10 @@ export class LabelManagerComponent {
 
   deleteLabel() {
     const edited = this.editedLabel();
-    if (!edited) {
-      return;
+    if (edited) {
+      this._labels.deleteLabel(edited.id);
+      this.returnToHome();
     }
-
-    this._ctrl.close();
-
-    this._modal
-      .createModal<
-        ConfirmDeleteData,
-        boolean
-      >(ConfirmDeleteModalComponent, { entity: 'label' })
-      .closed.then((shouldDelete) => {
-        if (shouldDelete) {
-          this._labels.deleteLabel(edited.id);
-        }
-      });
   }
 
   createLabel(label: Label) {

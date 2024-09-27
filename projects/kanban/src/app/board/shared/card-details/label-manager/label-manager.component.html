@@ -29,7 +29,12 @@
       [label]="editedLabel()!"
       (formSubmit)="updateLabel($event)"
     ></kb-label-form>
-    <button (click)="deleteLabel()">Delete</button>
+    <button (click)="mode.set('delete-label-confirmation')">Delete</button>
     <button (click)="returnToHome()">Cancel</button>
+  }
+  @case ('delete-label-confirmation') {
+    <p>Are you sure you want to delete "{{ editedLabel()?.name }}" label?</p>
+    <button (click)="deleteLabel()">Yes</button>
+    <button (click)="returnToHome()">No</button>
   }
 }
