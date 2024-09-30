@@ -45,6 +45,12 @@ export class NewCardInputComponent implements AfterViewInit {
     this.cardInput.emit();
   }
 
+  onTextareaKeydown(e: KeyboardEvent) {
+    if (e.shiftKey && e.key === 'Enter') {
+      e.preventDefault();
+    }
+  }
+
   @HostListener('document:keydown.enter')
   onEnterPress() {
     this.textarea()?.nativeElement.blur();
