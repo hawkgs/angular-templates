@@ -1,10 +1,11 @@
-@for (color of COLORS | keyvalue; track color) {
+@for (color of COLORS; track color[0]) {
   <button
     type="button"
-    [class.selected]="color.key === value()"
-    [style.background]="color.value"
-    (click)="pickColor(color.key)"
+    [class.selected]="color[0] === value()"
+    [style.background-color]="color[1].hex"
+    (click)="pickColor(color[0])"
+    [title]="color[0]"
   >
-    {{ color.key }}
+    --
   </button>
 }

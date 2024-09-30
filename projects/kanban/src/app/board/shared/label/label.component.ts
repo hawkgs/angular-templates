@@ -1,5 +1,6 @@
-import { Component, input, output } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { Label } from '../../../../models';
+import { LABEL_COLORS } from './label-colors';
 
 @Component({
   selector: 'kb-label',
@@ -11,4 +12,6 @@ import { Label } from '../../../../models';
 export class LabelComponent {
   label = input.required<Label>();
   labelClick = output<Label>();
+
+  color = computed(() => LABEL_COLORS.get(this.label().color)!);
 }

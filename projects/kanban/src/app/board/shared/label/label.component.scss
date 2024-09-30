@@ -1,5 +1,18 @@
+@import 'typography';
+
 :host {
-  span {
-    padding: 2px;
+  button {
+    @extend %body-short-03;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    padding: 0.2rem 0.5rem;
+    color: var(--grey-50);
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+
+    &.is-light {
+      color: var(--grey-900);
+      text-shadow: none;
+    }
   }
 }

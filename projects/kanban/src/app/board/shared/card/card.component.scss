@@ -9,8 +9,18 @@
     text-align: left;
     word-break: break-all;
 
-    .labels:not(:empty) {
-      margin-top: 0.5rem;
+    .labels {
+      kb-label {
+        margin-right: 6px;
+
+        &:last-of-type {
+          margin-right: 0;
+        }
+      }
+
+      &:not(:empty) {
+        margin-top: 0.5rem;
+      }
     }
   }
 }

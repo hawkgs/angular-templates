@@ -12,6 +12,10 @@
   border: none;
 
   &:hover {
-    background-color: var(--color-quinary);
+    background-color: color-mix(
+      in srgb,
+      var(--color-quinary) 50%,
+      var(--color-senary) 50%
+    );
   }
 }
