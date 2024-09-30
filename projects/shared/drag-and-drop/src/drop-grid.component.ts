@@ -257,8 +257,7 @@ export class DropGridComponent implements AfterViewInit {
     const draggableViewRef = this._draggablesViewRefs.get(d.id());
     draggableViewRef?.destroy();
 
-    this._draggablesDirectives.delete(d.id());
-    this._draggablesViewRefs.delete(d.id());
+    this._cleanAllReferences(d.id());
   }
 
   onDragStart({
@@ -403,10 +402,7 @@ export class DropGridComponent implements AfterViewInit {
     // Clear all of the state related to the tranferred draggable
     // that is no longer needed or might interfere with proper
     // functioning of the feature
-    this._draggablesDirectives.delete(id);
-    this._draggablesViewRefs.delete(id);
-    const orderedIdx = this._orderedDirectives.findIndex((d) => d.id() === id);
-    this._orderedDirectives.splice(orderedIdx, 1);
+    this._cleanAllReferences(id);
 
     const unsubscriber = this._draggablesEventsUnsubscribers.get(id)!;
     unsubscriber();
@@ -718,5 +714,15 @@ export class DropGridComponent implements AfterViewInit {
     ordered.sort((a, b) => a.idx - b.idx);
 
     return ordered;
+  }
+
+  /**
+   * Clean all references of the provided directive
+   */
+  private _cleanAllReferences(id: string) {
+    this._draggablesDirectives.delete(id);
+    this._draggablesViewRefs.delete(id);
+    const orderedIdx = this._orderedDirectives.findIndex((d) => d.id() === id);
+    this._orderedDirectives.splice(orderedIdx, 1);
   }
 }
