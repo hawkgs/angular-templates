@@ -1,9 +1,13 @@
 <div ngxDropGridGroup class="wrapper">
   @for (list of lists.value(); track list.id) {
-    <kb-list [list]="list">
+    <kb-list
+      [list]="list"
+      (cardCreatorEnabled)="disabledSpacerFor(list.id, $event)"
+    >
       <ngx-drop-grid
         [columns]="1"
         [cellGap]="8"
+        [class.disabled-spacer]="disabledSpacerListId() === list.id"
         (moved)="onCardMoved(list.id, $event)"
       >
         @for (card of cards.fromList(list.id)(); track card.id) {

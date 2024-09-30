@@ -5,7 +5,7 @@
   flex-direction: column;
   flex: 0 0 $list-width;
   width: 100%;
-  height: $list-height;
+  max-height: $list-height;
   border: 1px solid var(--color-quinary);
   background-color: var(--color-septenary);
   box-sizing: border-box;
@@ -23,6 +23,9 @@
     }
 
     .controls {
+      display: flex;
+      flex-wrap: nowrap;
+
       button {
         background-color: transparent;
         transition: background-color 200ms ease;
@@ -43,14 +46,13 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 8px;
-    padding-top: 0;
+    padding: 0 8px;
 
-    .new-card-top {
+    .new-card-top:not(:only-child) {
       margin-bottom: 8px;
     }
 
-    .new-card-bottom {
+    .new-card-bottom:not(:only-child) {
       margin-top: 8px;
     }
   }

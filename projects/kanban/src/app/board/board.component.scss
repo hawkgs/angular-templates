@@ -1,3 +1,5 @@
+@import './shared/styles/variables';
+
 :host {
   display: block;
   width: 100%;
@@ -10,6 +12,7 @@
     overflow-x: auto;
     padding: 0 1rem 0.5rem 1rem;
     box-sizing: border-box;
+    height: $list-height;
 
     kb-list {
       margin-right: 1rem;
@@ -20,6 +23,11 @@
         --grid-slot-border-radius: 0.5rem;
         flex: 1;
         display: block;
+        min-height: 3rem;
+
+        &.disabled-spacer {
+          min-height: unset;
+        }
       }
     }
   }

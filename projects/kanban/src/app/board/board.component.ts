@@ -1,4 +1,4 @@
-import { Component, inject, Injector, OnInit } from '@angular/core';
+import { Component, inject, Injector, OnInit, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DRAG_AND_DROP_DIRECTIVES } from '@ngx-templates/shared/drag-and-drop';
@@ -47,6 +47,8 @@ export class BoardComponent implements OnInit {
   private _injector = inject(Injector);
   private _route = inject(ActivatedRoute);
 
+  disabledSpacerListId = signal<string>('');
+
   ngOnInit() {
     const id = this._route.snapshot.paramMap.get('id');
     if (id) {
@@ -75,5 +77,13 @@ export class BoardComponent implements OnInit {
 
   onCardMoved(listId: string, moved: { id: string; pos: number }) {
     this.cards.updateCardPosition(moved.id, { listId, pos: moved.pos });
+  }
+
+  disabledSpacerFor(listId: string, enabled: boolean) {
+    if (enabled) {
+      this.disabledSpacerListId.set(listId);
+    } else {
+      this.disabledSpacerListId.set('');
+    }
   }
 }

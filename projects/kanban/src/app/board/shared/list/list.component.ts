@@ -1,4 +1,12 @@
-import { Component, inject, Injector, input, signal } from '@angular/core';
+import {
+  Component,
+  effect,
+  inject,
+  Injector,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { CtxMenuService } from '@ngx-templates/shared/context-menu';
 import { IconComponent } from '@ngx-templates/shared/icon';
 
@@ -26,8 +34,16 @@ export class ListComponent {
   private _injector = inject(Injector);
 
   list = input.required<BoardList>();
+  cardCreatorEnabled = output<boolean>();
 
   cardCreator = signal<'top' | 'bottom' | 'none'>('none');
+
+  constructor() {
+    effect(() => {
+      const creatorEnabled = this.cardCreator() !== 'none';
+      this.cardCreatorEnabled.emit(creatorEnabled);
+    });
+  }
 
   createCard(title: string, insertOnTop?: boolean) {
     this._cards.createCard(this.list().id, title, insertOnTop);
