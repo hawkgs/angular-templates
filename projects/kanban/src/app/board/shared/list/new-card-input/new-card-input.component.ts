@@ -54,7 +54,8 @@ export class NewCardInputComponent implements AfterViewInit {
     const textarea = this.textarea()?.nativeElement;
     this._renderer.setStyle(textarea, 'height', null);
 
-    const height = textarea.scrollHeight;
+    const filler = 5; // Fixes jankiness during typing
+    const height = textarea.scrollHeight + filler;
     this._renderer.setStyle(textarea, 'height', height + 'px');
   }
 }
