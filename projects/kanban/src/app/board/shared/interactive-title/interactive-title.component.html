@@ -1,0 +1,10 @@
+<textarea
+  class="kb-interactive-title"
+  rows="1"
+  #textarea
+  [maxLength]="maxLength()"
+  (blur)="onTextareaBlur()"
+  (keydown)="onTextareaKeydown($event)"
+  (input)="setHeight()"
+  >{{ value() }}</textarea
+>

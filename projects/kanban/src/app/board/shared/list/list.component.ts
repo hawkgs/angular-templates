@@ -1,12 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  inject,
-  Injector,
-  input,
-  signal,
-  viewChild,
-} from '@angular/core';
+import { Component, inject, Injector, input, signal } from '@angular/core';
 import { CtxMenuService } from '@ngx-templates/shared/context-menu';
 
 import { BoardList } from '../../../../models';
@@ -17,11 +9,12 @@ import {
   ListCtxMenuComponent,
   ListCtxMenuData,
 } from './list-ctx-menu/list-ctx-menu.component';
+import { InteractiveTitleComponent } from '../interactive-title/interactive-title.component';
 
 @Component({
   selector: 'kb-list',
   standalone: true,
-  imports: [AddCardComponent],
+  imports: [AddCardComponent, InteractiveTitleComponent],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
 })
@@ -31,8 +24,6 @@ export class ListComponent {
   private _ctxMenu = inject(CtxMenuService);
   private _injector = inject(Injector);
 
-  nameInput = viewChild.required<ElementRef>('nameInput');
-
   list = input.required<BoardList>();
 
   topCardCreator = signal<boolean>(false);
@@ -41,13 +32,9 @@ export class ListComponent {
     this._cards.createCard(this.list().id, title, insertOnTop);
   }
 
-  updateName() {
-    const name = this.nameInput().nativeElement.value;
-
-    if (name) {
+  updateName(name: string) {
+    if (name !== this.list().name) {
       this._lists.updateListName(this.list().id, name);
-    } else {
-      this.nameInput().nativeElement.value = this.list().name;
     }
   }
 

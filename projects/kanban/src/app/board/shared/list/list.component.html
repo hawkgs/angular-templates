@@ -1,5 +1,9 @@
 <div class="header">
-  <input #nameInput type="text" [value]="list().name" (blur)="updateName()" />
+  <kb-interactive-title
+    [value]="list().name"
+    [verticalPadding]="4"
+    (titleBlur)="updateName($event)"
+  ></kb-interactive-title>
   <button (click)="topCardCreator.set(true)" title="Add a card">+</button>
   <button (click)="openCtxMenu($event)">Menu</button>
 </div>

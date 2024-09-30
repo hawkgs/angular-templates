@@ -1,0 +1,20 @@
+@import 'typography';
+
+:host {
+  display: block;
+
+  textarea {
+    font-family: $font-family;
+    font-size: var(--font-size, 0.875rem);
+    font-weight: var(--font-weight, 'normal');
+    background-color: transparent;
+    border: none;
+    resize: none;
+    overflow: hidden;
+    border-radius: 0.2rem;
+
+    &:focus {
+      outline: 2px solid var(--color-french-violet);
+    }
+  }
+}
