@@ -1,20 +1,38 @@
 <div class="header">
   <kb-interactive-title
     [value]="list().name"
-    [verticalPadding]="4"
     (titleBlur)="updateName($event)"
   ></kb-interactive-title>
-  <button (click)="topCardCreator.set(true)" title="Add a card">+</button>
-  <button (click)="openCtxMenu($event)">Menu</button>
+  <div class="controls">
+    <button (click)="cardCreator.set('top')" title="Add a card">
+      <ngx-icon name="Add" size="md"></ngx-icon>
+    </button>
+    <button (click)="openCtxMenu($event)" title="More options">
+      <ngx-icon name="MoreVert" size="md"></ngx-icon>
+    </button>
+  </div>
 </div>
 <div class="cards" #cards>
-  @if (topCardCreator()) {
-    <kb-add-card
-      [creatorAlwaysEnabled]="true"
-      (cardCreate)="createCard($event, true); topCardCreator.set(false)"
-      (blur)="topCardCreator.set(false)"
-    ></kb-add-card>
+  @if (cardCreator() === 'top') {
+    <kb-new-card-input
+      (cardCreate)="createCard($event, true); cardCreator.set('none')"
+      (cardBlur)="cardCreator.set('none')"
+      class="new-card-top"
+    ></kb-new-card-input>
   }
   <ng-content></ng-content>
-  <kb-add-card (cardCreate)="createCard($event)"></kb-add-card>
+  @if (cardCreator() === 'bottom') {
+    <kb-new-card-input
+      (cardCreate)="createCard($event); cardCreator.set('none')"
+      (cardBlur)="cardCreator.set('none')"
+      (cardInput)="cards.scrollTo(0, cards.scrollHeight)"
+      class="new-card-bottom"
+    ></kb-new-card-input>
+  }
+</div>
+<div class="add-btn-wrapper">
+  <button class="add-card-bottom" (click)="cardCreator.set('bottom')">
+    <ngx-icon name="Add" size="md"></ngx-icon>
+    <span>Add a card</span>
+  </button>
 </div>

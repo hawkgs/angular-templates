@@ -1,8 +1,9 @@
 import { Component, inject, Injector, input, signal } from '@angular/core';
 import { CtxMenuService } from '@ngx-templates/shared/context-menu';
+import { IconComponent } from '@ngx-templates/shared/icon';
 
 import { BoardList } from '../../../../models';
-import { AddCardComponent } from './add-card/add-card.component';
+import { NewCardInputComponent } from './new-card-input/new-card-input.component';
 import { CardsService } from '../../data-access/cards.service';
 import { ListsService } from '../../data-access/lists.service';
 import {
@@ -14,7 +15,7 @@ import { InteractiveTitleComponent } from '../interactive-title/interactive-titl
 @Component({
   selector: 'kb-list',
   standalone: true,
-  imports: [AddCardComponent, InteractiveTitleComponent],
+  imports: [NewCardInputComponent, InteractiveTitleComponent, IconComponent],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
 })
@@ -26,7 +27,7 @@ export class ListComponent {
 
   list = input.required<BoardList>();
 
-  topCardCreator = signal<boolean>(false);
+  cardCreator = signal<'top' | 'bottom' | 'none'>('none');
 
   createCard(title: string, insertOnTop?: boolean) {
     this._cards.createCard(this.list().id, title, insertOnTop);

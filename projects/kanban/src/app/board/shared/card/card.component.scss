@@ -1,9 +1,16 @@
+@import '../styles/card';
+
 :host {
   display: block;
-  background-color: var(--color-senary);
-  border-radius: 0.5rem;
-  width: 100%;
-  padding: 1rem;
-  box-sizing: border-box;
-  cursor: pointer;
+
+  button {
+    @extend %card-container;
+    cursor: pointer;
+    text-align: left;
+    word-break: break-all;
+
+    .labels:not(:empty) {
+      margin-top: 0.5rem;
+    }
+  }
 }

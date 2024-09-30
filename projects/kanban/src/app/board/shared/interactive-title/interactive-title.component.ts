@@ -1,3 +1,4 @@
+import { isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -5,13 +6,13 @@ import {
   inject,
   input,
   output,
+  PLATFORM_ID,
   Renderer2,
   viewChild,
 } from '@angular/core';
+import { WINDOW } from '@ngx-templates/shared/services';
 
 const DEFAULT_MAX_LENGTH = 50;
-const DEFAULT_V_PADDING = 4;
-const DEFAULT_H_PADDING = 4;
 
 @Component({
   selector: 'kb-interactive-title',
@@ -22,17 +23,19 @@ const DEFAULT_H_PADDING = 4;
 })
 export class InteractiveTitleComponent implements AfterViewInit {
   private _renderer = inject(Renderer2);
+  private _win = inject(WINDOW);
+  private _platformId = inject(PLATFORM_ID);
 
   textarea = viewChild.required<ElementRef>('textarea');
 
   value = input.required<string>();
-  verticalPadding = input<number>(DEFAULT_V_PADDING);
-  horizontalPadding = input<number>(DEFAULT_H_PADDING);
   maxLength = input<number>(DEFAULT_MAX_LENGTH);
   titleBlur = output<string>();
 
+  private _verPadding: number = 0;
+
   ngAfterViewInit() {
-    this._setPadding();
+    this._verPadding = this._extractVerPadding();
     this.setHeight();
   }
 
@@ -59,18 +62,19 @@ export class InteractiveTitleComponent implements AfterViewInit {
     // recalculate the updated scrollHeight.
     this._renderer.setStyle(element, 'height', null);
 
-    const height = element.scrollHeight - this.verticalPadding() * 2;
+    const height = element.scrollHeight - this._verPadding;
     this._renderer.setStyle(element, 'height', height + 'px');
   }
 
-  private _setPadding() {
-    const h = this.horizontalPadding() + 'px';
-    const v = this.verticalPadding() + 'px';
+  private _extractVerPadding(): number {
+    if (!isPlatformBrowser(this._platformId)) {
+      return 0;
+    }
 
-    this._renderer.setStyle(
-      this.textarea().nativeElement,
-      'padding',
-      `${v} ${h}`,
-    );
+    const textarea = this.textarea().nativeElement;
+    const styles = this._win.getComputedStyle(textarea);
+    const paddingTop = parseInt(styles.paddingTop.replace(/px|rem/, ''), 10);
+
+    return paddingTop * 2;
   }
 }
