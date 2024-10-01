@@ -1,25 +1,53 @@
-<input #titleInput [value]="card().title" (blur)="updateTitle()" />
-<button (click)="ctrl.close()">close</button>
-<div class="labels">
-  @for (label of labels(); track label.id) {
-    <kb-label
-      [label]="label"
-      (labelClick)="removeLabelFromCard(label.id)"
-    ></kb-label>
-  }
-  <button (click)="openLabelManager($event)">+ label</button>
+<div class="header">
+  <div class="title-cont">
+    <kb-interactive-title
+      [value]="card().title"
+      [maxLength]="200"
+      (titleBlur)="updateTitle($event)"
+    ></kb-interactive-title>
+    <button (click)="ctrl.close()">
+      <ngx-icon name="Close" size="md"></ngx-icon>
+    </button>
+  </div>
+  <div class="labels">
+    @for (label of labels(); track label.id) {
+      <button
+        [kbLabelColoring]="label"
+        (click)="removeLabelFromCard(label.id)"
+        [title]="'Remove ' + label.name"
+      >
+        <ngx-icon name="Delete" size="sm"></ngx-icon>
+        <span>{{ label.name }}</span>
+      </button>
+    }
+    <button (click)="openLabelManager($event)" class="add-label">
+      <ngx-icon name="Add" size="sm"></ngx-icon>
+      <span>Label</span>
+    </button>
+  </div>
 </div>
-<hr />
-<form [formGroup]="descriptionForm" (ngSubmit)="updateDescription()">
-  <textarea
-    formControlName="description"
-    placeholder="Enter a description"
-  ></textarea>
-  @if (descriptionForm.dirty) {
-    <div>
-      <button>Save</button>
-      <button type="button" (click)="resetDescriptionForm()">Discard</button>
-    </div>
-  }
-</form>
-<button (click)="deleteCard()">DEL</button>
+<div class="content">
+  <form [formGroup]="descriptionForm" (ngSubmit)="updateDescription()">
+    <textarea
+      formControlName="description"
+      placeholder="Enter a description"
+      rows="7"
+    ></textarea>
+    @if (descriptionForm.dirty) {
+      <div class="form-ctrls">
+        <button ngx-button btnType="primary">Save</button>
+        <button
+          ngx-button
+          btnType="secondary"
+          type="button"
+          (click)="resetDescriptionForm()"
+        >
+          Discard
+        </button>
+      </div>
+    }
+  </form>
+  <button ngx-button btnType="secondary" class="delete" (click)="deleteCard()">
+    <ngx-icon name="Delete" size="md"></ngx-icon>
+  </button>
+</div>

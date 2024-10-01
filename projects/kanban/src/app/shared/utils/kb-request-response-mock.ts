@@ -311,7 +311,9 @@ export const kanbanRequestResponseMock: MockFn = (
       ...(cBody['pos'] !== undefined ? { pos: cBody['pos'] } : {}),
       ...(cBody['listId'] ? { listId: cBody['listId'] } : {}),
       ...(cBody['title'] ? { title: cBody['title'] } : {}),
-      ...(cBody['description'] ? { description: cBody['description'] } : {}),
+      ...(cBody['description'] !== undefined
+        ? { description: cBody['description'] }
+        : {}),
       ...(cBody['labelIds'] ? { labelIds: cBody['labelIds'] } : {}),
     };
 

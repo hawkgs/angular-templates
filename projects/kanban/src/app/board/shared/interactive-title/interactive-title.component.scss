@@ -11,6 +11,7 @@
     padding-bottom: var(--vertical-padding, 8px);
     padding-left: var(--horizontal-padding, 8px);
     padding-right: var(--horizontal-padding, 8px);
+    width: var(--width, auto);
     background-color: transparent;
     border: none;
     resize: none;

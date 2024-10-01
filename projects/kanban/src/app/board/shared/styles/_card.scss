@@ -3,14 +3,15 @@
 %card-container {
   @extend %body-short-01;
   background-color: var(--color-senary);
+  border: 1px solid transparent;
   border-radius: 0.5rem;
   width: 100%;
   padding: 16px;
   box-sizing: border-box;
   display: block;
-  border: none;
 
   &:hover {
+    border-color: var(--color-quinary);
     background-color: color-mix(
       in srgb,
       var(--color-quinary) 50%,

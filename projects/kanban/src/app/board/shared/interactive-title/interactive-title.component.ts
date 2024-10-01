@@ -52,6 +52,7 @@ export class InteractiveTitleComponent implements AfterViewInit {
   onTextareaKeydown(e: KeyboardEvent) {
     if (e.key === 'Enter') {
       e.preventDefault();
+      this.textarea().nativeElement.blur();
     }
   }
 
@@ -61,6 +62,8 @@ export class InteractiveTitleComponent implements AfterViewInit {
     // We need to reset the height in order to
     // recalculate the updated scrollHeight.
     this._renderer.setStyle(element, 'height', null);
+
+    console.log('yoooo', element.scrollHeight);
 
     const height = element.scrollHeight - this._verPadding;
     this._renderer.setStyle(element, 'height', height + 'px');

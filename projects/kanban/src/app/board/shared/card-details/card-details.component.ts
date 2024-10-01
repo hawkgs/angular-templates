@@ -1,12 +1,4 @@
-import {
-  Component,
-  computed,
-  ElementRef,
-  inject,
-  Injector,
-  OnInit,
-  viewChild,
-} from '@angular/core';
+import { Component, computed, inject, Injector, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import {
   MODAL_DATA,
@@ -14,6 +6,8 @@ import {
   ModalService,
 } from '@ngx-templates/shared/modal';
 import { CtxMenuService } from '@ngx-templates/shared/context-menu';
+import { IconComponent } from '@ngx-templates/shared/icon';
+import { ButtonComponent } from '@ngx-templates/shared/button';
 import { Set } from 'immutable';
 
 import { CardsService } from '../../data-access/cards.service';
@@ -27,7 +21,8 @@ import {
   LabelManagerComponent,
   LabelManagerData,
 } from './label-manager/label-manager.component';
-import { LabelComponent } from './label/label.component';
+import { InteractiveTitleComponent } from '../interactive-title/interactive-title.component';
+import { LabelColoringDirective } from '../label-coloring/label-coloring.directive';
 
 export interface CardDetailsData {
   cardId: string;
@@ -36,7 +31,13 @@ export interface CardDetailsData {
 @Component({
   selector: 'kb-card-details',
   standalone: true,
-  imports: [ReactiveFormsModule, LabelComponent],
+  imports: [
+    ReactiveFormsModule,
+    InteractiveTitleComponent,
+    IconComponent,
+    LabelColoringDirective,
+    ButtonComponent,
+  ],
   templateUrl: './card-details.component.html',
   styleUrl: './card-details.component.scss',
 })
@@ -54,8 +55,6 @@ export class CardDetailsComponent implements OnInit {
   descriptionForm = this._formBuilder.group({
     description: [''],
   });
-
-  titleInput = viewChild.required<ElementRef>('titleInput');
 
   card = computed<Card>(
     () => this._cards.value().get(this.data.cardId) || new Card({}),
@@ -82,18 +81,15 @@ export class CardDetailsComponent implements OnInit {
     this._setDescription();
   }
 
-  updateTitle() {
-    const title = this.titleInput().nativeElement.value;
-
-    if (title && title !== this.card().title) {
+  updateTitle(title: string) {
+    if (title !== this.card().title) {
       this._cards.updateCardContent(this.data.cardId, { title });
-    } else {
-      this.titleInput().nativeElement.value = this.card().title;
     }
   }
 
   async updateDescription() {
     const description = this.descriptionForm.value.description || '';
+    console.log('updating with', description);
     await this._cards.updateCardContent(this.data.cardId, { description });
     this.resetDescriptionForm();
   }
