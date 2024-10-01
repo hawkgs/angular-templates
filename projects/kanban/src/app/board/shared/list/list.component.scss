@@ -15,7 +15,7 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    padding: 8px 8px 0 8px;
+    padding: 8px;
 
     kb-interactive-title {
       --font-weight: bold;
@@ -48,21 +48,21 @@
     flex-direction: column;
     padding: 0 8px;
 
-    .content {
-      padding: 8px 0;
-    }
-
     .new-card-top {
-      margin-top: 8px;
+      margin-bottom: 8px;
     }
 
     .new-card-bottom {
-      margin-bottom: 8px;
+      margin-top: 8px;
+    }
+
+    .empty-list {
+      margin: 0;
     }
   }
 
   .add-btn-wrapper {
-    padding: 0 8px 8px 8px;
+    padding: 8px;
 
     .add-card-bottom {
       background-color: transparent;

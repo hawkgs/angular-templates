@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   effect,
   inject,
   Injector,
@@ -37,6 +38,10 @@ export class ListComponent {
   cardCreatorEnabled = output<boolean>();
 
   cardCreator = signal<'top' | 'bottom' | 'none'>('none');
+
+  isListEmpty = computed(
+    () => !this._cards.value().find((c) => c.listId === this.list().id),
+  );
 
   constructor() {
     effect(() => {
