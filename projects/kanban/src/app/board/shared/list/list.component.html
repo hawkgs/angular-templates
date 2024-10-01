@@ -20,7 +20,9 @@
       class="new-card-top"
     ></kb-new-card-input>
   }
-  <ng-content></ng-content>
+  <div class="content">
+    <ng-content></ng-content>
+  </div>
   @if (cardCreator() === 'bottom') {
     <kb-new-card-input
       (cardCreate)="createCard($event); cardCreator.set('none')"

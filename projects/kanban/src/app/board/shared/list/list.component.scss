@@ -5,7 +5,7 @@
   flex-direction: column;
   flex: 0 0 $list-width;
   width: 100%;
-  max-height: $list-height;
+  max-height: 100%;
   border: 1px solid var(--color-quinary);
   background-color: var(--color-septenary);
   box-sizing: border-box;
@@ -15,7 +15,7 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    padding: 8px;
+    padding: 8px 8px 0 8px;
 
     kb-interactive-title {
       --font-weight: bold;
@@ -48,17 +48,21 @@
     flex-direction: column;
     padding: 0 8px;
 
-    .new-card-top:not(:only-child) {
-      margin-bottom: 8px;
+    .content {
+      padding: 8px 0;
     }
 
-    .new-card-bottom:not(:only-child) {
+    .new-card-top {
       margin-top: 8px;
+    }
+
+    .new-card-bottom {
+      margin-bottom: 8px;
     }
   }
 
   .add-btn-wrapper {
-    padding: 8px;
+    padding: 0 8px 8px 8px;
 
     .add-card-bottom {
       background-color: transparent;

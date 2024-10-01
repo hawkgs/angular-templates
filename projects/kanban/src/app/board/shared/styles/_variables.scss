@@ -4,7 +4,4 @@ $list-border-radius: 0.2rem;
 /* This represents the absolute height of the header */
 $header-height: 56px;
 $main-content-margin-top: 1rem;
-$board-margin-bottom: 1.5rem;
-$list-height: calc(
-  100vh - $header-height - $main-content-margin-top - $board-margin-bottom
-);
+$list-height: calc(100vh - $header-height - $main-content-margin-top);
