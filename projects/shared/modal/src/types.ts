@@ -10,6 +10,13 @@ export type ModalConfig = {
    * Enabled by default.
    */
   modalWindowUi: boolean;
+
+  /**
+   * Animate modal pop up.
+   * Enabled by default.
+   */
+  animated: boolean;
+
   /**
    * Provide a custom injector.
    */

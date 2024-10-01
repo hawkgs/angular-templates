@@ -2,6 +2,7 @@
 <div
   class="modal"
   [class.window-ui]="modal().config.modalWindowUi"
+  [class.animated]="modal().config.animated"
   (mousedown)="onModalMousedown()"
 >
   <ng-container #content></ng-container>
