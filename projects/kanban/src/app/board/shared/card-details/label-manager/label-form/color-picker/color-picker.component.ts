@@ -1,7 +1,10 @@
 import { Component, forwardRef, model, signal } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { LABEL_COLORS } from '../../../../label-coloring/label-colors';
+import {
+  COLOR_NAMES_MAP,
+  LABEL_COLORS,
+} from '../../../../label-coloring/label-colors';
 
 @Component({
   selector: 'kb-color-picker',
@@ -22,6 +25,7 @@ export class ColorPickerComponent implements ControlValueAccessor {
   private _onTouched?: () => void;
 
   COLORS = LABEL_COLORS;
+  NAMES = COLOR_NAMES_MAP;
 
   value = model<string>();
   disabled = signal<boolean>(false);
@@ -49,5 +53,9 @@ export class ColorPickerComponent implements ControlValueAccessor {
 
   setDisabledState?(isDisabled: boolean): void {
     this.disabled.set(isDisabled);
+  }
+
+  capitalize(name: string) {
+    return name[0].toUpperCase() + name.slice(1);
   }
 }

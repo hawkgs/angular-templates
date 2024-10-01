@@ -4,6 +4,6 @@
     [class.selected]="color[0] === value()"
     [style.background-color]="color[1].hex"
     (click)="pickColor(color[0])"
-    [title]="color[0]"
+    [title]="NAMES[color[0]]"
   ></button>
 }
