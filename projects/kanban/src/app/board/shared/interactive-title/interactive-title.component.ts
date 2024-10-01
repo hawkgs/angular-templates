@@ -2,6 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
   Component,
+  effect,
   ElementRef,
   inject,
   input,
@@ -34,9 +35,18 @@ export class InteractiveTitleComponent implements AfterViewInit {
 
   private _verPadding: number = 0;
 
+  constructor() {
+    effect(() => {
+      // Ensure the height is calculated and set
+      // after the value had been set.
+      if (this.value()) {
+        this.setHeight();
+      }
+    });
+  }
+
   ngAfterViewInit() {
     this._verPadding = this._extractVerPadding();
-    this.setHeight();
   }
 
   onTextareaBlur() {
@@ -62,8 +72,6 @@ export class InteractiveTitleComponent implements AfterViewInit {
     // We need to reset the height in order to
     // recalculate the updated scrollHeight.
     this._renderer.setStyle(element, 'height', null);
-
-    console.log('yoooo', element.scrollHeight);
 
     const height = element.scrollHeight - this._verPadding;
     this._renderer.setStyle(element, 'height', height + 'px');
