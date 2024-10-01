@@ -2,7 +2,7 @@
   <span class="title">{{ card().title }}</span>
   <div class="labels">
     @for (label of labels(); track label.id) {
-      <kb-label [label]="label"></kb-label>
+      <span class="label" [kbLabelColoring]="label">{{ label.name }}</span>
     }
   </div>
 </button>

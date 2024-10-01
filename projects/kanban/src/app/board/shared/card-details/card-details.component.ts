@@ -27,7 +27,7 @@ import {
   LabelManagerComponent,
   LabelManagerData,
 } from './label-manager/label-manager.component';
-import { LabelComponent } from '../label/label.component';
+import { LabelComponent } from './label/label.component';
 
 export interface CardDetailsData {
   cardId: string;

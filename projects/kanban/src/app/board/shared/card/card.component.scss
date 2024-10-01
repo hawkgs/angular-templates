@@ -10,7 +10,13 @@
     word-break: break-all;
 
     .labels {
-      kb-label {
+      .label {
+        @extend %body-short-03;
+        display: inline;
+        font-weight: bold;
+        border-radius: 15px;
+        text-align: center;
+        padding: 0.2rem 0.5rem;
         margin-right: 6px;
 
         &:last-of-type {

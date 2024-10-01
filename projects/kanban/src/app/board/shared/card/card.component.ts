@@ -3,12 +3,12 @@ import { List } from 'immutable';
 
 import { Card, Label } from '../../../../models';
 import { LabelsService } from '../../data-access/labels.service';
-import { LabelComponent } from '../label/label.component';
+import { LabelColoringDirective } from '../label-coloring/label-coloring.directive';
 
 @Component({
   selector: 'kb-card',
   standalone: true,
-  imports: [LabelComponent],
+  imports: [LabelColoringDirective],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
 })

@@ -5,10 +5,10 @@ import {
 } from '@ngx-templates/shared/context-menu';
 import { Set } from 'immutable';
 
+import { LabelComponent } from '../label/label.component';
 import { LabelFormComponent } from './label-form/label-form.component';
 import { LabelsService } from '../../../data-access/labels.service';
 import { Label } from '../../../../../models';
-import { LabelComponent } from '../../label/label.component';
 import { CardsService } from '../../../data-access/cards.service';
 
 export type LabelManagerData = {

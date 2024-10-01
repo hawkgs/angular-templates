@@ -1,7 +1,7 @@
 import { Component, forwardRef, model, signal } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { LABEL_COLORS } from '../../../../label/label-colors';
+import { LABEL_COLORS } from '../../../../label-coloring/label-colors';
 
 @Component({
   selector: 'kb-color-picker',

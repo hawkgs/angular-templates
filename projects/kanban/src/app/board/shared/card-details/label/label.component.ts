@@ -1,6 +1,6 @@
 import { Component, computed, input, output } from '@angular/core';
-import { Label } from '../../../../models';
-import { LABEL_COLORS } from './label-colors';
+import { LABEL_COLORS } from '../../label-coloring/label-colors';
+import { Label } from '../../../../../models';
 
 @Component({
   selector: 'kb-label',
