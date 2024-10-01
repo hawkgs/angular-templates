@@ -1,12 +1,15 @@
 import { Component, inject, input, Input, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ButtonComponent } from '@ngx-templates/shared/button';
+
 import { ColorPickerComponent } from './color-picker/color-picker.component';
 import { Label } from '../../../../../../models';
+import { environment } from '../../../../../../environments/environment';
 
 @Component({
   selector: 'kb-label-form',
   standalone: true,
-  imports: [ReactiveFormsModule, ColorPickerComponent],
+  imports: [ReactiveFormsModule, ColorPickerComponent, ButtonComponent],
   templateUrl: './label-form.component.html',
   styleUrl: './label-form.component.scss',
 })
@@ -16,6 +19,8 @@ export class LabelFormComponent {
     name: ['', Validators.required],
     color: ['', Validators.required],
   });
+
+  env = environment;
 
   submitButtonName = input<string>('Create');
   formSubmit = output<Label>();

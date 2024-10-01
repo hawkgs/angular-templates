@@ -23,6 +23,9 @@
         padding: 0rem 0.5rem;
         margin: 6px 6px 0 0;
         white-space: nowrap;
+        text-overflow: ellipsis;
+        max-width: 200px;
+        overflow: hidden;
 
         &:last-of-type {
           margin-right: 0;

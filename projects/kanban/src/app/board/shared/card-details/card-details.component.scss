@@ -53,30 +53,27 @@
         position: relative;
         border: none;
         border-radius: 20px;
-        padding: 0.25rem 1.5rem;
+        padding: 0.25rem 1rem 0.25rem 0.875rem;
         cursor: pointer;
         box-sizing: border-box;
         margin-right: 0.5rem;
         margin-bottom: 0.5rem;
         font-weight: bold;
-        display: block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
         &:last-child {
           margin-right: 0;
         }
 
         ngx-icon {
-          position: absolute;
-          top: 5px;
-          right: 7px;
-          opacity: 0;
-          transition: opacity 100ms ease;
+          display: none;
+          margin-right: 0.25rem;
         }
 
-        &:hover {
-          ngx-icon {
-            opacity: 1;
-          }
+        &:hover > ngx-icon {
+          display: block;
         }
 
         &.add-label {
@@ -84,9 +81,6 @@
           color: var(--color-tertiary);
           background-color: transparent;
           transition: color 200ms ease;
-          display: flex;
-          align-items: center;
-          justify-content: center;
           padding: 0.25rem 1rem 0.25rem 0.875rem;
 
           &:hover {
@@ -94,9 +88,7 @@
           }
 
           ngx-icon {
-            position: initial;
-            opacity: 1;
-            margin-right: 0.25rem;
+            display: block;
           }
         }
       }

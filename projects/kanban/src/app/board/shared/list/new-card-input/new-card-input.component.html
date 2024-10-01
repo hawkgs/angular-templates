@@ -2,6 +2,7 @@
   #textarea
   placeholder="Card title"
   rows="1"
+  [maxLength]="env.cardTitleMaxLength"
   (blur)="createCard()"
   (input)="onTextareaInput()"
   (keydown)="onTextareaKeydown($event)"

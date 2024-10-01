@@ -20,6 +20,7 @@ import {
   ListCtxMenuData,
 } from './list-ctx-menu/list-ctx-menu.component';
 import { InteractiveTitleComponent } from '../interactive-title/interactive-title.component';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'kb-list',
@@ -33,6 +34,8 @@ export class ListComponent {
   private _lists = inject(ListsService);
   private _ctxMenu = inject(CtxMenuService);
   private _injector = inject(Injector);
+
+  env = environment;
 
   list = input.required<BoardList>();
   cardCreatorEnabled = output<boolean>();

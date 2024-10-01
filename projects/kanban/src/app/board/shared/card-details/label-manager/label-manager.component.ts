@@ -3,13 +3,15 @@ import {
   CTX_MENU_DATA,
   CtxMenuController,
 } from '@ngx-templates/shared/context-menu';
+import { ButtonComponent } from '@ngx-templates/shared/button';
+import { IconComponent } from '@ngx-templates/shared/icon';
 import { Set } from 'immutable';
 
-import { LabelComponent } from '../label/label.component';
 import { LabelFormComponent } from './label-form/label-form.component';
 import { LabelsService } from '../../../data-access/labels.service';
 import { Label } from '../../../../../models';
 import { CardsService } from '../../../data-access/cards.service';
+import { LabelColoringDirective } from '../../label-coloring/label-coloring.directive';
 
 export type LabelManagerData = {
   cardId: string;
@@ -21,7 +23,12 @@ type Mode = 'card-labels' | 'creator' | 'editor' | 'delete-label-confirmation';
 @Component({
   selector: 'kb-label-manager',
   standalone: true,
-  imports: [LabelFormComponent, LabelComponent],
+  imports: [
+    LabelFormComponent,
+    ButtonComponent,
+    LabelColoringDirective,
+    IconComponent,
+  ],
   templateUrl: './label-manager.component.html',
   styleUrl: './label-manager.component.scss',
 })
@@ -39,6 +46,14 @@ export class LabelManagerComponent {
           !this.data.cardLabelsIds().has(l.id) &&
           l.name.toLowerCase().includes(this._labelFilter()),
       )
+      .toList()
+      .sort(),
+  );
+
+  addedLabels = computed(() =>
+    this._labels
+      .value()
+      .filter((l) => this.data.cardLabelsIds().has(l.id))
       .toList()
       .sort(),
   );

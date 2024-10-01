@@ -2,7 +2,7 @@
   <div class="title-cont">
     <kb-interactive-title
       [value]="card().title"
-      [maxLength]="200"
+      [maxLength]="env.cardTitleMaxLength"
       (titleBlur)="updateTitle($event)"
     ></kb-interactive-title>
     <button (click)="ctrl.close()">
@@ -31,6 +31,7 @@
     <textarea
       formControlName="description"
       placeholder="Enter a description"
+      [maxLength]="env.cardDescriptionMaxLength"
       rows="7"
     ></textarea>
     @if (descriptionForm.dirty) {

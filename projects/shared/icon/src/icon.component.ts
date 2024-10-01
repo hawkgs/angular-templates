@@ -19,7 +19,8 @@ export type IconName =
   | 'Link'
   | 'Lightbulb'
   | 'Add'
-  | 'MoreVert';
+  | 'MoreVert'
+  | 'Edit';
 
 export type IconSize = 'sm' | 'md' | 'lg' | 'xlg' | 'xxlg';
 

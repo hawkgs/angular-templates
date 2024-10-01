@@ -23,6 +23,7 @@ import {
 } from './label-manager/label-manager.component';
 import { InteractiveTitleComponent } from '../interactive-title/interactive-title.component';
 import { LabelColoringDirective } from '../label-coloring/label-coloring.directive';
+import { environment } from '../../../../environments/environment';
 
 export interface CardDetailsData {
   cardId: string;
@@ -51,6 +52,8 @@ export class CardDetailsComponent implements OnInit {
   private _ctxMenu = inject(CtxMenuService);
   private _formBuilder = inject(FormBuilder);
   private _injector = inject(Injector);
+
+  env = environment;
 
   descriptionForm = this._formBuilder.group({
     description: [''],

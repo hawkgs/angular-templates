@@ -52,12 +52,12 @@ export class BoardComponent implements OnInit {
   ngOnInit() {
     const id = this._route.snapshot.paramMap.get('id');
     if (id) {
-      this.openCard(id);
+      this.openCard(id, false);
     }
     this._board.loadBoardData();
   }
 
-  openCard(cardId: string) {
+  openCard(cardId: string, animated: boolean = true) {
     this._location.go('c/' + cardId);
     this._modal
       .createModal<CardDetailsData>(
@@ -68,7 +68,7 @@ export class BoardComponent implements OnInit {
         // Since the outlet is located in the AppComponent
         // but we need the state services, we must provide
         // the current injector.
-        { injector: this._injector },
+        { injector: this._injector, animated },
       )
       .closed.then(() => {
         this._location.go('/');

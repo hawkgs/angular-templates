@@ -9,6 +9,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'kb-new-card-input',
@@ -19,6 +20,8 @@ import {
 })
 export class NewCardInputComponent implements AfterViewInit {
   private _renderer = inject(Renderer2);
+
+  env = environment;
 
   cardCreator = signal<boolean>(false);
   textarea = viewChild<ElementRef>('textarea');
