@@ -50,12 +50,14 @@ export class InteractiveTitleComponent implements AfterViewInit {
   }
 
   onTextareaBlur() {
-    const title = this.textarea().nativeElement.value;
+    const element = this.textarea().nativeElement;
+    const title = element.value.trim();
 
     if (title) {
       this.titleBlur.emit(title);
+      element.value = title;
     } else {
-      this.textarea().nativeElement.value = this.value();
+      element.value = this.value();
     }
   }
 

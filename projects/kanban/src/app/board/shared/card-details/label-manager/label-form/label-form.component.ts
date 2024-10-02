@@ -16,7 +16,7 @@ import { environment } from '../../../../../../environments/environment';
 export class LabelFormComponent {
   private _formBuilder = inject(FormBuilder);
   form = this._formBuilder.group({
-    name: ['', Validators.required],
+    name: ['', [Validators.required, Validators.pattern(/\S+/)]],
     color: ['', Validators.required],
   });
 
@@ -40,7 +40,7 @@ export class LabelFormComponent {
     this.formSubmit.emit(
       new Label({
         id: this._id,
-        name: name!,
+        name: name!.trim(),
         color: color!,
       }),
     );

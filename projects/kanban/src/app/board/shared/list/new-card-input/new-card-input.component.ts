@@ -35,7 +35,7 @@ export class NewCardInputComponent implements AfterViewInit {
   }
 
   createCard() {
-    const title = this.textarea()?.nativeElement.value;
+    const title = this.textarea()?.nativeElement.value.trim();
     if (title) {
       this.cardCreate.emit(title);
     }

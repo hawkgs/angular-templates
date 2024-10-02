@@ -23,7 +23,7 @@ export class AddListComponent {
   private _formBuilder = inject(FormBuilder);
 
   form = this._formBuilder.group({
-    name: ['', Validators.required],
+    name: ['', [Validators.required, Validators.pattern(/\S+/)]],
   });
 
   listCreator = signal<boolean>(false);
@@ -44,7 +44,7 @@ export class AddListComponent {
     this.listCreator.set(false);
 
     const name = this.form.value.name as string;
-    this.listCreate.emit(name);
+    this.listCreate.emit(name.trim());
 
     this.form.reset();
   }
