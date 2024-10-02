@@ -15,7 +15,7 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    padding: 8px;
+    padding: $list-padding;
 
     kb-interactive-title {
       --font-weight: bold;
@@ -49,11 +49,11 @@
     padding: 0 8px;
 
     .new-card-top {
-      margin-bottom: 8px;
+      margin-bottom: $list-padding;
     }
 
     .new-card-bottom {
-      margin-top: 8px;
+      margin-top: $list-padding;
     }
 
     .empty-list {
@@ -62,7 +62,7 @@
   }
 
   .add-btn-wrapper {
-    padding: 8px;
+    padding: $list-padding;
 
     .add-card-bottom {
       background-color: transparent;

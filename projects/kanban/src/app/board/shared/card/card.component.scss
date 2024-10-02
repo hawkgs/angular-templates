@@ -1,3 +1,4 @@
+@import '../styles/variables';
 @import '../styles/card';
 
 :host {
@@ -7,7 +8,8 @@
     @extend %card-container;
     cursor: pointer;
     text-align: left;
-    word-break: break-all;
+    max-width: $card-max-width;
+    word-wrap: break-word;
 
     .labels {
       display: flex;

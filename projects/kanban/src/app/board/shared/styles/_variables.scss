@@ -1,4 +1,6 @@
 $list-width: 275px;
+$list-padding: 8px;
+$card-max-width: $list-width - 2 * $list-padding - 2px; // 2px for the borders
 $list-border-radius: 0.2rem;
 
 /* This represents the absolute height of the header */
