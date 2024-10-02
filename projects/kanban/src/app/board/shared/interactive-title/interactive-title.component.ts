@@ -30,6 +30,7 @@ export class InteractiveTitleComponent implements AfterViewInit {
   textarea = viewChild.required<ElementRef>('textarea');
 
   value = input.required<string>();
+  title = input.required<string>();
   maxLength = input<number>(DEFAULT_MAX_LENGTH);
   titleBlur = output<string>();
 

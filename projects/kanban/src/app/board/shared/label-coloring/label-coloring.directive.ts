@@ -2,8 +2,8 @@ import { Directive, effect, ElementRef, input, Renderer2 } from '@angular/core';
 import { Label } from '../../../../models';
 import { LABEL_COLORS } from './label-colors';
 
-const GREY_900 = '#151417';
-const GREY_50 = '#fbfbfb';
+const BLACK = '#000';
+const WHITE = '#fff';
 
 @Directive({
   selector: '[kbLabelColoring]',
@@ -16,7 +16,7 @@ export class LabelColoringDirective {
     effect(() => {
       const el = nativeElement;
       const color = LABEL_COLORS.get(this.label().color);
-      const text = color?.light ? GREY_900 : GREY_50;
+      const text = color?.light ? BLACK : WHITE;
 
       renderer.setStyle(el, 'background-color', color?.hex);
       renderer.setStyle(el, 'color', text);

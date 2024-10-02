@@ -3,6 +3,7 @@
   rows="1"
   #textarea
   [maxLength]="maxLength()"
+  [title]="title()"
   (blur)="onTextareaBlur()"
   (keydown)="onTextareaKeydown($event)"
   (input)="setHeight()"

@@ -3,6 +3,7 @@
     [value]="list().name"
     (titleBlur)="updateName($event)"
     [maxLength]="env.listNameMaxLength"
+    title="List name input"
   ></kb-interactive-title>
   <div class="controls">
     <button (click)="cardCreator.set('top')" title="Add a card">

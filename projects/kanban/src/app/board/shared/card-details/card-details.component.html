@@ -4,6 +4,7 @@
       [value]="card().title"
       [maxLength]="env.cardTitleMaxLength"
       (titleBlur)="updateTitle($event)"
+      title="Card title input"
     ></kb-interactive-title>
     <button (click)="ctrl.close()">
       <ngx-icon name="Close" size="md"></ngx-icon>
