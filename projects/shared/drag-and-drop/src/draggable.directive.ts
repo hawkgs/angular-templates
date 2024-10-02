@@ -15,9 +15,8 @@ import {
 } from '@angular/core';
 import { WINDOW, windowProvider } from '@ngx-templates/shared/services';
 import { DROP_GRID } from './drop-grid.component';
-
-export type Coor = { x: number; y: number };
-export type Rect = { p1: Coor; p2: Coor };
+import { Coor, Rect } from './types';
+import { getClientPointerPos } from './utils';
 
 // The duration of the rappel animation after the
 // user has released the draggable element.
@@ -30,18 +29,6 @@ const DRAG_ACTIVE_AFTER = 200;
 
 // The level of the opacity while the target is being dragged.
 const DRAG_OPACITY = 0.8;
-
-// Returns the coordinates of the mouse/finger
-// based on the event type.
-const getClientPointerPos = (e: MouseEvent | TouchEvent): Coor => {
-  if (e instanceof MouseEvent) {
-    return { x: e.clientX, y: e.clientY };
-  }
-  return {
-    x: e.touches[0].clientX,
-    y: e.touches[0].clientY,
-  };
-};
 
 /**
  * Adds draggable behavior to an element. Should be used as
@@ -187,9 +174,25 @@ export class DraggableDirective implements OnInit, OnDestroy {
         this._renderer.listen(this._doc, 'mouseup', dragEnd),
 
         this._renderer.listen(this._element, 'touchstart', dragStart),
-        this._renderer.listen(this._doc, 'touchmove', dragMove),
         this._renderer.listen(this._doc, 'touchend', dragEnd),
       ];
+
+      // Since we need to prevent panning on a mobile device
+      // while dragging but the default behavior of Renderer2.listen
+      // is to optimize `touchmove` event listeners by making them passive,
+      // we have to use the native API instead. This, obviously,
+      // presents a performance hit given that the listener is active
+      // but, if we prevent the default behavior on `touchstart`,
+      // we will block all subsequent click events originating from
+      // the draggable.
+      const listener = (e: Event) => {
+        e.preventDefault();
+        dragMove(e as TouchEvent);
+      };
+      this._element.addEventListener('touchmove', listener);
+      this._listeners.push(() =>
+        this._element.removeEventListener('touchmove', listener),
+      );
     });
   }
 
@@ -295,6 +298,7 @@ export class DraggableDirective implements OnInit, OnDestroy {
       width: size.x + 'px',
       height: size.y + 'px',
       'pointer-events': 'none',
+      'touch-action': 'none',
       'z-index': '99999999',
     });
 
@@ -316,6 +320,7 @@ export class DraggableDirective implements OnInit, OnDestroy {
       'width',
       'height',
       'pointer-events',
+      'touch-action',
       'user-select',
       'z-index',
     ]);

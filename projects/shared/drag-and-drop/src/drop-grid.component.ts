@@ -17,8 +17,9 @@ import {
   viewChild,
 } from '@angular/core';
 
-import { Coor, DraggableDirective, Rect } from './draggable.directive';
+import { DraggableDirective } from './draggable.directive';
 import { DROP_GRID_GROUP } from './drop-grid-group.directive';
+import { Coor, Rect } from './types';
 
 const DEFAULT_GRID_COLS = 4;
 const DEFAULT_CELL_GAP = 16;
