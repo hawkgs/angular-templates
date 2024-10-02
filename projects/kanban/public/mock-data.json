@@ -17,7 +17,7 @@
       },
       {
         "id": "ls4",
-        "name": "Completed"
+        "name": "Completed 🎉"
       }
     ],
     "labels": [
@@ -40,24 +40,61 @@
         "id": "l4",
         "name": "Bug",
         "color": "purple"
+      },
+      {
+        "id": "l5",
+        "name": "Dev",
+        "color": "blue"
       }
     ]
   },
   "cards": [
     {
       "id": "c1",
-      "title": "Do something",
+      "title": "Fix memory leaks occurring after the player is created",
       "listId": "ls1",
-      "description": "A description",
+      "description": "Needs further investigation",
       "pos": 1,
-      "labelIds": []
+      "labelIds": ["l4", "l2"]
     },
     {
       "id": "c2",
-      "title": "Drink a glass of cold water",
+      "title": "Implement weapons inventory",
       "listId": "ls1",
-      "description": "What the title says",
+      "description": "",
       "pos": 0,
+      "labelIds": ["l1", "l5"]
+    },
+    {
+      "id": "c3",
+      "title": "Attempt improving the view distance",
+      "listId": "ls1",
+      "description": "",
+      "pos": 2,
+      "labelIds": ["l3"]
+    },
+    {
+      "id": "c4",
+      "title": "Fix issue with player respawning upon reaching the boundaries of the map",
+      "listId": "ls2",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sodales dui quis velit pretium, sed egestas mauris faucibus. Morbi eget ligula lorem. Ut varius quam quis interdum pharetra. Vestibulum porttitor faucibus felis. Curabitur est augue, porta id nulla at, hendrerit fermentum ex. Vivamus placerat vel tortor vel auctor.",
+      "pos": 0,
+      "labelIds": ["l4"]
+    },
+    {
+      "id": "c5",
+      "title": "Implement collisions",
+      "listId": "ls3",
+      "description": "",
+      "pos": 0,
+      "labelIds": ["l1", "l5"]
+    },
+    {
+      "id": "c6",
+      "title": "Handle thrown objects and apply forces accordingly",
+      "listId": "ls3",
+      "description": "TBD",
+      "pos": 1,
       "labelIds": []
     }
   ]
