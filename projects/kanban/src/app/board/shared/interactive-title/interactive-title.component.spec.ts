@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { windowProvider } from '@ngx-templates/shared/services';
 
 import { InteractiveTitleComponent } from './interactive-title.component';
 
@@ -8,12 +9,14 @@ describe('InteractiveTitleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [InteractiveTitleComponent]
-    })
-    .compileComponents();
+      imports: [InteractiveTitleComponent],
+      providers: [windowProvider],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(InteractiveTitleComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('value', '');
+    fixture.componentRef.setInput('title', '');
     fixture.detectChanges();
   });
 

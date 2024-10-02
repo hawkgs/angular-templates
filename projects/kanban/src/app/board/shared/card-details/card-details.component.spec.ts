@@ -1,6 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { signal } from '@angular/core';
+import { List } from 'immutable';
+
+import { MODAL_DATA, ModalController } from '@ngx-templates/shared/modal';
+import { windowProvider } from '@ngx-templates/shared/services';
 
 import { CardDetailsComponent } from './card-details.component';
+import { CardsService } from '../../data-access/cards.service';
+import { mockFetchAndStateProvider } from '../../../shared/utils/mock-fetch-state-provider';
+import { LabelsService } from '../../data-access/labels.service';
 
 describe('CardDetailsComponent', () => {
   let component: CardDetailsComponent;
@@ -8,9 +16,24 @@ describe('CardDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CardDetailsComponent]
-    })
-    .compileComponents();
+      imports: [CardDetailsComponent],
+      providers: [
+        mockFetchAndStateProvider,
+        windowProvider,
+        {
+          provide: MODAL_DATA,
+          useValue: {
+            cardId: '',
+          },
+        },
+        {
+          provide: ModalController,
+          useValue: new ModalController(0, signal(List())),
+        },
+        CardsService,
+        LabelsService,
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CardDetailsComponent);
     component = fixture.componentInstance;

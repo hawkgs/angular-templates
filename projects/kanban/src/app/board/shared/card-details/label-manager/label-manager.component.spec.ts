@@ -1,6 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { signal } from '@angular/core';
+import { Set } from 'immutable';
+
+import {
+  CTX_MENU_DATA,
+  CtxMenuController,
+} from '@ngx-templates/shared/context-menu';
 
 import { LabelManagerComponent } from './label-manager.component';
+import { LabelsService } from '../../../data-access/labels.service';
+import { mockFetchAndStateProvider } from '../../../../shared/utils/mock-fetch-state-provider';
+import { CardsService } from '../../../data-access/cards.service';
 
 describe('LabelManagerComponent', () => {
   let component: LabelManagerComponent;
@@ -8,9 +18,24 @@ describe('LabelManagerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LabelManagerComponent]
-    })
-    .compileComponents();
+      imports: [LabelManagerComponent],
+      providers: [
+        mockFetchAndStateProvider,
+        {
+          provide: CtxMenuController,
+          useValue: new CtxMenuController(signal(null)),
+        },
+        {
+          provide: CTX_MENU_DATA,
+          useValue: {
+            cardId: '',
+            cardLabelsIds: signal(Set([])),
+          },
+        },
+        LabelsService,
+        CardsService,
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(LabelManagerComponent);
     component = fixture.componentInstance;
