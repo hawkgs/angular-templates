@@ -113,6 +113,7 @@
         border: 2px solid transparent;
         border-radius: 0.25rem;
         resize: vertical;
+        max-height: 50vh;
         transition:
           background-color 200ms ease,
           border-color 200ms ease;

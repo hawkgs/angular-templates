@@ -3,7 +3,13 @@
     margin-bottom: 1.5rem;
   }
 
-  button:first-of-type {
-    margin-right: 0.5rem;
+  .options {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    button:first-of-type {
+      margin-right: 0.5rem;
+    }
   }
 }
