@@ -4,7 +4,7 @@
   display: block;
 
   .title {
-    @extend %heading-600;
+    @extend %heading-500;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -34,9 +34,19 @@
   }
 
   .content {
-    @extend %body-short-03;
+    @extend %body-short-02;
     max-height: 80vh;
     overflow-y: auto;
     overflow-x: hidden;
+  }
+
+  &.compact {
+    .title {
+      @extend %heading-600;
+    }
+
+    .content {
+      @extend %body-short-03;
+    }
   }
 }
