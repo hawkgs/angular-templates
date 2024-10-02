@@ -146,13 +146,11 @@ export class BoardComponent implements OnInit {
     const scrolled = Math.ceil(el.clientWidth + el.scrollLeft);
 
     if (dLeft >= 0 && el.scrollLeft > 0) {
-      console.log('scroll left');
       const speed = Math.min(dLeft / HSCRL_ACTIVE_AREA, HSCRL_MAX_SPEED);
       this._scrollInterval = setInterval(() => {
         el.scrollTo(el.scrollLeft - HSCRL_STEP * speed, 0);
       });
     } else if (dRight >= 0 && el.scrollWidth > scrolled) {
-      console.log('scroll right');
       const speed = Math.min(dRight / HSCRL_ACTIVE_AREA, HSCRL_MAX_SPEED);
       this._scrollInterval = setInterval(() => {
         el.scrollTo(el.scrollLeft + HSCRL_STEP * speed, 0);
