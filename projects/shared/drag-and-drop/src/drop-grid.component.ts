@@ -25,6 +25,40 @@ const DEFAULT_CELL_GAP = 16;
 
 const MOUSEOVER_DELAY = 150;
 
+// The size of the active area where the auto
+// scroll is activated.
+const HSCRL_ACTIVE_AREA = 50;
+
+// The size of the maximal scroll step (in pixels)
+// that can be reached during scroll.
+const HSCRL_STEP = 5;
+
+// The speed of the scroll is based on how deep
+// inside the active area the mouse cursor is
+// (continuous interval [0-1]). This constant
+// controls how big the step size can become.
+// Along with HSCRL_STEP, they determine how
+// fast the auto scroll is.
+const HSCRL_MAX_SPEED = 0.5;
+
+export type MovedEvent = {
+  id: string;
+  pos: number;
+  affected: { id: string; pos: number }[];
+};
+
+export type DragEvent = {
+  id: string;
+  /**
+   * - `start` – A draggable has been pulled
+   * - `move` – A draggable is being moved
+   * - `drop` – A draggable has been dropped
+   * - `anchored` – A draggable has been anchored to its slot (animation completed)
+   */
+  state: 'start' | 'move' | 'drop' | 'anchored';
+  pos?: Coor;
+};
+
 // Represents a grid cell in our spacial grid
 type GridCell = {
   id: string;
@@ -83,11 +117,13 @@ export class DropGridComponent implements AfterViewInit {
    * Emits an event when a draggable has been moved and
    * returns the new positions of all affected items.
    */
-  moved = output<{
-    id: string;
-    pos: number;
-    affected: { id: string; pos: number }[];
-  }>();
+  moved = output<MovedEvent>();
+
+  /**
+   * Emits events throughout drag lifecycle.
+   * Runs outside of NgZone.
+   */
+  drag = output<DragEvent>();
 
   /**
    * Set the scroll container of the drop grid. If not set,
@@ -138,6 +174,10 @@ export class DropGridComponent implements AfterViewInit {
   private _spacialGrid: GridCell[] = [];
   private _viewIdxHover = 0; // Index of the currently hovered `ViewRef`
   private _disabled = false;
+
+  // Scrolling/Auto scrolling
+  private _scrollContRect: Rect = { p1: { x: 0, y: 0 }, p2: { x: 0, y: 0 } };
+  private _scrollInterval?: ReturnType<typeof setInterval>;
 
   // Used for groups; Keeps a function that triggers `moved` event
   // on the former host after a draggable handover is completed
@@ -294,6 +334,9 @@ export class DropGridComponent implements AfterViewInit {
     this._viewIdxHover = viewIdx;
 
     this._calculateSpacialGrid();
+    this._calculateScrollContRect();
+
+    this.drag.emit({ id, state: 'start' });
   }
 
   onDrag({ pos, rect }: { pos: Coor; rect: Rect }) {
@@ -324,6 +367,11 @@ export class DropGridComponent implements AfterViewInit {
     }
 
     this._scrollContainer(rect);
+    this.drag.emit({
+      id: this._draggedId!,
+      state: 'move',
+      pos,
+    });
   }
 
   onDrop(e: { id: string }) {
@@ -337,6 +385,8 @@ export class DropGridComponent implements AfterViewInit {
     this._zone.run(() => {
       this._draggablesDirectives.get(e.id)?.anchor.set({ x, y });
     });
+
+    this.drag.emit({ id: e.id, state: 'drop' });
   }
 
   onAnchored() {
@@ -368,6 +418,11 @@ export class DropGridComponent implements AfterViewInit {
       // this._exHostPosNotifier();
       this._exHostPosNotifier = null;
     }
+
+    this.drag.emit({
+      id: this._draggedId!,
+      state: 'anchored',
+    });
   }
 
   /**
@@ -461,6 +516,7 @@ export class DropGridComponent implements AfterViewInit {
     this._subscribeToDraggableEvents(directive);
 
     this._calculateSpacialGrid();
+    this._calculateScrollContRect();
 
     // Set the default position/index of the slot to 0
     const gridVcr = this.gridVcr();
@@ -531,10 +587,10 @@ export class DropGridComponent implements AfterViewInit {
    */
   private _subscribeToDraggableEvents(d: DraggableDirective) {
     const unsubscribers = [
-      d.dragStart.subscribe((e) => this.onDragStart(e)),
-      d.dragMove.subscribe((e) => this.onDrag(e)),
-      d.drop.subscribe((e) => this.onDrop(e)),
-      d.anchored.subscribe(() => this.onAnchored()),
+      d._dragStart.subscribe((e) => this.onDragStart(e)),
+      d._dragMove.subscribe((e) => this.onDrag(e)),
+      d._drop.subscribe((e) => this.onDrop(e)),
+      d._anchored.subscribe(() => this.onAnchored()),
     ];
 
     const unsubscribeFn = () => unsubscribers.forEach((fn) => fn.unsubscribe());
@@ -544,26 +600,35 @@ export class DropGridComponent implements AfterViewInit {
 
   /**
    * Scroll the `scrollCont` up or down the page, if a draggable is
-   * dragged to the top or bottom of the viewport.
+   * dragged to the top or the bottom of the scroll container.
+   * a.k.a. Auto scrolling
+   *
+   * Horizontal scroll should be handled separately by the developer.
    *
    * @param draggableRect
    */
-  private _scrollContainer(draggableRect: Rect) {
-    // Note(Georgi): Might require some UX improvements
+  private _scrollContainer({ p1, p2 }: Rect) {
+    if (this._scrollInterval) {
+      clearInterval(this._scrollInterval);
+    }
 
-    const deltaBottomY = draggableRect.p2.y - this._scrollCont.clientHeight;
+    const yCenter = (p2.y - p1.y) / 2 + p1.y;
+    const yTop = yCenter - this._scrollContRect.p1.y;
+    const yBottom = this._scrollContRect?.p2.y - yCenter;
+    const dTop = HSCRL_ACTIVE_AREA - yTop;
+    const dBottom = HSCRL_ACTIVE_AREA - yBottom;
+    const cont = this._scrollCont;
+    const scrolled = Math.ceil(cont.clientHeight + cont.scrollTop);
 
-    if (deltaBottomY > 0) {
-      // Scroll down
-      this._scrollCont.scrollTo({
-        top: this._scrollCont.scrollTop + deltaBottomY,
-        behavior: 'smooth',
+    if (dTop >= 0 && cont.scrollTop > 0) {
+      const speed = Math.min(dTop / HSCRL_ACTIVE_AREA, HSCRL_MAX_SPEED);
+      this._scrollInterval = setInterval(() => {
+        cont.scrollTo(0, cont.scrollTop - HSCRL_STEP * speed);
       });
-    } else if (draggableRect.p1.y < 0) {
-      // Scroll up
-      this._scrollCont.scrollTo({
-        top: this._scrollCont.scrollTop - Math.abs(draggableRect.p1.y),
-        behavior: 'smooth',
+    } else if (dBottom >= 0 && cont.scrollHeight > scrolled) {
+      const speed = Math.min(dBottom / HSCRL_ACTIVE_AREA, HSCRL_MAX_SPEED);
+      this._scrollInterval = setInterval(() => {
+        cont.scrollTo(0, cont.scrollTop + HSCRL_STEP * speed);
       });
     }
   }
@@ -724,5 +789,19 @@ export class DropGridComponent implements AfterViewInit {
     this._draggablesViewRefs.delete(id);
     const orderedIdx = this._orderedDirectives.findIndex((d) => d.id() === id);
     this._orderedDirectives.splice(orderedIdx, 1);
+  }
+
+  /**
+   * Required for the auto scrolling.
+   * Should be called once the drag starts or a handover is performed.
+   */
+  private _calculateScrollContRect() {
+    const { top, left, bottom, right } =
+      this._scrollCont.getBoundingClientRect();
+
+    this._scrollContRect = {
+      p1: { x: left, y: top },
+      p2: { x: right, y: bottom },
+    };
   }
 }

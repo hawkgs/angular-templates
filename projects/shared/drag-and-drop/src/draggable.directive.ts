@@ -100,16 +100,16 @@ export class DraggableDirective implements OnInit, OnDestroy {
   anchor = signal<Coor | null>(null);
 
   /**
-   * Emitted when the drag is started.
+   * INTERNAL USE ONLY. Emitted when the drag starts.
    *
    * - `elContPos` represents the relative to the viewport top-left
    * coordinates of the draggable target
    * - `id` is the ID of the draggable
    */
-  dragStart = output<{ elContPos: Coor; rect: Rect; id: string }>();
+  _dragStart = output<{ elContPos: Coor; rect: Rect; id: string }>();
 
   /**
-   * Emitted on drag move.
+   * INTERNAL USE ONLY. Emitted on drag move.
    *
    * - `pos` represents the relative to the viewport mid/center coordinates
    * of the draggable target
@@ -117,17 +117,18 @@ export class DraggableDirective implements OnInit, OnDestroy {
    * draggable target
    * - `id` is the ID of the draggable
    */
-  dragMove = output<{ pos: Coor; rect: Rect; id: string }>();
+  _dragMove = output<{ pos: Coor; rect: Rect; id: string }>();
 
   /**
-   * Emitted when the draggable is dropped.
+   * INTERNAL USE ONLY. Emitted when the draggable is dropped.
    */
-  drop = output<{ id: string }>();
+  _drop = output<{ id: string }>();
 
   /**
-   * Emitted when the drop animation is completed (i.e. the target is now anchored)
+   * INTERNAL USE ONLY. Emitted when the drop animation is completed,
+   * i.e. the target is now anchored
    */
-  anchored = output<void>();
+  _anchored = output<void>();
 
   /**
    * Native element of the draggable target.
@@ -223,7 +224,7 @@ export class DraggableDirective implements OnInit, OnDestroy {
         };
       }
 
-      this.dragStart.emit({
+      this._dragStart.emit({
         id: this.id(),
         elContPos: pos,
         rect: {
@@ -258,7 +259,7 @@ export class DraggableDirective implements OnInit, OnDestroy {
 
     this._move(pos);
 
-    this.dragMove.emit({
+    this._dragMove.emit({
       pos: {
         x: pos.x + this._elMidpoint!.x,
         y: pos.y + this._elMidpoint!.y,
@@ -279,7 +280,7 @@ export class DraggableDirective implements OnInit, OnDestroy {
       clearTimeout(this._dragActivatorTimeout);
     }
     if (this._dragging) {
-      this.drop.emit({ id: this.id() });
+      this._drop.emit({ id: this.id() });
       this._moveToAnchorPos();
       this._dragging = false;
     }
@@ -338,7 +339,7 @@ export class DraggableDirective implements OnInit, OnDestroy {
     const anchor = this.anchor();
     if (!anchor) {
       this._removeStyles(['opacity']);
-      this.anchored.emit();
+      this._anchored.emit();
       return;
     }
 
@@ -352,7 +353,7 @@ export class DraggableDirective implements OnInit, OnDestroy {
 
     setTimeout(() => {
       this._removeDraggableStyles();
-      this.anchored.emit();
+      this._anchored.emit();
     }, RAPPEL_ANIM_DURR);
   }
 
