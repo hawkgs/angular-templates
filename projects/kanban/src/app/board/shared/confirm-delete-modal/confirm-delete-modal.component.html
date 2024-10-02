@@ -3,11 +3,11 @@
   <ng-container content>
     <p>Are you sure you want to remove the {{ data.entity }}?</p>
     <div class="options">
-      <button ngx-button btnType="secondary" (click)="ctrl.close(true)">
-        Yes
+      <button ngx-button btnType="danger" (click)="ctrl.close(true)">
+        Yes, delete it
       </button>
-      <button ngx-button btnType="primary" (click)="ctrl.close(false)">
-        No, keep it
+      <button ngx-button btnType="secondary" (click)="ctrl.close(false)">
+        No
       </button>
     </div>
   </ng-container>

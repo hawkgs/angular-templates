@@ -8,8 +8,8 @@ const LOREM_IPSUM =
  */
 export const geminiApiMock: MockFn = (
   _: string,
-  __?: string,
-  body?: { [key: string]: string },
+  __: string,
+  body: { [key: string]: string } | null,
 ) => {
   const prompt = body ? body['prompt'] || '' : '';
 
