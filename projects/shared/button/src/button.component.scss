@@ -24,12 +24,10 @@
     font-size: 1rem;
   }
 
-  &.primary-btn {
-    background: var(--gradient-orange-to-violet);
+  &.primary-btn,
+  &.danger-btn {
     border: 1px solid transparent;
     color: var(--color-bg);
-    background-size: 200%;
-    background-position: 50%;
     transition:
       background-color 300ms ease,
       background-position 300ms ease,
@@ -44,6 +42,12 @@
     &[disabled] {
       background: var(--color-quinary);
     }
+  }
+
+  &.primary-btn {
+    background: var(--gradient-orange-to-violet);
+    background-size: 200%;
+    background-position: 50%;
   }
 
   &.secondary-btn {
@@ -61,5 +65,11 @@
     &[disabled] {
       color: var(--color-quinary);
     }
+  }
+
+  &.danger-btn {
+    background: var(--gradient-red-to-darkred);
+    background-size: 200%;
+    background-position: 50%;
   }
 }
