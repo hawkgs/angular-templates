@@ -39,14 +39,4 @@
     overflow-y: auto;
     overflow-x: hidden;
   }
-
-  &.compact {
-    .title {
-      @extend %heading-600;
-    }
-
-    .content {
-      @extend %body-short-03;
-    }
-  }
 }
