@@ -7,7 +7,7 @@ export const fetchApiMockAndStateProvider = [
   provideFetchApi(
     withFetchMock(kanbanRequestResponseMock, {
       logging: false,
-      requestDelay: 0,
+      responseDelay: 0,
     }),
   ),
   provideBoardState(),

@@ -5,6 +5,6 @@ import { ecommerceRequestResponseMock } from './ec-request-response-mock';
 export const fetchApiMockProvider = provideFetchApi(
   withFetchMock(ecommerceRequestResponseMock, {
     logging: false,
-    requestDelay: 0,
+    responseDelay: 0,
   }),
 );

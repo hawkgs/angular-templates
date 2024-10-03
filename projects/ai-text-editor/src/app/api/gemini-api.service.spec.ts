@@ -8,7 +8,7 @@ describe('GeminiApi', () => {
     TestBed.configureTestingModule({
       providers: [
         provideFetchApi(
-          withFetchMock(geminiApiMock, { logging: false, requestDelay: 0 }),
+          withFetchMock(geminiApiMock, { logging: false, responseDelay: 0 }),
         ),
         GeminiApi,
       ],

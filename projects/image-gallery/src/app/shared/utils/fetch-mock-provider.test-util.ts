@@ -5,6 +5,6 @@ import { imgGalleryRequestResponseMock } from './ig-request-response-mock';
 export const fetchApiMockProvider = provideFetchApi(
   withFetchMock(imgGalleryRequestResponseMock, {
     logging: false,
-    requestDelay: 0,
+    responseDelay: 0,
   }),
 );

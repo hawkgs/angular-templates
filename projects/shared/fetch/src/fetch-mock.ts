@@ -37,7 +37,7 @@ function simulateRequest(
         ok: true,
         json: () => Promise.resolve(jsonData),
       } as Response);
-    }, config.requestDelay);
+    }, config.responseDelay);
   });
 }
 
@@ -46,9 +46,9 @@ function simulateRequest(
  */
 export type FetchMockConfig = {
   /**
-   * Delay of the request response in milliseconds (Default: `200`)
+   * Delay of the request response; in milliseconds (Default: `200`)
    */
-  requestDelay: number;
+  responseDelay: number;
 
   /**
    * Print the requests and their responses in the console (Default: `true`)
@@ -57,7 +57,7 @@ export type FetchMockConfig = {
 };
 
 const DEFAULT_CFG: FetchMockConfig = {
-  requestDelay: 200,
+  responseDelay: 200,
   logging: true,
 };
 
