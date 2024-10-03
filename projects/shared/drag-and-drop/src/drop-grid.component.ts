@@ -788,8 +788,11 @@ export class DropGridComponent implements AfterViewInit {
   private _cleanAllReferences(id: string) {
     this._draggablesDirectives.delete(id);
     this._draggablesViewRefs.delete(id);
+
     const orderedIdx = this._orderedDirectives.findIndex((d) => d.id() === id);
-    this._orderedDirectives.splice(orderedIdx, 1);
+    if (orderedIdx > -1) {
+      this._orderedDirectives.splice(orderedIdx, 1);
+    }
   }
 
   /**
