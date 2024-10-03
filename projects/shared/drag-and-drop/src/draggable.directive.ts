@@ -26,6 +26,7 @@ const RAPPEL_ANIM_DURR = 300;
 // The drag functionality will be activated after the specified
 // time, if the user is still holding the element.
 const DRAG_ACTIVE_AFTER = 200;
+const DRAG_ACTIVE_AFTER_TOUCH = 1000;
 
 // The level of the opacity while the target is being dragged.
 const DRAG_OPACITY = 0.8;
@@ -203,6 +204,10 @@ export class DraggableDirective implements OnInit, OnDestroy {
 
     this._firefoxUserSelectMouseEventsPatch();
 
+    const activationDelay = !this._hasTouchSupport()
+      ? DRAG_ACTIVE_AFTER
+      : DRAG_ACTIVE_AFTER_TOUCH;
+
     this._dragActivatorTimeout = setTimeout(() => {
       this._dragging = true;
 
@@ -238,7 +243,7 @@ export class DraggableDirective implements OnInit, OnDestroy {
           },
         },
       });
-    }, DRAG_ACTIVE_AFTER);
+    }, activationDelay);
   }
 
   private _onDragMove(e: MouseEvent | TouchEvent) {
@@ -373,6 +378,12 @@ export class DraggableDirective implements OnInit, OnDestroy {
   /** Remove styles from the target element */
   private _removeStyles(cssProps: string[]) {
     cssProps.forEach((p) => this._renderer.removeStyle(this._element, p));
+  }
+
+  private _hasTouchSupport() {
+    return (
+      'ontouchstart' in this._win || this._win.navigator.maxTouchPoints > 0
+    );
   }
 
   /**
