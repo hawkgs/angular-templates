@@ -4,6 +4,11 @@ import { provideBoardState } from '../../board/data-access/board-state.provider'
 
 // User for testing
 export const mockFetchAndStateProvider = [
-  provideFetchApi(withFetchMock(kanbanRequestResponseMock)),
+  provideFetchApi(
+    withFetchMock(kanbanRequestResponseMock, {
+      logging: false,
+      requestDelay: 0,
+    }),
+  ),
   provideBoardState(),
 ];
