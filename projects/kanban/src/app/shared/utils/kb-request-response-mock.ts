@@ -234,7 +234,6 @@ export const kanbanRequestResponseMock: MockFn = (
           id: c.id,
           title: c.title,
           labelIds: c.labelIds,
-          p: c.pos,
         })),
     })),
   });
