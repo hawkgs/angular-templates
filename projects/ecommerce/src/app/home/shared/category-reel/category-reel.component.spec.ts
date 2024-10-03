@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router';
 
 import { CategoryReelComponent } from './category-reel.component';
 import { Category } from '../../../../models';
-import { fetchApiMockProvider } from '../../../shared/utils/fetch-mock-provider';
+import { fetchApiMockProvider } from '../../../shared/utils/fetch-mock-provider.test-util';
 
 describe('CategoryReelComponent', () => {
   let component: CategoryReelComponent;

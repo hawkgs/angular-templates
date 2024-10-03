@@ -8,7 +8,7 @@ import { ProductsService } from '../../data-access/products.service';
 import { CategoriesService } from '../../data-access/categories.service';
 import { CartService } from '../../data-access/cart.service';
 import { Product } from '../../../models';
-import { fetchApiMockProvider } from '../../shared/utils/fetch-mock-provider';
+import { fetchApiMockProvider } from '../../shared/utils/fetch-mock-provider.test-util';
 
 describe('ProductDetailsComponent', () => {
   let component: ProductDetailsComponent;

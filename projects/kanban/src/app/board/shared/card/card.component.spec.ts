@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CardComponent } from './card.component';
 import { LabelsService } from '../../data-access/labels.service';
-import { mockFetchAndStateProvider } from '../../../shared/utils/mock-fetch-state-provider';
+import { fetchApiMockAndStateProvider } from '../../../shared/utils/fetch-mock-provider.test-util';
 import { Card } from '../../../../models';
 
 describe('CardComponent', () => {
@@ -12,7 +12,7 @@ describe('CardComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CardComponent],
-      providers: [mockFetchAndStateProvider, LabelsService],
+      providers: [fetchApiMockAndStateProvider, LabelsService],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CardComponent);

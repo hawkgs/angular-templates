@@ -9,7 +9,7 @@ import {
 
 import { LabelManagerComponent } from './label-manager.component';
 import { LabelsService } from '../../../data-access/labels.service';
-import { mockFetchAndStateProvider } from '../../../../shared/utils/mock-fetch-state-provider';
+import { fetchApiMockAndStateProvider } from '../../../../shared/utils/fetch-mock-provider.test-util';
 import { CardsService } from '../../../data-access/cards.service';
 
 describe('LabelManagerComponent', () => {
@@ -20,7 +20,7 @@ describe('LabelManagerComponent', () => {
     await TestBed.configureTestingModule({
       imports: [LabelManagerComponent],
       providers: [
-        mockFetchAndStateProvider,
+        fetchApiMockAndStateProvider,
         {
           provide: CtxMenuController,
           useValue: new CtxMenuController(signal(null)),

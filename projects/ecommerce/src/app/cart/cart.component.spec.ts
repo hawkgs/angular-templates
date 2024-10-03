@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CartComponent } from './cart.component';
 import { CartService } from '../data-access/cart.service';
-import { fetchApiMockProvider } from '../shared/utils/fetch-mock-provider';
+import { fetchApiMockProvider } from '../shared/utils/fetch-mock-provider.test-util';
 
 describe('CartComponent', () => {
   let component: CartComponent;

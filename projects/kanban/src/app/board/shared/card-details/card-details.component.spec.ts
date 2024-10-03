@@ -7,7 +7,7 @@ import { windowProvider } from '@ngx-templates/shared/services';
 
 import { CardDetailsComponent } from './card-details.component';
 import { CardsService } from '../../data-access/cards.service';
-import { mockFetchAndStateProvider } from '../../../shared/utils/mock-fetch-state-provider';
+import { fetchApiMockAndStateProvider } from '../../../shared/utils/fetch-mock-provider.test-util';
 import { LabelsService } from '../../data-access/labels.service';
 
 describe('CardDetailsComponent', () => {
@@ -18,7 +18,7 @@ describe('CardDetailsComponent', () => {
     await TestBed.configureTestingModule({
       imports: [CardDetailsComponent],
       providers: [
-        mockFetchAndStateProvider,
+        fetchApiMockAndStateProvider,
         windowProvider,
         {
           provide: MODAL_DATA,

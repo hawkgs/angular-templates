@@ -3,7 +3,7 @@ import { LocalStorage } from '@ngx-templates/shared/services';
 import { FETCH_MOCK_STATE } from '@ngx-templates/shared/fetch';
 
 import { BoardsApi } from './boards-api.service';
-import { mockFetchAndStateProvider } from '../shared/utils/mock-fetch-state-provider';
+import { fetchApiMockAndStateProvider } from '../shared/utils/fetch-mock-provider.test-util';
 import { Board, BoardList, Label } from '../../models';
 
 const BOARD_ID = 'bd1';
@@ -15,7 +15,7 @@ describe('BoardsApiService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        mockFetchAndStateProvider,
+        fetchApiMockAndStateProvider,
         BoardsApi,
         // Our mock relies on LS and FETCH_MOCK_STATE. In
         // order to avoid any side effects, we are

@@ -3,7 +3,7 @@ import { windowProvider } from '@ngx-templates/shared/services';
 
 import { HomeComponent } from './home.component';
 import { CategoriesService } from '../data-access/categories.service';
-import { fetchApiMockProvider } from '../shared/utils/fetch-mock-provider';
+import { fetchApiMockProvider } from '../shared/utils/fetch-mock-provider.test-util';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;

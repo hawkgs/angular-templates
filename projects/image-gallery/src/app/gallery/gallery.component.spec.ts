@@ -3,7 +3,7 @@ import { windowProvider } from '@ngx-templates/shared/services';
 import { provideRouter } from '@angular/router';
 
 import { GalleryComponent } from './gallery.component';
-import { fetchApiMock } from '../shared/utils/fetch-mock';
+import { fetchApiMockProvider } from '../shared/utils/fetch-mock-provider.test-util';
 
 describe('GalleryComponent', () => {
   let component: GalleryComponent;
@@ -12,7 +12,7 @@ describe('GalleryComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [GalleryComponent],
-      providers: [provideRouter([]), fetchApiMock, windowProvider],
+      providers: [provideRouter([]), fetchApiMockProvider, windowProvider],
     }).compileComponents();
 
     fixture = TestBed.createComponent(GalleryComponent);

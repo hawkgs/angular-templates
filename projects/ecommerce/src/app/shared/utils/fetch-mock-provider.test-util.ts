@@ -1,6 +1,10 @@
 import { withFetchMock, provideFetchApi } from '@ngx-templates/shared/fetch';
 import { ecommerceRequestResponseMock } from './ec-request-response-mock';
 
+// Used for testing
 export const fetchApiMockProvider = provideFetchApi(
-  withFetchMock(ecommerceRequestResponseMock),
+  withFetchMock(ecommerceRequestResponseMock, {
+    logging: false,
+    requestDelay: 0,
+  }),
 );

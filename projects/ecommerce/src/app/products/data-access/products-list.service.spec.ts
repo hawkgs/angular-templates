@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ProductsListService } from './products-list.service';
 import { Product } from '../../../models';
-import { fetchApiMockProvider } from '../../shared/utils/fetch-mock-provider';
+import { fetchApiMockProvider } from '../../shared/utils/fetch-mock-provider.test-util';
 
 const getPrice = (p: Product | undefined): number =>
   p?.discountPrice || p?.price || 0;

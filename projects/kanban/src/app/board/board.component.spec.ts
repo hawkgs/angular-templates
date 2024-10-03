@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router';
 import { windowProvider } from '@ngx-templates/shared/services';
 
 import { BoardComponent } from './board.component';
-import { mockFetchAndStateProvider } from '../shared/utils/mock-fetch-state-provider';
+import { fetchApiMockAndStateProvider } from '../shared/utils/fetch-mock-provider.test-util';
 
 describe('BoardComponent', () => {
   let component: BoardComponent;
@@ -12,7 +12,11 @@ describe('BoardComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [BoardComponent],
-      providers: [provideRouter([]), mockFetchAndStateProvider, windowProvider],
+      providers: [
+        provideRouter([]),
+        fetchApiMockAndStateProvider,
+        windowProvider,
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(BoardComponent);

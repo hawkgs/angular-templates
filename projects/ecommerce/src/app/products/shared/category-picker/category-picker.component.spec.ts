@@ -4,7 +4,7 @@ import { provideRouter } from '@angular/router';
 
 import { CategoryPickerComponent } from './category-picker.component';
 import { CategoriesService } from '../../../data-access/categories.service';
-import { fetchApiMockProvider } from '../../../shared/utils/fetch-mock-provider';
+import { fetchApiMockProvider } from '../../../shared/utils/fetch-mock-provider.test-util';
 
 describe('CategoryPickerComponent', () => {
   let component: CategoryPickerComponent;

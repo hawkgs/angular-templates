@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ListComponent } from './list.component';
 import { CardsService } from '../../data-access/cards.service';
-import { mockFetchAndStateProvider } from '../../../shared/utils/mock-fetch-state-provider';
+import { fetchApiMockAndStateProvider } from '../../../shared/utils/fetch-mock-provider.test-util';
 import { ListsService } from '../../data-access/lists.service';
 import { windowProvider } from '../../../../../../../dist/shared/services';
 import { BoardList } from '../../../../models';
@@ -15,7 +15,7 @@ describe('ListComponent', () => {
     await TestBed.configureTestingModule({
       imports: [ListComponent],
       providers: [
-        mockFetchAndStateProvider,
+        fetchApiMockAndStateProvider,
         windowProvider,
         CardsService,
         ListsService,

@@ -4,7 +4,7 @@ import { provideRouter } from '@angular/router';
 import { ProductItemComponent } from './product-item.component';
 import { CategoriesService } from '../../data-access/categories.service';
 import { Product } from '../../../models';
-import { fetchApiMockProvider } from '../utils/fetch-mock-provider';
+import { fetchApiMockProvider } from '../utils/fetch-mock-provider.test-util';
 
 describe('ProductItemComponent', () => {
   let component: ProductItemComponent;

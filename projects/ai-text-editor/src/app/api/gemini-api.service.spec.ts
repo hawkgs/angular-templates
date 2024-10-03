@@ -6,7 +6,12 @@ import { geminiApiMock } from '../shared/utils/gemini-api-mock';
 describe('GeminiApi', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideFetchApi(withFetchMock(geminiApiMock)), GeminiApi],
+      providers: [
+        provideFetchApi(
+          withFetchMock(geminiApiMock, { logging: false, requestDelay: 0 }),
+        ),
+        GeminiApi,
+      ],
     });
   });
 
