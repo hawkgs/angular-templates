@@ -1,7 +1,7 @@
 // Represents a Fetch API mock created
 // purely for demo purposes.
 
-import { Injector } from '@angular/core';
+import { InjectionToken, Injector, Provider } from '@angular/core';
 
 type LogFn = (msg: string, obj?: object) => void;
 
@@ -86,7 +86,9 @@ export const withFetchMock = (
   // Used for logging the operation in the console
   const log = (msg: string, obj?: object) => {
     if (fullCfg?.logging) {
-      console.info('Fetch API Mock:', msg, obj || '');
+      const prefix = msg[0] !== '*';
+      msg = prefix ? msg : msg.slice(1);
+      console.info(prefix ? 'Fetch API Mock:' : '', msg.trim(), obj || '');
     }
   };
 
@@ -94,7 +96,7 @@ export const withFetchMock = (
     (url: string | URL | Request, options?: RequestInit): Promise<Response> => {
       const method = options?.method || 'GET';
 
-      console.log(''); // Add some spacing in the console
+      log('*'); // Add some spacing in the console
       log(`Executing request ${method} ${url}`);
 
       const body = options?.body ? JSON.parse(options.body as string) : null;
@@ -110,3 +112,15 @@ export const withFetchMock = (
       );
     };
 };
+
+export const FETCH_MOCK_STATE = new InjectionToken<{ state: unknown }>(
+  'FETCH_MOCK_STATE',
+);
+
+/**
+ * Provide, if your Fetch API mock is stateful and uses `FETCH_MOCK_STATE`.
+ */
+export const provideFetchMockState = (): Provider => ({
+  provide: FETCH_MOCK_STATE,
+  useValue: { state: null },
+});
