@@ -20,6 +20,8 @@
     kb-interactive-title {
       --font-weight: bold;
       --vertical-padding: 4px;
+      --width: #{$list-name-input-width};
+      border: none;
     }
 
     .controls {
@@ -42,6 +44,7 @@
   }
 
   .cards {
+    overflow-x: hidden;
     overflow-y: auto;
     flex: 1;
     display: flex;
