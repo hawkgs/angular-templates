@@ -6,7 +6,6 @@ import {
   inject,
   output,
   Renderer2,
-  signal,
   viewChild,
 } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
@@ -23,7 +22,6 @@ export class NewCardInputComponent implements AfterViewInit {
 
   env = environment;
 
-  cardCreator = signal<boolean>(false);
   textarea = viewChild<ElementRef>('textarea');
 
   cardCreate = output<string>();
@@ -32,15 +30,6 @@ export class NewCardInputComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.textarea()?.nativeElement.focus();
-  }
-
-  createCard() {
-    const title = this.textarea()?.nativeElement.value.trim();
-    if (title) {
-      this.cardCreate.emit(title);
-    }
-    this.cardCreator.set(false);
-    this.cardBlur.emit();
   }
 
   onTextareaInput() {
@@ -56,7 +45,15 @@ export class NewCardInputComponent implements AfterViewInit {
 
   @HostListener('document:keydown.enter')
   onEnterPress() {
+    this._createCard();
     this.textarea()?.nativeElement.blur();
+  }
+
+  private _createCard() {
+    const title = this.textarea()?.nativeElement.value.trim();
+    if (title) {
+      this.cardCreate.emit(title);
+    }
   }
 
   private _autoSize() {
