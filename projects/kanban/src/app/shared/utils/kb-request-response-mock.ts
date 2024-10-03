@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injector } from '@angular/core';
-import { MockFn } from '@ngx-templates/shared/fetch';
-import { LocalStorage, WINDOW } from '@ngx-templates/shared/services';
+import { FETCH_MOCK_STATE, MockFn } from '@ngx-templates/shared/fetch';
+import { LocalStorage } from '@ngx-templates/shared/services';
 
 import MockData from '../../../../public/mock-data.json';
 import { environment } from '../../../environments/environment';
@@ -41,7 +41,6 @@ const STORE_KEY = 'kb-dev-db';
 // property (i.e. the array order is not important). However, in Store.lists
 // the order of the items in the array is crucial since it represents the
 // actual position.
-let Store: MockStore;
 
 /**
  * Returns mocked data based on a request URL
@@ -56,31 +55,30 @@ export const kanbanRequestResponseMock: MockFn = (
   injector: Injector,
 ) => {
   const ls = injector.get(LocalStorage);
+  const store = injector.get<{ state: MockStore | null }>(FETCH_MOCK_STATE);
 
   // Define store manipulation functions
-  const getStore = () => {
-    if (!Store) {
+  const getStore = (): MockStore => {
+    if (!store.state) {
       const data = ls.getJSON(STORE_KEY) as MockStore;
-      Store = data || (MockData as MockStore);
+      store.state = data || (MockData as MockStore);
     }
-    return Store;
+    return store.state!;
   };
   const updateStore = (updater: (s: MockStore) => MockStore) => {
-    Store = updater(structuredClone(getStore()));
-    ls.setJSON(STORE_KEY, Store);
+    store.state = updater(structuredClone(getStore()));
+    ls.setJSON(STORE_KEY, store.state);
   };
-
-  (injector.get(WINDOW) as any).devPrintCards = () =>
-    getStore().cards.map((c) => ({ t: c.title, p: c.pos }));
 
   const routeParams = url.replace(environment.apiUrl + '/', '').split('/');
   const resource = routeParams[0];
 
   // POST /boards/{id}/lists
-  const handleListsCreate = (_: string) => {
+  const handleListsCreate = (boardId: string) => {
     const list = {
       id: 'ls' + Date.now(),
       name: body ? (body['name'] as string) : '',
+      boardId,
     };
 
     updateStore((s: MockStore) => {
