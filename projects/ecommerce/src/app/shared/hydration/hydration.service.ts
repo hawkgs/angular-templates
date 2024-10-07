@@ -79,7 +79,9 @@ export class HydrationService {
           const size = entry.transferSize || entry.encodedBodySize;
           this._totalFetched.update((t) => t + size);
 
+          console.log(this._componentsHydrating.size);
           if (this._componentsHydrating.size) {
+            console.log('add');
             this._fetchedResources.update((m) => m.set(entry.name, size));
           }
         }

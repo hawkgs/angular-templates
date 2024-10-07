@@ -7,11 +7,7 @@ import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { LoaderComponent } from './shared/loader/loader.component';
 import { LoaderService } from './shared/loader.service';
-import {
-  HYDRATION_DIRECTIVES,
-  HydrationControlPanelComponent,
-} from './shared/hydration';
-import { HydrationService } from './shared/hydration/hydration.service';
+import { HydrationControlPanelComponent } from './shared/hydration';
 
 @Component({
   selector: 'ec-root',
@@ -23,7 +19,6 @@ import { HydrationService } from './shared/hydration/hydration.service';
     LoaderComponent,
     TOASTS_COMPONENTS,
     HydrationControlPanelComponent,
-    HYDRATION_DIRECTIVES,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -31,7 +26,6 @@ import { HydrationService } from './shared/hydration/hydration.service';
 export class AppComponent implements OnInit {
   categories = inject(CategoriesService);
   loader = inject(LoaderService);
-  hydration = inject(HydrationService);
 
   ngOnInit(): void {
     this.categories.loadCategories();
