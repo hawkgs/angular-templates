@@ -64,6 +64,7 @@ export class HydrationVisualizerComponent implements OnInit, OnDestroy {
   private _observer = new Promise<IntersectionObserver>(
     (res) => (this._observerResolver = res),
   );
+  private _destroyed = false;
 
   /**
    * The hydration trigger MUST be provided and be the same,
@@ -135,12 +136,19 @@ export class HydrationVisualizerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this._destroyed = true;
     this._listeners.forEach((fn) => fn());
     this._observer.then((o) => o.unobserve(this._el));
   }
 
   notify(state: HydrationState) {
-    this.hydration.emit({ visId: this._id, state });
+    // Sometimes `notify` is called from the hydration target
+    // after the visualizer had been destroyed. Have to
+    // investigate why this occurs. This is rather a patch.
+    // Another way would be to inject the visualizer as a WeakRef.
+    if (!this._destroyed) {
+      this.hydration.emit({ visId: this._id, state });
+    }
   }
 
   private _hydrate() {
