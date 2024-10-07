@@ -1,7 +1,9 @@
 :host {
   ec-hydration-visualizer:first-of-type {
+    position: relative;
     width: 100vw;
     transform: translateX(-50%);
     margin-left: 50%;
+    z-index: 1;
   }
 }
