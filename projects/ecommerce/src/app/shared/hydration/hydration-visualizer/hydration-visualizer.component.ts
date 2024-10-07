@@ -125,11 +125,7 @@ export class HydrationVisualizerComponent implements OnInit, OnDestroy {
         break;
       case 'interaction':
         this._listeners.push(
-          this._renderer.listen(this._el, 'click', () => {
-            console.log('Interacted');
-
-            this._hydrate();
-          }),
+          this._renderer.listen(this._el, 'click', () => this._hydrate()),
         );
         break;
       case 'viewport':
