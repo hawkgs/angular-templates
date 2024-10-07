@@ -11,6 +11,10 @@
     max-width: $card-max-width;
     word-wrap: break-word;
 
+    .title {
+      color: var(--color-text);
+    }
+
     .labels {
       display: flex;
       align-items: center;
