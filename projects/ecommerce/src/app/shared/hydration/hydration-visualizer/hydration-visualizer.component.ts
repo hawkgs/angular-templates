@@ -144,8 +144,10 @@ export class HydrationVisualizerComponent implements OnInit, OnDestroy {
   notify(state: HydrationState) {
     // Sometimes `notify` is called from the hydration target
     // after the visualizer had been destroyed. Have to
-    // investigate why this occurs. This is rather a patch.
-    // Another way would be to inject the visualizer as a WeakRef.
+    // investigate why this occurs (probabaly the artifical delay with
+    // setTimeout; i.e. both components are already destroyed after nav).
+    // This is rather a patch. Another way would be to inject the
+    // visualizer as a WeakRef potentially.
     if (!this._destroyed) {
       this.hydration.emit({ visId: this._id, state });
     }
