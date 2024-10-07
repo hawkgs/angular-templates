@@ -1,9 +1,13 @@
+import { DOCUMENT } from '@angular/common';
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   forwardRef,
+  inject,
   input,
   output,
+  Renderer2,
   signal,
   viewChild,
 } from '@angular/core';
@@ -26,7 +30,12 @@ const INPUT_DEBOUNCE = 250;
     },
   ],
 })
-export class SearchInputComponent implements ControlValueAccessor {
+export class SearchInputComponent
+  implements ControlValueAccessor, AfterViewInit
+{
+  private _renderer = inject(Renderer2);
+  private _doc = inject(DOCUMENT);
+
   inputRef = viewChild.required<ElementRef>('inputRef');
   value = signal<string>('');
   disabled = signal<boolean>(false);
@@ -38,6 +47,23 @@ export class SearchInputComponent implements ControlValueAccessor {
   private _timeout?: ReturnType<typeof setTimeout>;
   private _onChange!: (v: string) => void;
   private _onTouched!: () => void;
+
+  ngAfterViewInit() {
+    const input = this.inputRef().nativeElement;
+
+    // Note(Georgi): We are using this method
+    // for adding a focus event listener since
+    // doing that in the template breaks our hydration
+    // event handling and we can't detect the resources
+    // downloaded during an interaction. This is most
+    // likely related to event replay.
+    this._renderer.listen(input, 'focus', () => {
+      this.focused.emit(true);
+    });
+    if (this._doc.activeElement === input) {
+      this.focused.emit(true);
+    }
+  }
 
   onSearch(e: Event) {
     if (this._timeout) {
