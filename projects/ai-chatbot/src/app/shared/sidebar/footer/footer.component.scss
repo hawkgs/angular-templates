@@ -1,0 +1,15 @@
+@import 'typography';
+
+:host {
+  display: block;
+
+  footer {
+    @extend %body-short-03;
+    color: var(--color-quaternary);
+
+    ngx-icon {
+      display: inline-block;
+      vertical-align: bottom;
+    }
+  }
+}

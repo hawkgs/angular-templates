@@ -773,6 +773,11 @@
               {
                 "glob": "**/*",
                 "input": "projects/ai-chatbot/public"
+              },
+              {
+                "glob": "**/*",
+                "input": "projects/shared/assets",
+                "output": "assets"
               }
             ],
             "styles": [
@@ -844,6 +849,11 @@
               {
                 "glob": "**/*",
                 "input": "projects/ai-chatbot/public"
+              },
+              {
+                "glob": "**/*",
+                "input": "projects/shared/assets",
+                "output": "assets"
               }
             ],
             "styles": [

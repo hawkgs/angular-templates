@@ -12,6 +12,18 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap"
       rel="stylesheet"
     />
+    <script>
+      // We need to set the theme as early as possible in the process
+      // in order to avoid any flashing effect from the change that will
+      // normally occur if we try to integrate this logic in our Angular code.
+      // This is only applied if the user has manually selected a theme
+      // different from the system one.
+      const themePreference = localStorage.getItem('ngx-theme');
+
+      if (themePreference) {
+        document.documentElement.classList.add(`ngx-${themePreference}-theme`);
+      }
+    </script>
   </head>
   <body>
     <acb-root></acb-root>

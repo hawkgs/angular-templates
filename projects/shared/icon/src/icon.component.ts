@@ -20,7 +20,8 @@ export type IconName =
   | 'Lightbulb'
   | 'Add'
   | 'MoreVert'
-  | 'Edit';
+  | 'Edit'
+  | 'Menu';
 
 export type IconSize = 'sm' | 'md' | 'lg' | 'xlg' | 'xxlg';
 
