@@ -10,12 +10,17 @@
     width: 100%;
     box-sizing: border-box;
     font-weight: 500;
+    font-size: 1rem;
     padding: 1rem 3rem 1rem 1rem;
     max-height: 400px;
+    resize: none;
+    outline: 2px solid transparent;
+    transition: outline 200ms ease;
 
     &:focus {
       border-color: var(--color-senary);
-      outline: 2px solid var(--color-french-violet);
+      outline-color: var(--color-french-violet);
+      outline-offset: 1px;
     }
   }
 
@@ -24,15 +29,15 @@
     border: none;
     padding: 0;
     background-color: transparent;
-    bottom: 16px;
-    right: 16px;
+    bottom: 0.75rem;
+    right: 0.75rem;
+    border-radius: 0.25rem;
+    padding: 0.25rem;
+    transition: background-color 200ms ease;
 
-    ngx-icon {
-      --color: var(--color-tertiary);
-
-      &:hover {
-        --color: var(--color-primary);
-      }
+    &:not(:disabled):hover {
+      background-color: var(--color-septenary);
+      cursor: pointer;
     }
   }
 }

@@ -3,7 +3,7 @@ import { RouterOutlet } from '@angular/router';
 
 import { HeaderComponent } from './shared/header/header.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
-import { InputComponent } from './shared/input/input.component';
+import { InputComponent, InputEvent } from './shared/input/input.component';
 
 @Component({
   selector: 'acb-root',
@@ -13,7 +13,20 @@ import { InputComponent } from './shared/input/input.component';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  onPromptSend(msg: string) {
-    console.log(msg);
+  completeFn?: () => void;
+
+  onSend(e: InputEvent) {
+    console.log(e.message);
+    this.completeFn = e.complete;
+    setTimeout(() => {
+      e.complete();
+    }, 5000);
+  }
+
+  onAbort() {
+    if (this.completeFn) {
+      this.completeFn();
+      console.log('aborted');
+    }
   }
 }

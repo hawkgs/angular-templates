@@ -22,7 +22,8 @@ export type IconName =
   | 'MoreVert'
   | 'Edit'
   | 'Menu'
-  | 'Send';
+  | 'Send'
+  | 'Stop';
 
 export type IconSize = 'sm' | 'md' | 'lg' | 'xlg' | 'xxlg';
 

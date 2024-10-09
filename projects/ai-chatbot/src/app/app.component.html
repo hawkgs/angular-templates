@@ -20,6 +20,6 @@
         </li>
       </ul>
     </div>
-    <acb-input (send)="onPromptSend($event)"></acb-input>
+    <acb-input (send)="onSend($event)" (abort)="onAbort()"></acb-input>
   </main>
 </div>

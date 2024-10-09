@@ -6,10 +6,16 @@ import {
   inject,
   output,
   Renderer2,
+  signal,
   viewChild,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IconComponent } from '@ngx-templates/shared/icon';
+
+export type InputEvent = {
+  message: string;
+  complete: () => void;
+};
 
 @Component({
   selector: 'acb-input',
@@ -23,11 +29,13 @@ export class InputComponent implements AfterViewInit {
   private _formBuilder = inject(FormBuilder);
 
   form = this._formBuilder.group({
-    prompt: ['', [Validators.required, Validators.pattern(/\S+/)]],
+    message: ['', [Validators.required, Validators.pattern(/\S+/)]],
   });
 
   textarea = viewChild.required<ElementRef>('textarea');
-  send = output<string>();
+  send = output<InputEvent>();
+  abort = output<void>();
+  processing = signal<boolean>(false);
 
   ngAfterViewInit() {
     this.textarea().nativeElement.focus();
@@ -37,13 +45,29 @@ export class InputComponent implements AfterViewInit {
   onEnterPress(e: Event) {
     e.preventDefault();
 
-    this.sendPrompt();
+    this.sendMessage();
   }
 
-  sendPrompt() {
-    const prompt = this.form.value.prompt!;
-    this.send.emit(prompt);
+  sendMessage() {
+    if (this.processing()) {
+      return;
+    }
+
+    this.processing.set(true);
+    const message = this.form.value.message!;
+
+    this.send.emit({
+      message,
+      complete: () => this.processing.set(false),
+    });
+
     this.form.reset();
+    this.textarea().nativeElement.focus();
+  }
+
+  abortProcessing() {
+    this.abort.emit();
+    this.textarea().nativeElement.focus();
   }
 
   setHeight() {
