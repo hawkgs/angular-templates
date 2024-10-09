@@ -1,0 +1,38 @@
+@import 'typography';
+
+:host {
+  position: relative;
+  display: block;
+
+  textarea {
+    @extend %body-short-01;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    font-weight: 500;
+    padding: 1rem 3rem 1rem 1rem;
+    max-height: 400px;
+
+    &:focus {
+      border-color: var(--color-senary);
+      outline: 2px solid var(--color-french-violet);
+    }
+  }
+
+  button {
+    position: absolute;
+    border: none;
+    padding: 0;
+    background-color: transparent;
+    bottom: 16px;
+    right: 16px;
+
+    ngx-icon {
+      --color: var(--color-tertiary);
+
+      &:hover {
+        --color: var(--color-primary);
+      }
+    }
+  }
+}

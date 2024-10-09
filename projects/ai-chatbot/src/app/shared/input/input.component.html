@@ -1,0 +1,12 @@
+<form [formGroup]="form" (ngSubmit)="sendPrompt()">
+  <textarea
+    #textarea
+    rows="1"
+    placeholder="Enter a prompt here"
+    formControlName="prompt"
+    (input)="setHeight()"
+  ></textarea>
+  <button title="Send" [disabled]="form.invalid">
+    <ngx-icon name="Send" size="xlg"></ngx-icon>
+  </button>
+</form>

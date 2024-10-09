@@ -59,12 +59,14 @@ button:not([disabled]) {
 
 input,
 button,
+textarea,
 select,
 .ngx-input-element {
   font-family: $font-family;
 }
 
 input,
+textarea,
 select,
 .ngx-input-element {
   border-radius: 0.25rem;
