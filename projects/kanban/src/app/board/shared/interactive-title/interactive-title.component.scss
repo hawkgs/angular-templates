@@ -17,6 +17,7 @@
     resize: none;
     overflow: hidden;
     border-radius: 0.2rem;
+    box-sizing: content-box;
 
     &:focus {
       outline: 2px solid var(--color-french-violet);
