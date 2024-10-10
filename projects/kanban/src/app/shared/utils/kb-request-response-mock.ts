@@ -55,7 +55,17 @@ export const kanbanRequestResponseMock: MockFn = (
   injector: Injector,
 ) => {
   const ls = injector.get(LocalStorage);
-  const store = injector.get<{ state: MockStore | null }>(FETCH_MOCK_STATE);
+  const store = injector.get<{ state: MockStore | null }>(
+    FETCH_MOCK_STATE,
+    undefined,
+    { optional: true },
+  );
+
+  if (!store) {
+    throw new Error(
+      '[KANBAN FETCH MOCK] The mocks uses Fetch state. Please provide it via `provideFetchMockState()` in your app config.',
+    );
+  }
 
   // Define store manipulation functions
   const getStore = (): MockStore => {

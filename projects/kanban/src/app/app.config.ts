@@ -16,8 +16,9 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(APP_ROUTES),
     windowProvider,
-    // Drop the `withFetchMock` implementation argument in order to
-    // perform actual network requests via the native Fetch API.
+    // Drop the `withFetchMock` implementation argument, along with
+    // `provideFetchMockState`, in order to perform actual network
+    // requests via the native Fetch API.
     provideFetchMockState(),
     provideFetchApi(withFetchMock(kanbanRequestResponseMock)),
     // Second part of the comment: https://github.com/angular/angular/issues/51157#issuecomment-1648664873
