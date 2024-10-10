@@ -20,13 +20,19 @@ export class ChatbotApi {
     return mapChats(json);
   }
 
-  async createChat(): Promise<Chat | undefined> {
-    const response = await this._fetch(`${environment.apiUrl}/chat`, {
-      method: 'POST',
-    });
-    const json = await response.json();
+  async createChat(message: string): Promise<Chat | undefined> {
+    const signal = this._abortIfInProgress(this.sendQuery.name);
 
-    return mapChat(json);
+    const response = await this._fetch(`${environment.apiUrl}/chats`, {
+      method: 'POST',
+      body: JSON.stringify({ message }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      signal,
+    });
+
+    return response?.ok ? mapChat(await response.json()) : undefined;
   }
 
   async getChatQueries(
@@ -41,7 +47,7 @@ export class ChatbotApi {
       ...params,
     });
     const response = await this._fetch(
-      `${environment.apiUrl}/chat/${chatId}/queries${queryParams}`,
+      `${environment.apiUrl}/chats/${chatId}/queries${queryParams}`,
     );
     const json = response?.ok ? await response.json() : [];
 
@@ -52,7 +58,7 @@ export class ChatbotApi {
     const signal = this._abortIfInProgress(this.sendQuery.name);
 
     const response = await this._fetch(
-      `${environment.apiUrl}/chat/${chatId}/query`,
+      `${environment.apiUrl}/chats/${chatId}/queries`,
       {
         method: 'POST',
         body: JSON.stringify({ message }),
