@@ -1,12 +1,11 @@
-import { List, Map, Record } from 'immutable';
+import { List, Record } from 'immutable';
 import { Query } from './query';
-import { QueryResponse } from './query-response';
 
 interface ChatConfig {
   id: string;
   name: string;
   queries: List<Query>;
-  responses: Map<string, QueryResponse>; // Message ID; Response
+  currentPage: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -15,7 +14,7 @@ const chatRecord = Record<ChatConfig>({
   id: '',
   name: '',
   queries: List(),
-  responses: Map(),
+  currentPage: 1,
   createdAt: new Date(0),
   updatedAt: new Date(0),
 });

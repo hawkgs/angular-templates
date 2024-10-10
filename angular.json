@@ -811,7 +811,13 @@
                   "maximumError": "4kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "projects/ai-chatbot/src/environments/environment.ts",
+                  "with": "projects/ai-chatbot/src/environments/environment.prod.ts"
+                }
+              ]
             },
             "development": {
               "optimization": false,

@@ -2,13 +2,15 @@ import { Record } from 'immutable';
 
 interface QueryConfig {
   id: string;
-  query: string;
+  message: string;
+  response: string;
   createdAt: Date;
 }
 
 const queryRecord = Record<QueryConfig>({
   id: '',
-  query: '',
+  message: '',
+  response: '',
   createdAt: new Date(0),
 });
 
