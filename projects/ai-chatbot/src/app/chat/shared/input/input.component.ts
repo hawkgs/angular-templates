@@ -77,7 +77,7 @@ export class InputComponent implements AfterViewInit {
     this._renderer.setStyle(
       element,
       'height',
-      element.scrollHeight + 2.5 + 'px',
+      element.scrollHeight + 2.5 + 'px', // Needs a push of 2.5px to hide the scrollbar
     );
   }
 }

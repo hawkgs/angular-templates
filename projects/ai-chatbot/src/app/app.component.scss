@@ -15,17 +15,8 @@
 
     main {
       flex: 1;
-      max-width: 600px;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
       padding: 1rem;
       box-sizing: border-box;
-
-      .chat {
-        flex: 1;
-      }
     }
   }
 }
