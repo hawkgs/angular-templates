@@ -3,10 +3,16 @@
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  max-width: 600px;
-  width: 100%;
 
   .conversation {
     flex: 1;
+
+    .pair {
+      margin: 1.5rem 0;
+
+      p {
+        margin: 0.75rem;
+      }
+    }
   }
 }
