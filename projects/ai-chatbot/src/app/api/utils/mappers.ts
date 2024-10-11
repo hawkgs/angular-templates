@@ -1,4 +1,4 @@
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 import { Chat, Query } from '../../../model';
 import { ApiChat, ApiQuery } from './api-types';
 
@@ -21,4 +21,5 @@ export const mapChat = (chat: ApiChat) =>
     queries: mapQueries(chat.queries),
   });
 
-export const mapChats = (chats: ApiChat[]) => List(chats.map(mapChat));
+export const mapChats = (chats: ApiChat[]) =>
+  Map<string, Chat>(chats.map((c) => [c.id, mapChat(c)]));

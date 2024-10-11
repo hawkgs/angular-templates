@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { FETCH_API, fetchAbort } from '@ngx-templates/shared/fetch';
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 
 import { environment } from '../../environments/environment';
 
@@ -13,7 +13,7 @@ export class ChatbotApi {
   private _abortIfInProgress = fetchAbort();
   private _fetch = inject(FETCH_API);
 
-  async getChats(): Promise<List<Chat>> {
+  async getChats(): Promise<Map<string, Chat>> {
     const response = await this._fetch(`${environment.apiUrl}/chats`);
     const json = response?.ok ? await response.json() : [];
 
@@ -74,5 +74,6 @@ export class ChatbotApi {
 
   abortLastQuery() {
     this._abortIfInProgress('sendQuery');
+    this._abortIfInProgress('createChat');
   }
 }
