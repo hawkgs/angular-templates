@@ -41,7 +41,7 @@ export class ChatbotService {
 
     const queries = await this._chatbotApi.getChatQueries(chatId, { page });
 
-    this._updateChatQueries(chatId, (q) => q.concat(queries));
+    this._updateChatQueries(chatId, (q) => q.concat(queries), false);
   }
 
   async createChat(message: string) {
@@ -89,10 +89,26 @@ export class ChatbotService {
   private _updateChatQueries(
     chatId: string,
     updateFn: (queries: List<Query>) => List<Query>,
+    syncTotalCount: boolean = true,
   ) {
     this._chats.update((chats) => {
       let chat = chats.get(chatId)!;
-      chat = chat.set('queries', updateFn(chat.queries));
+      const updatedQueries = updateFn(chat.queries);
+      let totalChange = 0;
+
+      if (syncTotalCount) {
+        totalChange =
+          updatedQueries.size > chat.queries.size
+            ? 1
+            : updatedQueries.size < chat.queries.size
+              ? -1
+              : 0;
+      }
+
+      chat = chat
+        .set('queries', updatedQueries)
+        .set('totalQueries', chat.totalQueries + totalChange);
+
       return chats.set(chat.id, chat);
     });
   }

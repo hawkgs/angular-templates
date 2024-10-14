@@ -13,6 +13,7 @@ type Chat = {
   name: string;
   createdAt: string;
   updatedAt: string;
+  totalQueries: number;
   queries: {
     id: string;
     message: string;
@@ -81,6 +82,7 @@ export const acbRequestResponseMock: MockFn = async (
       .map(([_, c]) => ({
         id: c.id,
         name: c.name,
+        totalQueries: c.queries.length,
         createdAt: c.createdAt,
         updatedAt: c.updatedAt,
       }))
@@ -103,6 +105,7 @@ export const acbRequestResponseMock: MockFn = async (
       name,
       createdAt: createdDt,
       updatedAt: createdDt,
+      totalQueries: 1,
       queries: [
         {
           id: 'q' + Date.now().toString(),

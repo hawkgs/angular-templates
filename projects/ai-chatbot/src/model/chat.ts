@@ -5,7 +5,7 @@ interface ChatConfig {
   id: string;
   name: string;
   queries: List<Query>;
-  currentPage: number;
+  totalQueries: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -14,7 +14,7 @@ const chatRecord = Record<ChatConfig>({
   id: '',
   name: '',
   queries: List(),
-  currentPage: 1,
+  totalQueries: 0,
   createdAt: new Date(0),
   updatedAt: new Date(0),
 });

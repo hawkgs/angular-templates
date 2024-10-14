@@ -18,6 +18,7 @@ export const mapChat = (chat: ApiChat) =>
     name: chat.name,
     createdAt: new Date(chat.createdAt),
     updatedAt: new Date(chat.updatedAt),
+    totalQueries: chat.totalQueries,
     queries: mapQueries(chat.queries || []),
   });
 

@@ -10,6 +10,7 @@ export type ApiChat = {
   name: string;
   createdAt: string;
   updatedAt: string;
+  totalQueries: number;
   queries?: ApiQuery[];
 };
 

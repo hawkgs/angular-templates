@@ -8,14 +8,17 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { InfiniteScrollComponent } from '@ngx-templates/shared/infinite-scroll';
+import { List } from 'immutable';
 
 import { InputComponent, InputEvent } from './shared/input/input.component';
 import { ChatbotService } from '../data-access/chatbot.service';
+import { Query } from '../../model';
 
 @Component({
   selector: 'acb-chat',
   standalone: true,
-  imports: [InputComponent],
+  imports: [InputComponent, InfiniteScrollComponent],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss',
 })
@@ -28,10 +31,12 @@ export class ChatComponent {
   loading = signal<boolean>(false);
   chatId = signal<string>('');
 
-  queries = computed(() => {
-    const chat = this._chatbot.chats().get(this.chatId());
+  chat = computed(() => this._chatbot.chats().get(this.chatId()));
+
+  queries = computed<List<Query>>(() => {
+    const chat = this.chat();
     if (!chat) {
-      return this._chatbot.tempChat()?.queries;
+      return this._chatbot.tempChat()?.queries || List();
     }
     return chat.queries.sort(
       (a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
@@ -48,7 +53,7 @@ export class ChatComponent {
     });
   }
 
-  async onSend(e: InputEvent) {
+  async send(e: InputEvent) {
     this._markQueryCompleted = e.complete;
     const chatId = this.chatId();
 
@@ -66,11 +71,16 @@ export class ChatComponent {
     this._markQueryCompleted();
   }
 
-  onAbort() {
+  abort() {
     if (this._markQueryCompleted) {
       this._markQueryCompleted();
     }
     this._chatbot.abortLastQuery();
+  }
+
+  async loadNextPage(complete: () => void) {
+    await this._chatbot.loadChatQueries(this.chatId());
+    complete();
   }
 
   private async _loadData() {

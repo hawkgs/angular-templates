@@ -1,5 +1,5 @@
 <div class="conversation-wrapper">
-  <div class="conversation">
+  <div #conversation class="conversation">
     @if (!loading()) {
       @for (q of queries(); track q.id) {
         <div class="pair">
@@ -13,9 +13,15 @@
       } @empty {
         <p>Start a chat ...</p>
       }
+      @if (chat() && chat()!.totalQueries > queries().size) {
+        <ngx-infinite-scroll
+          [scrollCont]="conversation"
+          (loadNext)="loadNextPage($event)"
+        ></ngx-infinite-scroll>
+      }
     } @else {
       <p>Loading</p>
     }
   </div>
 </div>
-<acb-input (send)="onSend($event)" (abort)="onAbort()"></acb-input>
+<acb-input (send)="send($event)" (abort)="abort()"></acb-input>

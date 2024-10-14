@@ -2,6 +2,7 @@ import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 
+import { windowProvider } from '@ngx-templates/shared/services';
 import {
   provideFetchApi,
   provideFetchMockState,
@@ -17,6 +18,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideClientHydration(),
     provideRouter(APP_ROUTES),
+    windowProvider,
     // Drop the `withFetchMock` implementation argument in order to
     // perform actual network requests via the native Fetch API.
     provideGeminiApi({ mockedData: true }),
