@@ -1,0 +1,6 @@
+<p>User: {{ query().message }}</p>
+@if (query().response) {
+  <p>Bot: {{ query().response }}</p>
+} @else {
+  <p>Bot: ... thinking ...</p>
+}

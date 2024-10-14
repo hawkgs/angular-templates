@@ -2,16 +2,9 @@
   <div #conversation class="conversation">
     @if (!loading()) {
       @for (q of queries(); track q.id) {
-        <div class="pair">
-          <p>User: {{ q.message }}</p>
-          @if (q.response) {
-            <p>Bot: {{ q.response }}</p>
-          } @else {
-            <p>Bot: ... thinking ...</p>
-          }
-        </div>
+        <acb-query [query]="q"></acb-query>
       } @empty {
-        <p>Start a chat ...</p>
+        <acb-chat-intro></acb-chat-intro>
       }
       @if (chat() && chat()!.totalQueries > queries().size) {
         <ngx-infinite-scroll
@@ -20,7 +13,7 @@
         ></ngx-infinite-scroll>
       }
     } @else {
-      <p>Loading</p>
+      <p>Loading ...</p>
     }
   </div>
 </div>

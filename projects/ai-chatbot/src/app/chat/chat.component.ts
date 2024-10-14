@@ -8,18 +8,26 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { toSignal } from '@angular/core/rxjs-interop';
+
 import { InfiniteScrollComponent } from '@ngx-templates/shared/infinite-scroll';
 import { List } from 'immutable';
 
 import { InputComponent, InputEvent } from './shared/input/input.component';
 import { ChatbotService } from '../data-access/chatbot.service';
+import { QueryComponent } from './shared/query/query.component';
+import { ChatIntroComponent } from './shared/chat-intro/chat-intro.component';
 import { Query } from '../../model';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'acb-chat',
   standalone: true,
-  imports: [InputComponent, InfiniteScrollComponent],
+  imports: [
+    InputComponent,
+    QueryComponent,
+    ChatIntroComponent,
+    InfiniteScrollComponent,
+  ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss',
 })
