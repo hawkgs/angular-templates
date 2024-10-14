@@ -6,7 +6,7 @@ import {
   signal,
   untracked,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { InfiniteScrollComponent } from '@ngx-templates/shared/infinite-scroll';
 import { List } from 'immutable';
@@ -14,6 +14,7 @@ import { List } from 'immutable';
 import { InputComponent, InputEvent } from './shared/input/input.component';
 import { ChatbotService } from '../data-access/chatbot.service';
 import { Query } from '../../model';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'acb-chat',
@@ -46,8 +47,13 @@ export class ChatComponent {
   private _markQueryCompleted?: () => void;
 
   constructor() {
+    const routerEvents = toSignal(this._router.events);
+
     effect(() => {
-      if (this._chatbot.chatsState() === 'loaded') {
+      const event = routerEvents();
+      const state = this._chatbot.chatsState();
+
+      if (event instanceof NavigationEnd && state === 'loaded') {
         untracked(() => this._loadData());
       }
     });
