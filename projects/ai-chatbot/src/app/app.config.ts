@@ -10,6 +10,7 @@ import {
 import { APP_ROUTES } from './app.routes';
 
 import { acbRequestResponseMock } from './shared/utils/acb-request-response-mock';
+import { provideGeminiApi } from './shared/utils/gemini-api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,6 +19,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(APP_ROUTES),
     // Drop the `withFetchMock` implementation argument in order to
     // perform actual network requests via the native Fetch API.
+    provideGeminiApi({ mockedData: true }),
     provideFetchMockState(),
     provideFetchApi(withFetchMock(acbRequestResponseMock)),
   ],

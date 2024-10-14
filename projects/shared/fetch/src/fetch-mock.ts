@@ -7,7 +7,7 @@ type LogFn = (msg: string, obj?: object) => void;
 
 // A delayed promise response
 function simulateRequest(
-  jsonData: object,
+  jsonData: object | Promise<object>,
   config: FetchMockConfig,
   log: LogFn,
   abortSignal?: AbortSignal | null,
@@ -26,19 +26,22 @@ function simulateRequest(
     }
   });
 
-  return new Promise((res, rej) => {
-    rejector = rej;
+  return Promise.resolve(jsonData).then(
+    (resolvedJsonData: object) =>
+      new Promise((res, rej) => {
+        rejector = rej;
 
-    timeout = setTimeout(() => {
-      log('Responding with data', jsonData || '<<EMPTY>>');
-      completed = true;
+        timeout = setTimeout(() => {
+          log('Responding with data', resolvedJsonData || '<<EMPTY>>');
+          completed = true;
 
-      res({
-        ok: true,
-        json: () => Promise.resolve(jsonData),
-      } as Response);
-    }, config.responseDelay);
-  });
+          res({
+            ok: true,
+            json: () => Promise.resolve(resolvedJsonData),
+          } as Response);
+        }, config.responseDelay);
+      }),
+  );
 }
 
 /**
@@ -67,7 +70,7 @@ export interface MockFn {
     method: string,
     body: { [key: string]: string } | null,
     injector: Injector,
-  ): object;
+  ): object | Promise<object>;
 }
 
 /**

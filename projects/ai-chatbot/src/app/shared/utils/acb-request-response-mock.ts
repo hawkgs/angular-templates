@@ -1,30 +1,32 @@
 import { Injector } from '@angular/core';
 import { FETCH_MOCK_STATE, MockFn } from '@ngx-templates/shared/fetch';
+import { LocalStorage } from '@ngx-templates/shared/services';
+import { GeminiApi } from './gemini-api';
 import { environment } from '../../../environments/environment';
 
 const DEFAULT_PAGE_SIZE = 15;
 const DEFAULT_PAGE = 1;
+const STORE_KEY = 'acb-dev-db';
+
+type Chat = {
+  id: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  queries: {
+    id: string;
+    message: string;
+    response: string;
+    createdAt: string;
+  }[];
+};
 
 type MockStore = {
-  chats: Map<
-    string,
-    {
-      id: string;
-      name: string;
-      createdAt: string;
-      updatedAt: string;
-      queries: {
-        id: string;
-        message: string;
-        response: string;
-        createdAt: string;
-      }[];
-    }
-  >;
+  chats: { [key: string]: Chat };
 };
 
 const DefaultState: MockStore = {
-  chats: new Map(),
+  chats: {},
 };
 
 /**
@@ -33,17 +35,19 @@ const DefaultState: MockStore = {
  * @param url Request URL
  * @returns
  */
-export const acbRequestResponseMock: MockFn = (
+export const acbRequestResponseMock: MockFn = async (
   url: string,
   method: string,
   body: { [key: string]: string | number } | null,
   injector: Injector,
-): object => {
+): Promise<object> => {
   const store = injector.get<{ state: MockStore | null }>(
     FETCH_MOCK_STATE,
     undefined,
     { optional: true },
   );
+  const ls = injector.get(LocalStorage);
+  const gemini = injector.get(GeminiApi);
 
   if (!store) {
     throw new Error(
@@ -54,12 +58,15 @@ export const acbRequestResponseMock: MockFn = (
   // Define store manipulation functions
   const getStore = (): MockStore => {
     if (!store.state) {
-      store.state = DefaultState;
+      const data = ls.getJSON(STORE_KEY) as MockStore;
+      store.state = data || DefaultState;
     }
     return store.state!;
   };
   const updateStore = (updater: (s: MockStore) => MockStore) => {
     store.state = updater(structuredClone(getStore()));
+    console.log('updating to', store.state);
+    ls.setJSON(STORE_KEY, store.state);
   };
 
   const routeParams = url
@@ -70,7 +77,7 @@ export const acbRequestResponseMock: MockFn = (
 
   // GET /chats
   const handleChatsGet = () =>
-    Array.from(getStore().chats)
+    Object.entries(getStore().chats)
       .map(([_, c]) => ({
         id: c.id,
         name: c.name,
@@ -83,14 +90,13 @@ export const acbRequestResponseMock: MockFn = (
       );
 
   // POST /chats
-  const handleChatsPost = () => {
+  const handleChatsPost = async () => {
     const createdDt = new Date().toISOString();
     const message = (body as { message: string })['message'];
 
-    // Gemini API – temp
-    const name = 'Lorem Ipsum';
-    const response =
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+    // Gemini API
+    const name = await gemini.generateChatName(message);
+    const response = await gemini.generateQueryResponse(message);
 
     const chat = {
       id: 'c' + Date.now().toString(),
@@ -108,7 +114,7 @@ export const acbRequestResponseMock: MockFn = (
     };
 
     updateStore((s) => {
-      s.chats.set(chat.id, chat);
+      s.chats[chat.id] = chat;
       return s;
     });
 
@@ -129,18 +135,15 @@ export const acbRequestResponseMock: MockFn = (
     const page = ~~queryParams['page'] || DEFAULT_PAGE;
     const idx = (page - 1) * pageSize;
 
-    return getStore()
-      .chats.get(chatId)
-      ?.queries.slice(idx, idx + pageSize);
+    return getStore().chats[chatId]?.queries.slice(idx, idx + pageSize);
   };
 
   // POST /chats/{id}/queries
-  const handleQueriesPost = (chatId: string) => {
+  const handleQueriesPost = async (chatId: string) => {
     const message = (body as { message: string })['message'];
 
-    // Gemini API – temp
-    const response =
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+    // Gemini API
+    const response = await gemini.generateQueryResponse(message);
 
     const query = {
       id: 'q' + Date.now().toString(),
@@ -150,7 +153,7 @@ export const acbRequestResponseMock: MockFn = (
     };
 
     updateStore((s) => {
-      const chat = s.chats.get(chatId);
+      const chat = s.chats[chatId];
       chat?.queries.unshift(query);
       return s;
     });
@@ -159,7 +162,7 @@ export const acbRequestResponseMock: MockFn = (
   };
 
   // Resource: /chats
-  const resourceChats = () => {
+  const resourceChats = async () => {
     const [, chatId, secondaryResource] = routeParams;
 
     if (!secondaryResource) {
@@ -167,7 +170,7 @@ export const acbRequestResponseMock: MockFn = (
         case 'GET':
           return handleChatsGet();
         case 'POST':
-          return handleChatsPost();
+          return await handleChatsPost();
       }
     }
 
@@ -176,7 +179,7 @@ export const acbRequestResponseMock: MockFn = (
         case 'GET':
           return handleQueriesGet(chatId);
         case 'POST':
-          return handleQueriesPost(chatId);
+          return await handleQueriesPost(chatId);
       }
     }
 
@@ -187,7 +190,7 @@ export const acbRequestResponseMock: MockFn = (
   let response: any = {};
 
   if (resource === 'chats') {
-    response = resourceChats();
+    response = await resourceChats();
   }
 
   return response;
