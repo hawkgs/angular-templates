@@ -148,16 +148,19 @@ export const acbRequestResponseMock: MockFn = async (
     // Gemini API
     const response = await gemini.generateQueryResponse(message);
 
+    const created = new Date().toISOString();
+
     const query = {
       id: 'q' + Date.now().toString(),
       message,
       response,
-      createdAt: new Date().toISOString(),
+      createdAt: created,
     };
 
     updateStore((s) => {
       const chat = s.chats[chatId];
-      chat?.queries.unshift(query);
+      chat.queries.unshift(query);
+      chat.updatedAt = created;
       return s;
     });
 

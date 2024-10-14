@@ -71,6 +71,9 @@ export class ChatbotService {
 
     if (query) {
       this._updateChatQueries(chatId, (q) => q.pop().push(query));
+      this._chats.update((c) =>
+        c.set(chatId, c.get(chatId)!.set('updatedAt', new Date())),
+      );
     }
   }
 
