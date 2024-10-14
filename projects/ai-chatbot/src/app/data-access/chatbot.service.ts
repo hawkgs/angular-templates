@@ -1,21 +1,25 @@
-import { computed, inject, Injectable, Signal, signal } from '@angular/core';
-import { Map as ImmutMap, List } from 'immutable';
+import { computed, inject, Injectable, signal } from '@angular/core';
+import { Map, List } from 'immutable';
 
 import { Chat, Query } from '../../model';
 import { ChatbotApi } from '../api/chatbot-api.service';
+
+type ItemState = 'null' | 'loading' | 'loaded';
 
 @Injectable({ providedIn: 'root' })
 export class ChatbotService {
   private _chatbotApi = inject(ChatbotApi);
 
-  private _chats = signal<ImmutMap<string, Chat>>(ImmutMap());
-  private _queries = new Map<string, Signal<List<Query>>>();
-  private _chatPage = new Map<string, number>();
+  private _chats = signal<Map<string, Chat>>(Map());
+  private _chatsState = signal<ItemState>('null');
+  private _chatsPages = signal<Map<string, number>>(Map());
   private _tempChat = signal<Chat | null>(null);
   private _lastUsedChat: string = '';
 
   chats = this._chats.asReadonly();
   tempChat = this._tempChat.asReadonly();
+  chatsState = this._chatsState.asReadonly();
+  chatsPages = this._chatsPages.asReadonly();
 
   sortedChats = computed(() =>
     this._chats()
@@ -23,26 +27,18 @@ export class ChatbotService {
       .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime()),
   );
 
-  queries = (chatId: string): Signal<List<Query>> => {
-    let queries = this._queries.get(chatId);
-    if (!queries) {
-      queries = computed(() =>
-        (this._chats().get(chatId)?.queries || List()).sort(
-          (a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
-        ),
-      );
-    }
-    return queries;
-  };
-
   async loadChats() {
+    this._chatsState.set('loading');
     const chats = await this._chatbotApi.getChats();
+    this._chatsState.set('loaded');
+
     this._chats.update((c) => c.concat(chats));
   }
 
   async loadChatQueries(chatId: string) {
-    const page = this._chatPage.get(chatId) || 1;
-    this._chatPage.set(chatId, page + 1);
+    const page = this._chatsPages().get(chatId) || 1;
+    this._chatsPages.update((p) => p.set(chatId, page + 1));
+
     const queries = await this._chatbotApi.getChatQueries(chatId, { page });
 
     this._updateChatQueries(chatId, (q) => q.concat(queries));
@@ -59,6 +55,7 @@ export class ChatbotService {
     if (chat) {
       this._tempChat.set(null);
       this._chats.update((c) => c.set(chat.id, chat));
+      this._chatsPages.update((p) => p.set(chat.id, 1));
     }
 
     return chat;

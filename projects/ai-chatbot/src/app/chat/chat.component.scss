@@ -4,15 +4,26 @@
   justify-content: space-between;
   height: 100%;
 
-  .conversation {
+  .conversation-wrapper {
     flex: 1;
 
-    .pair {
-      margin: 1.5rem 0;
+    .conversation {
+      display: flex;
+      flex-direction: column-reverse;
+      max-height: calc(100vh - 64px - 32px - 80px);
+      overflow-y: auto;
 
-      p {
-        margin: 0.75rem;
+      .pair {
+        margin: 1.5rem 0;
+
+        p {
+          margin: 0.75rem;
+        }
       }
     }
+  }
+
+  acb-input {
+    margin-top: 1rem;
   }
 }

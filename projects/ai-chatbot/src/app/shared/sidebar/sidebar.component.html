@@ -3,7 +3,13 @@
     <ngx-icon name="Menu" size="xlg"></ngx-icon>
   </button>
   <div class="content">
-    <button class="fade-in">+ New</button>
+    <a routerLink="/" class="fade-in">+ New</a>
+    @for (c of chatbot.sortedChats(); track c.id) {
+      <a [routerLink]="'chat/' + c.id" class="fade-in">
+        <span>{{ c.name }}</span>
+        <span>&bull; {{ c.updatedAt | date }}</span>
+      </a>
+    }
   </div>
 </div>
 <div class="bottom">

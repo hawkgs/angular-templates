@@ -30,6 +30,13 @@
     animation-fill-mode: forwards;
     animation-delay: 200ms;
   }
+
+  .content {
+    a {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+  }
 }
 
 @keyframes fade-in {

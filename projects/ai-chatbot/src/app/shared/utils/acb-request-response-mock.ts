@@ -62,7 +62,10 @@ export const acbRequestResponseMock: MockFn = (
     store.state = updater(structuredClone(getStore()));
   };
 
-  const routeParams = url.replace(environment.apiUrl + '/', '').split('/');
+  const routeParams = url
+    .replace(environment.apiUrl + '/', '')
+    .replace(/\?.*$/, '')
+    .split('/');
   const resource = routeParams[0];
 
   // GET /chats

@@ -10,7 +10,7 @@ export type ApiChat = {
   name: string;
   createdAt: string;
   updatedAt: string;
-  queries: ApiQuery[];
+  queries?: ApiQuery[];
 };
 
 export type ApiChatPage = {

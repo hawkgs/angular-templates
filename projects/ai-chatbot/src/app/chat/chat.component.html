@@ -1,19 +1,21 @@
-<div class="conversation">
-  @if (!loading()) {
-    @for (q of queries(); track q.id) {
-      <div class="pair">
-        <p>User: {{ q.message }}</p>
-        @if (q.response) {
-          <p>Bot: {{ q.response }}</p>
-        } @else {
-          <p>Bot: ... thinking ...</p>
-        }
-      </div>
-    } @empty {
-      <p>Start a chat ...</p>
+<div class="conversation-wrapper">
+  <div class="conversation">
+    @if (!loading()) {
+      @for (q of queries(); track q.id) {
+        <div class="pair">
+          <p>User: {{ q.message }}</p>
+          @if (q.response) {
+            <p>Bot: {{ q.response }}</p>
+          } @else {
+            <p>Bot: ... thinking ...</p>
+          }
+        </div>
+      } @empty {
+        <p>Start a chat ...</p>
+      }
+    } @else {
+      <p>Loading</p>
     }
-  } @else {
-    <p>Loading</p>
-  }
+  </div>
 </div>
 <acb-input (send)="onSend($event)" (abort)="onAbort()"></acb-input>
