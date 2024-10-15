@@ -24,6 +24,11 @@ self.addEventListener('message', (event) => {
 });
 
 self.addEventListener('fetch', function (event) {
+  // Skip font files
+  if (event.request.url.includes('woff')) {
+    return false;
+  }
+
   console.log('Fetch delay at:', delay);
   const noCacheRequest = addCacheControlHeader(event);
   const fetchPromise = wait(delay).then(() => fetch(noCacheRequest));
