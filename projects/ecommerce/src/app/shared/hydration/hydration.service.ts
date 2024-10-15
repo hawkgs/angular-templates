@@ -5,9 +5,9 @@ import {
   PLATFORM_ID,
   signal,
 } from '@angular/core';
-import { isPlatformServer, Location } from '@angular/common';
-import { Map, Set as ImmutSet } from 'immutable';
+import { isPlatformBrowser, isPlatformServer, Location } from '@angular/common';
 import { WINDOW } from '@ngx-templates/shared/services';
+import { Map, Set as ImmutSet } from 'immutable';
 
 import { HydrationVisualizerComponent } from './hydration-visualizer/hydration-visualizer.component';
 
@@ -39,13 +39,9 @@ export class HydrationService {
   private _componentsHydrating = new Set<string>();
 
   constructor() {
-    this._listenForNetworkCalls();
-
-    // Note(Georgi): Temp
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (this._win as any).hydstats = () => {
-      console.log(this._fetchedResources().toJS());
-    };
+    if (isPlatformBrowser(this._platformId)) {
+      this._listenForNetworkCalls();
+    }
   }
 
   registerVisualizer(v: HydrationVisualizerComponent) {
