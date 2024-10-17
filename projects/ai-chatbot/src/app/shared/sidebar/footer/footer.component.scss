@@ -6,6 +6,11 @@
   footer {
     @extend %body-short-03;
     color: var(--color-quaternary);
+    white-space: nowrap;
+
+    p:first-of-type {
+      margin-bottom: 0.5rem;
+    }
 
     ngx-icon {
       display: inline-block;

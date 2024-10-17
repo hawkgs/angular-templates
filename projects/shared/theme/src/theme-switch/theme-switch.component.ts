@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { IconComponent, IconName } from '@ngx-templates/shared/icon';
 import { ThemeService, ThemeType } from '../theme.service';
 import { ThemeLabelPipe } from './theme-label.pipe';
@@ -22,6 +22,7 @@ export class ThemeSwitchComponent {
   private _theme = inject(ThemeService);
 
   currentTheme = this._theme.getTheme();
+  iconOnly = input<boolean>(false);
 
   THEME_TO_ICON = THEME_TO_ICON;
 

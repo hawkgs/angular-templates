@@ -1,3 +1,5 @@
+$sidebar-anim-duration: 200ms;
+
 :host {
   display: flex;
   flex-direction: column;
@@ -5,13 +7,24 @@
   height: 100%;
   background-color: var(--color-septenary);
   padding: 1rem;
-  transition: width 200ms ease;
+  transition: width $sidebar-anim-duration ease;
   width: 56px;
   box-sizing: border-box;
   overflow: hidden;
 
   &.expanded {
-    width: 200px;
+    width: 275px;
+
+    .fade-in {
+      animation: fade-in 300ms ease;
+      animation-iteration-count: 1;
+      animation-fill-mode: forwards;
+      animation-delay: $sidebar-anim-duration;
+    }
+
+    .new-chat-btn::after {
+      content: ' New Chat';
+    }
   }
 
   .sidebar-toggle {
@@ -24,18 +37,45 @@
     opacity: 0;
   }
 
-  &.expanded .fade-in {
-    animation: fade-in 300ms ease;
-    animation-iteration-count: 1;
-    animation-fill-mode: forwards;
-    animation-delay: 200ms;
+  .content {
+    margin-top: 2rem;
+
+    .new-chat-btn {
+      background: var(--color-senary);
+      padding: 0.5rem;
+      display: block;
+      font-weight: bold;
+      border-radius: 0.5rem;
+    }
+
+    .chats {
+      max-height: 80vh;
+      overflow-y: auto;
+      margin-top: 2rem;
+
+      a {
+        display: flex;
+        margin-bottom: 0.5rem;
+        justify-content: space-between;
+
+        &.selected {
+          font-weight: bold;
+          text-decoration: underline;
+        }
+
+        span:last-child {
+          display: none;
+        }
+
+        &:hover > span:last-child {
+          display: block;
+        }
+      }
+    }
   }
 
-  .content {
-    a {
-      display: block;
-      margin-bottom: 0.5rem;
-    }
+  acb-footer {
+    margin-top: 2rem;
   }
 }
 
