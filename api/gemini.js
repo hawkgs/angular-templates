@@ -4,7 +4,7 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 // A simple Node-Express app that serves Gemini output
 
-const PORT = 3000;
+const PORT = 5001;
 const app = express();
 
 // Generate content via Gemini
@@ -26,6 +26,12 @@ const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
 app.post('/gemini', (req, res) => {
   const prompt = req.body.prompt;
+  const execTime = new Date();
+  console.log(
+    `\x1b[34m[${execTime.toDateString()} ${execTime.toLocaleTimeString()}]\x1b[0m`,
+    `Requested prompt: ${prompt || '<<EMPTY>>'}`,
+  );
+
   if (!prompt) {
     res.json({ output: '' });
   } else {
@@ -34,5 +40,5 @@ app.post('/gemini', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`\u21D2 Gemini API listening on port ${PORT}\n`);
+  console.log(`\x1b[32m\u21D2 Gemini API listening on port ${PORT}\x1b[0m\n`);
 });

@@ -21,7 +21,7 @@ export const appConfig: ApplicationConfig = {
     windowProvider,
     // Drop the `withFetchMock` implementation argument in order to
     // perform actual network requests via the native Fetch API.
-    provideGeminiApi({ mockedData: true }),
+    provideGeminiApi({ mockedData: false }),
     provideFetchMockState(),
     provideFetchApi(withFetchMock(acbRequestResponseMock)),
   ],
