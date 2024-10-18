@@ -1,3 +1,5 @@
+@import 'screen-breakpoints';
+
 :host {
   display: flex;
 
@@ -19,6 +21,17 @@
       box-sizing: border-box;
       max-width: 600px;
       width: 100%;
+    }
+  }
+
+  @include bp-800w {
+    acb-sidebar {
+      position: fixed;
+      z-index: 1;
+    }
+
+    .content {
+      margin-left: 56px; /* Sidebar collapsed width */
     }
   }
 }
