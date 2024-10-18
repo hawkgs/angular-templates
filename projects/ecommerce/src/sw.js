@@ -9,7 +9,7 @@ function wait(time) {
 
 function addCacheControlHeader(event) {
   const headers = new Headers(event.request.headers);
-  headers.set('Cache-Control', 'no-cache');
+  headers.set('Cache-Control', 'no-store');
 
   return new Request(event.request, {
     mode: 'cors',
