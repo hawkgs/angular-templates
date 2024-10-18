@@ -1,20 +1,18 @@
-<div class="conversation-wrapper">
-  <div #conversation class="conversation">
-    @if (!loading()) {
-      @for (q of queries(); track q.id) {
-        <acb-query [query]="q"></acb-query>
-      } @empty {
-        <acb-chat-intro></acb-chat-intro>
-      }
-      @if (chat() && chat()!.totalQueries > queries().size) {
-        <ngx-infinite-scroll
-          [scrollCont]="conversation"
-          (loadNext)="loadNextPage($event)"
-        ></ngx-infinite-scroll>
-      }
-    } @else {
-      <p>Loading ...</p>
+<div #conversation class="conversation">
+  @if (!loading()) {
+    @for (q of queries(); track q.id) {
+      <acb-query [query]="q"></acb-query>
+    } @empty {
+      <acb-chat-intro></acb-chat-intro>
     }
-  </div>
+    @if (chat() && chat()!.totalQueries > queries().size) {
+      <ngx-infinite-scroll
+        [scrollCont]="conversation"
+        (loadNext)="loadNextPage($event)"
+      ></ngx-infinite-scroll>
+    }
+  } @else {
+    <p>Loading ...</p>
+  }
 </div>
 <acb-input (send)="send($event)" (abort)="abort()"></acb-input>
