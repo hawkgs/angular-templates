@@ -10,8 +10,8 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { SafeHtmlPipe } from '@ngx-templates/shared/utils';
 import { SelectionManager } from '../selection-manager.service';
-import { SafeHtmlPipe } from '../../pipes/safe-html.pipe';
 
 export class TextareaController {
   constructor(private _textarea: TextareaComponent) {}

@@ -1,6 +1,6 @@
 <p>User: {{ query().message }}</p>
 @if (query().response) {
-  <p>Bot: {{ query().response }}</p>
+  <p>Bot: <span [innerHTML]="query().response | safeHtml"></span></p>
 } @else {
   <p>Bot: ... thinking ...</p>
 }

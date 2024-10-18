@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const { Converter } = require('showdown');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 // A simple Node-Express app that serves Gemini output.
@@ -19,6 +20,9 @@ app.use(cors());
 const genAI = new GoogleGenerativeAI(process.env.API_KEY || '');
 
 const ctx = new Map();
+
+// Used for converting MD => HTML.
+const converter = new Converter();
 
 function printRequestData(req) {
   const prompt = req.body.prompt;
@@ -81,7 +85,8 @@ app.post('/gemini-chat', async (req, res) => {
   } else {
     const result = await chat.sendMessage(prompt);
     const response = await result.response;
-    const output = await response.text();
+    const md = await response.text();
+    const output = converter.makeHtml(md);
     res.json({ output });
   }
 });
