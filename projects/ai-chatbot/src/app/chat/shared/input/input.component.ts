@@ -38,7 +38,7 @@ export class InputComponent implements AfterViewInit {
   processing = signal<boolean>(false);
 
   ngAfterViewInit() {
-    this.textarea().nativeElement.focus();
+    this.focus();
   }
 
   @HostListener('document:keydown.enter', ['$event'])
@@ -62,11 +62,15 @@ export class InputComponent implements AfterViewInit {
     });
 
     this.form.reset();
-    this.textarea().nativeElement.focus();
+    this.focus();
   }
 
   abortProcessing() {
     this.abort.emit();
+    this.focus();
+  }
+
+  focus() {
     this.textarea().nativeElement.focus();
   }
 

@@ -3,7 +3,7 @@
     @for (q of queries(); track q.id) {
       <acb-query [query]="q"></acb-query>
     } @empty {
-      <acb-chat-intro></acb-chat-intro>
+      <acb-chat-intro (message)="sendPredefined($event)"></acb-chat-intro>
     }
     @if (chat() && chat()!.totalQueries > queries().size) {
       <ngx-infinite-scroll
@@ -15,4 +15,4 @@
     <p>Loading ...</p>
   }
 </div>
-<acb-input (send)="send($event)" (abort)="abort()"></acb-input>
+<acb-input #input (send)="send($event)" (abort)="abort()"></acb-input>

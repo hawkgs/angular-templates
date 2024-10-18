@@ -5,6 +5,7 @@ import {
   inject,
   signal,
   untracked,
+  viewChild,
 } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -36,6 +37,8 @@ export class ChatComponent {
   private _chatbot = inject(ChatbotService);
   private _location = inject(Location);
   private _router = inject(Router);
+
+  input = viewChild.required<InputComponent>('input');
 
   loading = signal<boolean>(false);
   chatId = signal<string>('');
@@ -69,20 +72,13 @@ export class ChatComponent {
 
   async send(e: InputEvent) {
     this._markQueryCompleted = e.complete;
-    const chatId = this.chatId();
-
-    if (chatId) {
-      await this._chatbot.sendQuery(chatId, e.message);
-    } else {
-      const chat = await this._chatbot.createChat(e.message);
-
-      if (chat) {
-        this.chatId.set(chat.id);
-        this._location.go('chat/' + chat.id);
-      }
-    }
-
+    this._send(e.message);
     this._markQueryCompleted();
+  }
+
+  async sendPredefined(message: string) {
+    this._send(message);
+    this.input().focus();
   }
 
   abort() {
@@ -95,6 +91,21 @@ export class ChatComponent {
   async loadNextPage(complete: () => void) {
     await this._chatbot.loadChatQueries(this.chatId());
     complete();
+  }
+
+  private async _send(message: string) {
+    const chatId = this.chatId();
+
+    if (chatId) {
+      await this._chatbot.sendQuery(chatId, message);
+    } else {
+      const chat = await this._chatbot.createChat(message);
+
+      if (chat) {
+        this.chatId.set(chat.id);
+        this._location.go('chat/' + chat.id);
+      }
+    }
   }
 
   private async _loadData() {

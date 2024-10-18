@@ -1,1 +1,4 @@
 <p>Start a chat ...</p>
+@for (m of predefinedMessages; track m) {
+  <button (click)="message.emit(m)">{{ m }}</button>
+}
