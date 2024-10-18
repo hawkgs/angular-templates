@@ -1,6 +1,6 @@
 import { Provider } from '@angular/core';
 
-const GEMINI_API_URL = 'http://localhost:5001/gemini';
+const GEMINI_API_URL = 'http://localhost:5001';
 const DEFAULT_DELAY = 2000;
 const LOREM_IPSUM =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
@@ -18,7 +18,7 @@ export class GeminiApi implements IGeminiApi {
 
   generateChatName(userQuery: string): Promise<string> {
     return this._generate(
-      `Generate a title that shouldn't exceed 4 words based on the following text: "${userQuery}"`,
+      `Generate a single title that shouldn't exceed 4 words based on the following text: "${userQuery}". Output the title directly.`,
     );
   }
 
@@ -28,11 +28,12 @@ export class GeminiApi implements IGeminiApi {
 
   private async _generate(
     query: string,
-    context: boolean = false,
+    chat: boolean = false,
   ): Promise<string> {
-    const response = await this._fetch(GEMINI_API_URL, {
+    const path = !chat ? '/gemini' : '/gemini-chat';
+    const response = await this._fetch(GEMINI_API_URL + path, {
       method: 'POST',
-      body: JSON.stringify({ prompt: query, context }),
+      body: JSON.stringify({ prompt: query }),
       headers: {
         'Content-Type': 'application/json',
       },
