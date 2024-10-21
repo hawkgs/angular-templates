@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { CommonModule, Location } from '@angular/common';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 import { IconComponent } from '@ngx-templates/shared/icon';
 import { ThemeSwitchComponent } from '@ngx-templates/shared/theme';
@@ -14,12 +15,8 @@ import { LocalStorage } from '@ngx-templates/shared/services';
 
 import { FooterComponent } from './footer/footer.component';
 import { ChatbotService } from '../../data-access/chatbot.service';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 const SIDEBAR_STATE_KEY = 'acb-sb-expanded';
-
-// TO-DOS FOR NEXT WEEK
-// 2. Bug with inability to cancel a request
 
 @Component({
   selector: 'acb-sidebar',
