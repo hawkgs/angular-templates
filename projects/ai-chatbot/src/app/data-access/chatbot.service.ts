@@ -77,6 +77,12 @@ export class ChatbotService {
     }
   }
 
+  deleteChat(chatId: string) {
+    return this._chatbotApi.deleteChat(chatId).then(() => {
+      this._chats.update((c) => c.delete(chatId));
+    });
+  }
+
   abortLastQuery() {
     if (this._tempChat()) {
       this._tempChat.set(null);

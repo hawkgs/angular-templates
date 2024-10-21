@@ -72,6 +72,13 @@ export class ChatbotApi {
     return response?.ok ? mapQuery(await response.json()) : undefined;
   }
 
+  async deleteChat(chatId: string): Promise<void> {
+    await this._fetch(`${environment.apiUrl}/chats/${chatId}`, {
+      method: 'DELETE',
+    });
+    return;
+  }
+
   abortLastQuery() {
     this._abortIfInProgress('sendQuery');
     this._abortIfInProgress('createChat');

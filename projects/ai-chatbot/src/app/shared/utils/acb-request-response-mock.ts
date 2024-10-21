@@ -123,6 +123,14 @@ export const acbRequestResponseMock: MockFn = async (
     return chat;
   };
 
+  // DELETE /chats/{id}
+  const handleChatsDelete = (chatId: string) => {
+    updateStore((s) => {
+      delete s.chats[chatId];
+      return s;
+    });
+  };
+
   // GET /chats/{id}/queries
   const handleQueriesGet = (chatId: string) => {
     const queryParamsStr = url.split('?')[1];
@@ -176,6 +184,8 @@ export const acbRequestResponseMock: MockFn = async (
           return handleChatsGet();
         case 'POST':
           return await handleChatsPost();
+        case 'DELETE':
+          return handleChatsDelete(chatId);
       }
     }
 

@@ -96,4 +96,11 @@ describe('ChatbotService', () => {
     expect(chat?.queries.size).toEqual(1);
     expect(chat?.queries.first()?.message).toEqual('Message 3');
   });
+
+  it('should delete a chat', async () => {
+    await chatbotService.deleteChat('c1');
+    await chatbotService.loadChats();
+
+    expect(chatbotService.chats().has('c1')).toBeFalse();
+  });
 });

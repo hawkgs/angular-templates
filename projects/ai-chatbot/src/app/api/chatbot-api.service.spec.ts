@@ -94,4 +94,15 @@ describe('ChatbotApiService', () => {
     expect(queries.size).toEqual(1);
     expect(queries.first()?.message).toEqual('First chat message');
   });
+
+  it('should delete a chat', async () => {
+    const chat = (await chatbotApi.createChat('First chat message'))!;
+    expect(chat).toBeTruthy();
+
+    await chatbotApi.deleteChat(chat.id);
+
+    const chats = await chatbotApi.getChats();
+
+    expect(chats.size).toEqual(0);
+  });
 });

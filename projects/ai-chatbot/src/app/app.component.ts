@@ -1,5 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { ModalOutletComponent } from '@ngx-templates/shared/modal';
+import { ToastOutletComponent } from '@ngx-templates/shared/toasts';
 
 import { HeaderComponent } from './shared/header/header.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
@@ -8,7 +10,13 @@ import { ChatbotService } from './data-access/chatbot.service';
 @Component({
   selector: 'acb-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, SidebarComponent],
+  imports: [
+    RouterOutlet,
+    HeaderComponent,
+    SidebarComponent,
+    ModalOutletComponent,
+    ToastOutletComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
