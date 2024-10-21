@@ -23,7 +23,8 @@ export type IconName =
   | 'Edit'
   | 'Menu'
   | 'Send'
-  | 'Stop';
+  | 'Stop'
+  | 'Chat';
 
 export type IconSize = 'sm' | 'md' | 'lg' | 'xlg' | 'xxlg';
 

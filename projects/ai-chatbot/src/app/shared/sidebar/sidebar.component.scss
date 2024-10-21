@@ -1,4 +1,18 @@
+@import 'typography';
+
 $sidebar-anim-duration: 200ms;
+
+@property --grad1 {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: #000;
+}
+
+@property --grad2 {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: #000;
+}
 
 :host {
   display: flex;
@@ -22,8 +36,15 @@ $sidebar-anim-duration: 200ms;
       animation-delay: $sidebar-anim-duration;
     }
 
-    .new-chat-btn::after {
-      content: ' New Chat';
+    .new-chat-btn {
+      padding: 0.5rem !important;
+      border-radius: 0.5rem !important;
+      width: 120px !important;
+
+      &::after {
+        content: 'New Chat';
+        margin-left: 0.5rem;
+      }
     }
   }
 
@@ -41,39 +62,38 @@ $sidebar-anim-duration: 200ms;
     margin-top: 2rem;
 
     .new-chat-btn {
-      background: var(--color-senary);
-      padding: 0.5rem;
+      --grad1: var(--color-senary);
+      --grad2: var(--color-senary);
+      @extend %heading-600;
+      background: linear-gradient(90deg, var(--grad1) 0%, var(--grad2) 100%);
       display: block;
-      font-weight: bold;
-      border-radius: 0.5rem;
+      border-radius: 20px;
+      width: 24px;
+      box-sizing: border-box;
+      padding: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      transition:
+        --grad1 300ms ease,
+        --grad2 300ms ease,
+        width 200ms ease;
+
+      &:hover {
+        --grad1: #f637e3;
+        --grad2: #8514f5;
+        color: var(--white);
+      }
     }
 
     .chats {
       max-height: 60vh;
+      overflow-x: hidden;
       overflow-y: auto;
       margin-top: 2rem;
-
-      a {
-        display: flex;
-        margin-bottom: 0.5rem;
-        justify-content: space-between;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-
-        &.selected {
-          font-weight: bold;
-          text-decoration: underline;
-        }
-
-        span:last-child {
-          display: none;
-        }
-
-        &:hover > span:last-child {
-          display: block;
-        }
-      }
     }
   }
 

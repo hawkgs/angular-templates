@@ -3,18 +3,17 @@
     <ngx-icon name="Menu" size="xlg"></ngx-icon>
   </button>
   <div class="content">
-    <a routerLink="/" class="new-chat-btn">+</a>
+    <a routerLink="/" class="new-chat-btn" title="Create a new chat">
+      <ngx-icon name="Add"></ngx-icon>
+    </a>
     @if (expanded()) {
       <div class="chats fade-in">
         @for (c of chatbot.sortedChats(); track c.id) {
-          <a
-            [routerLink]="'chat/' + c.id"
+          <acb-chat-link
+            [chat]="c"
+            [isSelected]="selectedChat() === c.id"
             class="fade-in"
-            [class.selected]="selectedChat() === c.id"
-          >
-            <span>{{ c.name }}</span>
-            <span>{{ c.updatedAt | date: 'MMM d, yy' }}</span>
-          </a>
+          ></acb-chat-link>
         }
       </div>
     }

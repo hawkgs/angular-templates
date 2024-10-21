@@ -14,6 +14,7 @@ import { ThemeSwitchComponent } from '@ngx-templates/shared/theme';
 import { LocalStorage } from '@ngx-templates/shared/services';
 
 import { FooterComponent } from './footer/footer.component';
+import { ChatLinkComponent } from './chat-link/chat-link.component';
 import { ChatbotService } from '../../data-access/chatbot.service';
 
 const SIDEBAR_STATE_KEY = 'acb-sb-expanded';
@@ -27,6 +28,7 @@ const SIDEBAR_STATE_KEY = 'acb-sb-expanded';
     IconComponent,
     FooterComponent,
     ThemeSwitchComponent,
+    ChatLinkComponent,
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
