@@ -1,10 +1,9 @@
 import {
   Component,
-  effect,
+  computed,
   HostBinding,
   inject,
   signal,
-  untracked,
 } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { CommonModule, Location } from '@angular/common';
@@ -39,22 +38,20 @@ export class SidebarComponent {
   private _router = inject(Router);
 
   expanded = signal<boolean>(false);
-  selectedChat = signal<string>('');
+
+  private _routerEvents = toSignal(this._router.events);
+
+  selectedChat = computed(() => {
+    const isNavEnd = this._routerEvents() instanceof NavigationEnd;
+    if (isNavEnd || this.chatbot.chats().size) {
+      // We can't access the route param from the sidebar since it's out of scope.
+      // We rely on the URL composition where the chat ID is last.
+      return this._location.path().split('/').pop() || '';
+    }
+    return '';
+  });
 
   constructor() {
-    const routerEvents = toSignal(this._router.events);
-
-    effect(() => {
-      const event = routerEvents();
-
-      if (event instanceof NavigationEnd) {
-        // We can't access the route param from the sidebar since it's out of scope.
-        // We rely on the URL composition where the chat ID is last.
-        const chatId = this._location.path().split('/').pop() || '';
-        untracked(() => this.selectedChat.set(chatId));
-      }
-    });
-
     const expanded = this._storage.get(SIDEBAR_STATE_KEY) === 'true';
     this.expanded.set(expanded);
   }

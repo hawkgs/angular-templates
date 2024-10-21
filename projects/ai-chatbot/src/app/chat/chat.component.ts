@@ -120,7 +120,9 @@ export class ChatComponent {
         this.loading.set(false);
       }
     } else {
-      this._router.navigate(['/'], { replaceUrl: true });
+      // Replace the URL, if the provided ID is invalid
+      this._router.navigate(['/'], { replaceUrl: !!chatId });
+      this.chatId.set('');
     }
   }
 }
