@@ -7,41 +7,52 @@ type LogFn = (msg: string, obj?: object) => void;
 
 // A delayed promise response
 function simulateRequest(
-  jsonData: object | Promise<object>,
+  jsonDataFn: () => object | Promise<object>,
   config: FetchMockConfig,
   log: LogFn,
   abortSignal?: AbortSignal | null,
 ): Promise<Response> {
   let timeout: ReturnType<typeof setTimeout>;
-  let rejector: (r: Response) => void = () => {};
+  let reject: (r: Response) => void = () => {};
   let completed = false;
+  let abort = false;
 
   // Abort the request if a signal is provided
   abortSignal?.addEventListener('abort', () => {
     if (!completed) {
       log('Request aborted');
 
+      abort = true;
       clearTimeout(timeout);
-      rejector({ ok: false } as Response);
+      reject({ ok: false } as Response);
     }
   });
 
-  return Promise.resolve(jsonData).then(
-    (resolvedJsonData: object) =>
-      new Promise((res, rej) => {
-        rejector = rej;
+  return new Promise((res, rej) => {
+    reject = rej;
 
-        timeout = setTimeout(() => {
-          log('Responding with data', resolvedJsonData || '<<EMPTY>>');
-          completed = true;
+    timeout = setTimeout(() => {
+      // Asynchronous mock request handlers are non-cancellable.
+      // They can still be aborted but any changes that they perform on the mock state
+      // (e.g. mock POST requests), if any, are irreversible. This is due to the nature
+      // of Promises.
+      Promise.resolve(jsonDataFn()).then((resolvedJsonData) => {
+        // For Fetch mock async responses, we need to check
+        // whether the request has been cancelled upon Promise
+        // resolution.
+        if (abort) {
+          return;
+        }
+        log('Responding with data', resolvedJsonData || '<<EMPTY>>');
+        completed = true;
 
-          res({
-            ok: true,
-            json: () => Promise.resolve(resolvedJsonData),
-          } as Response);
-        }, config.responseDelay);
-      }),
-  );
+        res({
+          ok: true,
+          json: () => Promise.resolve(resolvedJsonData),
+        } as Response);
+      });
+    }, config.responseDelay);
+  });
 }
 
 /**
@@ -76,6 +87,11 @@ export interface MockFn {
 /**
  * Fetch API Mock
  *
+ * **Limitation:** _Asynchronous mock request handlers are non-cancellable.
+ * They can still be aborted but any changes that they perform on the mock state
+ * (e.g. mock POST requests), if any, are irreversible. This is due to the nature
+ * of Promises._
+ *
  * @param url
  * @param init
  * @returns
@@ -108,7 +124,7 @@ export const withFetchMock = (
       }
 
       return simulateRequest(
-        mockFn(url.toString(), method, body, injector),
+        () => mockFn(url.toString(), method, body, injector),
         fullCfg,
         log,
         options?.signal,
