@@ -8,7 +8,7 @@ import { acbRequestResponseMock } from './acb-request-response-mock';
 
 // Used for testing
 export const fetchApiMockProvider = [
-  provideGeminiApi({ mockedData: true }),
+  provideGeminiApi({ mockedData: true, delay: 0 }),
   provideFetchMockState(),
   provideFetchApi(
     withFetchMock(acbRequestResponseMock, {

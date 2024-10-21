@@ -65,12 +65,23 @@ class GeminiApiMock implements IGeminiApi {
   }
 }
 
+/**
+ * Enables Gemini API for the Fetch mock.
+ */
 export const provideGeminiApi = (config: {
+  /**
+   * Enable or disable mocked data. If disabled, the API will call the api/gemini.js Express server.
+   */
   mockedData: boolean;
+  /**
+   * Set a response delay, if `mockedData: true`. Default: `2000ms`
+   */
   delay?: number;
 }): Provider => ({
   provide: GeminiApi,
   useValue: !config.mockedData
     ? new GeminiApi()
-    : new GeminiApiMock(config.delay || DEFAULT_DELAY),
+    : new GeminiApiMock(
+        config.delay !== undefined ? config.delay : DEFAULT_DELAY,
+      ),
 });
