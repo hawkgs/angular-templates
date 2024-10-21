@@ -18,13 +18,13 @@ export type InputEvent = {
 };
 
 @Component({
-  selector: 'acb-input',
+  selector: 'acb-chat-input',
   standalone: true,
   imports: [ReactiveFormsModule, IconComponent],
-  templateUrl: './input.component.html',
-  styleUrl: './input.component.scss',
+  templateUrl: './chat-input.component.html',
+  styleUrl: './chat-input.component.scss',
 })
-export class InputComponent implements AfterViewInit {
+export class ChatInputComponent implements AfterViewInit {
   private _renderer = inject(Renderer2);
   private _formBuilder = inject(FormBuilder);
 

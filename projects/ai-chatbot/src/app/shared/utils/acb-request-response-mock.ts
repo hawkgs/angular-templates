@@ -52,7 +52,7 @@ export const acbRequestResponseMock: MockFn = async (
 
   if (!store) {
     throw new Error(
-      '[CHAT FETCH MOCK] The mocks uses Fetch state. Please provide it via `provideFetchMockState()` in your app config.',
+      '[CHAT FETCH MOCK] The mock uses Fetch state. Please provide it via `provideFetchMockState()` in your app config.',
     );
   }
 
@@ -66,7 +66,6 @@ export const acbRequestResponseMock: MockFn = async (
   };
   const updateStore = (updater: (s: MockStore) => MockStore) => {
     store.state = updater(structuredClone(getStore()));
-    console.log('updating to', store.state);
     ls.setJSON(STORE_KEY, store.state);
   };
 

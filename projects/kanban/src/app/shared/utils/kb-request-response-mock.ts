@@ -63,7 +63,7 @@ export const kanbanRequestResponseMock: MockFn = (
 
   if (!store) {
     throw new Error(
-      '[KANBAN FETCH MOCK] The mocks uses Fetch state. Please provide it via `provideFetchMockState()` in your app config.',
+      '[KANBAN FETCH MOCK] The mock uses Fetch state. Please provide it via `provideFetchMockState()` in your app config.',
     );
   }
 

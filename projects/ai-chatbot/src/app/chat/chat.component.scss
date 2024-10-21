@@ -11,7 +11,8 @@
     overflow-y: auto;
 
     acb-chat-intro,
-    acb-query:first-of-type {
+    acb-query:first-of-type,
+    .loading {
       margin-bottom: auto;
     }
   }

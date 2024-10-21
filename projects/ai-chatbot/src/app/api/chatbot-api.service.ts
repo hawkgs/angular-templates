@@ -30,7 +30,7 @@ export class ChatbotApi {
         'Content-Type': 'application/json',
       },
       signal,
-    });
+    }).catch(() => {}); // Handle aborted requests
 
     return response?.ok ? mapChat(await response.json()) : undefined;
   }

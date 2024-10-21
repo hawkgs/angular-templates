@@ -18,6 +18,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 const SIDEBAR_STATE_KEY = 'acb-sb-expanded';
 
+// TO-DOS FOR NEXT WEEK
+// 2. Bug with inability to cancel a request
+
 @Component({
   selector: 'acb-sidebar',
   standalone: true,

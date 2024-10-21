@@ -14,7 +14,10 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { InfiniteScrollComponent } from '@ngx-templates/shared/infinite-scroll';
 import { List } from 'immutable';
 
-import { InputComponent, InputEvent } from './shared/input/input.component';
+import {
+  ChatInputComponent,
+  InputEvent,
+} from './shared/chat-input/chat-input.component';
 import { ChatbotService } from '../data-access/chatbot.service';
 import { QueryComponent } from './shared/query/query.component';
 import { ChatIntroComponent } from './shared/chat-intro/chat-intro.component';
@@ -24,7 +27,7 @@ import { Query } from '../../model';
   selector: 'acb-chat',
   standalone: true,
   imports: [
-    InputComponent,
+    ChatInputComponent,
     QueryComponent,
     ChatIntroComponent,
     InfiniteScrollComponent,
@@ -38,7 +41,7 @@ export class ChatComponent {
   private _location = inject(Location);
   private _router = inject(Router);
 
-  input = viewChild.required<InputComponent>('input');
+  input = viewChild.required<ChatInputComponent>('input');
 
   loading = signal<boolean>(false);
   chatId = signal<string>('');
@@ -72,7 +75,7 @@ export class ChatComponent {
 
   async send(e: InputEvent) {
     this._markQueryCompleted = e.complete;
-    this._send(e.message);
+    await this._send(e.message);
     this._markQueryCompleted();
   }
 

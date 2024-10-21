@@ -12,7 +12,7 @@
       ></ngx-infinite-scroll>
     }
   } @else {
-    <p>Loading ...</p>
+    <p class="loading">Loading ...</p>
   }
 </div>
-<acb-input #input (send)="send($event)" (abort)="abort()"></acb-input>
+<acb-chat-input #input (send)="send($event)" (abort)="abort()"></acb-chat-input>
