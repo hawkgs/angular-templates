@@ -13,6 +13,9 @@ export class ChatbotApi {
   private _abortIfInProgress = fetchAbort();
   private _fetch = inject(FETCH_API);
 
+  /**
+   * Fetches all available chats without their queries.
+   */
   async getChats(): Promise<Map<string, Chat>> {
     const response = await this._fetch(`${environment.apiUrl}/chats`);
     const json = response?.ok ? await response.json() : [];
@@ -20,6 +23,12 @@ export class ChatbotApi {
     return mapChats(json);
   }
 
+  /**
+   * Creates a new chat by a provided initial/start message.
+   *
+   * @param message Initial message
+   * @returns A chat
+   */
   async createChat(message: string): Promise<Chat | undefined> {
     const signal = this._abortIfInProgress(this.sendQuery.name);
 
@@ -35,6 +44,14 @@ export class ChatbotApi {
     return response?.ok ? mapChat(await response.json()) : undefined;
   }
 
+  /**
+   * Fetches all queries of the provided chat that match
+   * the filter criteria.
+   *
+   * @param chatId Chat ID
+   * @param params The page size and page number
+   * @returns Queries
+   */
   async getChatQueries(
     chatId: string,
     params?: Partial<{
@@ -54,6 +71,13 @@ export class ChatbotApi {
     return mapQueries(json);
   }
 
+  /**
+   * Sends a query to an existing chat.
+   *
+   * @param chatId Chat ID
+   * @param message Message
+   * @returns
+   */
   async sendQuery(chatId: string, message: string): Promise<Query | undefined> {
     const signal = this._abortIfInProgress(this.sendQuery.name);
 
@@ -72,6 +96,11 @@ export class ChatbotApi {
     return response?.ok ? mapQuery(await response.json()) : undefined;
   }
 
+  /**
+   * Deletes a chat.
+   *
+   * @param chatId Chat ID
+   */
   async deleteChat(chatId: string): Promise<void> {
     await this._fetch(`${environment.apiUrl}/chats/${chatId}`, {
       method: 'DELETE',
@@ -79,6 +108,9 @@ export class ChatbotApi {
     return;
   }
 
+  /**
+   * Aborts the last query, if in progress.
+   */
   abortLastQuery() {
     this._abortIfInProgress('sendQuery');
     this._abortIfInProgress('createChat');

@@ -19,9 +19,17 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideRouter(APP_ROUTES),
     windowProvider,
-    // Drop the `withFetchMock` implementation argument in order to
-    // perform actual network requests via the native Fetch API.
-    provideGeminiApi({ mockedData: false }),
+    // Drop the `withFetchMock` implementation argument along with
+    // `provideGeminiApi` and `provideFetchMockState` in order to
+    // perform actual network requests via the native Fetch
+    // to your own API (set URL in /environments).
+    //
+    // Keep in mind that the Fetch mock can use internally the
+    // actual Gemini API (api/gemini.js).
+    // In essence: App => Fetch mock => Gemini API (mocked or real).
+    // In order to do that, start-api:gemini and change mockedData
+    // config parameter to `false`.
+    provideGeminiApi({ mockedData: true }),
     provideFetchMockState(),
     provideFetchApi(withFetchMock(acbRequestResponseMock)),
   ],

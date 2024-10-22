@@ -16,11 +16,29 @@ export class ChatbotService {
   private _tempChat = signal<Chat | null>(null);
   private _lastUsedChat: string = '';
 
+  /**
+   * All loaded chats.
+   */
   chats = this._chats.asReadonly();
+
+  /**
+   * Temp/dummy chat used until a new chat is created.
+   */
   tempChat = this._tempChat.asReadonly();
+
+  /**
+   * Keeps the state of chats.
+   */
   chatsState = this._chatsState.asReadonly();
+
+  /**
+   * Chat pages.
+   */
   chatsPages = this._chatsPages.asReadonly();
 
+  /**
+   * Returns all chats sorted in chronological order.
+   */
   sortedChats = computed(() =>
     this._chats()
       .toList()
@@ -45,6 +63,8 @@ export class ChatbotService {
   }
 
   async createChat(message: string) {
+    // We need to create a dummy chat for visualization
+    // purposes, until we receive a response from the API.
     this._tempChat.set(
       new Chat({
         queries: List([this._createDummyQuery(message)]),
@@ -53,7 +73,7 @@ export class ChatbotService {
     const chat = await this._chatbotApi.createChat(message);
 
     if (chat) {
-      this._tempChat.set(null);
+      this._tempChat.set(null); // Unset temp/dummy chat.
       this._chats.update((c) => c.set(chat.id, chat));
       this._chatsPages.update((p) => p.set(chat.id, 1));
     }
@@ -62,6 +82,8 @@ export class ChatbotService {
   }
 
   async sendQuery(chatId: string, message: string) {
+    // We need to create a dummy query for visualization
+    // purposes, until we receive a response from the API.
     this._lastUsedChat = chatId;
     const msgQuery = this._createDummyQuery(message);
     this._updateChatQueries(chatId, (q) => q.push(msgQuery));
@@ -70,6 +92,7 @@ export class ChatbotService {
     this._lastUsedChat = '';
 
     if (query) {
+      // Pop the dummy and push the actual query.
       this._updateChatQueries(chatId, (q) => q.pop().push(query));
       this._chats.update((c) =>
         c.set(chatId, c.get(chatId)!.set('updatedAt', new Date())),
@@ -105,6 +128,9 @@ export class ChatbotService {
       const updatedQueries = updateFn(chat.queries);
       let totalChange = 0;
 
+      // We are usually syncing when there is new
+      // content as opposed to just loading existing
+      // content.
       if (syncTotalCount) {
         totalChange =
           updatedQueries.size > chat.queries.size
