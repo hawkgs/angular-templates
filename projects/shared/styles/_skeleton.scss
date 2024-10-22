@@ -1,0 +1,20 @@
+%skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    var(--color-senary) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200%;
+  background-position-x: 0;
+  animation: bg-slide-in 800ms ease-out infinite;
+}
+
+@keyframes bg-slide-in {
+  from {
+    background-position-x: 0;
+  }
+  to {
+    background-position: 200%;
+  }
+}

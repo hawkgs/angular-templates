@@ -1,9 +1,5 @@
 import { Component, output } from '@angular/core';
-
-const PREDEFINED_MESSAGES = [
-  'How tall is Empire State Building?',
-  'When do we switch to DST?',
-];
+import { PREDEFINED_MESSAGES } from './predefined-msgs';
 
 @Component({
   selector: 'acb-chat-intro',

@@ -24,7 +24,9 @@ export type IconName =
   | 'Menu'
   | 'Send'
   | 'Stop'
-  | 'Chat';
+  | 'Chat'
+  | 'SmartToy'
+  | 'Face';
 
 export type IconSize = 'sm' | 'md' | 'lg' | 'xlg' | 'xxlg';
 

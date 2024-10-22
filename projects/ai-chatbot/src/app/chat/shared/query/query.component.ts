@@ -1,11 +1,14 @@
 import { Component, input } from '@angular/core';
-import { Query } from '../../../../model';
 import { SafeHtmlPipe } from '@ngx-templates/shared/utils';
+import { IconComponent } from '@ngx-templates/shared/icon';
+
+import { Query } from '../../../../model';
+import { QuerySkeletonComponent } from '../query-skeleton/query-skeleton.component';
 
 @Component({
   selector: 'acb-query',
   standalone: true,
-  imports: [SafeHtmlPipe],
+  imports: [SafeHtmlPipe, IconComponent, QuerySkeletonComponent],
   templateUrl: './query.component.html',
   styleUrl: './query.component.scss',
 })

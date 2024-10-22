@@ -21,6 +21,7 @@ import {
 import { ChatbotService } from '../data-access/chatbot.service';
 import { QueryComponent } from './shared/query/query.component';
 import { ChatIntroComponent } from './shared/chat-intro/chat-intro.component';
+import { QuerySkeletonComponent } from './shared/query-skeleton/query-skeleton.component';
 import { Query } from '../../model';
 
 @Component({
@@ -31,6 +32,7 @@ import { Query } from '../../model';
     QueryComponent,
     ChatIntroComponent,
     InfiniteScrollComponent,
+    QuerySkeletonComponent,
   ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss',

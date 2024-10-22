@@ -1,4 +1,7 @@
-<p>Start a chat ...</p>
-@for (m of predefinedMessages; track m) {
-  <button (click)="message.emit(m)">{{ m }}</button>
-}
+<p class="title">Hello!</p>
+<p class="subtitle">Ask me anything that you are interested about</p>
+<div class="msgs">
+  @for (m of predefinedMessages; track m) {
+    <button (click)="message.emit(m)">{{ m }}</button>
+  }
+</div>

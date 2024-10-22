@@ -12,7 +12,11 @@
       ></ngx-infinite-scroll>
     }
   } @else {
-    <p class="loading">Loading ...</p>
+    <acb-query-skeleton [lines]="4"></acb-query-skeleton>
+    <acb-query-skeleton [lines]="2"></acb-query-skeleton>
   }
 </div>
 <acb-chat-input #input (send)="send($event)" (abort)="abort()"></acb-chat-input>
+<p class="disclaimer">
+  The chatbot can make mistakes, so double-check the information.
+</p>
