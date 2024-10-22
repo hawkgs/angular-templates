@@ -46,7 +46,7 @@ export class SidebarComponent {
   selectedChat = computed(() => {
     const isNavEnd = this._routerEvents() instanceof NavigationEnd;
     if (isNavEnd || this.chatbot.chats().size) {
-      // We can't access the route param from the sidebar since it's out of scope.
+      // We can't access the route param from the sidebar since it's out of route scope.
       // We rely on the URL composition where the chat ID is last.
       return this._location.path().split('/').pop() || '';
     }

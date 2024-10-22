@@ -1,7 +1,7 @@
 <div #conversation class="conversation">
   @if (!loading()) {
     @for (q of queries(); track q.id) {
-      <acb-query [query]="q"></acb-query>
+      <acb-query [query]="q" [isNew]="isNewQuery(q)"></acb-query>
     } @empty {
       <acb-chat-intro (message)="sendPredefined($event)"></acb-chat-intro>
     }

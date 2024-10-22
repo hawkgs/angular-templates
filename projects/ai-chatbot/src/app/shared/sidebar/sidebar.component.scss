@@ -95,6 +95,8 @@ $sidebar-collapsed-width: 56px;
       overflow-x: hidden;
       overflow-y: auto;
       margin-top: 2rem;
+      box-sizing: border-box;
+      padding-right: 1px;
     }
   }
 

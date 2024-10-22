@@ -3,6 +3,7 @@ import {
   computed,
   effect,
   inject,
+  NgZone,
   signal,
   untracked,
   viewChild,
@@ -42,6 +43,7 @@ export class ChatComponent {
   private _chatbot = inject(ChatbotService);
   private _location = inject(Location);
   private _router = inject(Router);
+  private _zone = inject(NgZone);
 
   input = viewChild.required<ChatInputComponent>('input');
 
@@ -49,6 +51,8 @@ export class ChatComponent {
   chatId = signal<string>('');
 
   chat = computed(() => this._chatbot.chats().get(this.chatId()));
+
+  private _lastMessage = '';
 
   queries = computed<List<Query>>(() => {
     const chat = this.chat();
@@ -76,12 +80,15 @@ export class ChatComponent {
   }
 
   async send(e: InputEvent) {
+    this._lastMessage = e.message;
     this._markQueryCompleted = e.complete;
+
     await this._send(e.message);
     this._markQueryCompleted();
   }
 
   async sendPredefined(message: string) {
+    this._lastMessage = message;
     this._send(message);
     this.input().focus();
   }
@@ -91,11 +98,39 @@ export class ChatComponent {
       this._markQueryCompleted();
     }
     this._chatbot.abortLastQuery();
+    this._lastMessage = '';
   }
 
   async loadNextPage(complete: () => void) {
     await this._chatbot.loadChatQueries(this.chatId());
     complete();
+  }
+
+  /**
+   * Performs a check whether the last query
+   * in the list is a newly a created.
+   */
+  isNewQuery(q: Query): boolean {
+    // This is the only viable approach given our data model design
+    // (since we use a dummy message before receiving the actual response).
+    const isNew =
+      q === this.chat()?.queries.last() &&
+      !!q.response &&
+      q.message === this._lastMessage;
+
+    if (isNew) {
+      // This is rather unconventional approach that shouldn't
+      // be used, but it's important to clear the last message
+      // after we find the new query in order to avoid any
+      // potential side effects and/or bugs.
+      this._zone.runOutsideAngular(() => {
+        setTimeout(() => {
+          this._lastMessage = '';
+        });
+      });
+    }
+
+    return isNew;
   }
 
   private async _send(message: string) {

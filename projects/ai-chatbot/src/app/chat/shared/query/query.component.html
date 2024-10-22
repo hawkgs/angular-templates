@@ -11,7 +11,11 @@
     <ngx-icon name="SmartToy" size="xlg"></ngx-icon>
   </div>
   @if (query().response) {
-    <p class="msg animated" [innerHTML]="query().response | safeHtml"></p>
+    <p
+      class="msg acb-chat-msg"
+      [class.animated]="isNew()"
+      [innerHTML]="query().response | safeHtml"
+    ></p>
   } @else {
     <acb-query-skeleton
       class="msg"

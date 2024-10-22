@@ -1,4 +1,10 @@
-import { Component, input } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  inject,
+  input,
+} from '@angular/core';
 import { SafeHtmlPipe } from '@ngx-templates/shared/utils';
 import { IconComponent } from '@ngx-templates/shared/icon';
 
@@ -12,6 +18,16 @@ import { QuerySkeletonComponent } from '../query-skeleton/query-skeleton.compone
   templateUrl: './query.component.html',
   styleUrl: './query.component.scss',
 })
-export class QueryComponent {
+export class QueryComponent implements AfterViewInit {
+  private _elRef = inject(ElementRef);
+
   query = input.required<Query>();
+  isNew = input<boolean>();
+
+  ngAfterViewInit() {
+    // Scroll into the view newly created queries.
+    if (this.isNew()) {
+      this._elRef.nativeElement.scrollIntoView();
+    }
+  }
 }
