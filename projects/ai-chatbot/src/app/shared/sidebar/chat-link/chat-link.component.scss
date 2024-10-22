@@ -11,6 +11,11 @@
   transition: background-color 200ms ease;
   font-weight: normal;
 
+  @include bp-600w {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
   &:hover {
     background-color: var(--color-senary);
     color: var(--color-primary) !important;
