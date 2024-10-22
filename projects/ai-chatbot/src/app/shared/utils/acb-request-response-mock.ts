@@ -1,6 +1,8 @@
 import { Injector } from '@angular/core';
 import { FETCH_MOCK_STATE, MockFn } from '@ngx-templates/shared/fetch';
 import { LocalStorage } from '@ngx-templates/shared/services';
+import { generateShortUUID } from '@ngx-templates/shared/utils';
+
 import { GeminiApi } from './gemini-api';
 import { environment } from '../../../environments/environment';
 
@@ -100,14 +102,14 @@ export const acbRequestResponseMock: MockFn = async (
     const response = await gemini.generateQueryResponse(message);
 
     const chat = {
-      id: 'c' + Date.now().toString(),
+      id: generateShortUUID(),
       name,
       createdAt: createdDt,
       updatedAt: createdDt,
       totalQueries: 1,
       queries: [
         {
-          id: 'q' + Date.now().toString(),
+          id: generateShortUUID(),
           message,
           response,
           createdAt: createdDt,
@@ -158,7 +160,7 @@ export const acbRequestResponseMock: MockFn = async (
     const created = new Date().toISOString();
 
     const query = {
-      id: 'q' + Date.now().toString(),
+      id: generateShortUUID(),
       message,
       response,
       createdAt: created,

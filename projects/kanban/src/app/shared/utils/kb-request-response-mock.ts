@@ -2,6 +2,7 @@
 import { Injector } from '@angular/core';
 import { FETCH_MOCK_STATE, MockFn } from '@ngx-templates/shared/fetch';
 import { LocalStorage } from '@ngx-templates/shared/services';
+import { generateShortUUID } from '@ngx-templates/shared/utils';
 
 import MockData from '../../../../public/mock-data.json';
 import { environment } from '../../../environments/environment';
@@ -86,7 +87,7 @@ export const kanbanRequestResponseMock: MockFn = (
   // POST /boards/{id}/lists
   const handleListsCreate = (boardId: string) => {
     const list = {
-      id: 'ls' + Date.now(),
+      id: generateShortUUID(),
       name: body ? (body['name'] as string) : '',
       boardId,
     };
@@ -160,7 +161,7 @@ export const kanbanRequestResponseMock: MockFn = (
   const handleLabelsCreate = (_: string) => {
     const cBody = body as ApiRequestLabel;
     const label = {
-      id: 'l' + Date.now(),
+      id: generateShortUUID(),
       name: cBody['name'] || '',
       color: cBody['color'] || '',
     };
@@ -279,7 +280,7 @@ export const kanbanRequestResponseMock: MockFn = (
     const rCard = (body as any)['card'] as ApiRequestCard;
 
     const card = {
-      id: 'c' + Date.now(),
+      id: generateShortUUID(),
       title: rCard['title'] || '',
       labelIds: [],
       listId: rCard['listId'] || '',

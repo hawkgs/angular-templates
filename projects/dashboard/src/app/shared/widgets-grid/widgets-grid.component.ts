@@ -13,6 +13,7 @@ import { ButtonComponent } from '@ngx-templates/shared/button';
 import { ModalService } from '@ngx-templates/shared/modal';
 import { ToastsService } from '@ngx-templates/shared/toasts';
 import { WINDOW } from '@ngx-templates/shared/services';
+import { generateShortUUID } from '@ngx-templates/shared/utils';
 import { Map } from 'immutable';
 
 import { WidgetComponent } from '../widgets/widget.component';
@@ -81,7 +82,7 @@ export class WidgetsGridComponent {
       .closed.then((resp) => {
         if (resp) {
           const { widgetType, size, dataSourceId, title } = resp;
-          const id = 'random' + Date.now(); // Temp
+          const id = generateShortUUID();
 
           this._widgets.update((map) =>
             map.set(
