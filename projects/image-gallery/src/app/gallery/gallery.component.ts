@@ -10,6 +10,7 @@ import {
   ImagePreviewData,
 } from './shared/image-preview/image-preview.component';
 import { ImagesService } from './shared/images.service';
+import { RoutePrefix } from '../app.routes';
 
 // Size of the rendered list page. It differs from the API page size.
 // Keep smaller from the API page size.
@@ -51,7 +52,7 @@ export class GalleryComponent implements OnInit {
   }
 
   onImageClick(e: { index: number }) {
-    this._location.go('img/' + e.index);
+    this._location.go(RoutePrefix.Image + '/' + e.index);
     this._openImage(e.index);
   }
 

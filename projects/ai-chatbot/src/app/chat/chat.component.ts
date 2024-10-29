@@ -24,6 +24,7 @@ import { QueryComponent } from './shared/query/query.component';
 import { ChatIntroComponent } from './shared/chat-intro/chat-intro.component';
 import { QuerySkeletonComponent } from './shared/query-skeleton/query-skeleton.component';
 import { Query } from '../../model';
+import { RoutePrefix } from '../app.routes';
 
 @Component({
   selector: 'acb-chat',
@@ -143,7 +144,7 @@ export class ChatComponent {
 
       if (chat) {
         this.chatId.set(chat.id);
-        this._location.go('chat/' + chat.id);
+        this._location.go(RoutePrefix.Chat + '/' + chat.id);
       }
     }
   }

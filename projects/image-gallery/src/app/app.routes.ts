@@ -1,17 +1,26 @@
 import { Routes } from '@angular/router';
 import { GalleryComponent } from './gallery/gallery.component';
 
+export enum RoutePrefix {
+  Home = '',
+  Image = 'img',
+}
+
 export const APP_ROUTES: Routes = [
   {
     path: '',
     children: [
       {
-        path: '',
+        path: RoutePrefix.Home,
         component: GalleryComponent,
       },
       {
-        path: 'img/:idx',
+        path: RoutePrefix.Image + '/:idx',
         component: GalleryComponent,
+      },
+      {
+        path: '**',
+        redirectTo: '',
       },
     ],
   },

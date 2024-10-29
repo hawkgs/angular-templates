@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { ProductsComponent } from './products.component';
 import { canActivateProductDetails } from './product-details/product-details.guard';
+import { RoutePrefix } from '../app.routes';
 
 export const PRODUCTS_ROUTES: Routes = [
   {
@@ -9,7 +10,7 @@ export const PRODUCTS_ROUTES: Routes = [
     data: {
       // We want to reuse the ProductsComponent when navigating back from product details.
       // See CachedRouteReuseStrategy for more details.
-      reuseFrom: ['products/:id/:slug'],
+      reuseFrom: [RoutePrefix.Products + '/:id/:slug'],
     },
   },
   {

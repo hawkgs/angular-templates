@@ -18,6 +18,7 @@ import {
   ConfirmDeleteModalComponent,
 } from './confirm-delete-modal/confirm-delete-modal.component';
 import { ChatbotService } from '../../../data-access/chatbot.service';
+import { RoutePrefix } from '../../../app.routes';
 
 @Component({
   selector: 'acb-chat-link',
@@ -35,6 +36,8 @@ export class ChatLinkComponent {
 
   chat = input.required<Chat>();
   isSelected = input<boolean>(false);
+
+  RoutePrefix = RoutePrefix;
 
   async deleteChat() {
     const shouldDelete = await this._modal.createModal<

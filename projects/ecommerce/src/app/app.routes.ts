@@ -1,27 +1,33 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 
+export enum RoutePrefix {
+  Home = '',
+  Products = 'products',
+  Cart = 'cart',
+}
+
 export const APP_ROUTES: Routes = [
   {
     path: '',
     children: [
       {
-        path: '',
+        path: RoutePrefix.Home,
         pathMatch: 'full',
         component: HomeComponent,
         data: {
           // We want to reuse the HomeComponent when navigating back from product details.
           // See CachedRouteReuseStrategy for more details.
-          reuseFrom: ['products/:id/:slug'],
+          reuseFrom: [RoutePrefix.Products + '/:id/:slug'],
         },
       },
       {
-        path: 'products',
+        path: RoutePrefix.Products,
         loadChildren: () =>
           import('./products/products.routes').then((rt) => rt.PRODUCTS_ROUTES),
       },
       {
-        path: 'cart',
+        path: RoutePrefix.Cart,
         loadComponent: () =>
           import('./cart/cart.component').then((cmp) => cmp.CartComponent),
       },

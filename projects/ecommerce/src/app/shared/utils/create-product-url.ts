@@ -1,4 +1,5 @@
 import { Product } from '../../../models';
+import { RoutePrefix } from '../../app.routes';
 
 /**
  * Create a Product URL (Angular route array).
@@ -7,7 +8,8 @@ import { Product } from '../../../models';
  * @returns An Angular route
  */
 export const createProductUrl = (p: Product): string[] => [
-  '/products',
+  '/',
+  RoutePrefix.Products,
   p.id,
   p.name
     .toLowerCase()
