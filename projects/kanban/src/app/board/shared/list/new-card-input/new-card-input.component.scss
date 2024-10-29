@@ -1,10 +1,10 @@
-@import '../../styles/card';
+@use '../../styles/card';
+@import 'typography';
 
 :host {
   display: block;
 
   textarea {
-    @extend %card-container;
     font-family: $font-family;
     resize: none;
     overflow: hidden;

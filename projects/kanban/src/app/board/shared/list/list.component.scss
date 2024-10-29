@@ -1,3 +1,5 @@
+@use 'scrollbars';
+@import 'theme-mixins';
 @import '../styles/variables';
 
 :host {
@@ -83,6 +85,35 @@
 
       ngx-icon {
         margin-right: 0.25rem;
+      }
+    }
+  }
+}
+
+::-webkit-scrollbar {
+  width: 1rem;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 0 solid rgba(0, 0, 0, 0);
+
+  border-left-width: 0rem;
+  border-right-width: 0.5rem;
+  background-clip: padding-box;
+  border-radius: 0;
+}
+
+@include if-dark-theme {
+  :host {
+    ::-webkit-scrollbar-thumb {
+      background-color: color-mix(
+        in srgb,
+        var(--color-senary) 70%,
+        var(--color-octonary) 30%
+      );
+
+      &:hover {
+        background-color: var(--color-quinary);
       }
     }
   }

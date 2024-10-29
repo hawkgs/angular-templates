@@ -1,11 +1,10 @@
+@use '../styles/card';
 @import '../styles/variables';
-@import '../styles/card';
 
 :host {
   display: block;
 
   button {
-    @extend %card-container;
     cursor: pointer;
     text-align: left;
     max-width: $card-max-width;
