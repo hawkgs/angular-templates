@@ -1,9 +1,12 @@
-<form [formGroup]="form" (ngSubmit)="addToCart()">
+<!-- Incremental hydration limitation – should not use ngSubmit -->
+<form [formGroup]="form">
   <button
     [disabled]="form.invalid || isUnavailable()"
     ngx-button
     btnType="primary"
     size="large"
+    type="button"
+    (click)="addToCart()"
     data-name="add-to-cart"
   >
     <ngx-icon name="Cart"></ngx-icon>
