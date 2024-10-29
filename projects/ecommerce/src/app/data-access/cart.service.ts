@@ -1,5 +1,4 @@
 import {
-  AfterRenderPhase,
   Injectable,
   afterNextRender,
   computed,
@@ -40,9 +39,7 @@ export class CartService {
   constructor() {
     // _loadCartInState uses browser API; hence, we need
     // to defer the execution after the SSR render.
-    afterNextRender(() => this._loadCartInState(), {
-      phase: AfterRenderPhase.Read,
-    });
+    afterNextRender({ read: () => this._loadCartInState() });
 
     // Any update of the _cart signal after the _loadCartInState
     // will result in a Storage update.

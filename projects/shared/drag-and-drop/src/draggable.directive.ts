@@ -15,9 +15,8 @@ import {
 } from '@angular/core';
 import { WINDOW, windowProvider } from '@ngx-templates/shared/services';
 import { DROP_GRID } from './drop-grid.component';
-
-export type Coor = { x: number; y: number };
-export type Rect = { p1: Coor; p2: Coor };
+import { Coor, Rect } from './types';
+import { getClientPointerPos } from './utils';
 
 // The duration of the rappel animation after the
 // user has released the draggable element.
@@ -27,21 +26,10 @@ const RAPPEL_ANIM_DURR = 300;
 // The drag functionality will be activated after the specified
 // time, if the user is still holding the element.
 const DRAG_ACTIVE_AFTER = 200;
+const DRAG_ACTIVE_AFTER_TOUCH = 1000;
 
 // The level of the opacity while the target is being dragged.
 const DRAG_OPACITY = 0.8;
-
-// Returns the coordinates of the mouse/finger
-// based on the event type.
-const getClientPointerPos = (e: MouseEvent | TouchEvent): Coor => {
-  if (e instanceof MouseEvent) {
-    return { x: e.clientX, y: e.clientY };
-  }
-  return {
-    x: e.touches[0].clientX,
-    y: e.touches[0].clientY,
-  };
-};
 
 /**
  * Adds draggable behavior to an element. Should be used as
@@ -79,7 +67,7 @@ export class DraggableDirective implements OnInit, OnDestroy {
   elementSize = input<number>(1, { alias: 'ngxDraggableSize' });
 
   /**
-   * Position or order of the draggable element in the `ngx-drop-grid`.
+   * Zero-based position or order of the draggable element in the `ngx-drop-grid`.
    * Not dynamic.
    */
   position = input<number>(0, { alias: 'ngxDraggablePosition' });
@@ -100,16 +88,16 @@ export class DraggableDirective implements OnInit, OnDestroy {
   anchor = signal<Coor | null>(null);
 
   /**
-   * Emitted when the drag is started.
+   * INTERNAL USE ONLY. Emitted when the drag starts.
    *
    * - `elContPos` represents the relative to the viewport top-left
    * coordinates of the draggable target
    * - `id` is the ID of the draggable
    */
-  dragStart = output<{ elContPos: Coor; rect: Rect; id: string }>();
+  _dragStart = output<{ elContPos: Coor; rect: Rect; id: string }>();
 
   /**
-   * Emitted on drag move.
+   * INTERNAL USE ONLY. Emitted on drag move.
    *
    * - `pos` represents the relative to the viewport mid/center coordinates
    * of the draggable target
@@ -117,17 +105,18 @@ export class DraggableDirective implements OnInit, OnDestroy {
    * draggable target
    * - `id` is the ID of the draggable
    */
-  dragMove = output<{ pos: Coor; rect: Rect; id: string }>();
+  _dragMove = output<{ pos: Coor; rect: Rect; id: string }>();
 
   /**
-   * Emitted when the draggable is dropped.
+   * INTERNAL USE ONLY. Emitted when the draggable is dropped.
    */
-  drop = output<{ id: string }>();
+  _drop = output<{ id: string }>();
 
   /**
-   * Emitted when the drop animation is completed (i.e. the target is now anchored)
+   * INTERNAL USE ONLY. Emitted when the drop animation is completed,
+   * i.e. the target is now anchored
    */
-  anchored = output<void>();
+  _anchored = output<void>();
 
   /**
    * Native element of the draggable target.
@@ -186,9 +175,25 @@ export class DraggableDirective implements OnInit, OnDestroy {
         this._renderer.listen(this._doc, 'mouseup', dragEnd),
 
         this._renderer.listen(this._element, 'touchstart', dragStart),
-        this._renderer.listen(this._doc, 'touchmove', dragMove),
         this._renderer.listen(this._doc, 'touchend', dragEnd),
       ];
+
+      // Since we need to prevent panning on a mobile device
+      // while dragging but the default behavior of Renderer2.listen
+      // is to optimize `touchmove` event listeners by making them passive,
+      // we have to use the native API instead. This, obviously,
+      // presents a performance hit given that the listener is active
+      // but, if we prevent the default behavior on `touchstart`,
+      // we will block all subsequent click events originating from
+      // the draggable.
+      const listener = (e: Event) => {
+        e.preventDefault();
+        dragMove(e as TouchEvent);
+      };
+      this._element.addEventListener('touchmove', listener);
+      this._listeners.push(() =>
+        this._element.removeEventListener('touchmove', listener),
+      );
     });
   }
 
@@ -198,6 +203,10 @@ export class DraggableDirective implements OnInit, OnDestroy {
     }
 
     this._firefoxUserSelectMouseEventsPatch();
+
+    const activationDelay = !this._hasTouchSupport()
+      ? DRAG_ACTIVE_AFTER
+      : DRAG_ACTIVE_AFTER_TOUCH;
 
     this._dragActivatorTimeout = setTimeout(() => {
       this._dragging = true;
@@ -223,7 +232,7 @@ export class DraggableDirective implements OnInit, OnDestroy {
         };
       }
 
-      this.dragStart.emit({
+      this._dragStart.emit({
         id: this.id(),
         elContPos: pos,
         rect: {
@@ -234,7 +243,7 @@ export class DraggableDirective implements OnInit, OnDestroy {
           },
         },
       });
-    }, DRAG_ACTIVE_AFTER);
+    }, activationDelay);
   }
 
   private _onDragMove(e: MouseEvent | TouchEvent) {
@@ -258,7 +267,7 @@ export class DraggableDirective implements OnInit, OnDestroy {
 
     this._move(pos);
 
-    this.dragMove.emit({
+    this._dragMove.emit({
       pos: {
         x: pos.x + this._elMidpoint!.x,
         y: pos.y + this._elMidpoint!.y,
@@ -279,7 +288,7 @@ export class DraggableDirective implements OnInit, OnDestroy {
       clearTimeout(this._dragActivatorTimeout);
     }
     if (this._dragging) {
-      this.drop.emit({ id: this.id() });
+      this._drop.emit({ id: this.id() });
       this._moveToAnchorPos();
       this._dragging = false;
     }
@@ -294,6 +303,7 @@ export class DraggableDirective implements OnInit, OnDestroy {
       width: size.x + 'px',
       height: size.y + 'px',
       'pointer-events': 'none',
+      'touch-action': 'none',
       'z-index': '99999999',
     });
 
@@ -315,6 +325,7 @@ export class DraggableDirective implements OnInit, OnDestroy {
       'width',
       'height',
       'pointer-events',
+      'touch-action',
       'user-select',
       'z-index',
     ]);
@@ -338,7 +349,7 @@ export class DraggableDirective implements OnInit, OnDestroy {
     const anchor = this.anchor();
     if (!anchor) {
       this._removeStyles(['opacity']);
-      this.anchored.emit();
+      this._anchored.emit();
       return;
     }
 
@@ -352,7 +363,7 @@ export class DraggableDirective implements OnInit, OnDestroy {
 
     setTimeout(() => {
       this._removeDraggableStyles();
-      this.anchored.emit();
+      this._anchored.emit();
     }, RAPPEL_ANIM_DURR);
   }
 
@@ -367,6 +378,12 @@ export class DraggableDirective implements OnInit, OnDestroy {
   /** Remove styles from the target element */
   private _removeStyles(cssProps: string[]) {
     cssProps.forEach((p) => this._renderer.removeStyle(this._element, p));
+  }
+
+  private _hasTouchSupport() {
+    return (
+      'ontouchstart' in this._win || this._win.navigator.maxTouchPoints > 0
+    );
   }
 
   /**

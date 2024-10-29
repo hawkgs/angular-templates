@@ -1,4 +1,11 @@
-<button (click)="onThemeSwitch()" title="Change the current theme">
-  <span>{{ currentTheme() | themeLabel }}</span>
+<button
+  (click)="onThemeSwitch()"
+  [title]="
+    !iconOnly() ? 'Change the current theme' : (currentTheme() | themeLabel)
+  "
+>
+  @if (!iconOnly()) {
+    <span>{{ currentTheme() | themeLabel }}</span>
+  }
   <ngx-icon [name]="THEME_TO_ICON[currentTheme()]" size="xlg"></ngx-icon>
 </button>

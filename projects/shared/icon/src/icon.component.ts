@@ -17,7 +17,16 @@ export type IconName =
   | 'ArrowDown'
   | 'Download'
   | 'Link'
-  | 'Lightbulb';
+  | 'Lightbulb'
+  | 'Add'
+  | 'MoreVert'
+  | 'Edit'
+  | 'Menu'
+  | 'Send'
+  | 'Stop'
+  | 'Chat'
+  | 'SmartToy'
+  | 'Face';
 
 export type IconSize = 'sm' | 'md' | 'lg' | 'xlg' | 'xxlg';
 

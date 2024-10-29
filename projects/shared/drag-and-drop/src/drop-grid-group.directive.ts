@@ -5,6 +5,11 @@ export const DROP_GRID_GROUP = new InjectionToken<Set<DropGridComponent>>(
   'DropGridGroup',
 );
 
+/**
+ * Drop grid group host directive.
+ *
+ * Groups are NOT supported on a mobile.
+ */
 @Directive({
   selector: '[ngxDropGridGroup]',
   standalone: true,

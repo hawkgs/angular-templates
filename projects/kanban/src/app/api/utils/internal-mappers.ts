@@ -1,26 +1,21 @@
-import { List } from 'immutable';
-import { BoardList, Card, Label } from '../../../models';
-import {
-  ApiBoardList,
-  ApiBoardDataResponse,
-  ApiCard,
-  ApiLabel,
-} from './api-types';
+import { List, Map, Set } from 'immutable';
+import { Board, BoardList, Card, Label } from '../../../models';
+import { ApiBoardList, ApiBoardDataResponse, ApiCard, ApiLabel } from './types';
 
-export const mapCard = (card: ApiCard) =>
+export const mapCard = (card: ApiCard, complete: boolean = true) =>
   new Card({
     id: card.id,
     title: card.title,
-    labelIds: List(card.labelIds),
-    idx: card.idx,
+    labelIds: Set(card.labelIds),
+    pos: card.pos,
     listId: card.listId,
     description: card.description,
+    complete,
   });
 
 export const mapBoardList = (list: ApiBoardList) =>
   new BoardList({
     id: list.id,
-    idx: list.idx,
     name: list.name,
     boardId: list.boardId,
   });
@@ -36,18 +31,42 @@ export const mapBoardLists = ({
   boardId,
   lists,
 }: ApiBoardDataResponse): List<BoardList> =>
-  List(lists.map((l, i) => mapBoardList({ ...l, idx: i, boardId })));
+  List(lists.map((l, i) => mapBoardList({ ...l, pos: i, boardId })));
 
 export const mapBoardListsCards = ({
   lists,
-}: ApiBoardDataResponse): List<Card> =>
-  List(
-    lists
-      .map((l) =>
-        List(l.cards.map((c, i) => mapCard({ ...c, idx: i, listId: l.id }))),
-      )
-      .reduce((prev, curr) => prev.concat(curr), List()),
+}: ApiBoardDataResponse): Map<string, Card> => {
+  let map = Map<string, Card>();
+
+  lists.forEach((list) =>
+    list.cards.forEach((card, cIdx) => {
+      map = map.set(
+        card.id,
+        mapCard({ ...card, pos: cIdx, listId: list.id }, false),
+      );
+    }),
   );
 
-export const mapLabels = ({ labels }: ApiBoardDataResponse): List<Label> =>
-  List(labels.map((l) => mapLabel(l)));
+  return map;
+};
+
+export const mapLabels = ({
+  labels,
+}: ApiBoardDataResponse): Map<string, Label> => {
+  let map = Map<string, Label>();
+
+  labels.forEach((l) => {
+    map = map.set(l.id, mapLabel(l));
+  });
+
+  return map;
+};
+
+export const mapBoard = (board: ApiBoardDataResponse): Board =>
+  new Board({
+    id: board.boardId,
+    name: board.boardName,
+    lists: mapBoardLists(board),
+    cards: mapBoardListsCards(board),
+    labels: mapLabels(board),
+  });

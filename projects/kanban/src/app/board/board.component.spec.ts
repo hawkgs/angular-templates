@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { windowProvider } from '@ngx-templates/shared/services';
 
 import { BoardComponent } from './board.component';
+import { fetchApiMockAndStateProvider } from '../shared/utils/fetch-mock-provider.test-util';
 
 describe('BoardComponent', () => {
   let component: BoardComponent;
@@ -8,9 +11,13 @@ describe('BoardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BoardComponent]
-    })
-    .compileComponents();
+      imports: [BoardComponent],
+      providers: [
+        provideRouter([]),
+        fetchApiMockAndStateProvider,
+        windowProvider,
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(BoardComponent);
     component = fixture.componentInstance;

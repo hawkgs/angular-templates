@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { ProductsService } from './products.service';
-import { fetchApiMockProvider } from '../shared/utils/fetch-mock-provider';
+import { fetchApiMockProvider } from '../shared/utils/fetch-mock-provider.test-util';
 
 describe('ProductsService', () => {
   let productsService: ProductsService;

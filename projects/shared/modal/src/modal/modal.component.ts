@@ -29,13 +29,19 @@ export class ModalComponent<D, R> implements AfterViewInit {
   modal = input.required<Modal<D, R>>();
   content = viewChild.required('content', { read: ViewContainerRef });
 
+  private _clickFlag = false;
+
   /**
    * Create the modal content component and insert it
    * in the host view container.
    */
   ngAfterViewInit() {
     const modal = this.modal();
-    const injector = this._createInjector(modal.controller, modal.data);
+    const injector = this._createInjector(
+      modal.controller,
+      modal.data,
+      modal.config.injector,
+    );
     this.content().createComponent(modal.component, { injector });
 
     // We need to run a CD in order to avoid NG0100
@@ -45,16 +51,27 @@ export class ModalComponent<D, R> implements AfterViewInit {
   /**
    * Close the modal, if the overlay is clicked.
    */
-  @HostListener('click')
-  onHostClick() {
-    this.modal().controller.close();
+  @HostListener('mousedown')
+  onHostMousedown() {
+    if (!this._clickFlag) {
+      this.modal().controller.close();
+    }
+    this._clickFlag = false;
+  }
+
+  onModalMousedown() {
+    this._clickFlag = true;
   }
 
   /**
    * Create an injector that includes the modal controller and the modal data
    * that are then passed to the modal content component for rendering and/or control.
    */
-  private _createInjector(modalCtrl: ModalController<R>, data?: D) {
+  private _createInjector(
+    modalCtrl: ModalController<R>,
+    data?: D,
+    parentInjector?: Injector,
+  ) {
     const providers: StaticProvider[] = [
       {
         provide: MODAL_DATA,
@@ -66,6 +83,9 @@ export class ModalComponent<D, R> implements AfterViewInit {
       },
     ];
 
-    return Injector.create({ providers });
+    return Injector.create({
+      providers,
+      parent: parentInjector,
+    });
   }
 }

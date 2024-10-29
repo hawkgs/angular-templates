@@ -1,24 +1,89 @@
+@import '../styles/variables';
+
 :host {
-  display: block;
-  flex: 0 0 275px;
-  height: calc(100vh - 64px - 2rem);
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 $list-width;
+  width: $list-width;
+  max-height: 100%;
   border: 1px solid var(--color-quinary);
   background-color: var(--color-septenary);
-  padding: 0.5rem;
   box-sizing: border-box;
-  border-radius: 0.2rem;
-
-  &:not(:last-of-type) {
-    margin-right: 1rem;
-  }
+  border-radius: $list-border-radius;
 
   .header {
-    margin-bottom: 1rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: $list-padding;
+
+    kb-interactive-title {
+      --font-weight: bold;
+      --vertical-padding: 4px;
+      --width: #{$list-name-input-width};
+      border: none;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: nowrap;
+
+      button {
+        background-color: transparent;
+        transition: background-color 200ms ease;
+        border-radius: 0.25rem;
+        padding: 0.25rem;
+        margin-left: 8px;
+        border: none;
+
+        &:hover {
+          background-color: var(--color-senary);
+        }
+      }
+    }
   }
 
   .cards {
-    border: 1px dashed rgba(255, 255, 255, 0.2);
+    overflow-x: hidden;
     overflow-y: auto;
-    max-height: calc(100% - 40px); // header height
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0 8px;
+
+    .new-card-top {
+      margin-bottom: $list-padding;
+    }
+
+    .new-card-bottom {
+      margin-top: $list-padding;
+    }
+
+    .empty-list {
+      margin: 0;
+    }
+  }
+
+  .add-btn-wrapper {
+    padding: $list-padding;
+
+    .add-card-bottom {
+      background-color: transparent;
+      transition: background-color 200ms ease;
+      border-radius: 0.25rem;
+      padding: 0.5rem;
+      border: none;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+
+      &:hover {
+        background-color: var(--color-senary);
+      }
+
+      ngx-icon {
+        margin-right: 0.25rem;
+      }
+    }
   }
 }

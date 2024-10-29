@@ -54,6 +54,13 @@
     #f637e3 50%,
     #8514f5 100%
   );
+
+  --gradient-red-to-darkred: linear-gradient(
+    90deg,
+    #ff2a00 0%,
+    #ff4387 50%,
+    #960000 100%
+  );
 }
 
 // System preference / User-selected
@@ -91,6 +98,13 @@
     #f97960 0%,
     #f785ec 50%,
     #af67f6 100%
+  );
+
+  --gradient-red-to-darkred: linear-gradient(
+    90deg,
+    #ff0000 0%,
+    #e44880 50%,
+    #c62626 100%
   );
 }
 

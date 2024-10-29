@@ -6,6 +6,7 @@ import { Modal, ModalConfig } from './types';
 
 const DEFAULT_CONFIG: ModalConfig = {
   modalWindowUi: true,
+  animated: true,
 };
 
 @Injectable({ providedIn: 'root' })

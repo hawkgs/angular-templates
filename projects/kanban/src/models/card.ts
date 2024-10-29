@@ -1,21 +1,23 @@
-import { List, Record } from 'immutable';
+import { Record, Set } from 'immutable';
 
 interface CardConfig {
   id: string;
   title: string;
   description: string;
-  idx: number;
+  pos: number;
   listId: string;
-  labelIds: List<string>;
+  labelIds: Set<string>;
+  complete: boolean;
 }
 
 const cardRecord = Record<CardConfig>({
   id: '',
   title: '',
   description: '',
-  idx: -1,
+  pos: -1,
   listId: '',
-  labelIds: List([]),
+  labelIds: Set([]),
+  complete: false,
 });
 
 export class Card extends cardRecord {

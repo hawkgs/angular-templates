@@ -1,0 +1,22 @@
+@import '../../styles/card';
+
+:host {
+  display: block;
+
+  textarea {
+    @extend %card-container;
+    font-family: $font-family;
+    resize: none;
+    overflow: hidden;
+    box-sizing: border-box;
+
+    &:focus {
+      outline: none;
+      border: 2px solid var(--color-french-violet);
+    }
+
+    &:hover {
+      background-color: var(--color-senary);
+    }
+  }
+}

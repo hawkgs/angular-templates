@@ -747,6 +747,145 @@
           }
         }
       }
+    },
+    "ai-chatbot": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/ai-chatbot",
+      "sourceRoot": "projects/ai-chatbot/src",
+      "prefix": "acb",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:application",
+          "options": {
+            "outputPath": "dist/ai-chatbot",
+            "index": "projects/ai-chatbot/src/index.html",
+            "browser": "projects/ai-chatbot/src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "tsConfig": "projects/ai-chatbot/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "projects/ai-chatbot/public"
+              },
+              {
+                "glob": "**/*",
+                "input": "projects/shared/assets",
+                "output": "assets"
+              }
+            ],
+            "styles": [
+              "projects/ai-chatbot/src/styles.scss",
+              "projects/shared/theme/src/theme.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "projects/shared/styles",
+                "projects/shared/theme/src"
+              ]
+            },
+            "scripts": [],
+            "server": "projects/ai-chatbot/src/main.server.ts",
+            "prerender": true,
+            "ssr": {
+              "entry": "projects/ai-chatbot/server.ts"
+            }
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kB",
+                  "maximumError": "4kB"
+                }
+              ],
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "projects/ai-chatbot/src/environments/environment.ts",
+                  "with": "projects/ai-chatbot/src/environments/environment.prod.ts"
+                }
+              ]
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "ai-chatbot:build:production"
+            },
+            "development": {
+              "buildTarget": "ai-chatbot:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
+            "tsConfig": "projects/ai-chatbot/tsconfig.spec.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "projects/ai-chatbot/public"
+              },
+              {
+                "glob": "**/*",
+                "input": "projects/shared/assets",
+                "output": "assets"
+              }
+            ],
+            "styles": [
+              "projects/ai-chatbot/src/styles.scss",
+              "projects/shared/theme/src/theme.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "projects/shared/styles",
+                "projects/shared/theme/src"
+              ]
+            },
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/ai-chatbot/**/*.ts",
+              "projects/ai-chatbot/**/*.html"
+            ]
+          }
+        }
+      }
     }
   },
   "cli": {

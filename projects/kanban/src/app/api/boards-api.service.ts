@@ -1,49 +1,31 @@
 import { Injectable, inject } from '@angular/core';
-import { List } from 'immutable';
 import { FETCH_API } from '@ngx-templates/shared/fetch';
 
-import {
-  mapBoardList,
-  mapBoardListsCards,
-  mapBoardLists,
-  mapLabel,
-  mapLabels,
-} from './utils/internal-mappers';
+import { mapBoardList, mapLabel, mapBoard } from './utils/internal-mappers';
 import { environment } from '../../environments/environment';
-import { BoardList, Card, Label } from '../../models';
+import { Board, BoardList, Label } from '../../models';
 import {
   mapApiRequestBoardList,
   mapApiRequestLabel,
 } from './utils/external-mappers';
+import { Response } from './utils/types';
 
 @Injectable({ providedIn: 'root' })
 export class BoardsApi {
   private _fetch = inject(FETCH_API);
 
-  async getBoardData(boardId: string): Promise<{
-    lists: List<BoardList>;
-    cards: List<Card>;
-    labels: List<Label>;
-  }> {
+  async getBoardData(boardId: string): Response<Board> {
     const response = await this._fetch(
       `${environment.apiUrl}/boards/${boardId}`,
     );
     const json = await response.json();
 
-    const lists = mapBoardLists(json);
-    const cards = mapBoardListsCards(json);
-    const labels = mapLabels(json);
-
-    return {
-      lists,
-      cards,
-      labels,
-    };
+    return mapBoard(json);
   }
 
   // Lists
 
-  async createBoardList(boardId: string, list: BoardList): Promise<BoardList> {
+  async createBoardList(boardId: string, list: BoardList): Response<BoardList> {
     const response = await this._fetch(
       `${environment.apiUrl}/boards/${boardId}/lists`,
       {
@@ -59,15 +41,16 @@ export class BoardsApi {
     return mapBoardList(json);
   }
 
-  async updateBoardListName(
+  async updateBoardList(
     boardId: string,
-    list: BoardList,
-  ): Promise<BoardList> {
+    listId: string,
+    changes: { name?: string; pos?: number },
+  ): Response<BoardList> {
     const response = await this._fetch(
-      `${environment.apiUrl}/boards/${boardId}/lists/${list.id}`,
+      `${environment.apiUrl}/boards/${boardId}/lists/${listId}`,
       {
         method: 'PUT',
-        body: JSON.stringify(mapApiRequestBoardList(list)),
+        body: JSON.stringify(changes),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -78,7 +61,7 @@ export class BoardsApi {
     return mapBoardList(json);
   }
 
-  async deleteBoardList(boardId: string, listId: string): Promise<void> {
+  async deleteBoardList(boardId: string, listId: string): Response<void> {
     await this._fetch(
       `${environment.apiUrl}/boards/${boardId}/lists/${listId}`,
       {
@@ -89,7 +72,7 @@ export class BoardsApi {
 
   // Labels
 
-  async createLabel(boardId: string, label: Label): Promise<Label> {
+  async createLabel(boardId: string, label: Label): Response<Label> {
     const response = await this._fetch(
       `${environment.apiUrl}/boards/${boardId}/labels`,
       {
@@ -105,12 +88,16 @@ export class BoardsApi {
     return mapLabel(json);
   }
 
-  async updateLabel(boardId: string, label: Label): Promise<Label> {
+  async updateLabel(
+    boardId: string,
+    labelId: string,
+    changes: { name?: string; color?: string },
+  ): Response<Label> {
     const response = await this._fetch(
-      `${environment.apiUrl}/boards/${boardId}/labels/${label.id}`,
+      `${environment.apiUrl}/boards/${boardId}/labels/${labelId}`,
       {
         method: 'PUT',
-        body: JSON.stringify(mapApiRequestLabel(label)),
+        body: JSON.stringify(changes),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -121,7 +108,7 @@ export class BoardsApi {
     return mapLabel(json);
   }
 
-  async deleteLabel(boardId: string, labelId: string): Promise<void> {
+  async deleteLabel(boardId: string, labelId: string): Response<void> {
     await this._fetch(
       `${environment.apiUrl}/boards/${boardId}/labels/${labelId}`,
       {

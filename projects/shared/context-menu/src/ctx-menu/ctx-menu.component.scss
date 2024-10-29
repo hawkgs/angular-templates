@@ -1,0 +1,18 @@
+.ctx-menu {
+  position: absolute;
+  border: 1px solid var(--color-senary);
+  background-color: var(--color-octonary);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  border-radius: 0.2rem;
+  animation: fade-in 200ms ease 1 forwards;
+  max-width: 90vw;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

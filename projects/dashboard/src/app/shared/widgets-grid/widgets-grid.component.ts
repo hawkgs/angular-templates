@@ -1,6 +1,5 @@
 import { DOCUMENT } from '@angular/common';
 import {
-  AfterRenderPhase,
   Component,
   HostListener,
   afterNextRender,
@@ -14,6 +13,7 @@ import { ButtonComponent } from '@ngx-templates/shared/button';
 import { ModalService } from '@ngx-templates/shared/modal';
 import { ToastsService } from '@ngx-templates/shared/toasts';
 import { WINDOW } from '@ngx-templates/shared/services';
+import { generateShortUUID } from '@ngx-templates/shared/utils';
 import { Map } from 'immutable';
 
 import { WidgetComponent } from '../widgets/widget.component';
@@ -62,9 +62,7 @@ export class WidgetsGridComponent {
     });
 
     // Mark widgets as loaded on the browser
-    afterNextRender(() => this.widgetsLoaded.set(true), {
-      phase: AfterRenderPhase.Read,
-    });
+    afterNextRender({ read: () => this.widgetsLoaded.set(true) });
   }
 
   @HostListener('window:resize')
@@ -84,7 +82,7 @@ export class WidgetsGridComponent {
       .closed.then((resp) => {
         if (resp) {
           const { widgetType, size, dataSourceId, title } = resp;
-          const id = 'random' + Date.now(); // Temp
+          const id = generateShortUUID();
 
           this._widgets.update((map) =>
             map.set(
@@ -110,9 +108,9 @@ export class WidgetsGridComponent {
     this._widgets.update((m) => m.delete(id));
   }
 
-  onWidgetMoved(positions: { id: string; pos: number }[]) {
+  onWidgetMoved({ affected }: { affected: { id: string; pos: number }[] }) {
     this._widgets.update((widgets) => {
-      positions.forEach(({ id, pos }) => {
+      affected.forEach(({ id, pos }) => {
         widgets = widgets.set(id, widgets.get(id)!.set('position', pos));
       });
       return widgets;

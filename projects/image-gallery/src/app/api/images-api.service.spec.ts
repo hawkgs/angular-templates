@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { fetchApiMock } from '../shared/utils/fetch-mock';
+import { fetchApiMockProvider } from '../shared/utils/fetch-mock-provider.test-util';
 import { ImagesApi } from './images-api.service';
 import { Image } from '../shared/image';
 
 describe('ImagesApi', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [fetchApiMock, ImagesApi],
+      providers: [fetchApiMockProvider, ImagesApi],
     });
   });
 

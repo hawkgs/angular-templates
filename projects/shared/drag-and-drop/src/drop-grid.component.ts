@@ -1,8 +1,8 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   EmbeddedViewRef,
-  HostListener,
   InjectionToken,
   Input,
   NgZone,
@@ -17,11 +17,48 @@ import {
   viewChild,
 } from '@angular/core';
 
-import { Coor, DraggableDirective, Rect } from './draggable.directive';
+import { DraggableDirective } from './draggable.directive';
 import { DROP_GRID_GROUP } from './drop-grid-group.directive';
+import { Coor, Rect } from './types';
 
 const DEFAULT_GRID_COLS = 4;
 const DEFAULT_CELL_GAP = 16;
+
+const MOUSEOVER_DELAY = 150;
+
+// The size of the active area where the auto
+// scroll is activated.
+const HSCRL_ACTIVE_AREA = 50;
+
+// The size of the maximal scroll step (in pixels)
+// that can be reached during scroll.
+const HSCRL_STEP = 5;
+
+// The speed of the scroll is based on how deep
+// inside the active area the mouse cursor is
+// (continuous interval [0-1]). This constant
+// controls how big the step size can become.
+// Along with HSCRL_STEP, they determine how
+// fast the auto scroll is.
+const HSCRL_MAX_SPEED = 0.5;
+
+export type MovedEvent = {
+  id: string;
+  pos: number;
+  affected: { id: string; pos: number }[];
+};
+
+export type DragEvent = {
+  id: string;
+  /**
+   * - `start` – A draggable has been pulled
+   * - `move` – A draggable is being moved
+   * - `drop` – A draggable has been dropped
+   * - `anchored` – A draggable has been anchored to its slot (animation completed)
+   */
+  state: 'start' | 'move' | 'drop' | 'anchored';
+  pos?: Coor;
+};
 
 // Represents a grid cell in our spacial grid
 type GridCell = {
@@ -68,7 +105,7 @@ export const DROP_GRID = new InjectionToken<DropGridComponent>('DROP_GRID');
     },
   ],
 })
-export class DropGridComponent {
+export class DropGridComponent implements AfterViewInit {
   private _zone = inject(NgZone);
   private _elRef = inject(ElementRef);
   private _renderer = inject(Renderer2);
@@ -78,9 +115,16 @@ export class DropGridComponent {
   gridVcr = viewChild.required('grid', { read: ViewContainerRef });
 
   /**
-   * Emits an event when a draggable has been moved and return new positions.
+   * Emits an event when a draggable has been moved and
+   * returns the new positions of all affected items.
    */
-  moved = output<{ id: string; pos: number }[]>();
+  moved = output<MovedEvent>();
+
+  /**
+   * Emits events throughout drag lifecycle.
+   * Runs outside of NgZone.
+   */
+  drag = output<DragEvent>();
 
   /**
    * Set the scroll container of the drop grid. If not set,
@@ -123,6 +167,7 @@ export class DropGridComponent {
   private _dragged: EmbeddedViewRef<unknown> | null = null; // Currently dragged
   private _draggedId?: string; // Currently dragged directive ID
   private _dropInProgress = false;
+  private _mouseOverTimeout?: ReturnType<typeof setTimeout>;
 
   // Store in case you have to pass it to a group
   private _slotSize: SlotSize = { colSpan: 0, height: 0 };
@@ -131,9 +176,15 @@ export class DropGridComponent {
   private _viewIdxHover = 0; // Index of the currently hovered `ViewRef`
   private _disabled = false;
 
+  // Scrolling/Auto scrolling
+  private _scrollContRect: Rect = { p1: { x: 0, y: 0 }, p2: { x: 0, y: 0 } };
+  private _scrollInterval?: ReturnType<typeof setInterval>;
+
   // Used for groups; Keeps a function that triggers `moved` event
   // on the former host after a draggable handover is completed
   // (in order to notify the users for the transfer).
+  //
+  // Note(Georgi): This is currently disabled since it's not needed.
   private _exHostPosNotifier: (() => void) | null = null;
 
   constructor() {
@@ -168,18 +219,47 @@ export class DropGridComponent {
     return this.scrollCont() || this._elRef.nativeElement.parentElement;
   }
 
+  ngAfterViewInit() {
+    this._zone.runOutsideAngular(() => {
+      const el = this._elRef.nativeElement;
+
+      this._renderer.listen(el, 'mouseenter', (e) => this._initiateHandover(e));
+
+      // Sometimes the hand over initiation can't happen, if the drag occurred
+      // very fast (mouseenter event precedes the slot creation). That's why,
+      // there is a fallback mouseover handler that guarantees a handover.
+      this._renderer.listen(el, 'mouseover', (e) => {
+        if (this.isDragHost) {
+          return;
+        }
+        if (this._mouseOverTimeout) {
+          clearTimeout(this._mouseOverTimeout);
+        }
+        this._mouseOverTimeout = setTimeout(
+          () => this._initiateHandover(e),
+          MOUSEOVER_DELAY,
+        );
+      });
+    });
+  }
+
   insertDraggable(d: DraggableDirective) {
     const draggableViewRef = d.templateRef.createEmbeddedView(null);
     const pos = d.position();
     let insertionIdx = 0;
 
+    // Since we might receive the draggables unordered
+    // and in non-consecutive order,
+    // i.e. "pos 5" first, "pos 3" second, "pos 7" third, etc.
+    // we need to make sure they are inserted at the
+    // correct index in the view container.
     if (this._orderedDirectives.length) {
       insertionIdx = this._orderedDirectives.length;
 
       for (let i = 0; i < this._orderedDirectives.length; i++) {
         const dirPos = this._orderedDirectives[i].position();
 
-        if (dirPos > pos) {
+        if (dirPos >= pos) {
           insertionIdx = i;
           break;
         }
@@ -190,6 +270,12 @@ export class DropGridComponent {
     }
 
     this.gridVcr().insert(draggableViewRef, insertionIdx);
+
+    // If the element exists, this means we are dealing with a re-rendering.
+    // So, we have to clean up the old view.
+    if (this._draggablesDirectives.has(d.id())) {
+      this._draggablesViewRefs.get(d.id())?.destroy();
+    }
 
     // We need to set the native element of the draggable target and
     // subscribe to the events that are going to be emitted on user
@@ -212,8 +298,7 @@ export class DropGridComponent {
     const draggableViewRef = this._draggablesViewRefs.get(d.id());
     draggableViewRef?.destroy();
 
-    this._draggablesDirectives.delete(d.id());
-    this._draggablesViewRefs.delete(d.id());
+    this._cleanAllReferences(d.id());
   }
 
   onDragStart({
@@ -225,33 +310,34 @@ export class DropGridComponent {
     rect: Rect;
     id: string;
   }) {
-    this._zone.run(() => {
-      const directive = this._draggablesDirectives.get(id);
+    const directive = this._draggablesDirectives.get(id);
 
-      directive?.anchor.set(elContPos);
+    directive?.anchor.set(elContPos);
 
-      const draggableSize = directive?.elementSize() || 1;
+    const draggableSize = directive?.elementSize() || 1;
 
-      // Store the size of the slot in case the
-      // grid is part of a group (we'll need to pass
-      // that data during a hand over).
-      this._slotSize = {
-        colSpan: draggableSize,
-        height: rect.p2.y - rect.p1.y,
-      };
-      this._slot = this._createSlot(this._slotSize);
+    // Store the size of the slot in case the
+    // grid is part of a group (we'll need to pass
+    // that data during a hand over).
+    this._slotSize = {
+      colSpan: draggableSize,
+      height: rect.p2.y - rect.p1.y,
+    };
+    this._slot = this._createSlot(this._slotSize);
 
-      this._dragged = this._draggablesViewRefs.get(id) || null;
-      this._draggedId = id;
+    this._dragged = this._draggablesViewRefs.get(id) || null;
+    this._draggedId = id;
 
-      const gridVcr = this.gridVcr();
-      const viewIdx = gridVcr.indexOf(this._dragged!);
-      gridVcr.insert(this._slot, viewIdx);
+    const gridVcr = this.gridVcr();
+    const viewIdx = gridVcr.indexOf(this._dragged!);
+    gridVcr.insert(this._slot, viewIdx);
 
-      this._viewIdxHover = viewIdx;
+    this._viewIdxHover = viewIdx;
 
-      this._calculateSpacialGrid();
-    });
+    this._calculateSpacialGrid();
+    this._calculateScrollContRect();
+
+    this.drag.emit({ id, state: 'start' });
   }
 
   onDrag({ pos, rect }: { pos: Coor; rect: Rect }) {
@@ -282,6 +368,11 @@ export class DropGridComponent {
     }
 
     this._scrollContainer(rect);
+    this.drag.emit({
+      id: this._draggedId!,
+      state: 'move',
+      pos,
+    });
   }
 
   onDrop(e: { id: string }) {
@@ -295,6 +386,8 @@ export class DropGridComponent {
     this._zone.run(() => {
       this._draggablesDirectives.get(e.id)?.anchor.set({ x, y });
     });
+
+    this.drag.emit({ id: e.id, state: 'drop' });
   }
 
   onAnchored() {
@@ -322,9 +415,60 @@ export class DropGridComponent {
     this._emitUpdatedPositions();
 
     if (this._exHostPosNotifier) {
-      this._exHostPosNotifier();
+      // Note(Georgi): Currently disabled
+      // this._exHostPosNotifier();
       this._exHostPosNotifier = null;
     }
+
+    this.drag.emit({
+      id: this._draggedId!,
+      state: 'anchored',
+    });
+  }
+
+  /**
+   * Hands over all needed state to the new drop grid host
+   * and cleans the state of the current grid (old host).
+   *
+   * Used only for grouped grids.
+   */
+  handOverDragging(): {
+    directive: DraggableDirective;
+    viewRef: EmbeddedViewRef<unknown>;
+    slotSize: SlotSize;
+    positionsNotifier: () => void;
+  } {
+    // Destroy the slot
+    this._slot?.destroy();
+    this._slot = null;
+
+    // Detach the draggable view ref from the current grid
+    // without destroying it
+    const viewRef = this._dragged!;
+    const idx = this.gridVcr().indexOf(viewRef);
+    if (idx > -1) {
+      this.gridVcr().detach(idx);
+    }
+
+    this._dragged = null;
+
+    const id = this._draggedId!;
+    const directive = this._draggablesDirectives.get(id)!;
+
+    // Clear all of the state related to the tranferred draggable
+    // that is no longer needed or might interfere with proper
+    // functioning of the feature
+    this._cleanAllReferences(id);
+
+    const unsubscriber = this._draggablesEventsUnsubscribers.get(id)!;
+    unsubscriber();
+
+    return {
+      directive,
+      viewRef,
+      slotSize: { ...this._slotSize },
+      positionsNotifier: () => this._emitUpdatedPositions(),
+    };
   }
 
   /**
@@ -332,9 +476,8 @@ export class DropGridComponent {
    *
    * Available only for grouped grids.
    */
-  @HostListener('mouseenter', ['$event'])
-  onGridMouseEnter(e: MouseEvent) {
-    if (!this._group) {
+  private _initiateHandover(e: MouseEvent) {
+    if (!this._group || this.isDragHost) {
       return;
     }
 
@@ -346,7 +489,7 @@ export class DropGridComponent {
       return;
     }
 
-    // Determine if there is a drag host
+    // Determine if there is a drag host (excl. `this`)
     const dragHost = grids.find((g) => g.isDragHost);
     if (!dragHost) {
       return;
@@ -374,6 +517,7 @@ export class DropGridComponent {
     this._subscribeToDraggableEvents(directive);
 
     this._calculateSpacialGrid();
+    this._calculateScrollContRect();
 
     // Set the default position/index of the slot to 0
     const gridVcr = this.gridVcr();
@@ -421,52 +565,6 @@ export class DropGridComponent {
   }
 
   /**
-   * Hands over all needed state to the new drop grid host
-   * and cleans the state of the current grid (old host).
-   *
-   * Used only for grouped grids.
-   */
-  handOverDragging(): {
-    directive: DraggableDirective;
-    viewRef: EmbeddedViewRef<unknown>;
-    slotSize: SlotSize;
-    positionsNotifier: () => void;
-  } {
-    // Destroy the slot
-    this._slot?.destroy();
-    this._slot = null;
-
-    // Detach the draggable view ref from the current grid
-    // without destroying it
-    const viewRef = this._dragged!;
-    const idx = this.gridVcr().indexOf(viewRef);
-    if (idx > -1) {
-      this.gridVcr().detach(idx);
-    }
-
-    this._dragged = null;
-
-    const id = this._draggedId!;
-    const directive = this._draggablesDirectives.get(id)!;
-
-    // Clear all of the state related to the tranferred draggable
-    // that is no longer needed or might interfere with proper
-    // functioning of the feature
-    this._draggablesDirectives.delete(id);
-    this._draggablesViewRefs.delete(id);
-
-    const unsubscriber = this._draggablesEventsUnsubscribers.get(id)!;
-    unsubscriber();
-
-    return {
-      directive,
-      viewRef,
-      slotSize: { ...this._slotSize },
-      positionsNotifier: () => this._emitUpdatedPositions(),
-    };
-  }
-
-  /**
    * Creates a slot element without inserting it
    * in a view container.
    */
@@ -490,10 +588,10 @@ export class DropGridComponent {
    */
   private _subscribeToDraggableEvents(d: DraggableDirective) {
     const unsubscribers = [
-      d.dragStart.subscribe((e) => this.onDragStart(e)),
-      d.dragMove.subscribe((e) => this.onDrag(e)),
-      d.drop.subscribe((e) => this.onDrop(e)),
-      d.anchored.subscribe(() => this.onAnchored()),
+      d._dragStart.subscribe((e) => this.onDragStart(e)),
+      d._dragMove.subscribe((e) => this.onDrag(e)),
+      d._drop.subscribe((e) => this.onDrop(e)),
+      d._anchored.subscribe(() => this.onAnchored()),
     ];
 
     const unsubscribeFn = () => unsubscribers.forEach((fn) => fn.unsubscribe());
@@ -503,37 +601,56 @@ export class DropGridComponent {
 
   /**
    * Scroll the `scrollCont` up or down the page, if a draggable is
-   * dragged to the top or bottom of the viewport.
+   * dragged to the top or the bottom of the scroll container.
+   * a.k.a. Auto scrolling
+   *
+   * Horizontal scroll should be handled separately by the developer.
    *
    * @param draggableRect
    */
-  private _scrollContainer(draggableRect: Rect) {
-    // Note(Georgi): Might require some UX improvements
+  private _scrollContainer({ p1, p2 }: Rect) {
+    if (this._scrollInterval) {
+      clearInterval(this._scrollInterval);
+    }
 
-    const deltaBottomY = draggableRect.p2.y - this._scrollCont.clientHeight;
+    const yCenter = (p2.y - p1.y) / 2 + p1.y;
+    const yTop = yCenter - this._scrollContRect.p1.y;
+    const yBottom = this._scrollContRect?.p2.y - yCenter;
+    const dTop = HSCRL_ACTIVE_AREA - yTop;
+    const dBottom = HSCRL_ACTIVE_AREA - yBottom;
+    const cont = this._scrollCont;
+    const scrolled = Math.ceil(cont.clientHeight + cont.scrollTop);
 
-    if (deltaBottomY > 0) {
-      // Scroll down
-      this._scrollCont.scrollTo({
-        top: this._scrollCont.scrollTop + deltaBottomY,
-        behavior: 'smooth',
+    if (dTop >= 0 && cont.scrollTop > 0) {
+      const speed = Math.min(dTop / HSCRL_ACTIVE_AREA, HSCRL_MAX_SPEED);
+      this._scrollInterval = setInterval(() => {
+        cont.scrollTo(0, cont.scrollTop - HSCRL_STEP * speed);
       });
-    } else if (draggableRect.p1.y < 0) {
-      // Scroll up
-      this._scrollCont.scrollTo({
-        top: this._scrollCont.scrollTop - Math.abs(draggableRect.p1.y),
-        behavior: 'smooth',
+    } else if (dBottom >= 0 && cont.scrollHeight > scrolled) {
+      const speed = Math.min(dBottom / HSCRL_ACTIVE_AREA, HSCRL_MAX_SPEED);
+      this._scrollInterval = setInterval(() => {
+        cont.scrollTo(0, cont.scrollTop + HSCRL_STEP * speed);
       });
     }
   }
 
   private _emitUpdatedPositions() {
-    const positions: { id: string; pos: number }[] = [];
+    const affected: { id: string; pos: number }[] = [];
+    let targetPos = -1;
+
     this._draggablesViewRefs.forEach((vr, id) => {
-      positions.push({ id, pos: this.gridVcr().indexOf(vr) });
+      const pos = this.gridVcr().indexOf(vr);
+      if (id === this._draggedId) {
+        targetPos = pos;
+      }
+      affected.push({ id, pos });
     });
 
-    this.moved.emit(positions);
+    this.moved.emit({
+      id: this._draggedId!,
+      pos: targetPos,
+      affected,
+    });
   }
 
   /**
@@ -663,5 +780,32 @@ export class DropGridComponent {
     ordered.sort((a, b) => a.idx - b.idx);
 
     return ordered;
+  }
+
+  /**
+   * Clean all references of the provided directive
+   */
+  private _cleanAllReferences(id: string) {
+    this._draggablesDirectives.delete(id);
+    this._draggablesViewRefs.delete(id);
+
+    const orderedIdx = this._orderedDirectives.findIndex((d) => d.id() === id);
+    if (orderedIdx > -1) {
+      this._orderedDirectives.splice(orderedIdx, 1);
+    }
+  }
+
+  /**
+   * Required for the auto scrolling.
+   * Should be called once the drag starts or a handover is performed.
+   */
+  private _calculateScrollContRect() {
+    const { top, left, bottom, right } =
+      this._scrollCont.getBoundingClientRect();
+
+    this._scrollContRect = {
+      p1: { x: left, y: top },
+      p2: { x: right, y: bottom },
+    };
   }
 }

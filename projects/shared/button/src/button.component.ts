@@ -3,14 +3,13 @@
 import {
   Component,
   ElementRef,
-  HostBinding,
   OnInit,
   Renderer2,
   inject,
   input,
 } from '@angular/core';
 
-type ButtonType = 'primary' | 'secondary';
+type ButtonType = 'primary' | 'secondary' | 'danger';
 
 @Component({
   selector: 'button[ngx-button]',
