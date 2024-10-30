@@ -1,4 +1,5 @@
-@import 'typography';
+@use 'typography';
+@import 'screen-breakpoints';
 
 :host {
   @extend %body-short-03;
