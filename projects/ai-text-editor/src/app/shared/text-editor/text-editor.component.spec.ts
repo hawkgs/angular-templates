@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { windowProvider } from '@ngx-templates/shared/services';
+import { provideWindow } from '@ngx-templates/shared/services';
 
 import { TextEditorComponent } from './text-editor.component';
 
@@ -10,7 +10,7 @@ describe('TextEditorComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [TextEditorComponent],
-      providers: [windowProvider],
+      providers: [provideWindow()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TextEditorComponent);

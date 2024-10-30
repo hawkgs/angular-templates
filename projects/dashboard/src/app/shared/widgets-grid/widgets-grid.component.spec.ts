@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { windowProvider } from '@ngx-templates/shared/services';
+import { provideWindow } from '@ngx-templates/shared/services';
 import { WidgetsGridComponent } from './widgets-grid.component';
 import { provideDataSources } from '../../data/utils';
 
@@ -10,7 +10,7 @@ describe('WidgetsGridComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [WidgetsGridComponent],
-      providers: [windowProvider, provideDataSources()],
+      providers: [provideWindow(), provideDataSources()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(WidgetsGridComponent);

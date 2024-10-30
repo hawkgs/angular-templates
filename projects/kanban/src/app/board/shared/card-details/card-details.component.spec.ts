@@ -3,7 +3,7 @@ import { signal } from '@angular/core';
 import { List } from 'immutable';
 
 import { MODAL_DATA, ModalController } from '@ngx-templates/shared/modal';
-import { windowProvider } from '@ngx-templates/shared/services';
+import { provideWindow } from '@ngx-templates/shared/services';
 
 import { CardDetailsComponent } from './card-details.component';
 import { CardsService } from '../../data-access/cards.service';
@@ -19,7 +19,7 @@ describe('CardDetailsComponent', () => {
       imports: [CardDetailsComponent],
       providers: [
         fetchApiMockAndStateProvider,
-        windowProvider,
+        provideWindow(),
         {
           provide: MODAL_DATA,
           useValue: {

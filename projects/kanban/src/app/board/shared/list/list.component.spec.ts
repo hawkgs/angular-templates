@@ -4,7 +4,7 @@ import { ListComponent } from './list.component';
 import { CardsService } from '../../data-access/cards.service';
 import { fetchApiMockAndStateProvider } from '../../../shared/utils/fetch-mock-provider.test-util';
 import { ListsService } from '../../data-access/lists.service';
-import { windowProvider } from '../../../../../../../dist/shared/services';
+import { provideWindow } from '../../../../../../../dist/shared/services';
 import { BoardList } from '../../../../models';
 
 describe('ListComponent', () => {
@@ -16,7 +16,7 @@ describe('ListComponent', () => {
       imports: [ListComponent],
       providers: [
         fetchApiMockAndStateProvider,
-        windowProvider,
+        provideWindow,
         CardsService,
         ListsService,
       ],

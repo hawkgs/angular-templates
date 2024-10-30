@@ -5,7 +5,7 @@ import {
   withViewTransitions,
 } from '@angular/router';
 import { provideClientHydration } from '@angular/platform-browser';
-import { windowProvider } from '@ngx-templates/shared/services';
+import { provideWindow } from '@ngx-templates/shared/services';
 import { withFetchMock, provideFetchApi } from '@ngx-templates/shared/fetch';
 
 import { APP_ROUTES } from './app.routes';
@@ -22,7 +22,7 @@ export const appConfig: ApplicationConfig = {
     // Drop the `withFetchMock` implementation argument in order to
     // perform actual network requests via the native Fetch API.
     provideFetchApi(withFetchMock(ecommerceRequestResponseMock)),
-    windowProvider,
+    provideWindow(),
     CategoriesService,
     ProductsService,
     CartService,

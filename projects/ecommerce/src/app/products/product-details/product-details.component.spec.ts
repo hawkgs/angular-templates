@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { signal } from '@angular/core';
-import { windowProvider } from '@ngx-templates/shared/services';
+import { provideWindow } from '@ngx-templates/shared/services';
 
 import { ProductDetailsComponent } from './product-details.component';
 import { ProductsService } from '../../data-access/products.service';
@@ -19,7 +19,7 @@ describe('ProductDetailsComponent', () => {
       imports: [ProductDetailsComponent],
       providers: [
         provideRouter([]),
-        windowProvider,
+        provideWindow(),
         fetchApiMockProvider,
         ProductsService,
         CategoriesService,

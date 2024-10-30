@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { windowProvider } from '@ngx-templates/shared/services';
+import { provideWindow } from '@ngx-templates/shared/services';
 
 import { TextareaComponent } from './textarea.component';
 import { SelectionManager } from '../selection-manager.service';
@@ -11,7 +11,7 @@ describe('TextareaComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [TextareaComponent],
-      providers: [windowProvider, SelectionManager],
+      providers: [provideWindow(), SelectionManager],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TextareaComponent);

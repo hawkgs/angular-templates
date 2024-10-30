@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { windowProvider } from '@ngx-templates/shared/services';
+import { provideWindow } from '@ngx-templates/shared/services';
 import { provideRouter } from '@angular/router';
 
 import { ProductsComponent } from './products.component';
@@ -15,7 +15,7 @@ describe('ProductsComponent', () => {
       imports: [ProductsComponent],
       providers: [
         provideRouter([]),
-        windowProvider,
+        provideWindow(),
         fetchApiMockProvider,
         CategoriesService,
       ],

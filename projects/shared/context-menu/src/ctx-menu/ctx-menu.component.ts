@@ -13,7 +13,7 @@ import {
   viewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { WINDOW, windowProvider } from '@ngx-templates/shared/services';
+import { WINDOW, provideWindow } from '@ngx-templates/shared/services';
 
 import { CtxMenu } from '../types';
 import { CtxMenuController } from '../ctx-menu.controller';
@@ -26,7 +26,7 @@ export const CTX_MENU_DATA = new InjectionToken('CTX_MENU_DATA');
   selector: 'ngx-ctx-menu',
   standalone: true,
   imports: [],
-  providers: [windowProvider],
+  providers: [provideWindow()],
   templateUrl: './ctx-menu.component.html',
   styleUrl: './ctx-menu.component.scss',
 })

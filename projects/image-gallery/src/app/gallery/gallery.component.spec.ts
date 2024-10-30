@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { windowProvider } from '@ngx-templates/shared/services';
+import { provideWindow } from '@ngx-templates/shared/services';
 import { provideRouter } from '@angular/router';
 
 import { GalleryComponent } from './gallery.component';
@@ -12,7 +12,7 @@ describe('GalleryComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [GalleryComponent],
-      providers: [provideRouter([]), fetchApiMockProvider, windowProvider],
+      providers: [provideRouter([]), fetchApiMockProvider, provideWindow()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(GalleryComponent);

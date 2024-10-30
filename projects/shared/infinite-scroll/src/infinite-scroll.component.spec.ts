@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { windowProvider } from '@ngx-templates/shared/services';
+import { provideWindow } from '@ngx-templates/shared/services';
 
 import { InfiniteScrollComponent } from './infinite-scroll.component';
 
@@ -10,7 +10,7 @@ describe('InfiniteLoadingComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [InfiniteScrollComponent],
-      providers: [windowProvider],
+      providers: [provideWindow()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(InfiniteScrollComponent);
