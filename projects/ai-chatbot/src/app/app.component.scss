@@ -1,4 +1,5 @@
 @import 'screen-breakpoints';
+@import './shared/sidebar/variables';
 
 :host {
   display: flex;
@@ -31,7 +32,7 @@
     }
 
     .content {
-      margin-left: 56px; /* Sidebar collapsed width */
+      margin-left: $sidebar-collapsed-width;
     }
   }
 }

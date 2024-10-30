@@ -1,8 +1,6 @@
 @use 'typography';
 @import 'screen-breakpoints';
-
-$sidebar-anim-duration: 200ms;
-$sidebar-collapsed-width: 56px;
+@import './variables';
 
 @property --grad1 {
   syntax: '<color>';
