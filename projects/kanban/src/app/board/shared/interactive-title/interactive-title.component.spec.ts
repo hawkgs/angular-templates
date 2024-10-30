@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { windowProvider } from '@ngx-templates/shared/services';
+import { provideWindow } from '@ngx-templates/shared/services';
 
 import { InteractiveTitleComponent } from './interactive-title.component';
 
@@ -10,7 +10,7 @@ describe('InteractiveTitleComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [InteractiveTitleComponent],
-      providers: [windowProvider],
+      providers: [provideWindow()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(InteractiveTitleComponent);

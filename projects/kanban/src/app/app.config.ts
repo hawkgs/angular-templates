@@ -9,13 +9,13 @@ import {
 
 import { APP_ROUTES } from './app.routes';
 import { kanbanRequestResponseMock } from './shared/utils/kb-request-response-mock';
-import { windowProvider } from '@ngx-templates/shared/services';
+import { provideWindow } from '@ngx-templates/shared/services';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(APP_ROUTES),
-    windowProvider,
+    provideWindow(),
     // Drop the `withFetchMock` implementation argument, along with
     // `provideFetchMockState`, in order to perform actual network
     // requests via the native Fetch API.

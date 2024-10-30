@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { windowProvider } from '@ngx-templates/shared/services';
+import { provideWindow } from '@ngx-templates/shared/services';
 
 import { AiEnhancerMenuComponent } from './ai-enhancer-menu.component';
 import { SelectionManager } from '../selection-manager.service';
@@ -14,7 +14,7 @@ describe('AiEnhancerMenuComponent', () => {
     await TestBed.configureTestingModule({
       imports: [AiEnhancerMenuComponent],
       providers: [
-        windowProvider,
+        provideWindow(),
         SelectionManager,
         provideFetchApi(withFetchMock(geminiApiMock)),
       ],

@@ -1,10 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import 'global';
-@import 'theme-mixins';
+@use 'global';
 
 // Include widget tooltip directive styles
-@import './app/shared/widgets/widget-tooltip/widget-tooltip-styles';
+@use './app/shared/widgets/widget-tooltip/widget-tooltip-styles';
+
+@import 'theme-mixins';
+@import 'screen-breakpoints';
 
 // Variables
 

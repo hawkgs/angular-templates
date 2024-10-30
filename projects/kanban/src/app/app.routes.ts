@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { RoutePrefix } from './route-prefixes';
 import { BoardComponent } from './board/board.component';
 
 export const APP_ROUTES: Routes = [
@@ -6,12 +7,16 @@ export const APP_ROUTES: Routes = [
     path: '',
     children: [
       {
-        path: '',
+        path: RoutePrefix.Home,
         component: BoardComponent,
       },
       {
-        path: 'c/:id',
+        path: RoutePrefix.Card + '/:id',
         component: BoardComponent,
+      },
+      {
+        path: '**',
+        redirectTo: '',
       },
     ],
   },

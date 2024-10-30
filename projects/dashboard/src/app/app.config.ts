@@ -2,8 +2,7 @@ import {
   ApplicationConfig,
   provideExperimentalZonelessChangeDetection,
 } from '@angular/core';
-import { provideClientHydration } from '@angular/platform-browser';
-import { windowProvider } from '@ngx-templates/shared/services';
+import { provideWindow } from '@ngx-templates/shared/services';
 import { provideDataSources } from './data/utils';
 
 // TODO(Georgi): Investigate why hydration breaks due to
@@ -12,6 +11,6 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideExperimentalZonelessChangeDetection(),
     provideDataSources(),
-    windowProvider,
+    provideWindow(),
   ],
 };

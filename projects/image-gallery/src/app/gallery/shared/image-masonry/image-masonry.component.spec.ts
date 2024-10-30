@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { windowProvider } from '@ngx-templates/shared/services';
+import { provideWindow } from '@ngx-templates/shared/services';
 
 import { ImageMasonryComponent } from './image-masonry.component';
 import { List } from 'immutable';
@@ -11,7 +11,7 @@ describe('ImageMasonryComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ImageMasonryComponent],
-      providers: [windowProvider],
+      providers: [provideWindow()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ImageMasonryComponent);

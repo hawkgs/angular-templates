@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { windowProvider } from '@ngx-templates/shared/services';
+import { provideWindow } from '@ngx-templates/shared/services';
 
 import { BoardComponent } from './board.component';
 import { fetchApiMockAndStateProvider } from '../shared/utils/fetch-mock-provider.test-util';
@@ -15,7 +15,7 @@ describe('BoardComponent', () => {
       providers: [
         provideRouter([]),
         fetchApiMockAndStateProvider,
-        windowProvider,
+        provideWindow(),
       ],
     }).compileComponents();
 

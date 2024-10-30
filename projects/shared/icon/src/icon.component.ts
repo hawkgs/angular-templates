@@ -26,7 +26,8 @@ export type IconName =
   | 'Stop'
   | 'Chat'
   | 'SmartToy'
-  | 'Face';
+  | 'Face'
+  | 'Info';
 
 export type IconSize = 'sm' | 'md' | 'lg' | 'xlg' | 'xxlg';
 

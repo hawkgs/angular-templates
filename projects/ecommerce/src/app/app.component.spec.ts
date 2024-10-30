@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { provideWindow } from '@ngx-templates/shared/services';
 
 import { AppComponent } from './app.component';
 import { CategoriesService } from './data-access/categories.service';
@@ -15,6 +16,7 @@ describe('AppComponent', () => {
         fetchApiMockProvider,
         CategoriesService,
         CartService,
+        provideWindow(),
       ],
     }).compileComponents();
   });

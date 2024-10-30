@@ -1,4 +1,4 @@
-@import 'typography';
+@use 'typography';
 @import '../styles/variables';
 
 :host {
@@ -42,6 +42,7 @@
 
     input {
       width: 100%;
+      font-weight: bold;
     }
 
     button {

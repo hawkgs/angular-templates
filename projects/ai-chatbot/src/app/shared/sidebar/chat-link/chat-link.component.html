@@ -1,4 +1,4 @@
-<a [routerLink]="'chat/' + chat().id" class="name">
+<a [routerLink]="[RoutePrefix.Chat, chat().id]" class="name">
   <ngx-icon name="Chat" size="sm"></ngx-icon>
   {{ chat().name }}
 </a>

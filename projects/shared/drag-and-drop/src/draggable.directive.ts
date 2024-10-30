@@ -13,7 +13,7 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { WINDOW, windowProvider } from '@ngx-templates/shared/services';
+import { WINDOW, provideWindow } from '@ngx-templates/shared/services';
 import { DROP_GRID } from './drop-grid.component';
 import { Coor, Rect } from './types';
 import { getClientPointerPos } from './utils';
@@ -37,7 +37,7 @@ const DRAG_OPACITY = 0.8;
  */
 @Directive({
   selector: '[ngxDraggable]',
-  providers: [windowProvider],
+  providers: [provideWindow()],
   standalone: true,
 })
 export class DraggableDirective implements OnInit, OnDestroy {

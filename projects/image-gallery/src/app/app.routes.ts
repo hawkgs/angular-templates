@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { RoutePrefix } from './route-prefixes';
 import { GalleryComponent } from './gallery/gallery.component';
 
 export const APP_ROUTES: Routes = [
@@ -6,12 +7,16 @@ export const APP_ROUTES: Routes = [
     path: '',
     children: [
       {
-        path: '',
+        path: RoutePrefix.Home,
         component: GalleryComponent,
       },
       {
-        path: 'img/:idx',
+        path: RoutePrefix.Image + '/:idx',
         component: GalleryComponent,
+      },
+      {
+        path: '**',
+        redirectTo: '',
       },
     ],
   },

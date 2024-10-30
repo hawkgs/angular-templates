@@ -23,7 +23,7 @@
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacus tortor, scelerisque nec lectus et, elementum hendrerit justo. Vestibulum varius placerat accumsan. Mauris sed sagittis tortor, non accumsan leo. Vestibulum sollicitudin in odio quis ultricies. Curabitur accumsan lacus quis enim lobortis, non tempor sem mollis. Phasellus dignissim nec lacus sed varius. Ut ornare justo sed tortor mattis blandit. Vivamus ac faucibus diam, sed cursus felis. Curabitur non dictum massa, eu ornare ante. Vivamus gravida, risus vel venenatis luctus, erat dolor sollicitudin lectus, vel rhoncus diam arcu id felis.",
       "category_ids": ["merch"],
       "images": [
-        "/assets/mock-data/imgs/6631-1.webp"
+        "/mock-data/imgs/6631-1.webp"
       ],
       "price": 25,
       "discount_price": 19,
@@ -36,7 +36,7 @@
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacus tortor, scelerisque nec lectus et, elementum hendrerit justo. Vestibulum varius placerat accumsan. Mauris sed sagittis tortor, non accumsan leo. Vestibulum sollicitudin in odio quis ultricies. Curabitur accumsan lacus quis enim lobortis, non tempor sem mollis. Phasellus dignissim nec lacus sed varius. Ut ornare justo sed tortor mattis blandit. Vivamus ac faucibus diam, sed cursus felis. Curabitur non dictum massa, eu ornare ante. Vivamus gravida, risus vel venenatis luctus, erat dolor sollicitudin lectus, vel rhoncus diam arcu id felis.",
       "category_ids": ["merch"],
       "images": [
-        "/assets/mock-data/imgs/2372-1.webp"
+        "/mock-data/imgs/2372-1.webp"
       ],
       "price": 39,
       "discount_price": 0,
@@ -49,7 +49,7 @@
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacus tortor, scelerisque nec lectus et, elementum hendrerit justo. Vestibulum varius placerat accumsan. Mauris sed sagittis tortor, non accumsan leo. Vestibulum sollicitudin in odio quis ultricies. Curabitur accumsan lacus quis enim lobortis, non tempor sem mollis. Phasellus dignissim nec lacus sed varius. Ut ornare justo sed tortor mattis blandit. Vivamus ac faucibus diam, sed cursus felis. Curabitur non dictum massa, eu ornare ante. Vivamus gravida, risus vel venenatis luctus, erat dolor sollicitudin lectus, vel rhoncus diam arcu id felis.",
       "category_ids": ["merch"],
       "images": [
-        "/assets/mock-data/imgs/3936-1.webp"
+        "/mock-data/imgs/3936-1.webp"
       ],
       "price": 5.99,
       "discount_price": 0,
@@ -68,7 +68,7 @@
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacus tortor, scelerisque nec lectus et, elementum hendrerit justo. Vestibulum varius placerat accumsan. Mauris sed sagittis tortor, non accumsan leo. Vestibulum sollicitudin in odio quis ultricies. Curabitur accumsan lacus quis enim lobortis, non tempor sem mollis. Phasellus dignissim nec lacus sed varius. Ut ornare justo sed tortor mattis blandit. Vivamus ac faucibus diam, sed cursus felis. Curabitur non dictum massa, eu ornare ante. Vivamus gravida, risus vel venenatis luctus, erat dolor sollicitudin lectus, vel rhoncus diam arcu id felis.",
       "category_ids": ["merch"],
       "images": [
-        "/assets/mock-data/imgs/1002-1.webp"
+        "/mock-data/imgs/1002-1.webp"
       ],
       "price": 9,
       "discount_price": 0,
@@ -81,7 +81,7 @@
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacus tortor, scelerisque nec lectus et, elementum hendrerit justo. Vestibulum varius placerat accumsan. Mauris sed sagittis tortor, non accumsan leo. Vestibulum sollicitudin in odio quis ultricies. Curabitur accumsan lacus quis enim lobortis, non tempor sem mollis. Phasellus dignissim nec lacus sed varius. Ut ornare justo sed tortor mattis blandit. Vivamus ac faucibus diam, sed cursus felis. Curabitur non dictum massa, eu ornare ante. Vivamus gravida, risus vel venenatis luctus, erat dolor sollicitudin lectus, vel rhoncus diam arcu id felis.",
       "category_ids": ["merch"],
       "images": [
-        "/assets/mock-data/imgs/9925-1.webp"
+        "/mock-data/imgs/9925-1.webp"
       ],
       "price": 25,
       "discount_price": 0,
@@ -94,7 +94,7 @@
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacus tortor, scelerisque nec lectus et, elementum hendrerit justo. Vestibulum varius placerat accumsan. Mauris sed sagittis tortor, non accumsan leo. Vestibulum sollicitudin in odio quis ultricies. Curabitur accumsan lacus quis enim lobortis, non tempor sem mollis. Phasellus dignissim nec lacus sed varius. Ut ornare justo sed tortor mattis blandit. Vivamus ac faucibus diam, sed cursus felis. Curabitur non dictum massa, eu ornare ante. Vivamus gravida, risus vel venenatis luctus, erat dolor sollicitudin lectus, vel rhoncus diam arcu id felis.",
       "category_ids": ["merch"],
       "images": [
-        "/assets/mock-data/imgs/1202-1.webp"
+        "/mock-data/imgs/1202-1.webp"
       ],
       "price": 39,
       "discount_price": 29,
@@ -107,7 +107,7 @@
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacus tortor, scelerisque nec lectus et, elementum hendrerit justo. Vestibulum varius placerat accumsan. Mauris sed sagittis tortor, non accumsan leo. Vestibulum sollicitudin in odio quis ultricies. Curabitur accumsan lacus quis enim lobortis, non tempor sem mollis. Phasellus dignissim nec lacus sed varius. Ut ornare justo sed tortor mattis blandit. Vivamus ac faucibus diam, sed cursus felis. Curabitur non dictum massa, eu ornare ante. Vivamus gravida, risus vel venenatis luctus, erat dolor sollicitudin lectus, vel rhoncus diam arcu id felis.",
       "category_ids": ["merch"],
       "images": [
-        "/assets/mock-data/imgs/5395-1.webp"
+        "/mock-data/imgs/5395-1.webp"
       ],
       "price": 5.99,
       "discount_price": 0,
@@ -126,7 +126,7 @@
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacus tortor, scelerisque nec lectus et, elementum hendrerit justo. Vestibulum varius placerat accumsan. Mauris sed sagittis tortor, non accumsan leo. Vestibulum sollicitudin in odio quis ultricies. Curabitur accumsan lacus quis enim lobortis, non tempor sem mollis. Phasellus dignissim nec lacus sed varius. Ut ornare justo sed tortor mattis blandit. Vivamus ac faucibus diam, sed cursus felis. Curabitur non dictum massa, eu ornare ante. Vivamus gravida, risus vel venenatis luctus, erat dolor sollicitudin lectus, vel rhoncus diam arcu id felis.",
       "category_ids": ["merch"],
       "images": [
-        "/assets/mock-data/imgs/7649-1.webp"
+        "/mock-data/imgs/7649-1.webp"
       ],
       "price": 9,
       "discount_price": 2,
@@ -139,9 +139,9 @@
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacus tortor, scelerisque nec lectus et, elementum hendrerit justo. Vestibulum varius placerat accumsan. Mauris sed sagittis tortor, non accumsan leo. Vestibulum sollicitudin in odio quis ultricies. Curabitur accumsan lacus quis enim lobortis, non tempor sem mollis. Phasellus dignissim nec lacus sed varius. Ut ornare justo sed tortor mattis blandit. Vivamus ac faucibus diam, sed cursus felis. Curabitur non dictum massa, eu ornare ante. Vivamus gravida, risus vel venenatis luctus, erat dolor sollicitudin lectus, vel rhoncus diam arcu id felis.",
       "category_ids": ["tech"],
       "images": [
-        "/assets/mock-data/imgs/5551-1.webp",
-        "/assets/mock-data/imgs/5551-2.webp",
-        "/assets/mock-data/imgs/5551-3.webp"
+        "/mock-data/imgs/5551-1.webp",
+        "/mock-data/imgs/5551-2.webp",
+        "/mock-data/imgs/5551-3.webp"
       ],
       "price": 999,
       "discount_price": 0,
@@ -164,9 +164,9 @@
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacus tortor, scelerisque nec lectus et, elementum hendrerit justo. Vestibulum varius placerat accumsan. Mauris sed sagittis tortor, non accumsan leo. Vestibulum sollicitudin in odio quis ultricies. Curabitur accumsan lacus quis enim lobortis, non tempor sem mollis. Phasellus dignissim nec lacus sed varius. Ut ornare justo sed tortor mattis blandit. Vivamus ac faucibus diam, sed cursus felis. Curabitur non dictum massa, eu ornare ante. Vivamus gravida, risus vel venenatis luctus, erat dolor sollicitudin lectus, vel rhoncus diam arcu id felis.",
       "category_ids": ["tech"],
       "images": [
-        "/assets/mock-data/imgs/7263-1.webp",
-        "/assets/mock-data/imgs/7263-2.webp",
-        "/assets/mock-data/imgs/7263-3.webp"
+        "/mock-data/imgs/7263-1.webp",
+        "/mock-data/imgs/7263-2.webp",
+        "/mock-data/imgs/7263-3.webp"
       ],
       "price": 699,
       "discount_price": 0,
@@ -189,8 +189,8 @@
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacus tortor, scelerisque nec lectus et, elementum hendrerit justo. Vestibulum varius placerat accumsan. Mauris sed sagittis tortor, non accumsan leo. Vestibulum sollicitudin in odio quis ultricies. Curabitur accumsan lacus quis enim lobortis, non tempor sem mollis. Phasellus dignissim nec lacus sed varius. Ut ornare justo sed tortor mattis blandit. Vivamus ac faucibus diam, sed cursus felis. Curabitur non dictum massa, eu ornare ante. Vivamus gravida, risus vel venenatis luctus, erat dolor sollicitudin lectus, vel rhoncus diam arcu id felis.",
       "category_ids": ["tech"],
       "images": [
-        "/assets/mock-data/imgs/7891-1.webp",
-        "/assets/mock-data/imgs/7891-2.webp"
+        "/mock-data/imgs/7891-1.webp",
+        "/mock-data/imgs/7891-2.webp"
       ],
       "price": 349.99,
       "discount_price": 0,
@@ -209,8 +209,8 @@
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacus tortor, scelerisque nec lectus et, elementum hendrerit justo. Vestibulum varius placerat accumsan. Mauris sed sagittis tortor, non accumsan leo. Vestibulum sollicitudin in odio quis ultricies. Curabitur accumsan lacus quis enim lobortis, non tempor sem mollis. Phasellus dignissim nec lacus sed varius. Ut ornare justo sed tortor mattis blandit. Vivamus ac faucibus diam, sed cursus felis. Curabitur non dictum massa, eu ornare ante. Vivamus gravida, risus vel venenatis luctus, erat dolor sollicitudin lectus, vel rhoncus diam arcu id felis.",
       "category_ids": ["tech"],
       "images": [
-        "/assets/mock-data/imgs/9125-1.webp",
-        "/assets/mock-data/imgs/9125-2.webp"
+        "/mock-data/imgs/9125-1.webp",
+        "/mock-data/imgs/9125-2.webp"
       ],
       "price": 199.99,
       "discount_price": 0,
@@ -229,8 +229,8 @@
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacus tortor, scelerisque nec lectus et, elementum hendrerit justo. Vestibulum varius placerat accumsan. Mauris sed sagittis tortor, non accumsan leo. Vestibulum sollicitudin in odio quis ultricies. Curabitur accumsan lacus quis enim lobortis, non tempor sem mollis. Phasellus dignissim nec lacus sed varius. Ut ornare justo sed tortor mattis blandit. Vivamus ac faucibus diam, sed cursus felis. Curabitur non dictum massa, eu ornare ante. Vivamus gravida, risus vel venenatis luctus, erat dolor sollicitudin lectus, vel rhoncus diam arcu id felis.",
       "category_ids": ["tech"],
       "images": [
-        "/assets/mock-data/imgs/2008-1.webp",
-        "/assets/mock-data/imgs/2008-2.webp"
+        "/mock-data/imgs/2008-1.webp",
+        "/mock-data/imgs/2008-2.webp"
       ],
       "price": 159.95,
       "discount_price": 0,
@@ -249,8 +249,8 @@
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacus tortor, scelerisque nec lectus et, elementum hendrerit justo. Vestibulum varius placerat accumsan. Mauris sed sagittis tortor, non accumsan leo. Vestibulum sollicitudin in odio quis ultricies. Curabitur accumsan lacus quis enim lobortis, non tempor sem mollis. Phasellus dignissim nec lacus sed varius. Ut ornare justo sed tortor mattis blandit. Vivamus ac faucibus diam, sed cursus felis. Curabitur non dictum massa, eu ornare ante. Vivamus gravida, risus vel venenatis luctus, erat dolor sollicitudin lectus, vel rhoncus diam arcu id felis.",
       "category_ids": ["tech"],
       "images": [
-        "/assets/mock-data/imgs/3103-1.webp",
-        "/assets/mock-data/imgs/3103-2.webp"
+        "/mock-data/imgs/3103-1.webp",
+        "/mock-data/imgs/3103-2.webp"
       ],
       "price": 199.99,
       "discount_price": 0,
@@ -263,7 +263,7 @@
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacus tortor, scelerisque nec lectus et, elementum hendrerit justo. Vestibulum varius placerat accumsan. Mauris sed sagittis tortor, non accumsan leo. Vestibulum sollicitudin in odio quis ultricies. Curabitur accumsan lacus quis enim lobortis, non tempor sem mollis. Phasellus dignissim nec lacus sed varius. Ut ornare justo sed tortor mattis blandit. Vivamus ac faucibus diam, sed cursus felis. Curabitur non dictum massa, eu ornare ante. Vivamus gravida, risus vel venenatis luctus, erat dolor sollicitudin lectus, vel rhoncus diam arcu id felis.",
       "category_ids": ["tech"],
       "images": [
-        "/assets/mock-data/imgs/4427-1.webp"
+        "/mock-data/imgs/4427-1.webp"
       ],
       "price": 29.99,
       "discount_price": 0,
@@ -276,9 +276,9 @@
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacus tortor, scelerisque nec lectus et, elementum hendrerit justo. Vestibulum varius placerat accumsan. Mauris sed sagittis tortor, non accumsan leo. Vestibulum sollicitudin in odio quis ultricies. Curabitur accumsan lacus quis enim lobortis, non tempor sem mollis. Phasellus dignissim nec lacus sed varius. Ut ornare justo sed tortor mattis blandit. Vivamus ac faucibus diam, sed cursus felis. Curabitur non dictum massa, eu ornare ante. Vivamus gravida, risus vel venenatis luctus, erat dolor sollicitudin lectus, vel rhoncus diam arcu id felis.",
       "category_ids": ["tech"],
       "images": [
-        "/assets/mock-data/imgs/5024-1.webp",
-        "/assets/mock-data/imgs/5024-2.webp",
-        "/assets/mock-data/imgs/5024-3.webp"
+        "/mock-data/imgs/5024-1.webp",
+        "/mock-data/imgs/5024-2.webp",
+        "/mock-data/imgs/5024-3.webp"
       ],
       "price": 499,
       "discount_price": 0,
@@ -297,7 +297,7 @@
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacus tortor, scelerisque nec lectus et, elementum hendrerit justo. Vestibulum varius placerat accumsan. Mauris sed sagittis tortor, non accumsan leo. Vestibulum sollicitudin in odio quis ultricies. Curabitur accumsan lacus quis enim lobortis, non tempor sem mollis. Phasellus dignissim nec lacus sed varius. Ut ornare justo sed tortor mattis blandit. Vivamus ac faucibus diam, sed cursus felis. Curabitur non dictum massa, eu ornare ante. Vivamus gravida, risus vel venenatis luctus, erat dolor sollicitudin lectus, vel rhoncus diam arcu id felis.",
       "category_ids": ["giftcard"],
       "images": [
-        "/assets/mock-data/imgs/8013-1.webp"
+        "/mock-data/imgs/8013-1.webp"
       ],
       "price": 25,
       "discount_price": 0,
@@ -310,7 +310,7 @@
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacus tortor, scelerisque nec lectus et, elementum hendrerit justo. Vestibulum varius placerat accumsan. Mauris sed sagittis tortor, non accumsan leo. Vestibulum sollicitudin in odio quis ultricies. Curabitur accumsan lacus quis enim lobortis, non tempor sem mollis. Phasellus dignissim nec lacus sed varius. Ut ornare justo sed tortor mattis blandit. Vivamus ac faucibus diam, sed cursus felis. Curabitur non dictum massa, eu ornare ante. Vivamus gravida, risus vel venenatis luctus, erat dolor sollicitudin lectus, vel rhoncus diam arcu id felis.",
       "category_ids": ["giftcard"],
       "images": [
-        "/assets/mock-data/imgs/9231-1.webp"
+        "/mock-data/imgs/9231-1.webp"
       ],
       "price": 50,
       "discount_price": 0,
@@ -323,7 +323,7 @@
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacus tortor, scelerisque nec lectus et, elementum hendrerit justo. Vestibulum varius placerat accumsan. Mauris sed sagittis tortor, non accumsan leo. Vestibulum sollicitudin in odio quis ultricies. Curabitur accumsan lacus quis enim lobortis, non tempor sem mollis. Phasellus dignissim nec lacus sed varius. Ut ornare justo sed tortor mattis blandit. Vivamus ac faucibus diam, sed cursus felis. Curabitur non dictum massa, eu ornare ante. Vivamus gravida, risus vel venenatis luctus, erat dolor sollicitudin lectus, vel rhoncus diam arcu id felis.",
       "category_ids": ["giftcard"],
       "images": [
-        "/assets/mock-data/imgs/3771-1.webp"
+        "/mock-data/imgs/3771-1.webp"
       ],
       "price": 100,
       "discount_price": 0,
@@ -336,7 +336,7 @@
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacus tortor, scelerisque nec lectus et, elementum hendrerit justo. Vestibulum varius placerat accumsan. Mauris sed sagittis tortor, non accumsan leo. Vestibulum sollicitudin in odio quis ultricies. Curabitur accumsan lacus quis enim lobortis, non tempor sem mollis. Phasellus dignissim nec lacus sed varius. Ut ornare justo sed tortor mattis blandit. Vivamus ac faucibus diam, sed cursus felis. Curabitur non dictum massa, eu ornare ante. Vivamus gravida, risus vel venenatis luctus, erat dolor sollicitudin lectus, vel rhoncus diam arcu id felis.",
       "category_ids": ["giftcard"],
       "images": [
-        "/assets/mock-data/imgs/2901-1.webp"
+        "/mock-data/imgs/2901-1.webp"
       ],
       "price": 200,
       "discount_price": 0,

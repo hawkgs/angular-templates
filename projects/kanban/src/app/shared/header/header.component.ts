@@ -1,12 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AppLogoComponent } from '@ngx-templates/shared/app-logo';
 import { THEME_COMPONENTS } from '@ngx-templates/shared/theme';
+import { IconComponent } from '@ngx-templates/shared/icon';
+import { ModalService } from '@ngx-templates/shared/modal';
+import { AboutModalComponent } from './about-modal/about-modal.component';
 
 @Component({
   selector: 'kb-header',
   standalone: true,
-  imports: [AppLogoComponent, THEME_COMPONENTS],
+  imports: [AppLogoComponent, IconComponent, THEME_COMPONENTS],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent {}
+export class HeaderComponent {
+  private _modal = inject(ModalService);
+
+  openAboutModal() {
+    this._modal.createModal(AboutModalComponent);
+  }
+}

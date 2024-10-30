@@ -1,4 +1,9 @@
 <header>
   <ngx-app-logo text="Angular Kanban"></ngx-app-logo>
-  <ngx-theme-switch></ngx-theme-switch>
+  <div class="controls">
+    <ngx-theme-switch></ngx-theme-switch>
+    <button title="About" (click)="openAboutModal()">
+      <ngx-icon name="Info" size="xlg"></ngx-icon>
+    </button>
+  </div>
 </header>

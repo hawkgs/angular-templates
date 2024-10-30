@@ -16,6 +16,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 import { Image } from '../../../shared/image';
 import { ImagesService } from '../images.service';
+import { RoutePrefix } from '../../../route-prefixes';
 
 // Navigation animation duration
 const ANIM_DURATION = 250;
@@ -116,7 +117,7 @@ export class ImagePreviewComponent {
         this.idx.update((idx) => idx + 1);
 
         if (updateUrl) {
-          this._location.go('img/' + this.idx());
+          this._location.go(RoutePrefix.Image + '/' + this.idx());
         }
       }
     });
@@ -133,7 +134,7 @@ export class ImagePreviewComponent {
         this.idx.update((idx) => idx - 1);
 
         if (updateUrl) {
-          this._location.go('img/' + this.idx());
+          this._location.go(RoutePrefix.Image + '/' + this.idx());
         }
       }
     });

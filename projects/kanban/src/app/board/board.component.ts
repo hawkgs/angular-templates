@@ -30,6 +30,7 @@ import {
   CardDetailsComponent,
   CardDetailsData,
 } from './shared/card-details/card-details.component';
+import { RoutePrefix } from '../route-prefixes';
 
 // The size of the active area where the auto
 // scroll is activated.
@@ -91,7 +92,7 @@ export class BoardComponent implements OnInit {
   }
 
   openCard(cardId: string, animated: boolean = true) {
-    this._location.go('c/' + cardId);
+    this._location.go(RoutePrefix.Card + '/' + cardId);
     this._modal
       .createModal<CardDetailsData>(
         CardDetailsComponent,
