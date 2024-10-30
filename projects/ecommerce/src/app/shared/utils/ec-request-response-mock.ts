@@ -1,5 +1,5 @@
 import { MockFn } from '@ngx-templates/shared/fetch';
-import Data from '../../../assets/mock-data/data.json';
+import Data from '../../../../public/mock-data/data.json';
 import { ApiProduct } from '../../api/utils/api-types';
 
 const DEFAULT_PAGE_SIZE = 10;

@@ -26,8 +26,10 @@
             "tsConfig": "projects/ecommerce/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "projects/ecommerce/src/favicon.ico",
-              "projects/ecommerce/src/assets",
+              {
+                "glob": "**/*",
+                "input": "projects/ecommerce/public"
+              },
               {
                 "glob": "**/*",
                 "input": "projects/shared/assets",
@@ -109,8 +111,10 @@
             "tsConfig": "projects/ecommerce/tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "projects/ecommerce/src/favicon.ico",
-              "projects/ecommerce/src/assets",
+              {
+                "glob": "**/*",
+                "input": "projects/ecommerce/public"
+              },
               {
                 "glob": "**/*",
                 "input": "projects/shared/assets",
@@ -174,8 +178,10 @@
             "tsConfig": "projects/dashboard/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "projects/dashboard/src/favicon.ico",
-              "projects/dashboard/src/assets",
+              {
+                "glob": "**/*",
+                "input": "projects/dashboard/public"
+              },
               {
                 "glob": "**/*",
                 "input": "projects/shared/assets",
@@ -251,8 +257,10 @@
             "tsConfig": "projects/dashboard/tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "projects/dashboard/src/favicon.ico",
-              "projects/dashboard/src/assets",
+              {
+                "glob": "**/*",
+                "input": "projects/dashboard/public"
+              },
               {
                 "glob": "**/*",
                 "input": "projects/shared/assets",
