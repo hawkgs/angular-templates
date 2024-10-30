@@ -16,7 +16,7 @@ describe('ListComponent', () => {
       imports: [ListComponent],
       providers: [
         fetchApiMockAndStateProvider,
-        provideWindow,
+        provideWindow(),
         CardsService,
         ListsService,
       ],
