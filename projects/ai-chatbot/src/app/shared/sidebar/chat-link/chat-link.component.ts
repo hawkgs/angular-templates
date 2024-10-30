@@ -18,7 +18,7 @@ import {
   ConfirmDeleteModalComponent,
 } from './confirm-delete-modal/confirm-delete-modal.component';
 import { ChatbotService } from '../../../data-access/chatbot.service';
-import { RoutePrefix } from '../../../app.routes';
+import { RoutePrefix } from '../../../route-prefixes';
 
 @Component({
   selector: 'acb-chat-link',

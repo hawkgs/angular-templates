@@ -1,10 +1,6 @@
 import { Routes } from '@angular/router';
+import { RoutePrefix } from './route-prefixes';
 import { BoardComponent } from './board/board.component';
-
-export enum RoutePrefix {
-  Home = '',
-  Card = 'c',
-}
 
 export const APP_ROUTES: Routes = [
   {

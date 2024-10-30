@@ -24,7 +24,7 @@ import { QueryComponent } from './shared/query/query.component';
 import { ChatIntroComponent } from './shared/chat-intro/chat-intro.component';
 import { QuerySkeletonComponent } from './shared/query-skeleton/query-skeleton.component';
 import { Query } from '../../model';
-import { RoutePrefix } from '../app.routes';
+import { RoutePrefix } from '../route-prefixes';
 
 @Component({
   selector: 'acb-chat',

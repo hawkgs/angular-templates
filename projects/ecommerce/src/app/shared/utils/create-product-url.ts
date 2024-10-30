@@ -1,5 +1,5 @@
 import { Product } from '../../../models';
-import { RoutePrefix } from '../../app.routes';
+import { RoutePrefix } from '../../route-prefixes';
 
 /**
  * Create a Product URL (Angular route array).

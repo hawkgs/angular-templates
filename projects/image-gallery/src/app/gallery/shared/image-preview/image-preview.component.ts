@@ -16,7 +16,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 import { Image } from '../../../shared/image';
 import { ImagesService } from '../images.service';
-import { RoutePrefix } from '../../../app.routes';
+import { RoutePrefix } from '../../../route-prefixes';
 
 // Navigation animation duration
 const ANIM_DURATION = 250;

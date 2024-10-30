@@ -1,10 +1,6 @@
 import { Routes } from '@angular/router';
+import { RoutePrefix } from './route-prefixes';
 import { GalleryComponent } from './gallery/gallery.component';
-
-export enum RoutePrefix {
-  Home = '',
-  Image = 'img',
-}
 
 export const APP_ROUTES: Routes = [
   {

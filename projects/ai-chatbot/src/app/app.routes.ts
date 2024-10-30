@@ -1,10 +1,6 @@
 import { Routes } from '@angular/router';
 import { ChatComponent } from './chat/chat.component';
-
-export enum RoutePrefix {
-  Home = '',
-  Chat = 'chat',
-}
+import { RoutePrefix } from './route-prefixes';
 
 export const APP_ROUTES: Routes = [
   {

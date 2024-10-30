@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { ProductsComponent } from './products.component';
 import { canActivateProductDetails } from './product-details/product-details.guard';
-import { RoutePrefix } from '../app.routes';
+import { RoutePrefix } from '../route-prefixes';
 
 export const PRODUCTS_ROUTES: Routes = [
   {

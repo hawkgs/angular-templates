@@ -30,7 +30,7 @@ import {
   CardDetailsComponent,
   CardDetailsData,
 } from './shared/card-details/card-details.component';
-import { RoutePrefix } from '../app.routes';
+import { RoutePrefix } from '../route-prefixes';
 
 // The size of the active area where the auto
 // scroll is activated.

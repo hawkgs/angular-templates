@@ -16,7 +16,7 @@ import { ProductsApi } from '../../../api/products-api.service';
 import { Product } from '../../../../models';
 import { IconComponent } from '@ngx-templates/shared/icon';
 import { SearchItemComponent } from '../search-item/search-item.component';
-import { RoutePrefix } from '../../../app.routes';
+import { RoutePrefix } from '../../../route-prefixes';
 
 // Max results shown in the list
 const MAX_RESULTS = 4;
