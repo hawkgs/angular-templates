@@ -69,7 +69,10 @@ export class CartService {
       // in the database anymore or are unavailable,
       // remove them from the local storage.
       const existingProductsSet = Set<string>(
-        products.filter((p) => p.availability !== 'none').map((p) => p.id),
+        this._products()
+          .toList()
+          .filter((p) => p.availability !== 'none')
+          .map((p) => p.id),
       );
       const nonExistentProducts = this._cart()
         .toArray()
