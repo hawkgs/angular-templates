@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   MODAL_DATA,
   ModalContentComponent,
@@ -29,6 +29,7 @@ export type WidgetStoreResponse = {
   imports: [ModalContentComponent, WidgetItemComponent, WidgetComponent],
   templateUrl: './widgets-store-modal.component.html',
   styleUrl: './widgets-store-modal.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WidgetsStoreModalComponent {
   data = inject(MODAL_DATA) as string;

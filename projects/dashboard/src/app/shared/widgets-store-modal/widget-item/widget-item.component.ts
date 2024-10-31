@@ -1,4 +1,10 @@
-import { Component, computed, input, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  output,
+} from '@angular/core';
 import { WidgetType } from '../../widgets/widget';
 
 const WIDGET_NAMES: { [key in WidgetType]: string } = {
@@ -15,6 +21,7 @@ const WIDGET_NAMES: { [key in WidgetType]: string } = {
   imports: [],
   templateUrl: './widget-item.component.html',
   styleUrl: './widget-item.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WidgetItemComponent {
   type = input.required<WidgetType>();

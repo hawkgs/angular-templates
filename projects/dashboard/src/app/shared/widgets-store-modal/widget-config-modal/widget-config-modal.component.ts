@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   computed,
@@ -40,6 +41,7 @@ const SRC_TYPE_NAME: { [key in DataSourceType]: string } = {
   imports: [ButtonComponent, ModalContentComponent, SELECTOR_COMPONENTS],
   templateUrl: './widget-config-modal.component.html',
   styleUrl: './widget-config-modal.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WidgetConfigModalComponent {
   data = inject(MODAL_DATA) as WidgetConfigData;

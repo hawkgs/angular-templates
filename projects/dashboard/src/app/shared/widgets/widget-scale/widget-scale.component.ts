@@ -1,4 +1,9 @@
-import { Component, computed, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
 import { FormatThousandsPipe } from '../../pipes/format-thousands.pipe';
 
 const LINES_COUNT = 4;
@@ -11,6 +16,7 @@ const LABELS_MARGIN_RIGHT = 10;
   imports: [FormatThousandsPipe],
   templateUrl: './widget-scale.component.html',
   styleUrl: './widget-scale.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WidgetScaleComponent {
   max = input.required<number>();
