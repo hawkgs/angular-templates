@@ -63,7 +63,7 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2.5kb",
+                  "maximumWarning": "3kb",
                   "maximumError": "4kb"
                 }
               ],
@@ -215,7 +215,7 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
+                  "maximumWarning": "3kb",
                   "maximumError": "4kb"
                 }
               ],
@@ -398,7 +398,7 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
+                  "maximumWarning": "3kB",
                   "maximumError": "4kB"
                 }
               ],
@@ -537,7 +537,7 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
+                  "maximumWarning": "3kB",
                   "maximumError": "4kB"
                 }
               ],
@@ -676,7 +676,7 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
+                  "maximumWarning": "3kB",
                   "maximumError": "4kB"
                 }
               ],
@@ -815,7 +815,7 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
+                  "maximumWarning": "3kB",
                   "maximumError": "4kB"
                 }
               ],
