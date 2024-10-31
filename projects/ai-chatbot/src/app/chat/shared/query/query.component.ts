@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   inject,
@@ -17,6 +18,7 @@ import { QuerySkeletonComponent } from '../query-skeleton/query-skeleton.compone
   imports: [SafeHtmlPipe, IconComponent, QuerySkeletonComponent],
   templateUrl: './query.component.html',
   styleUrl: './query.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QueryComponent implements AfterViewInit {
   private _elRef = inject(ElementRef);

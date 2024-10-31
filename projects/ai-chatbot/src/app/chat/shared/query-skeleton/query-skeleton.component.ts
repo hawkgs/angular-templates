@@ -1,4 +1,9 @@
-import { Component, computed, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
 
 const DEFAULT_LINES_COUNT = 3;
 
@@ -8,6 +13,7 @@ const DEFAULT_LINES_COUNT = 3;
   imports: [],
   templateUrl: './query-skeleton.component.html',
   styleUrl: './query-skeleton.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuerySkeletonComponent {
   /**
