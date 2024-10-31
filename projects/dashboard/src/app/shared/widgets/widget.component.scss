@@ -1,6 +1,7 @@
 @use 'typography';
 
 @import 'theme-mixins';
+@import 'screen-breakpoints';
 @import './widget-vars';
 
 :host {
@@ -12,11 +13,14 @@
     border-radius: $widget-border-radius;
     background-color: var(--color-octonary);
     width: 100%;
-    max-width: calc(100vw - 32px); // 32px => 16px widget grid cell gap
     height: $widget-height;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+
+    @include bp-800w {
+      max-width: calc(100vw - 32px); // 32px => 16px widget grid cell gap
+    }
 
     .title {
       @extend %heading-400;
