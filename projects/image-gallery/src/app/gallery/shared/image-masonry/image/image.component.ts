@@ -1,4 +1,10 @@
-import { Component, computed, input, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  output,
+} from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { Image } from '../../../../shared/image';
 
@@ -10,6 +16,7 @@ const THUMB_WIDTH = 300;
   imports: [NgOptimizedImage],
   templateUrl: './image.component.html',
   styleUrl: './image.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageComponent {
   image = input.required<Image>();

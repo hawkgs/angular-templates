@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   HostListener,
@@ -35,6 +36,7 @@ type ExtendedImage = {
   imports: [ImageComponent],
   templateUrl: './image-masonry.component.html',
   styleUrl: './image-masonry.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageMasonryComponent {
   private _renderer = inject(Renderer2);
