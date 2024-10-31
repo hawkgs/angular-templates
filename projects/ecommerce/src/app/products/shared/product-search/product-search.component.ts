@@ -1,4 +1,9 @@
-import { Component, inject, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  output,
+} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { IconComponent } from '@ngx-templates/shared/icon';
@@ -16,6 +21,7 @@ import { SearchInputComponent } from '../../../shared/search-input/search-input.
   ],
   templateUrl: './product-search.component.html',
   styleUrl: './product-search.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductSearchComponent {
   private _formBuilder = inject(FormBuilder);

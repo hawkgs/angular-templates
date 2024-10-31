@@ -1,4 +1,10 @@
-import { Component, HostBinding, input, model } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  input,
+  model,
+} from '@angular/core';
 
 export type SortType = 'default' | 'price_asc' | 'price_desc';
 
@@ -18,6 +24,7 @@ export const isOfSortType = (s: string) => SORT_VALUES.has(s as SortType);
   imports: [],
   templateUrl: './sort-selector.component.html',
   styleUrl: './sort-selector.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SortSelectorComponent {
   SORT_VALUES = SORT_VALUES;

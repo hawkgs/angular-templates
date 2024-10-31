@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   forwardRef,
@@ -18,6 +19,7 @@ const INPUT_DEBOUNCE = 250;
   imports: [],
   templateUrl: './search-input.component.html',
   styleUrl: './search-input.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

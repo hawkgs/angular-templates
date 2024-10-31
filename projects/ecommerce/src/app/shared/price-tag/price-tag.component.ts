@@ -1,4 +1,9 @@
-import { Component, HostBinding, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  input,
+} from '@angular/core';
 import { Product } from '../../../models';
 import { CurrencyPipe } from '../pipes/currency.pipe';
 import { PercentPipe } from '@angular/common';
@@ -12,6 +17,7 @@ type PriceTagType = 'full' | 'prices-only' | 'current-price';
   imports: [CurrencyPipe, PercentPipe],
   templateUrl: './price-tag.component.html',
   styleUrl: './price-tag.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PriceTagComponent {
   product = input.required<Product>();

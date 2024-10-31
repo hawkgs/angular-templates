@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'ec-loader',
@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   imports: [],
   templateUrl: './loader.component.html',
   styleUrl: './loader.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoaderComponent {}

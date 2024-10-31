@@ -1,4 +1,10 @@
-import { Component, computed, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  signal,
+} from '@angular/core';
 
 import { Product } from '../../../../../models';
 import { ProductImageComponent } from '../../../../shared/product-image/product-image.component';
@@ -10,6 +16,7 @@ import { IconComponent } from '@ngx-templates/shared/icon';
   imports: [ProductImageComponent, IconComponent],
   templateUrl: './image-gallery.component.html',
   styleUrl: './image-gallery.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageGalleryComponent {
   product = input.required<Product>();

@@ -1,4 +1,10 @@
-import { Component, HostBinding, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  input,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { IconComponent } from '@ngx-templates/shared/icon';
@@ -13,6 +19,7 @@ import { ScreenBreakpoint } from '../utils/screen-breakpoints';
   imports: [IconComponent, CommonModule],
   templateUrl: './expandable-cont.component.html',
   styleUrl: './expandable-cont.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExpandableContComponent {
   /**

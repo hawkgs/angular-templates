@@ -1,4 +1,9 @@
-import { Component, computed, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+} from '@angular/core';
 
 import { ProductItemComponent } from '../shared/product-item/product-item.component';
 import { AutocompleteProductSearchComponent } from './shared/autocomplete-product-search/autocomplete-product-search.component';
@@ -23,6 +28,7 @@ const CATEGORY_REELS_COUNT = 3;
   providers: [ScrollPosition],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent {
   private _categories = inject(CategoriesService);

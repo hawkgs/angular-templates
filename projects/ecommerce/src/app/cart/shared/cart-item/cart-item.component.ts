@@ -1,4 +1,11 @@
-import { Component, computed, input, model, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  model,
+  output,
+} from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { IconComponent } from '@ngx-templates/shared/icon';
@@ -23,6 +30,7 @@ import { maxProductQuantity } from '../../../shared/utils/max-quantity';
   ],
   templateUrl: './cart-item.component.html',
   styleUrl: './cart-item.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartItemComponent {
   maxProductQuantity = maxProductQuantity;
