@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   HostListener,
   inject,
@@ -49,6 +50,7 @@ const MIN_AI_ENHC_STR_LEN = 5;
   ],
   templateUrl: './text-editor.component.html',
   styleUrl: './text-editor.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TextEditorComponent {
   private _modal = inject(ModalService);

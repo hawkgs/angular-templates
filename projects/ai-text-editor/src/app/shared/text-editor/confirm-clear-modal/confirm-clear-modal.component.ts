@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   ModalContentComponent,
   ModalController,
@@ -11,6 +11,7 @@ import { ButtonComponent } from '@ngx-templates/shared/button';
   imports: [ModalContentComponent, ButtonComponent],
   templateUrl: './confirm-clear-modal.component.html',
   styleUrl: './confirm-clear-modal.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmClearModalComponent {
   ctrl: ModalController<boolean> = inject(ModalController);

@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   input,
   output,
@@ -29,6 +30,7 @@ export type FormatEvent = {
   imports: [SELECT_COMPONENTS, IconComponent, FormatControlDirective],
   templateUrl: './formatting-bar.component.html',
   styleUrl: './formatting-bar.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormattingBarComponent implements AfterViewInit {
   isTextSelected = input.required<boolean>();

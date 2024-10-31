@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ModalOutletComponent } from '@ngx-templates/shared/modal';
+import { ToastOutletComponent } from '@ngx-templates/shared/toasts';
+
 import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { TextEditorComponent } from './shared/text-editor/text-editor.component';
-import { ModalOutletComponent } from '@ngx-templates/shared/modal';
-import { ToastOutletComponent } from '@ngx-templates/shared/toasts';
 
 @Component({
   selector: 'ate-root',
@@ -17,5 +18,6 @@ import { ToastOutletComponent } from '@ngx-templates/shared/toasts';
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {}
