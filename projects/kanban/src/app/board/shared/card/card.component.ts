@@ -1,4 +1,11 @@
-import { Component, computed, inject, input, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  output,
+} from '@angular/core';
 import { List } from 'immutable';
 
 import { Card, Label } from '../../../../models';
@@ -11,6 +18,7 @@ import { LabelColoringDirective } from '../label-coloring/label-coloring.directi
   imports: [LabelColoringDirective],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardComponent {
   private _labels = inject(LabelsService);

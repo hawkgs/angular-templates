@@ -1,4 +1,9 @@
-import { Component, computed, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+} from '@angular/core';
 import {
   CTX_MENU_DATA,
   CtxMenuController,
@@ -21,6 +26,7 @@ export type ListCtxMenuData = {
   imports: [],
   templateUrl: './list-ctx-menu.component.html',
   styleUrl: './list-ctx-menu.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListCtxMenuComponent {
   lists = inject(ListsService);

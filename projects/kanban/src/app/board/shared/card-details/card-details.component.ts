@@ -1,4 +1,11 @@
-import { Component, computed, inject, Injector, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  Injector,
+  OnInit,
+} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import {
   MODAL_DATA,
@@ -41,6 +48,7 @@ export interface CardDetailsData {
   ],
   templateUrl: './card-details.component.html',
   styleUrl: './card-details.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardDetailsComponent implements OnInit {
   data = inject<CardDetailsData>(MODAL_DATA);

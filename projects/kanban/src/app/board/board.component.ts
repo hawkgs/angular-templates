@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   inject,
@@ -66,6 +67,7 @@ const HSCRL_MAX_SPEED = 0.5;
   ],
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BoardComponent implements OnInit {
   lists = inject(ListsService);

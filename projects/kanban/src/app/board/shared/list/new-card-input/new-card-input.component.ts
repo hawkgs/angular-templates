@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   HostListener,
@@ -16,6 +17,7 @@ import { environment } from '../../../../../environments/environment';
   imports: [],
   templateUrl: './new-card-input.component.html',
   styleUrl: './new-card-input.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NewCardInputComponent implements AfterViewInit {
   private _renderer = inject(Renderer2);

@@ -1,4 +1,11 @@
-import { Component, computed, inject, signal, Signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  signal,
+  Signal,
+} from '@angular/core';
 import {
   CTX_MENU_DATA,
   CtxMenuController,
@@ -31,6 +38,7 @@ type Mode = 'card-labels' | 'creator' | 'editor' | 'delete-label-confirmation';
   ],
   templateUrl: './label-manager.component.html',
   styleUrl: './label-manager.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LabelManagerComponent {
   data = inject<LabelManagerData>(CTX_MENU_DATA);

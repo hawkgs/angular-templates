@@ -1,6 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   effect,
   ElementRef,
@@ -21,6 +22,7 @@ const DEFAULT_MAX_LENGTH = 50;
   imports: [],
   templateUrl: './interactive-title.component.html',
   styleUrl: './interactive-title.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InteractiveTitleComponent implements AfterViewInit {
   private _renderer = inject(Renderer2);
