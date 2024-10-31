@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   computed,
@@ -42,6 +43,7 @@ const MIN_HOR_SCALE_SPACING_IN_PX = 40;
   ],
   templateUrl: './line-chart.component.html',
   styleUrl: './line-chart.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LineChartComponent
   implements Widget<LineChartConfig, TabularData>

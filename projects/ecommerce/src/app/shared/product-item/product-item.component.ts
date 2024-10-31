@@ -1,4 +1,11 @@
-import { Component, computed, inject, input, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  output,
+} from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { Product } from '../../../models';
@@ -13,6 +20,7 @@ import { ProductImageComponent } from '../product-image/product-image.component'
   imports: [RouterModule, PriceTagComponent, ProductImageComponent],
   templateUrl: './product-item.component.html',
   styleUrl: './product-item.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductItemComponent {
   private _categories = inject(CategoriesService);

@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   inject,
@@ -19,6 +20,7 @@ import { urlValidator } from './url.validator';
   imports: [ModalContentComponent, ReactiveFormsModule, ButtonComponent],
   templateUrl: './hyperlink-modal.component.html',
   styleUrl: './hyperlink-modal.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HyperlinkModalComponent implements AfterViewInit {
   ctrl: ModalController<string> = inject(ModalController);

@@ -1,4 +1,11 @@
-import { Component, inject, input, Input, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+  Input,
+  output,
+} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonComponent } from '@ngx-templates/shared/button';
 
@@ -12,6 +19,7 @@ import { environment } from '../../../../../../environments/environment';
   imports: [ReactiveFormsModule, ColorPickerComponent, ButtonComponent],
   templateUrl: './label-form.component.html',
   styleUrl: './label-form.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LabelFormComponent {
   private _formBuilder = inject(FormBuilder);

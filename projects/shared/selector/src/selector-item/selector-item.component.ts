@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   HostBinding,
   OutputEmitterRef,
@@ -12,6 +13,7 @@ import {
   imports: [],
   templateUrl: './selector-item.component.html',
   styleUrl: './selector-item.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectorItemComponent {
   value = input.required<string>();

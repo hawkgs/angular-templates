@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IconComponent } from '@ngx-templates/shared/icon';
 
@@ -16,6 +16,7 @@ const TYPE_TO_CLASS: { [key in ToastType]: string } = {
   imports: [CommonModule, IconComponent],
   templateUrl: './toast.component.html',
   styleUrl: './toast.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToastComponent {
   toast = input.required<Toast>();

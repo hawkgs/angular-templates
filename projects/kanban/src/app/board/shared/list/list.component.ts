@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
   effect,
@@ -28,6 +29,7 @@ import { environment } from '../../../../environments/environment';
   imports: [NewCardInputComponent, InteractiveTitleComponent, IconComponent],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListComponent {
   private _cards = inject(CardsService);

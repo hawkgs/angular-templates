@@ -1,4 +1,11 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 
 import { ImageGalleryComponent } from './shared/image-gallery/image-gallery.component';
@@ -22,6 +29,7 @@ import { ScrollPosition } from '../../shared/scroll-position.service';
   providers: [ScrollPosition],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductDetailsComponent implements OnInit {
   private _route = inject(ActivatedRoute);

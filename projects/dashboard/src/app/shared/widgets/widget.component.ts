@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   Injector,
   OnInit,
@@ -32,6 +33,7 @@ import { ScalarDataComponent } from './scalar-data/scalar-data.component';
   ],
   templateUrl: './widget.component.html',
   styleUrl: './widget.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WidgetComponent implements OnInit {
   private _injector = inject(Injector);

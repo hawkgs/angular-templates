@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
   HostBinding,
@@ -32,6 +33,7 @@ const SIDEBAR_STATE_KEY = 'acb-sb-expanded';
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent {
   chatbot = inject(ChatbotService);

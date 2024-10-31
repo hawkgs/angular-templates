@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   MODAL_DATA,
   ModalContentComponent,
@@ -16,6 +16,7 @@ export type ConfirmDeleteData = {
   imports: [ModalContentComponent, ButtonComponent],
   templateUrl: './confirm-delete-modal.component.html',
   styleUrl: './confirm-delete-modal.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmDeleteModalComponent {
   data = inject<ConfirmDeleteData>(MODAL_DATA);

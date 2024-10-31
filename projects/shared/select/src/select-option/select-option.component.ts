@@ -1,5 +1,6 @@
 import {
   AfterContentInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   input,
@@ -14,6 +15,7 @@ import {
   imports: [],
   templateUrl: './select-option.component.html',
   styleUrl: './select-option.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectOptionComponent implements AfterContentInit {
   button = viewChild.required<ElementRef>('btn');

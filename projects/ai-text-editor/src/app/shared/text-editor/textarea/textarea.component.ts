@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   HostListener,
@@ -34,6 +35,7 @@ export class TextareaController {
   imports: [SafeHtmlPipe],
   templateUrl: './textarea.component.html',
   styleUrl: './textarea.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TextareaComponent implements AfterViewInit {
   private _selection = inject(SelectionManager);

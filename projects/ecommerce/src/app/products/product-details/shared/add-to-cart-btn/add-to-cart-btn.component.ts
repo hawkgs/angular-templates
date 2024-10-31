@@ -1,4 +1,11 @@
-import { Component, OnInit, computed, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  computed,
+  inject,
+  input,
+} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IconComponent } from '@ngx-templates/shared/icon';
 import { ToastsService } from '@ngx-templates/shared/toasts';
@@ -14,6 +21,7 @@ import { maxProductQuantity } from '../../../../shared/utils/max-quantity';
   imports: [ReactiveFormsModule, ButtonComponent, IconComponent],
   templateUrl: './add-to-cart-btn.component.html',
   styleUrl: './add-to-cart-btn.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddToCartBtnComponent implements OnInit {
   private _cart = inject(CartService);

@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   HostListener,
   Renderer2,
@@ -15,6 +16,7 @@ import { DOCUMENT } from '@angular/common';
   imports: [ModalComponent],
   templateUrl: './modal-outlet.component.html',
   styleUrl: './modal-outlet.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModalOutletComponent {
   private _doc = inject(DOCUMENT);

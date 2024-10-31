@@ -1,4 +1,10 @@
-import { Component, forwardRef, model, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  forwardRef,
+  model,
+  signal,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import {
@@ -12,6 +18,7 @@ import {
   imports: [CommonModule],
   templateUrl: './color-picker.component.html',
   styleUrl: './color-picker.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

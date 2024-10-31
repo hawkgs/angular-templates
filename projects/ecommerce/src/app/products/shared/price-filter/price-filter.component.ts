@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   HostListener,
@@ -20,6 +21,7 @@ export type PriceRange = {
   imports: [],
   templateUrl: './price-filter.component.html',
   styleUrl: './price-filter.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PriceFilterComponent {
   private _doc = inject(DOCUMENT);

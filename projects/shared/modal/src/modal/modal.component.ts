@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   HostListener,
@@ -22,6 +23,7 @@ export const MODAL_DATA = new InjectionToken('MODAL_DATA');
   imports: [],
   templateUrl: './modal.component.html',
   styleUrl: './modal.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModalComponent<D, R> implements AfterViewInit {
   private _cdRef = inject(ChangeDetectorRef);

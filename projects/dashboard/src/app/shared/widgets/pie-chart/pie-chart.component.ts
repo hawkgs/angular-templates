@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   computed,
@@ -39,6 +40,7 @@ const LABELS_MARGIN = 25; // Relative to the pie chart
   ],
   templateUrl: './pie-chart.component.html',
   styleUrl: './pie-chart.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PieChartComponent
   implements Widget<PieChartConfig, List<DataItem>>

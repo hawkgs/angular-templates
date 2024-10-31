@@ -1,4 +1,9 @@
-import { Component, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+} from '@angular/core';
 import { IconComponent, IconName } from '@ngx-templates/shared/icon';
 import { ThemeService, ThemeType } from '../theme.service';
 import { ThemeLabelPipe } from './theme-label.pipe';
@@ -17,6 +22,7 @@ const THEME_TO_ICON: { [key in ThemeType]: IconName } = {
   imports: [IconComponent, ThemeLabelPipe],
   templateUrl: './theme-switch.component.html',
   styleUrl: './theme-switch.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ThemeSwitchComponent {
   private _theme = inject(ThemeService);

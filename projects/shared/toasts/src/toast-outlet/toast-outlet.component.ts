@@ -1,4 +1,9 @@
-import { Component, computed, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+} from '@angular/core';
 import { ToastComponent } from '../toast/toast.component';
 import { ToastsService } from '../toasts.service';
 import { ToastType } from '../types';
@@ -9,6 +14,7 @@ import { ToastType } from '../types';
   imports: [ToastComponent],
   templateUrl: './toast-outlet.component.html',
   styleUrl: './toast-outlet.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToastOutletComponent {
   toasts = inject(ToastsService);

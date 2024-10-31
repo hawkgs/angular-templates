@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   OnChanges,
   SimpleChanges,
@@ -21,6 +22,7 @@ export type ScalarDataConfig = void;
   imports: [FormatThousandsPipe, WidgetTooltipDirective, IconComponent],
   templateUrl: './scalar-data.component.html',
   styleUrl: './scalar-data.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ScalarDataComponent
   implements Widget<ScalarDataConfig, DataItem>, OnChanges
