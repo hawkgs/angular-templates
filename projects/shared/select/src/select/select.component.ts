@@ -1,5 +1,6 @@
 import {
   AfterContentInit,
+  ChangeDetectionStrategy,
   Component,
   contentChildren,
   HostListener,
@@ -20,6 +21,7 @@ import { DOCUMENT } from '@angular/common';
   imports: [IconComponent],
   templateUrl: './select.component.html',
   styleUrl: './select.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectComponent implements AfterContentInit {
   private _doc = inject(DOCUMENT);

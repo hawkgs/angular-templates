@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   EmbeddedViewRef,
@@ -98,6 +99,7 @@ export const DROP_GRID = new InjectionToken<DropGridComponent>('DROP_GRID');
   standalone: true,
   templateUrl: './drop-grid.component.html',
   styleUrl: './drop-grid.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: DROP_GRID,

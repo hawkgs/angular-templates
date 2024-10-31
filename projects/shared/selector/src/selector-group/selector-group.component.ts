@@ -1,5 +1,6 @@
 import {
   AfterContentInit,
+  ChangeDetectionStrategy,
   Component,
   HostBinding,
   contentChildren,
@@ -14,6 +15,7 @@ import { SelectorItemComponent } from '../selector-item/selector-item.component'
   imports: [],
   templateUrl: './selector-group.component.html',
   styleUrl: './selector-group.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectorGroupComponent implements AfterContentInit {
   name = input.required<string>();
