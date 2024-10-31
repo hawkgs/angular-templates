@@ -1,4 +1,10 @@
-import { Component, OnInit, computed, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  computed,
+  inject,
+} from '@angular/core';
 import { IconComponent } from '@ngx-templates/shared/icon';
 import { ButtonComponent } from '@ngx-templates/shared/button';
 
@@ -14,6 +20,7 @@ import { CurrencyPipe } from '../shared/pipes/currency.pipe';
   imports: [CartItemComponent, CurrencyPipe, IconComponent, ButtonComponent],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartComponent implements OnInit {
   cart = inject(CartService);

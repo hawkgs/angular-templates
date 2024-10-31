@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ModalOutletComponent } from '@ngx-templates/shared/modal';
@@ -20,5 +20,6 @@ import { WidgetsGridComponent } from './shared/widgets-grid/widgets-grid.compone
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {}

@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   OnInit,
   computed,
@@ -46,6 +47,7 @@ const STANDARD_ROW_SIZE = 4; // Used for marking the first N product items as LC
   providers: [ProductsListService, ScrollPosition],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductsComponent implements OnInit {
   productsList = inject(ProductsListService);

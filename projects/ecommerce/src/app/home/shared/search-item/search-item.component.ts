@@ -1,4 +1,11 @@
-import { Component, ElementRef, Input, input, viewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Input,
+  input,
+  viewChild,
+} from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { Product } from '../../../../models';
@@ -11,6 +18,7 @@ import { ProductImageComponent } from '../../../shared/product-image/product-ima
   imports: [RouterModule, ProductImageComponent],
   templateUrl: './search-item.component.html',
   styleUrl: './search-item.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchItemComponent {
   anchorRef = viewChild.required<ElementRef>('anchorRef');

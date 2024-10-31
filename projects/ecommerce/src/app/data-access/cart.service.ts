@@ -26,7 +26,12 @@ export class CartService {
   private _cart = signal<Map<string, number>>(Map([]));
   private _products = signal<Map<string, Product>>(Map([]));
 
-  readonly products = computed(() => this._products().toList());
+  readonly products = computed(() =>
+    this._products()
+      .toList()
+      .sortBy((p) => p.name),
+  );
+
   readonly quantities = this._cart.asReadonly();
   readonly size = computed(() => this._cart().size);
   readonly total = computed(() =>
@@ -69,7 +74,10 @@ export class CartService {
       // in the database anymore or are unavailable,
       // remove them from the local storage.
       const existingProductsSet = Set<string>(
-        products.filter((p) => p.availability !== 'none').map((p) => p.id),
+        this._products()
+          .toList()
+          .filter((p) => p.availability !== 'none')
+          .map((p) => p.id),
       );
       const nonExistentProducts = this._cart()
         .toArray()

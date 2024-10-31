@@ -1,4 +1,11 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { ModalService } from '@ngx-templates/shared/modal';
@@ -23,6 +30,7 @@ const RENDERED_PAGE_SIZE = 20;
   providers: [ImagesService],
   templateUrl: './gallery.component.html',
   styleUrl: './gallery.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GalleryComponent implements OnInit {
   images = inject(ImagesService);

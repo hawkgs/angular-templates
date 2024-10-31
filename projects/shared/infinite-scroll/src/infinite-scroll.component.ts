@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   NgZone,
   OnDestroy,
@@ -26,6 +27,7 @@ export type CompleteFn = () => void;
   imports: [IconComponent],
   templateUrl: './infinite-scroll.component.html',
   styleUrl: './infinite-scroll.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InfiniteScrollComponent implements OnInit, OnDestroy {
   private _win = inject(WINDOW);

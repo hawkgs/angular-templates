@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   HostListener,
@@ -23,6 +24,7 @@ export type InputEvent = {
   imports: [ReactiveFormsModule, IconComponent],
   templateUrl: './chat-input.component.html',
   styleUrl: './chat-input.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatInputComponent implements AfterViewInit {
   private _renderer = inject(Renderer2);

@@ -1,4 +1,9 @@
-import { Component, computed, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
 import {
   IMAGE_LOADER,
   ImageLoaderConfig,
@@ -62,6 +67,7 @@ const buildSrcset = (src: string, size: ImageSize) =>
   providers: [imageLoaderProvider],
   templateUrl: './product-image.component.html',
   styleUrl: './product-image.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductImageComponent {
   buildMediaQuery = buildMediaQuery;

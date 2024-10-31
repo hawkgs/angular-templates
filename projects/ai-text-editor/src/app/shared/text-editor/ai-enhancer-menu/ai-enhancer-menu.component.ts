@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   effect,
   ElementRef,
@@ -33,6 +34,7 @@ const VIEWPORT_PADDING = 24; // 12 on each side
   imports: [ButtonComponent, IconComponent, ReactiveFormsModule],
   templateUrl: './ai-enhancer-menu.component.html',
   styleUrl: './ai-enhancer-menu.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AiEnhancerMenuComponent implements OnDestroy, AfterViewInit {
   private _selection = inject(SelectionManager);

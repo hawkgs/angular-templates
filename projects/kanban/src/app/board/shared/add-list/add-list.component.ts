@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   effect,
   ElementRef,
@@ -18,6 +19,7 @@ import { ButtonComponent } from '@ngx-templates/shared/button';
   imports: [ReactiveFormsModule, IconComponent, ButtonComponent],
   templateUrl: './add-list.component.html',
   styleUrl: './add-list.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddListComponent {
   private _formBuilder = inject(FormBuilder);

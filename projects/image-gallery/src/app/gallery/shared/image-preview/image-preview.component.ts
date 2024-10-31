@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   HostListener,
   Renderer2,
@@ -36,6 +37,7 @@ export type ImagePreviewData = {
   imports: [CommonModule, IconComponent, NgOptimizedImage],
   templateUrl: './image-preview.component.html',
   styleUrl: './image-preview.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImagePreviewComponent {
   data = inject<ImagePreviewData>(MODAL_DATA);

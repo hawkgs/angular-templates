@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   computed,
@@ -45,6 +46,7 @@ const SCALE_SIDE_PADDING = 10; // Relative to the bars
   ],
   templateUrl: './bar-chart.component.html',
   styleUrl: './bar-chart.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BarChartComponent
   implements Widget<BarChartConfig, List<DataItem>>

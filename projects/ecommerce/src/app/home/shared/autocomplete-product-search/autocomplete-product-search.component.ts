@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   HostListener,
@@ -35,6 +36,7 @@ const SEARCH_AFTER_CHAR = 3;
   ],
   templateUrl: './autocomplete-product-search.component.html',
   styleUrl: './autocomplete-product-search.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AutocompleteProductSearchComponent {
   productsApi = inject(ProductsApi);

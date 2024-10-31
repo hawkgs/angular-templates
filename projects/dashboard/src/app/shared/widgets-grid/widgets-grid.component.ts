@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   HostListener,
   afterNextRender,
@@ -36,6 +37,7 @@ const WIN_RESIZE_DEBOUNCE = 100; // ms
   providers: [GridStoreService],
   templateUrl: './widgets-grid.component.html',
   styleUrl: './widgets-grid.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WidgetsGridComponent {
   doc = inject(DOCUMENT);

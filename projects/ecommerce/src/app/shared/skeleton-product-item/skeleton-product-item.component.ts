@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'ec-skeleton-product-item',
@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   imports: [],
   templateUrl: './skeleton-product-item.component.html',
   styleUrl: './skeleton-product-item.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkeletonProductItemComponent {}

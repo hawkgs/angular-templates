@@ -1,4 +1,11 @@
-import { Component, OnInit, inject, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { List } from 'immutable';
 
@@ -14,6 +21,7 @@ const REEL_SIZE = 5;
   imports: [RouterModule, ProductItemComponent],
   templateUrl: './category-reel.component.html',
   styleUrl: './category-reel.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CategoryReelComponent implements OnInit {
   private _productsApi = inject(ProductsApi);

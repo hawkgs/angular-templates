@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   EmbeddedViewRef,
@@ -98,6 +99,7 @@ export const DROP_GRID = new InjectionToken<DropGridComponent>('DROP_GRID');
   standalone: true,
   templateUrl: './drop-grid.component.html',
   styleUrl: './drop-grid.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: DROP_GRID,
@@ -152,7 +154,9 @@ export class DropGridComponent implements AfterViewInit {
    */
   variableHeight = input<boolean>(true);
 
-  gridTemplateColumns = computed(() => `repeat(${this.columns()}, 1fr)`);
+  gridTemplateColumns = computed(
+    () => `repeat(${this.columns()}, minmax(0, 1fr))`,
+  );
 
   // ContentChildren does not work in our case due to the dynamic
   // nature of adding and remove views when transferring from one

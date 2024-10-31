@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   computed,
   ElementRef,
@@ -29,6 +30,7 @@ export const CTX_MENU_DATA = new InjectionToken('CTX_MENU_DATA');
   providers: [provideWindow()],
   templateUrl: './ctx-menu.component.html',
   styleUrl: './ctx-menu.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CtxMenuComponent<D, R> implements AfterViewInit {
   private _win = inject(WINDOW);

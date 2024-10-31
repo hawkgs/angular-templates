@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AppLogoComponent } from '@ngx-templates/shared/app-logo';
 
 @Component({
@@ -7,5 +7,6 @@ import { AppLogoComponent } from '@ngx-templates/shared/app-logo';
   imports: [AppLogoComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {}

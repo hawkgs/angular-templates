@@ -1,6 +1,11 @@
 /* eslint-disable @angular-eslint/no-host-metadata-property */
 import { CommonModule } from '@angular/common';
-import { Component, ViewEncapsulation, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+  input,
+} from '@angular/core';
 
 export type IconName =
   | 'Angular'
@@ -42,6 +47,7 @@ export type IconSize = 'sm' | 'md' | 'lg' | 'xlg' | 'xxlg';
     </svg>
   `,
   styleUrls: ['./icon.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   host: {
     class: 'ngx-icon',

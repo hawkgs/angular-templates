@@ -1,6 +1,7 @@
 /* eslint-disable @angular-eslint/no-host-metadata-property */
 /* eslint-disable @angular-eslint/component-selector */
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   OnInit,
@@ -17,6 +18,7 @@ type ButtonType = 'primary' | 'secondary' | 'danger';
   imports: [],
   template: '<ng-content></ng-content>',
   styleUrl: './button.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'ngx-button',
   },
