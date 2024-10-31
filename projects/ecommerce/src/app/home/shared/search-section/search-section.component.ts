@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AutocompleteProductSearchComponent } from '../autocomplete-product-search/autocomplete-product-search.component';
 
 @Component({
@@ -7,5 +7,6 @@ import { AutocompleteProductSearchComponent } from '../autocomplete-product-sear
   imports: [AutocompleteProductSearchComponent],
   templateUrl: './search-section.component.html',
   styleUrl: './search-section.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchSectionComponent {}

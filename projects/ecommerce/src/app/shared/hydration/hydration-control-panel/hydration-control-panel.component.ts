@@ -1,6 +1,6 @@
 import {
+  ChangeDetectionStrategy,
   Component,
-  computed,
   effect,
   inject,
   signal,
@@ -24,6 +24,7 @@ const MAX_DELAY = 10000;
   imports: [CommonModule, SwitchComponent, LoaderComponent, IconComponent],
   templateUrl: './hydration-control-panel.component.html',
   styleUrl: './hydration-control-panel.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HydrationControlPanelComponent {
   hydration = inject(HydrationService);

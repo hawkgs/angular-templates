@@ -1,4 +1,9 @@
-import { Component, input, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  output,
+} from '@angular/core';
 import { ProductSearchComponent } from '../product-search/product-search.component';
 import { ExpandableContComponent } from '../../../shared/expandable-cont/expandable-cont.component';
 import { CategoryPickerComponent } from '../category-picker/category-picker.component';
@@ -26,6 +31,7 @@ import {
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent {
   defaults = input.required<{

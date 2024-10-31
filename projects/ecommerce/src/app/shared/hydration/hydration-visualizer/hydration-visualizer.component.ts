@@ -12,6 +12,7 @@ import {
   InjectionToken,
   output,
   NgZone,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { HydrationService } from '../hydration.service';
 
@@ -40,6 +41,7 @@ let instanceId = 0;
   standalone: true,
   template: '<ng-content></ng-content>',
   styleUrl: './hydration-visualizer.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: VISUALIZER,

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkeletonProductItemComponent } from '../../../shared/skeleton-product-item/skeleton-product-item.component';
 
 // Used for the hydration demo
@@ -8,5 +8,6 @@ import { SkeletonProductItemComponent } from '../../../shared/skeleton-product-i
   imports: [SkeletonProductItemComponent],
   templateUrl: './category-reel-skeleton.component.html',
   styleUrl: './category-reel-skeleton.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CategoryReelSkeletonComponent {}
