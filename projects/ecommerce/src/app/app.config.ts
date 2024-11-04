@@ -6,7 +6,7 @@ import {
 } from '@angular/router';
 import {
   provideClientHydration,
-  withPartialHydration,
+  withIncrementalHydration,
 } from '@angular/platform-browser';
 import { provideWindow } from '@ngx-templates/shared/services';
 import { withFetchMock, provideFetchApi } from '@ngx-templates/shared/fetch';
@@ -21,7 +21,7 @@ import { ecommerceRequestResponseMock } from './shared/utils/ec-request-response
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(APP_ROUTES, withViewTransitions()),
-    provideClientHydration(withPartialHydration()),
+    provideClientHydration(withIncrementalHydration()),
     // Drop the `withFetchMock` implementation argument in order to
     // perform actual network requests via the native Fetch API.
     provideFetchApi(withFetchMock(ecommerceRequestResponseMock)),
