@@ -1,4 +1,4 @@
-@import 'screen-breakpoints';
+@use 'screen-breakpoints' as sb;
 
 :host {
   display: block;
@@ -19,7 +19,7 @@
       padding-bottom: 0.25rem;
     }
 
-    @include bp-600w {
+    @include sb.bp-600w {
       margin-bottom: 1rem;
     }
   }
