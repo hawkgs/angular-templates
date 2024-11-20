@@ -1,4 +1,4 @@
-@import './typography';
+@use './typography' as tg;
 
 // Global styles
 
@@ -10,7 +10,7 @@ body {
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
-  font-family: $font-family;
+  font-family: tg.$font-family;
   font-size: 0.875rem;
   margin: 0;
 
@@ -62,7 +62,7 @@ button,
 textarea,
 select,
 .ngx-input-element {
-  font-family: $font-family;
+  font-family: tg.$font-family;
 }
 
 input,
