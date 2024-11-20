@@ -9,7 +9,6 @@ const DEFAULT_LINES_COUNT = 3;
 
 @Component({
   selector: 'acb-query-skeleton',
-  standalone: true,
   imports: [],
   templateUrl: './query-skeleton.component.html',
   styleUrl: './query-skeleton.component.scss',

@@ -32,7 +32,6 @@ const WIN_RESIZE_DEBOUNCE = 100; // ms
 
 @Component({
   selector: 'db-widgets-grid',
-  standalone: true,
   imports: [WidgetComponent, ButtonComponent, DRAG_AND_DROP_DIRECTIVES],
   providers: [GridStoreService],
   templateUrl: './widgets-grid.component.html',

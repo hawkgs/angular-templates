@@ -18,7 +18,6 @@ const DEFAULT_MAX_LENGTH = 50;
 
 @Component({
   selector: 'kb-interactive-title',
-  standalone: true,
   imports: [],
   templateUrl: './interactive-title.component.html',
   styleUrl: './interactive-title.component.scss',

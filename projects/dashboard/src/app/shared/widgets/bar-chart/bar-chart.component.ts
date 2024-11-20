@@ -12,7 +12,6 @@ import { Widget } from '../widget';
 import { DataItem } from '../../../data/types';
 import { generateColorsArray, getNearestCeiledMax } from '../utils';
 import { precisionRound } from '../../utils';
-import { FormatThousandsPipe } from '../../pipes/format-thousands.pipe';
 import { ChartLabelPipe } from '../../pipes/chart-label.pipe';
 import { WidgetTooltipDirective } from '../widget-tooltip/widget-tooltip.directive';
 import { WidgetScaleComponent } from '../widget-scale/widget-scale.component';
@@ -36,9 +35,7 @@ const SCALE_SIDE_PADDING = 10; // Relative to the bars
 
 @Component({
   selector: 'db-bar-chart',
-  standalone: true,
   imports: [
-    FormatThousandsPipe,
     ChartLabelPipe,
     WidgetTooltipDirective,
     WidgetScaleComponent,

@@ -30,7 +30,6 @@ const VIEWPORT_PADDING = 24; // 12 on each side
 
 @Component({
   selector: 'ate-ai-enhancer-menu',
-  standalone: true,
   imports: [ButtonComponent, IconComponent, ReactiveFormsModule],
   templateUrl: './ai-enhancer-menu.component.html',
   styleUrl: './ai-enhancer-menu.component.scss',

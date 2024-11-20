@@ -7,7 +7,6 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'ig-root',
-  standalone: true,
   imports: [
     RouterModule,
     HeaderComponent,

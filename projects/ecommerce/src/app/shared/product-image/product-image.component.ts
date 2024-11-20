@@ -62,7 +62,6 @@ const buildSrcset = (src: string, size: ImageSize) =>
 
 @Component({
   selector: 'ec-product-image',
-  standalone: true,
   imports: [NgOptimizedImage, IconComponent],
   providers: [imageLoaderProvider],
   templateUrl: './product-image.component.html',

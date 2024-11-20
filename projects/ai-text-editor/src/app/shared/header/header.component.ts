@@ -4,7 +4,6 @@ import { THEME_COMPONENTS } from '@ngx-templates/shared/theme';
 
 @Component({
   selector: 'ate-header',
-  standalone: true,
   imports: [AppLogoComponent, THEME_COMPONENTS],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',

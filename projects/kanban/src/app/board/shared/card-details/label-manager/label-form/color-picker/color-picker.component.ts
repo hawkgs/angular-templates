@@ -14,7 +14,6 @@ import {
 
 @Component({
   selector: 'kb-color-picker',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './color-picker.component.html',
   styleUrl: './color-picker.component.scss',

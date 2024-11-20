@@ -22,7 +22,6 @@ const SIDEBAR_STATE_KEY = 'acb-sb-expanded';
 
 @Component({
   selector: 'acb-sidebar',
-  standalone: true,
   imports: [
     RouterModule,
     CommonModule,

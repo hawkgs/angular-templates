@@ -4,7 +4,6 @@ import { ModalController } from '../modal.controller';
 
 @Component({
   selector: 'ngx-modal-content',
-  standalone: true,
   imports: [IconComponent],
   templateUrl: './modal-content.component.html',
   styleUrl: './modal-content.component.scss',

@@ -37,7 +37,6 @@ const SRC_TYPE_NAME: { [key in DataSourceType]: string } = {
 
 @Component({
   selector: 'db-widget-config-modal',
-  standalone: true,
   imports: [ButtonComponent, ModalContentComponent, SELECTOR_COMPONENTS],
   templateUrl: './widget-config-modal.component.html',
   styleUrl: './widget-config-modal.component.scss',

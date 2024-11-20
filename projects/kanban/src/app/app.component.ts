@@ -7,7 +7,6 @@ import { HeaderComponent } from './shared/header/header.component';
 
 @Component({
   selector: 'kb-root',
-  standalone: true,
   imports: [
     RouterOutlet,
     HeaderComponent,

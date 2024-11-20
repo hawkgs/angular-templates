@@ -20,7 +20,6 @@ export const isOfSortType = (s: string) => SORT_VALUES.has(s as SortType);
 
 @Component({
   selector: 'ec-sort-selector',
-  standalone: true,
   imports: [],
   templateUrl: './sort-selector.component.html',
   styleUrl: './sort-selector.component.scss',

@@ -29,7 +29,6 @@ import { RoutePrefix } from '../route-prefixes';
 
 @Component({
   selector: 'acb-chat',
-  standalone: true,
   imports: [
     ChatInputComponent,
     QueryComponent,

@@ -13,7 +13,6 @@ import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'kb-new-card-input',
-  standalone: true,
   imports: [],
   templateUrl: './new-card-input.component.html',
   styleUrl: './new-card-input.component.scss',

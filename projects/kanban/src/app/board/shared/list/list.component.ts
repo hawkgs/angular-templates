@@ -25,7 +25,6 @@ import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'kb-list',
-  standalone: true,
   imports: [NewCardInputComponent, InteractiveTitleComponent, IconComponent],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',

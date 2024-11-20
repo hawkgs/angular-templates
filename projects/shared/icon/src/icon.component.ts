@@ -39,7 +39,6 @@ export type IconSize = 'sm' | 'md' | 'lg' | 'xlg' | 'xxlg';
 // Powered by Material Symbols
 @Component({
   selector: 'ngx-icon',
-  standalone: true,
   imports: [CommonModule],
   template: `
     <svg class="svg" [ngClass]="[size()]">
