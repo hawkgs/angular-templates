@@ -1,11 +1,11 @@
+@use 'typography' as tg;
 @use '../../styles/card';
-@import 'typography';
 
 :host {
   display: block;
 
   textarea {
-    font-family: $font-family;
+    font-family: tg.$font-family;
     resize: none;
     overflow: hidden;
     box-sizing: border-box;

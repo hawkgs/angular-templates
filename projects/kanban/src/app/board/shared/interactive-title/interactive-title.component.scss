@@ -1,10 +1,10 @@
-@import 'typography';
+@use 'typography' as tg;
 
 :host {
   display: block;
 
   textarea {
-    font-family: $font-family;
+    font-family: tg.$font-family;
     font-size: var(--font-size, 0.875rem);
     font-weight: var(--font-weight, 'normal');
     padding-top: var(--vertical-padding, 8px);

@@ -1,28 +1,28 @@
 @use 'scrollbars';
-@import 'theme-mixins';
-@import '../styles/variables';
+@use 'theme-mixins' as tm;
+@use '../styles/variables' as vars;
 
 :host {
   display: flex;
   flex-direction: column;
-  flex: 0 0 $list-width;
-  width: $list-width;
+  flex: 0 0 vars.$list-width;
+  width: vars.$list-width;
   max-height: 100%;
   border: 1px solid var(--color-quinary);
   background-color: var(--color-septenary);
   box-sizing: border-box;
-  border-radius: $list-border-radius;
+  border-radius: vars.$list-border-radius;
 
   .header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    padding: $list-padding;
+    padding: vars.$list-padding;
 
     kb-interactive-title {
       --font-weight: bold;
       --vertical-padding: 4px;
-      --width: #{$list-name-input-width};
+      --width: #{vars.$list-name-input-width};
       border: none;
     }
 
@@ -54,11 +54,11 @@
     padding: 0 8px;
 
     .new-card-top {
-      margin-bottom: $list-padding;
+      margin-bottom: vars.$list-padding;
     }
 
     .new-card-bottom {
-      margin-top: $list-padding;
+      margin-top: vars.$list-padding;
     }
 
     .empty-list {
@@ -67,7 +67,7 @@
   }
 
   .add-btn-wrapper {
-    padding: $list-padding;
+    padding: vars.$list-padding;
 
     .add-card-bottom {
       background-color: transparent;
@@ -103,7 +103,7 @@
   border-radius: 0;
 }
 
-@include if-dark-theme {
+@include tm.if-dark-theme {
   :host {
     ::-webkit-scrollbar-thumb {
       background-color: color-mix(
