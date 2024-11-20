@@ -1,6 +1,6 @@
 @use 'typography';
 @use './styles/control-button';
-@import 'theme-mixins';
+@use 'theme-mixins' as tm;
 
 :host {
   display: block;
@@ -74,7 +74,7 @@
   }
 }
 
-@include if-light-theme {
+@include tm.if-light-theme {
   :host {
     border-color: var(--color-quinary);
     box-shadow: 0 5px 15px var(--color-senary);

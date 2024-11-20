@@ -1,5 +1,5 @@
 @use '../styles/control-button';
-@import '../textarea/textarea-styles';
+@use '../textarea/textarea-styles' as ts;
 
 :host {
   display: flex;
@@ -40,7 +40,7 @@
     margin-bottom: 0.75rem;
 
     span {
-      font-size: $ate-textarea-font-size;
+      font-size: ts.$ate-textarea-font-size;
       pointer-events: none;
 
       &.heading {
