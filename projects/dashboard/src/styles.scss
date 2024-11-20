@@ -5,8 +5,8 @@
 // Include widget tooltip directive styles
 @use './app/shared/widgets/widget-tooltip/widget-tooltip-styles';
 
-@import 'theme-mixins';
-@import 'screen-breakpoints';
+@use 'theme-mixins' as tm;
+@use 'screen-breakpoints' as sb;
 
 // Variables
 
@@ -14,7 +14,7 @@
   --app-max-width: 1620px;
   --app-min-width: 1250px;
 
-  @include bp-800w {
+  @include sb.bp-800w {
     --app-min-width: unset;
   }
 }
@@ -23,7 +23,7 @@ body {
   overflow-y: scroll;
 }
 
-@include if-light-theme {
+@include tm.if-light-theme {
   body {
     background-color: var(--color-octonary);
   }

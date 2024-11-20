@@ -1,5 +1,5 @@
 @use 'typography';
-@import '../widgets/widget-vars';
+@use '../widgets/widget-vars' as wv;
 
 :host {
   display: block;
@@ -54,6 +54,6 @@
   ngx-drop-grid {
     --grid-slot-background: var(--color-bg);
     --grid-slot-border: 1px solid var(--color-electric-lavander);
-    --grid-slot-border-radius: #{$widget-border-radius};
+    --grid-slot-border-radius: #{wv.$widget-border-radius};
   }
 }
