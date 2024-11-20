@@ -22,6 +22,7 @@ describe('ImagePreviewComponent', () => {
               isComplete: signal(false),
               previewImages: signal(Map([])),
               list: signal(List([])),
+              loadImageForPreview: () => {},
             },
           },
         },
