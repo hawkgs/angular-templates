@@ -1,4 +1,4 @@
-@import 'screen-breakpoints';
+@use 'screen-breakpoints' as sb;
 
 :host {
   display: block;
@@ -12,7 +12,7 @@
     justify-content: center;
     padding: 1rem;
 
-    @include bp-600w {
+    @include sb.bp-600w {
       padding: 0.5rem;
     }
 

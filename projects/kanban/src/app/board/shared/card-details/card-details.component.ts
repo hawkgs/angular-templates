@@ -38,7 +38,6 @@ export interface CardDetailsData {
 
 @Component({
   selector: 'kb-card-details',
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     InteractiveTitleComponent,

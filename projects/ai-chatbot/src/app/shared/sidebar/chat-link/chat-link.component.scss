@@ -1,5 +1,5 @@
 @use 'typography';
-@import 'screen-breakpoints';
+@use 'screen-breakpoints' as sb;
 
 :host {
   @extend %body-short-03;
@@ -12,7 +12,7 @@
   transition: background-color 200ms ease;
   font-weight: normal;
 
-  @include bp-600w {
+  @include sb.bp-600w {
     font-size: 1rem;
     margin-bottom: 0.5rem;
   }

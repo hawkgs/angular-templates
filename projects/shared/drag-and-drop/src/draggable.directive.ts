@@ -38,7 +38,6 @@ const DRAG_OPACITY = 0.8;
 @Directive({
   selector: '[ngxDraggable]',
   providers: [provideWindow()],
-  standalone: true,
 })
 export class DraggableDirective implements OnInit, OnDestroy {
   templateRef = inject(TemplateRef);

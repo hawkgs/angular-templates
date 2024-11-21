@@ -5,7 +5,6 @@ import {
   inject,
 } from '@angular/core';
 
-import { ProductItemComponent } from '../shared/product-item/product-item.component';
 import { AutocompleteProductSearchComponent } from './shared/autocomplete-product-search/autocomplete-product-search.component';
 import { CategoryReelComponent } from './shared/category-reel/category-reel.component';
 import { CategoriesService } from '../data-access/categories.service';
@@ -19,12 +18,7 @@ const CATEGORY_REELS_COUNT = 3;
 
 @Component({
   selector: 'ec-home',
-  standalone: true,
-  imports: [
-    ProductItemComponent,
-    AutocompleteProductSearchComponent,
-    CategoryReelComponent,
-  ],
+  imports: [AutocompleteProductSearchComponent, CategoryReelComponent],
   providers: [ScrollPosition],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',

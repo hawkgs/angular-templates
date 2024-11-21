@@ -17,7 +17,6 @@ import { maxProductQuantity } from '../../../../shared/utils/max-quantity';
 
 @Component({
   selector: 'ec-add-to-cart-btn',
-  standalone: true,
   imports: [ReactiveFormsModule, ButtonComponent, IconComponent],
   templateUrl: './add-to-cart-btn.component.html',
   styleUrl: './add-to-cart-btn.component.scss',

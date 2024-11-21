@@ -8,7 +8,6 @@ import { Modal } from '../types';
 
 @Component({
   selector: 'ngx-dummy',
-  standalone: true,
   template: '',
 })
 export class DummyComponent {}

@@ -6,7 +6,6 @@ import { CartService } from '../../data-access/cart.service';
 
 @Component({
   selector: 'ec-header',
-  standalone: true,
   imports: [RouterModule, IconComponent, AppLogoComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',

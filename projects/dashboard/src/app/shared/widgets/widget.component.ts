@@ -22,7 +22,6 @@ import { ScalarDataComponent } from './scalar-data/scalar-data.component';
 
 @Component({
   selector: 'db-widget',
-  standalone: true,
   imports: [
     IconComponent,
     BarChartComponent,

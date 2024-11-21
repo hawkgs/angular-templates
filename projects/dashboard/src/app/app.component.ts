@@ -9,7 +9,6 @@ import { WidgetsGridComponent } from './shared/widgets-grid/widgets-grid.compone
 
 @Component({
   selector: 'db-root',
-  standalone: true,
   imports: [
     CommonModule,
     HeaderComponent,

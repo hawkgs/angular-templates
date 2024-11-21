@@ -31,7 +31,6 @@ export class TextareaController {
 
 @Component({
   selector: 'ate-textarea',
-  standalone: true,
   imports: [SafeHtmlPipe],
   templateUrl: './textarea.component.html',
   styleUrl: './textarea.component.scss',

@@ -12,7 +12,6 @@ import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'ngx-modal-outlet',
-  standalone: true,
   imports: [ModalComponent],
   templateUrl: './modal-outlet.component.html',
   styleUrl: './modal-outlet.component.scss',

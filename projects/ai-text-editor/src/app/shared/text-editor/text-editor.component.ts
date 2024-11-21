@@ -35,7 +35,6 @@ const MIN_AI_ENHC_STR_LEN = 5;
 
 @Component({
   selector: 'ate-text-editor',
-  standalone: true,
   imports: [
     TextareaComponent,
     AiEnhancerMenuComponent,

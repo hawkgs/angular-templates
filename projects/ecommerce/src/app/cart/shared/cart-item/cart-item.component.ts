@@ -19,7 +19,6 @@ import { maxProductQuantity } from '../../../shared/utils/max-quantity';
 
 @Component({
   selector: 'ec-cart-item',
-  standalone: true,
   imports: [
     RouterModule,
     ProductImageComponent,

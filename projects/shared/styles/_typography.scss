@@ -1,4 +1,4 @@
-@import './screen-breakpoints';
+@use './screen-breakpoints' as sb;
 
 $font-family: 'Inter', Arial, sans-serif;
 
@@ -51,7 +51,7 @@ $font-family: 'Inter', Arial, sans-serif;
   font-style: normal;
   line-height: 1.4rem;
 
-  @include bp-600w {
+  @include sb.bp-600w {
     font-size: 1rem;
   }
 }
@@ -61,7 +61,7 @@ $font-family: 'Inter', Arial, sans-serif;
   font-style: normal;
   line-height: 1rem;
 
-  @include bp-600w {
+  @include sb.bp-600w {
     font-size: 1rem;
   }
 }
@@ -85,7 +85,7 @@ $font-family: 'Inter', Arial, sans-serif;
   font-size: 0.625rem;
   letter-spacing: 0.05rem;
 
-  @include bp-600w {
+  @include sb.bp-600w {
     font-size: 0.75rem;
   }
 }

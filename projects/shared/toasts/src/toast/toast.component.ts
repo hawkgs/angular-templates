@@ -12,7 +12,6 @@ const TYPE_TO_CLASS: { [key in ToastType]: string } = {
 
 @Component({
   selector: 'ngx-toast',
-  standalone: true,
   imports: [CommonModule, IconComponent],
   templateUrl: './toast.component.html',
   styleUrl: './toast.component.scss',

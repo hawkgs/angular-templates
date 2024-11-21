@@ -7,7 +7,6 @@ import { TabularDataRow } from '../../../data/types';
  */
 @Pipe({
   name: 'linePathDefinition',
-  standalone: true,
 })
 export class LinePathDefinitionPipe implements PipeTransform {
   transform(

@@ -1,9 +1,9 @@
 @use 'typography';
+@use 'scrollbars';
+@use 'theme-mixins' as tm;
+@use 'screen-breakpoints' as sb;
 
-@import 'theme-mixins';
-@import 'screen-breakpoints';
-@import 'scrollbars';
-@import './widget-vars';
+@use './widget-vars' as wv;
 
 :host {
   position: relative;
@@ -11,15 +11,15 @@
 
   .widget-wrapper {
     border: 1px solid var(--color-senary);
-    border-radius: $widget-border-radius;
+    border-radius: wv.$widget-border-radius;
     background-color: var(--color-octonary);
     width: 100%;
-    height: $widget-height;
+    height: wv.$widget-height;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
 
-    @include bp-800w {
+    @include sb.bp-800w {
       max-width: calc(100vw - 32px); // 32px => 16px widget grid cell gap
     }
 
@@ -68,14 +68,14 @@
 
   .no-data {
     @extend %heading-600;
-    border-radius: $widget-border-radius;
+    border-radius: wv.$widget-border-radius;
     border: 1px dashed var(--color-senary);
     color: var(--color-quaternary);
     background-color: var(--color-bg);
     user-select: none;
     box-sizing: border-box;
     width: 100%;
-    height: $widget-height;
+    height: wv.$widget-height;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -83,7 +83,7 @@
   }
 }
 
-@include if-light-theme {
+@include tm.if-light-theme {
   :host {
     .widget-wrapper {
       background-color: var(--white);

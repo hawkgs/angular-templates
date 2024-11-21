@@ -19,7 +19,6 @@ export const MODAL_DATA = new InjectionToken('MODAL_DATA');
 
 @Component({
   selector: 'ngx-modal',
-  standalone: true,
   imports: [],
   templateUrl: './modal.component.html',
   styleUrl: './modal.component.scss',

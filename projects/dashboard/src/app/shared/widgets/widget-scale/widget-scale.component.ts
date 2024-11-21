@@ -12,7 +12,6 @@ const LABELS_MARGIN_RIGHT = 10;
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[dbWidgetScale]',
-  standalone: true,
   imports: [FormatThousandsPipe],
   templateUrl: './widget-scale.component.html',
   styleUrl: './widget-scale.component.scss',

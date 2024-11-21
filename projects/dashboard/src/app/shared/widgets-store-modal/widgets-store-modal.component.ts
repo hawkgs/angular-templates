@@ -25,7 +25,6 @@ export type WidgetStoreResponse = {
 
 @Component({
   selector: 'db-widgets-store-modal',
-  standalone: true,
   imports: [ModalContentComponent, WidgetItemComponent, WidgetComponent],
   templateUrl: './widgets-store-modal.component.html',
   styleUrl: './widgets-store-modal.component.scss',

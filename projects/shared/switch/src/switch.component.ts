@@ -10,7 +10,6 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'ngx-switch',
-  standalone: true,
   imports: [],
   templateUrl: './switch.component.html',
   styleUrl: './switch.component.scss',

@@ -1,4 +1,4 @@
-@import 'screen-breakpoints';
+@use 'screen-breakpoints' as sb;
 
 :host {
   width: 100%;
@@ -23,7 +23,7 @@
         margin-right: 0.25rem;
       }
 
-      @include bp-600w {
+      @include sb.bp-600w {
         align-items: center;
 
         .label {

@@ -18,7 +18,6 @@ export type ScalarDataConfig = void;
 
 @Component({
   selector: 'db-scalar-data',
-  standalone: true,
   imports: [FormatThousandsPipe, WidgetTooltipDirective, IconComponent],
   templateUrl: './scalar-data.component.html',
   styleUrl: './scalar-data.component.scss',

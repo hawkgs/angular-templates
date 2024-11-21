@@ -14,7 +14,6 @@ import { ProductImageComponent } from '../../../shared/product-image/product-ima
 
 @Component({
   selector: 'ec-search-item',
-  standalone: true,
   imports: [RouterModule, ProductImageComponent],
   templateUrl: './search-item.component.html',
   styleUrl: './search-item.component.scss',

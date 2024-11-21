@@ -6,7 +6,6 @@ import { Coor, getAngleCoor } from './utils';
  */
 @Pipe({
   name: 'sectorPathDefinition',
-  standalone: true,
 })
 export class SectorPathDefinitionPipe implements PipeTransform {
   transform(

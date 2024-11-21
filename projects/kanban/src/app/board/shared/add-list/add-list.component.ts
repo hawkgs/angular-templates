@@ -15,7 +15,6 @@ import { ButtonComponent } from '@ngx-templates/shared/button';
 
 @Component({
   selector: 'kb-add-list',
-  standalone: true,
   imports: [ReactiveFormsModule, IconComponent, ButtonComponent],
   templateUrl: './add-list.component.html',
   styleUrl: './add-list.component.scss',

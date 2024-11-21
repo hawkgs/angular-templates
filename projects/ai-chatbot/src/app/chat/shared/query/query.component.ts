@@ -14,7 +14,6 @@ import { QuerySkeletonComponent } from '../query-skeleton/query-skeleton.compone
 
 @Component({
   selector: 'acb-query',
-  standalone: true,
   imports: [SafeHtmlPipe, IconComponent, QuerySkeletonComponent],
   templateUrl: './query.component.html',
   styleUrl: './query.component.scss',

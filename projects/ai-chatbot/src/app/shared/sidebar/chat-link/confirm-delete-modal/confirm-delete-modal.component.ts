@@ -13,7 +13,6 @@ export type ConfirmDeleteData = {
 
 @Component({
   selector: 'acb-confirm-delete-modal',
-  standalone: true,
   imports: [ModalContentComponent, ButtonComponent],
   templateUrl: './confirm-delete-modal.component.html',
   styleUrl: './confirm-delete-modal.component.scss',

@@ -12,7 +12,6 @@ import { IconComponent } from '@ngx-templates/shared/icon';
 
 @Component({
   selector: 'ec-image-gallery',
-  standalone: true,
   imports: [ProductImageComponent, IconComponent],
   templateUrl: './image-gallery.component.html',
   styleUrl: './image-gallery.component.scss',

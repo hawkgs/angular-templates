@@ -25,7 +25,6 @@ const RENDERED_PAGE_SIZE = 20;
 
 @Component({
   selector: 'ig-gallery',
-  standalone: true,
   imports: [ImageMasonryComponent, InfiniteScrollComponent],
   providers: [ImagesService],
   templateUrl: './gallery.component.html',

@@ -4,7 +4,6 @@ import { CtxMenuComponent } from '../ctx-menu/ctx-menu.component';
 
 @Component({
   selector: 'ngx-ctx-menu-outlet',
-  standalone: true,
   imports: [CtxMenuComponent],
   templateUrl: './ctx-menu-outlet.component.html',
   styleUrl: './ctx-menu-outlet.component.scss',

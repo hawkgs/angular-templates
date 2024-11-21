@@ -7,7 +7,6 @@ import {
 
 @Component({
   selector: 'kb-about-modal',
-  standalone: true,
   imports: [IconComponent, ModalContentComponent],
   templateUrl: './about-modal.component.html',
   styleUrl: './about-modal.component.scss',

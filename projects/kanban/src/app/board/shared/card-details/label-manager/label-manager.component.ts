@@ -29,7 +29,6 @@ type Mode = 'card-labels' | 'creator' | 'editor' | 'delete-label-confirmation';
 
 @Component({
   selector: 'kb-label-manager',
-  standalone: true,
   imports: [
     LabelFormComponent,
     ButtonComponent,

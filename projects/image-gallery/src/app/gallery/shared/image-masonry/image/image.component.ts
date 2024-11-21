@@ -12,7 +12,6 @@ const THUMB_WIDTH = 300;
 
 @Component({
   selector: 'ig-image',
-  standalone: true,
   imports: [NgOptimizedImage],
   templateUrl: './image.component.html',
   styleUrl: './image.component.scss',

@@ -11,12 +11,10 @@ import {
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { InfiniteScrollComponent } from '@ngx-templates/shared/infinite-scroll';
-import { IconComponent } from '@ngx-templates/shared/icon';
 
 import { CategoriesService } from '../data-access/categories.service';
 import { ProductItemComponent } from '../shared/product-item/product-item.component';
 import { ProductsListService } from './data-access/products-list.service';
-import { SearchInputComponent } from '../shared/search-input/search-input.component';
 import {
   PriceFilterComponent,
   PriceRange,
@@ -40,15 +38,12 @@ const STANDARD_ROW_SIZE = 4; // Used for marking the first N product items as LC
 
 @Component({
   selector: 'ec-products',
-  standalone: true,
   imports: [
     ProductItemComponent,
-    SearchInputComponent,
     PriceFilterComponent,
     SortSelectorComponent,
     CategoryPickerComponent,
     ProductSearchComponent,
-    IconComponent,
     SkeletonProductItemComponent,
     InfiniteScrollComponent,
     ExpandableContComponent,

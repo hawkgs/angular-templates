@@ -51,7 +51,6 @@ const HSCRL_MAX_SPEED = 0.5;
 
 @Component({
   selector: 'kb-board',
-  standalone: true,
   imports: [
     ListComponent,
     CardComponent,

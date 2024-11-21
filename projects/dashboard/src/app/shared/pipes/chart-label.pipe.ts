@@ -5,7 +5,6 @@ import { Pipe, PipeTransform } from '@angular/core';
  */
 @Pipe({
   name: 'chartLabel',
-  standalone: true,
 })
 export class ChartLabelPipe implements PipeTransform {
   transform(value: string) {

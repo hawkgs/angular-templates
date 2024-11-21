@@ -22,7 +22,6 @@ const CURSOR_MARGIN = 15;
  */
 @Directive({
   selector: '[dbWidgetTooltip]',
-  standalone: true,
 })
 export class WidgetTooltipDirective implements OnChanges {
   private _doc = inject(DOCUMENT);

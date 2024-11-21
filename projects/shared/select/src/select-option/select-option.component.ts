@@ -11,7 +11,6 @@ import {
 
 @Component({
   selector: 'ngx-select-option',
-  standalone: true,
   imports: [],
   templateUrl: './select-option.component.html',
   styleUrl: './select-option.component.scss',

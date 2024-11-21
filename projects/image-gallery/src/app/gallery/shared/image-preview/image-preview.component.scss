@@ -1,5 +1,5 @@
 @use 'typography';
-@import 'theme-mixins';
+@use 'theme-mixins' as tm;
 
 :host {
   display: block;
@@ -157,7 +157,7 @@
   }
 }
 
-@include if-light-theme {
+@include tm.if-light-theme {
   :host {
     .img-wrapper {
       img {

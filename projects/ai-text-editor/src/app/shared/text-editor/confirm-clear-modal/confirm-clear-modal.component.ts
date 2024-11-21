@@ -7,7 +7,6 @@ import { ButtonComponent } from '@ngx-templates/shared/button';
 
 @Component({
   selector: 'ate-confirm-clear-modal',
-  standalone: true,
   imports: [ModalContentComponent, ButtonComponent],
   templateUrl: './confirm-clear-modal.component.html',
   styleUrl: './confirm-clear-modal.component.scss',

@@ -27,7 +27,6 @@ const SEARCH_AFTER_CHAR = 3;
 
 @Component({
   selector: 'ec-autocomplete-product-search',
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     SearchInputComponent,

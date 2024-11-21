@@ -1,5 +1,5 @@
 @use 'typography';
-@import 'theme-mixins';
+@use 'theme-mixins' as tm;
 
 .card-container {
   @extend %body-short-01;
@@ -21,7 +21,7 @@
   }
 }
 
-@include if-light-theme {
+@include tm.if-light-theme {
   :host {
     .card-container {
       background-color: var(--color-octonary);

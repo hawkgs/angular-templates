@@ -31,7 +31,6 @@ const LABELS_MARGIN = 25; // Relative to the pie chart
 
 @Component({
   selector: 'db-pie-chart',
-  standalone: true,
   imports: [
     SectorPathDefinitionPipe,
     WidgetTooltipDirective,

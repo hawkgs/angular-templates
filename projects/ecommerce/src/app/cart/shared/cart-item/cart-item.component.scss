@@ -1,5 +1,5 @@
 @use 'typography';
-@import 'screen-breakpoints';
+@use 'screen-breakpoints' as sb;
 
 :host {
   display: flex;
@@ -9,7 +9,7 @@
   border: 1px solid var(--color-senary);
   border-radius: 0.25rem;
 
-  @include bp-600w {
+  @include sb.bp-600w {
     flex-direction: column;
   }
 
@@ -33,7 +33,7 @@
           width: 64px;
           height: 64px;
 
-          @include bp-400w {
+          @include sb.bp-400w {
             width: 32px;
             height: 32px;
           }
@@ -58,7 +58,7 @@
         width: 6ch;
         margin: 0 0.5rem;
 
-        @include bp-600w {
+        @include sb.bp-600w {
           margin: 0;
         }
       }
@@ -66,7 +66,7 @@
       .quantity-btn {
         width: 4ch;
 
-        @include bp-600w {
+        @include sb.bp-600w {
           display: none;
         }
       }
@@ -82,7 +82,7 @@
     margin: 0 0.5rem 0 2rem;
     text-align: right;
 
-    @include bp-600w {
+    @include sb.bp-600w {
       width: 100%;
       margin: 0.5rem 0 0 0;
       padding-top: 0.5rem;

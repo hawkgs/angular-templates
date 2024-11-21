@@ -2,7 +2,6 @@ import { Directive, ElementRef, inject } from '@angular/core';
 
 @Directive({
   selector: '[ateFormatCtrl]',
-  standalone: true,
 })
 export class FormatControlDirective {
   private _elementRef = inject(ElementRef);

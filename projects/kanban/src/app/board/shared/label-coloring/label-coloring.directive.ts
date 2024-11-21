@@ -7,7 +7,6 @@ const WHITE = '#fff';
 
 @Directive({
   selector: '[kbLabelColoring]',
-  standalone: true,
 })
 export class LabelColoringDirective {
   label = input.required<Label>({ alias: 'kbLabelColoring' });

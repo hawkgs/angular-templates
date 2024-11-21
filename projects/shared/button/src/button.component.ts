@@ -14,7 +14,6 @@ type ButtonType = 'primary' | 'secondary' | 'danger';
 
 @Component({
   selector: 'button[ngx-button]',
-  standalone: true,
   imports: [],
   template: '<ng-content></ng-content>',
   styleUrl: './button.component.scss',

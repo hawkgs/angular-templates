@@ -32,7 +32,6 @@ type ExtendedImage = {
 
 @Component({
   selector: 'ig-image-masonry',
-  standalone: true,
   imports: [ImageComponent],
   templateUrl: './image-masonry.component.html',
   styleUrl: './image-masonry.component.scss',

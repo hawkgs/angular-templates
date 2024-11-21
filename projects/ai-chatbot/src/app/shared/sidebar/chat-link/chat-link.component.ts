@@ -22,7 +22,6 @@ import { RoutePrefix } from '../../../route-prefixes';
 
 @Component({
   selector: 'acb-chat-link',
-  standalone: true,
   imports: [RouterModule, CommonModule, IconComponent],
   templateUrl: './chat-link.component.html',
   styleUrl: './chat-link.component.scss',

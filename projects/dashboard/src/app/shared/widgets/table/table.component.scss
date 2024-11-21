@@ -1,12 +1,12 @@
-@import '../widget-vars';
+@use '../widget-vars' as wv;
 
 $table-border-radius: 0.2rem;
 $cell-border: 1px solid var(--color-senary);
 
 :host {
   overflow-y: auto !important;
-  border-bottom-left-radius: $widget-border-radius;
-  border-bottom-right-radius: $widget-border-radius;
+  border-bottom-left-radius: wv.$widget-border-radius;
+  border-bottom-right-radius: wv.$widget-border-radius;
   font-size: 0.75rem;
   padding: 0.5rem;
   padding-top: 0;

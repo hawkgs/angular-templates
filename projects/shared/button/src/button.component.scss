@@ -1,4 +1,4 @@
-@import '../../styles/screen-breakpoints';
+@use '../../styles/screen-breakpoints' as sb;
 
 :host {
   font-weight: 500;
@@ -14,7 +14,7 @@
     padding: 0.25rem 0.75rem;
     border-radius: 0.2rem;
 
-    @include bp-600w {
+    @include sb.bp-600w {
       font-size: 1rem;
     }
   }

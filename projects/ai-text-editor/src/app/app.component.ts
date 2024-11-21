@@ -8,7 +8,6 @@ import { TextEditorComponent } from './shared/text-editor/text-editor.component'
 
 @Component({
   selector: 'ate-root',
-  standalone: true,
   imports: [
     HeaderComponent,
     FooterComponent,

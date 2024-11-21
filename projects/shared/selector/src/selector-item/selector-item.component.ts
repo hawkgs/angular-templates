@@ -9,7 +9,6 @@ import {
 
 @Component({
   selector: 'ngx-selector-item',
-  standalone: true,
   imports: [],
   templateUrl: './selector-item.component.html',
   styleUrl: './selector-item.component.scss',

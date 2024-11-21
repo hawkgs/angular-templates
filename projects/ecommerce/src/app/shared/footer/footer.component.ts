@@ -7,7 +7,6 @@ import { CategoriesService } from '../../data-access/categories.service';
 
 @Component({
   selector: 'ec-footer',
-  standalone: true,
   imports: [RouterModule, IconComponent, THEME_COMPONENTS],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.scss',

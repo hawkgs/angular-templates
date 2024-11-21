@@ -9,7 +9,6 @@ import { environment } from '../../../environments/environment';
  */
 @Pipe({
   name: 'currency',
-  standalone: true,
 })
 export class CurrencyPipe extends NgCurrencyPipe implements PipeTransform {
   // We need to override all of the method

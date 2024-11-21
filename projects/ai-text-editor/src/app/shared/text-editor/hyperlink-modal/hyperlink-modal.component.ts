@@ -16,7 +16,6 @@ import { urlValidator } from './url.validator';
 
 @Component({
   selector: 'ate-hyperlink-modal',
-  standalone: true,
   imports: [ModalContentComponent, ReactiveFormsModule, ButtonComponent],
   templateUrl: './hyperlink-modal.component.html',
   styleUrl: './hyperlink-modal.component.scss',

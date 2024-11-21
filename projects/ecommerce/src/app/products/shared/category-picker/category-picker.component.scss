@@ -1,5 +1,5 @@
 @use 'typography';
-@import 'screen-breakpoints';
+@use 'screen-breakpoints' as sb;
 
 :host {
   display: block;
@@ -7,7 +7,7 @@
   .title {
     @extend %heading-600;
 
-    @include bp-600w {
+    @include sb.bp-600w {
       display: none;
     }
   }

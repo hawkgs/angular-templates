@@ -17,7 +17,6 @@ export type PriceRange = {
 
 @Component({
   selector: 'ec-price-filter',
-  standalone: true,
   imports: [],
   templateUrl: './price-filter.component.html',
   styleUrl: './price-filter.component.scss',

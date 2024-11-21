@@ -1,6 +1,6 @@
 @use 'typography';
-@import 'screen-breakpoints';
-@import './variables';
+@use 'screen-breakpoints' as sb;
+@use './variables' as vars;
 
 @property --grad1 {
   syntax: '<color>';
@@ -21,8 +21,8 @@
   height: 100%;
   background-color: var(--color-septenary);
   padding: 1rem;
-  transition: width $sidebar-anim-duration ease;
-  width: $sidebar-collapsed-width;
+  transition: width vars.$sidebar-anim-duration ease;
+  width: vars.$sidebar-collapsed-width;
   box-sizing: border-box;
   overflow: hidden;
 
@@ -33,7 +33,7 @@
       animation: fade-in 300ms ease;
       animation-iteration-count: 1;
       animation-fill-mode: forwards;
-      animation-delay: $sidebar-anim-duration;
+      animation-delay: vars.$sidebar-anim-duration;
     }
 
     .new-chat-btn {
@@ -41,7 +41,7 @@
       border-radius: 0.5rem !important;
       width: 120px !important;
 
-      @include bp-600w {
+      @include sb.bp-600w {
         width: 140px !important;
       }
 
@@ -86,7 +86,7 @@
         --grad2 300ms ease,
         width 200ms ease;
 
-      @include bp-600w {
+      @include sb.bp-600w {
         font-size: 1.125rem;
       }
 
