@@ -6,7 +6,6 @@ import { CtxMenuController } from '../ctx-menu.controller';
 
 @Component({
   selector: 'ngx-dummy',
-  standalone: true,
   template: '',
 })
 export class DummyComponent {}
