@@ -1,9 +1,8 @@
 import { isPlatformBrowser } from '@angular/common';
 import {
-  AfterViewInit,
+  afterRenderEffect,
   ChangeDetectionStrategy,
   Component,
-  effect,
   ElementRef,
   inject,
   input,
@@ -23,7 +22,7 @@ const DEFAULT_MAX_LENGTH = 50;
   styleUrl: './interactive-title.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InteractiveTitleComponent implements AfterViewInit {
+export class InteractiveTitleComponent {
   private _renderer = inject(Renderer2);
   private _win = inject(WINDOW);
   private _platformId = inject(PLATFORM_ID);
@@ -38,17 +37,15 @@ export class InteractiveTitleComponent implements AfterViewInit {
   private _verPadding: number = 0;
 
   constructor() {
-    effect(() => {
+    afterRenderEffect(() => {
+      this._verPadding = this._extractVerPadding();
+
       // Ensure the height is calculated and set
-      // after the value had been set.
+      // after the value was set.
       if (this.value()) {
         this.setHeight();
       }
     });
-  }
-
-  ngAfterViewInit() {
-    this._verPadding = this._extractVerPadding();
   }
 
   onTextareaBlur() {
