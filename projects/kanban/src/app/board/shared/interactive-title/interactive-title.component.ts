@@ -37,14 +37,16 @@ export class InteractiveTitleComponent {
   private _verPadding: number = 0;
 
   constructor() {
-    afterRenderEffect(() => {
-      this._verPadding = this._extractVerPadding();
+    afterRenderEffect({
+      read: () => {
+        this._verPadding = this._extractVerPadding();
 
-      // Ensure the height is calculated and set
-      // after the value was set.
-      if (this.value()) {
-        this.setHeight();
-      }
+        // Ensure the height is calculated and set
+        // after the value was set.
+        if (this.value()) {
+          this.setHeight();
+        }
+      },
     });
   }
 
