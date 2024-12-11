@@ -10,7 +10,6 @@ import { ToastType } from '../types';
 
 @Component({
   selector: 'ngx-toast-outlet',
-  standalone: true,
   imports: [ToastComponent],
   templateUrl: './toast-outlet.component.html',
   styleUrl: './toast-outlet.component.scss',

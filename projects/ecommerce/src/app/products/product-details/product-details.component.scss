@@ -1,5 +1,5 @@
 @use 'typography';
-@import 'screen-breakpoints';
+@use 'screen-breakpoints' as sb;
 
 :host {
   padding-top: 2rem;
@@ -8,7 +8,7 @@
   grid-template-columns: 1fr min-content;
   grid-template-rows: [row-start] auto [row-mid] auto [row-end];
 
-  @include bp-800w {
+  @include sb.bp-800w {
     grid-template-columns: 1fr;
   }
 
@@ -42,7 +42,7 @@
     grid-row: row-start / row-end;
     height: 0;
 
-    @include bp-800w {
+    @include sb.bp-800w {
       height: auto;
       grid-row: initial;
       margin-bottom: 2rem;
@@ -52,15 +52,15 @@
   .details {
     width: 50ch;
 
-    @include bp-1100w {
+    @include sb.bp-1100w {
       width: 40ch;
     }
 
-    @include bp-1000w {
+    @include sb.bp-1000w {
       width: 35ch;
     }
 
-    @include bp-800w {
+    @include sb.bp-800w {
       width: 100%;
     }
   }

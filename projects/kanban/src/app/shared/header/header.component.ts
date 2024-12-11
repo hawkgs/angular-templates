@@ -7,7 +7,6 @@ import { AboutModalComponent } from './about-modal/about-modal.component';
 
 @Component({
   selector: 'kb-header',
-  standalone: true,
   imports: [AppLogoComponent, IconComponent, THEME_COMPONENTS],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',

@@ -1,4 +1,4 @@
-@import 'theme-mixins';
+@use 'theme-mixins' as tm;
 
 :host {
   user-select: none;
@@ -29,7 +29,7 @@
   }
 }
 
-@include if-light-theme {
+@include tm.if-light-theme {
   :host {
     .sector:hover {
       filter: brightness(115%);

@@ -35,7 +35,6 @@ const STANDARD_ROW_SIZE = 4; // Used for marking the first N product items as LC
 
 @Component({
   selector: 'ec-products',
-  standalone: true,
   imports: [
     ProductItemComponent,
     SortSelectorComponent,

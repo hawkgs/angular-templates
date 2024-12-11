@@ -23,7 +23,6 @@ export type CompleteFn = () => void;
 
 @Component({
   selector: 'ngx-infinite-scroll',
-  standalone: true,
   imports: [IconComponent],
   templateUrl: './infinite-scroll.component.html',
   styleUrl: './infinite-scroll.component.scss',

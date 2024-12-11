@@ -16,7 +16,6 @@ import { CurrencyPipe } from '../shared/pipes/currency.pipe';
 
 @Component({
   selector: 'ec-cart',
-  standalone: true,
   imports: [CartItemComponent, CurrencyPipe, IconComponent, ButtonComponent],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss',

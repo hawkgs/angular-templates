@@ -19,7 +19,6 @@ const INPUT_DEBOUNCE = 250;
 
 @Component({
   selector: 'ec-search-input',
-  standalone: true,
   imports: [],
   templateUrl: './search-input.component.html',
   styleUrl: './search-input.component.scss',

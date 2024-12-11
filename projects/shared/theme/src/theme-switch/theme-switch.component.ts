@@ -18,7 +18,6 @@ const THEME_TO_ICON: { [key in ThemeType]: IconName } = {
 
 @Component({
   selector: 'ngx-theme-switch',
-  standalone: true,
   imports: [IconComponent, ThemeLabelPipe],
   templateUrl: './theme-switch.component.html',
   styleUrl: './theme-switch.component.scss',

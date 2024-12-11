@@ -1,4 +1,4 @@
-@import 'screen-breakpoints';
+@use 'screen-breakpoints' as sb;
 
 :host {
   display: block;
@@ -49,31 +49,31 @@
     }
 
     &.active-at-1100w {
-      @include bp-1100w {
+      @include sb.bp-1100w {
         @include activate;
       }
     }
 
     &.active-at-1000w {
-      @include bp-1000w {
+      @include sb.bp-1000w {
         @include activate;
       }
     }
 
     &.active-at-800w {
-      @include bp-800w {
+      @include sb.bp-800w {
         @include activate;
       }
     }
 
     &.active-at-600w {
-      @include bp-600w {
+      @include sb.bp-600w {
         @include activate;
       }
     }
 
     &.active-at-400w {
-      @include bp-400w {
+      @include sb.bp-400w {
         @include activate;
       }
     }

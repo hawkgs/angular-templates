@@ -1,5 +1,5 @@
 @use 'typography';
-@import 'screen-breakpoints';
+@use 'screen-breakpoints' as sb;
 
 :host {
   padding-top: 2rem;
@@ -8,7 +8,7 @@
   grid-template-columns: min-content 1fr;
   grid-template-rows: [row-start] auto [row-mid] auto [row-end];
 
-  @include bp-600w {
+  @include sb.bp-600w {
     grid-template-columns: 1fr;
   }
 
@@ -21,7 +21,7 @@
       align-items: center;
       margin-bottom: 0.75rem;
 
-      @include bp-600w {
+      @include sb.bp-600w {
         margin: 0;
       }
 
@@ -29,7 +29,7 @@
         @extend %heading-200;
         margin-top: 0;
 
-        @include bp-600w {
+        @include sb.bp-600w {
           margin: 0;
         }
       }
@@ -44,7 +44,7 @@
     ec-sort-selector {
       margin-left: 0.5rem;
 
-      @include bp-600w {
+      @include sb.bp-600w {
         display: none;
       }
     }
@@ -55,15 +55,15 @@
     grid-row: row-start / row-end;
     height: 0;
 
-    @include bp-1000w {
+    @include sb.bp-1000w {
       width: 25ch;
     }
 
-    @include bp-800w {
+    @include sb.bp-800w {
       width: 20ch;
     }
 
-    @include bp-600w {
+    @include sb.bp-600w {
       grid-row: initial;
       height: auto;
       width: 100%;
@@ -78,15 +78,15 @@
       grid-column-gap: 0.75rem;
       grid-row-gap: 0.75rem;
 
-      @include bp-1100w {
+      @include sb.bp-1100w {
         grid-template-columns: repeat(3, 1fr);
       }
 
-      @include bp-800w {
+      @include sb.bp-800w {
         grid-template-columns: repeat(2, 1fr);
       }
 
-      @include bp-600w {
+      @include sb.bp-600w {
         grid-template-columns: repeat(1, 1fr);
       }
 

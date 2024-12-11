@@ -339,15 +339,17 @@ export const kanbanRequestResponseMock: MockFn = (
     updateStore((s) => {
       // We should update the positions in the old and new lists
       if (currentCard.listId === updatedCard.listId) {
-        s.cards.forEach((c) => {
-          // II. new pos > old pos
-          if (newPos > oldPos && oldPos < c.pos && c.pos <= newPos) {
-            c.pos--;
-          } else if (newPos <= c.pos && c.pos < oldPos) {
-            // III. old pos > new pos
-            c.pos++;
-          }
-        });
+        s.cards
+          .filter((c) => c.listId === currentCard.listId)
+          .forEach((c) => {
+            // II. new pos > old pos
+            if (newPos > oldPos && oldPos < c.pos && c.pos <= newPos) {
+              c.pos--;
+            } else if (newPos <= c.pos && c.pos < oldPos) {
+              // III. old pos > new pos
+              c.pos++;
+            }
+          });
       } else {
         // IV. List change
         s.cards.forEach((c) => {

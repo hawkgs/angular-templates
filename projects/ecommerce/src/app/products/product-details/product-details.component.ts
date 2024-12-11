@@ -20,7 +20,6 @@ import { HydrationService } from '../../shared/hydration/hydration.service';
 
 @Component({
   selector: 'ec-product-details',
-  standalone: true,
   imports: [
     ImageGalleryComponent,
     ProductInfobarComponent,

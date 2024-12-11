@@ -16,7 +16,6 @@ import { HydrationControlPanelComponent } from './shared/hydration';
 
 @Component({
   selector: 'ec-root',
-  standalone: true,
   imports: [
     RouterOutlet,
     HeaderComponent,

@@ -15,7 +15,6 @@ import { environment } from '../../../../../../environments/environment';
 
 @Component({
   selector: 'kb-label-form',
-  standalone: true,
   imports: [ReactiveFormsModule, ColorPickerComponent, ButtonComponent],
   templateUrl: './label-form.component.html',
   styleUrl: './label-form.component.scss',

@@ -14,7 +14,6 @@ import { LabelColoringDirective } from '../label-coloring/label-coloring.directi
 
 @Component({
   selector: 'kb-card',
-  standalone: true,
   imports: [LabelColoringDirective],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
