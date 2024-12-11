@@ -10,7 +10,7 @@
     "start:kanban": "ng serve kanban",
     "start:ai-chatbot": "ng serve ai-chatbot",
     "start-api:gemini": "node ./api/gemini.js",
-    "build:ecommerce": "ng build ecommerce",
+    "build:ecommerce": "ng build ecommerce --no-hmr",
     "build:dashboard": "ng build dashboard",
     "build:image-gallery": "ng build image-gallery",
     "build:ai-text-editor": "ng build ai-text-editor",

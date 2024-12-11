@@ -1,9 +1,17 @@
 :host {
-  ec-hydration-visualizer:first-of-type {
-    position: relative;
-    width: 100vw;
-    transform: translateX(-50%);
-    margin-left: 50%;
-    z-index: 1;
+  ec-hydration-visualizer {
+    /* Apparently there are some changes to the incremental hydration after the release of v19
+    since in this particular case the products are not rendered immediately/quickly enough upon hydration.
+    This is why the height of the hydration visualizer is hardcoded to avoid disruptions in the layout. */
+
+    height: 389px;
+
+    &:first-of-type {
+      position: relative;
+      width: 100vw;
+      transform: translateX(-50%);
+      margin-left: 50%;
+      z-index: 1;
+    }
   }
 }
