@@ -1,4 +1,5 @@
 @use 'typography';
+@use 'sass:color';
 
 $enhancer-purple: #966fc3;
 $enhancer-blue: #45b2e8;
@@ -54,7 +55,7 @@ $enhancer-blue: #45b2e8;
       background: linear-gradient(
         -45deg,
         var(--color-senary) 5%,
-        darken($enhancer-blue, 25%) 50%,
+        color.adjust($enhancer-blue, $lightness: -25%) 50%,
         var(--color-senary) 95%
       );
       background-size: 200%;

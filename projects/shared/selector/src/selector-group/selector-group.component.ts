@@ -11,7 +11,6 @@ import { SelectorItemComponent } from '../selector-item/selector-item.component'
 
 @Component({
   selector: 'ngx-selector-group',
-  standalone: true,
   imports: [],
   templateUrl: './selector-group.component.html',
   styleUrl: './selector-group.component.scss',

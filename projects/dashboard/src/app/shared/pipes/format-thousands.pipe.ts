@@ -6,7 +6,6 @@ import { precisionRound } from '../utils';
  */
 @Pipe({
   name: 'formatThousands',
-  standalone: true,
 })
 export class FormatThousandsPipe implements PipeTransform {
   transform(value: number) {

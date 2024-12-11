@@ -1,11 +1,11 @@
 @use 'typography';
-@import '../styles/variables';
+@use '../styles/variables' as vars;
 
 :host {
   display: block;
-  flex: 0 0 $list-width;
+  flex: 0 0 vars.$list-width;
   width: 100%;
-  border-radius: $list-border-radius;
+  border-radius: vars.$list-border-radius;
   background-color: var(--color-septenary);
   overflow: hidden;
 

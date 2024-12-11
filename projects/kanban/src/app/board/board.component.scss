@@ -1,4 +1,4 @@
-@import './shared/styles/variables';
+@use './shared/styles/variables' as vars;
 
 :host {
   display: block;
@@ -12,7 +12,7 @@
     overflow-x: auto;
     padding: 0 1rem 0.5rem 1rem;
     box-sizing: border-box;
-    height: $list-height;
+    height: vars.$list-height;
     padding-bottom: 1rem;
 
     kb-list {

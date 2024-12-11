@@ -1,5 +1,5 @@
-@import 'screen-breakpoints';
-@import './shared/sidebar/variables';
+@use 'screen-breakpoints' as sb;
+@use './shared/sidebar/variables' as sidebar;
 
 :host {
   display: flex;
@@ -25,14 +25,14 @@
     }
   }
 
-  @include bp-800w {
+  @include sb.bp-800w {
     acb-sidebar {
       position: fixed;
       z-index: 1;
     }
 
     .content {
-      margin-left: $sidebar-collapsed-width;
+      margin-left: sidebar.$sidebar-collapsed-width;
     }
   }
 }

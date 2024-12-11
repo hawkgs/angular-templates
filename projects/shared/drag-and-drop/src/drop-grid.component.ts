@@ -96,7 +96,6 @@ export const DROP_GRID = new InjectionToken<DropGridComponent>('DROP_GRID');
 
 @Component({
   selector: 'ngx-drop-grid',
-  standalone: true,
   templateUrl: './drop-grid.component.html',
   styleUrl: './drop-grid.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -48,7 +48,7 @@
             },
             "scripts": [],
             "server": "projects/ecommerce/src/main.server.ts",
-            "prerender": true,
+            "outputMode": "server",
             "ssr": {
               "entry": "projects/ecommerce/server.ts"
             }
@@ -231,6 +231,9 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "hmr": false
+          },
           "configurations": {
             "production": {
               "buildTarget": "dashboard:build:production"
@@ -383,7 +386,7 @@
             },
             "scripts": [],
             "server": "projects/image-gallery/src/main.server.ts",
-            "prerender": true,
+            "outputMode": "server",
             "ssr": {
               "entry": "projects/image-gallery/server.ts"
             }
@@ -559,6 +562,9 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "hmr": false
+          },
           "configurations": {
             "production": {
               "buildTarget": "ai-text-editor:build:production"
@@ -661,7 +667,7 @@
             },
             "scripts": [],
             "server": "projects/kanban/src/main.server.ts",
-            "prerender": true,
+            "outputMode": "server",
             "ssr": {
               "entry": "projects/kanban/server.ts"
             }
@@ -698,6 +704,9 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "hmr": false
+          },
           "configurations": {
             "production": {
               "buildTarget": "kanban:build:production"
@@ -800,7 +809,7 @@
             },
             "scripts": [],
             "server": "projects/ai-chatbot/src/main.server.ts",
-            "prerender": true,
+            "outputMode": "server",
             "ssr": {
               "entry": "projects/ai-chatbot/server.ts"
             }

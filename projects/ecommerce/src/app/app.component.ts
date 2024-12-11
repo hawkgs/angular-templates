@@ -15,7 +15,6 @@ import { LoaderService } from './shared/loader.service';
 
 @Component({
   selector: 'ec-root',
-  standalone: true,
   imports: [
     RouterOutlet,
     HeaderComponent,

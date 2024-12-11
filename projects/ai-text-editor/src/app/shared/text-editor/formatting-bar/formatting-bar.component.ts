@@ -26,7 +26,6 @@ export type FormatEvent = {
 
 @Component({
   selector: 'ate-formatting-bar',
-  standalone: true,
   imports: [SELECT_COMPONENTS, IconComponent, FormatControlDirective],
   templateUrl: './formatting-bar.component.html',
   styleUrl: './formatting-bar.component.scss',

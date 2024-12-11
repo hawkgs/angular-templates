@@ -19,7 +19,6 @@ import { ScrollPosition } from '../../shared/scroll-position.service';
 
 @Component({
   selector: 'ec-product-details',
-  standalone: true,
   imports: [
     ImageGalleryComponent,
     PriceTagComponent,

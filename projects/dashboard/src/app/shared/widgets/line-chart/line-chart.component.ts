@@ -33,7 +33,6 @@ const MIN_HOR_SCALE_SPACING_IN_PX = 40;
 
 @Component({
   selector: 'db-line-chart',
-  standalone: true,
   imports: [
     WidgetTooltipDirective,
     WidgetScaleComponent,

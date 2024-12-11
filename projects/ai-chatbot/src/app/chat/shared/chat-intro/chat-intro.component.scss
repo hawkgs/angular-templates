@@ -1,5 +1,5 @@
 @use 'typography';
-@import 'screen-breakpoints';
+@use 'screen-breakpoints' as sb;
 
 :host {
   display: flex;
@@ -30,7 +30,7 @@
     gap: 0.75rem;
     margin-top: 2rem;
 
-    @include bp-600w {
+    @include sb.bp-600w {
       grid-template-columns: repeat(2, 1fr);
     }
 

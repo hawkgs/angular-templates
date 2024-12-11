@@ -16,7 +16,6 @@ import { ProductImageComponent } from '../product-image/product-image.component'
 
 @Component({
   selector: 'ec-product-item',
-  standalone: true,
   imports: [RouterModule, PriceTagComponent, ProductImageComponent],
   templateUrl: './product-item.component.html',
   styleUrl: './product-item.component.scss',

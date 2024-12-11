@@ -25,7 +25,6 @@ export const CTX_MENU_DATA = new InjectionToken('CTX_MENU_DATA');
 
 @Component({
   selector: 'ngx-ctx-menu',
-  standalone: true,
   imports: [],
   providers: [provideWindow()],
   templateUrl: './ctx-menu.component.html',

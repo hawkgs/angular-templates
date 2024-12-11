@@ -14,7 +14,6 @@ import { ChatbotService } from './data-access/chatbot.service';
 
 @Component({
   selector: 'acb-root',
-  standalone: true,
   imports: [
     RouterOutlet,
     HeaderComponent,

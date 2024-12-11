@@ -12,7 +12,6 @@ import { SearchInputComponent } from '../../../shared/search-input/search-input.
 
 @Component({
   selector: 'ec-product-search',
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     IconComponent,

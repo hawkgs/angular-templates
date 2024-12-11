@@ -3,7 +3,6 @@ import { PREDEFINED_MESSAGES } from './predefined-msgs';
 
 @Component({
   selector: 'acb-chat-intro',
-  standalone: true,
   imports: [],
   templateUrl: './chat-intro.component.html',
   styleUrl: './chat-intro.component.scss',

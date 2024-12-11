@@ -1,4 +1,4 @@
-@import 'theme-mixins';
+@use 'theme-mixins' as tm;
 
 :host {
   width: 100%;
@@ -18,7 +18,7 @@
   }
 }
 
-@include if-light-theme {
+@include tm.if-light-theme {
   :host {
     border-block-end-color: var(--color-senary);
   }

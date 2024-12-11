@@ -17,7 +17,6 @@ import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'ngx-select',
-  standalone: true,
   imports: [IconComponent],
   templateUrl: './select.component.html',
   styleUrl: './select.component.scss',

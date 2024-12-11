@@ -9,7 +9,6 @@ const THEME_TO_LABEL: { [key in ThemeType]: string } = {
 
 @Pipe({
   name: 'themeLabel',
-  standalone: true,
 })
 export class ThemeLabelPipe implements PipeTransform {
   transform(value: ThemeType) {

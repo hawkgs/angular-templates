@@ -15,7 +15,6 @@ import { ScreenBreakpoint } from '../utils/screen-breakpoints';
  */
 @Component({
   selector: 'ec-expandable-cont',
-  standalone: true,
   imports: [IconComponent, CommonModule],
   templateUrl: './expandable-cont.component.html',
   styleUrl: './expandable-cont.component.scss',

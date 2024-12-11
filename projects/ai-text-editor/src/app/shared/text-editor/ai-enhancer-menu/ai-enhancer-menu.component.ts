@@ -15,7 +15,6 @@ import {
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { ButtonComponent } from '@ngx-templates/shared/button';
-import { IconComponent } from '@ngx-templates/shared/icon';
 import { ToastsService } from '@ngx-templates/shared/toasts';
 import { WINDOW } from '@ngx-templates/shared/services';
 
@@ -30,8 +29,7 @@ const VIEWPORT_PADDING = 24; // 12 on each side
 
 @Component({
   selector: 'ate-ai-enhancer-menu',
-  standalone: true,
-  imports: [ButtonComponent, IconComponent, ReactiveFormsModule],
+  imports: [ButtonComponent, ReactiveFormsModule],
   templateUrl: './ai-enhancer-menu.component.html',
   styleUrl: './ai-enhancer-menu.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

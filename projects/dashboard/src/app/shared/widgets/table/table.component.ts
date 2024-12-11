@@ -6,7 +6,6 @@ export type TableConfig = void;
 
 @Component({
   selector: 'db-table',
-  standalone: true,
   imports: [],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',

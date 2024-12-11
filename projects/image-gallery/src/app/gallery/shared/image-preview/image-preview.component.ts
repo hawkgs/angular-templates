@@ -33,7 +33,6 @@ export type ImagePreviewData = {
 
 @Component({
   selector: 'ig-image-preview',
-  standalone: true,
   imports: [CommonModule, IconComponent, NgOptimizedImage],
   templateUrl: './image-preview.component.html',
   styleUrl: './image-preview.component.scss',

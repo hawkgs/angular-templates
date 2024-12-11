@@ -9,7 +9,6 @@ import { CategoriesService } from '../../../data-access/categories.service';
 
 @Component({
   selector: 'ec-category-picker',
-  standalone: true,
   imports: [RouterModule],
   templateUrl: './category-picker.component.html',
   styleUrl: './category-picker.component.scss',

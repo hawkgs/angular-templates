@@ -17,7 +17,6 @@ const REEL_SIZE = 5;
 
 @Component({
   selector: 'ec-category-reel',
-  standalone: true,
   imports: [RouterModule, ProductItemComponent],
   templateUrl: './category-reel.component.html',
   styleUrl: './category-reel.component.scss',

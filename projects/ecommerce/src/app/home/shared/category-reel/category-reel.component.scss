@@ -1,5 +1,5 @@
 @use 'typography';
-@import 'screen-breakpoints';
+@use 'screen-breakpoints' as sb;
 
 :host {
   display: block;
@@ -26,7 +26,7 @@
     grid-template-rows: 1fr;
     grid-column-gap: 0.875rem;
 
-    @include bp-1100w {
+    @include sb.bp-1100w {
       overflow-x: scroll;
       padding-bottom: 1rem;
 
@@ -35,7 +35,7 @@
       }
     }
 
-    @include bp-600w {
+    @include sb.bp-600w {
       display: flex;
       overflow-x: initial;
       flex-wrap: wrap;

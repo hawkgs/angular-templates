@@ -20,7 +20,6 @@ export type InputEvent = {
 
 @Component({
   selector: 'acb-chat-input',
-  standalone: true,
   imports: [ReactiveFormsModule, IconComponent],
   templateUrl: './chat-input.component.html',
   styleUrl: './chat-input.component.scss',

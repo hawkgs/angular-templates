@@ -22,7 +22,6 @@ export type ListCtxMenuData = {
 
 @Component({
   selector: 'kb-list-ctx-menu',
-  standalone: true,
   imports: [],
   templateUrl: './list-ctx-menu.component.html',
   styleUrl: './list-ctx-menu.component.scss',
