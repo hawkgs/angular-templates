@@ -1,5 +1,5 @@
-@import 'typography';
-@import 'screen-breakpoints';
+@use 'typography';
+@use 'screen-breakpoints' as sb;
 
 :host {
   display: block;
@@ -13,7 +13,7 @@
   ec-sort-selector {
     display: none;
 
-    @include bp-600w {
+    @include sb.bp-600w {
       display: flex;
     }
   }
@@ -27,7 +27,7 @@
   .expandable-cont-hr {
     display: none;
 
-    @include bp-600w {
+    @include sb.bp-600w {
       display: block;
     }
   }

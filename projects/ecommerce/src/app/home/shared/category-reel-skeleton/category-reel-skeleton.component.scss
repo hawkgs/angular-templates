@@ -1,4 +1,4 @@
-@import 'screen-breakpoints';
+@use 'screen-breakpoints' as sb;
 
 :host {
   display: grid;
@@ -8,7 +8,7 @@
   margin: 1rem 0;
   padding-top: 50px;
 
-  @include bp-1100w {
+  @include sb.bp-1100w {
     overflow-x: scroll;
     padding-bottom: 1rem;
 
@@ -17,7 +17,7 @@
     }
   }
 
-  @include bp-600w {
+  @include sb.bp-600w {
     display: flex;
     overflow-x: initial;
     flex-wrap: wrap;

@@ -1,5 +1,5 @@
 @use 'typography';
-@import 'screen-breakpoints';
+@use 'screen-breakpoints' as sb;
 
 :host {
   display: block;
@@ -63,7 +63,7 @@
         width: 60%;
       }
 
-      @include bp-800w {
+      @include sb.bp-800w {
         padding: 0 2rem;
 
         ec-autocomplete-product-search {
