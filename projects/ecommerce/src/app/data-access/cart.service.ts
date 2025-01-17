@@ -33,7 +33,13 @@ export class CartService {
   );
 
   readonly quantities = this._cart.asReadonly();
-  readonly size = computed(() => this._cart().size);
+
+  readonly size = computed(() =>
+    this._cart()
+      .map((q) => q)
+      .reduce((acc, curr) => acc + curr, 0),
+  );
+
   readonly total = computed(() =>
     this._products()
       .map((p) => (this._cart().get(p.id) || 1) * (p.discountPrice || p.price))
