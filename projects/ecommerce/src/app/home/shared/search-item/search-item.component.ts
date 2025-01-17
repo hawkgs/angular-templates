@@ -6,7 +6,7 @@ import {
   input,
   viewChild,
 } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 import { Product } from '../../../../models';
 import { createProductUrl } from '../../../shared/utils/create-product-url';
@@ -14,7 +14,7 @@ import { ProductImageComponent } from '../../../shared/product-image/product-ima
 
 @Component({
   selector: 'ec-search-item',
-  imports: [RouterModule, ProductImageComponent],
+  imports: [RouterLink, ProductImageComponent],
   templateUrl: './search-item.component.html',
   styleUrl: './search-item.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

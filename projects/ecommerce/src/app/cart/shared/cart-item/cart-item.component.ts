@@ -6,7 +6,7 @@ import {
   model,
   output,
 } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 import { IconComponent } from '@ngx-templates/shared/icon';
 import { ButtonComponent } from '@ngx-templates/shared/button';
@@ -20,7 +20,7 @@ import { maxProductQuantity } from '../../../shared/utils/max-quantity';
 @Component({
   selector: 'ec-cart-item',
   imports: [
-    RouterModule,
+    RouterLink,
     ProductImageComponent,
     PriceTagComponent,
     ButtonComponent,

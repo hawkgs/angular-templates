@@ -6,7 +6,7 @@ import {
   input,
   output,
 } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 import { Product } from '../../../models';
 import { CategoriesService } from '../../data-access/categories.service';
@@ -16,7 +16,7 @@ import { ProductImageComponent } from '../product-image/product-image.component'
 
 @Component({
   selector: 'ec-product-item',
-  imports: [RouterModule, PriceTagComponent, ProductImageComponent],
+  imports: [RouterLink, PriceTagComponent, ProductImageComponent],
   templateUrl: './product-item.component.html',
   styleUrl: './product-item.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

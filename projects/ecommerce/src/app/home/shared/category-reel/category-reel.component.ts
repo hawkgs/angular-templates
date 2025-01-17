@@ -6,7 +6,7 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { List } from 'immutable';
 
 import { ProductItemComponent } from '../../../shared/product-item/product-item.component';
@@ -17,7 +17,7 @@ const REEL_SIZE = 5;
 
 @Component({
   selector: 'ec-category-reel',
-  imports: [RouterModule, ProductItemComponent],
+  imports: [RouterLink, ProductItemComponent],
   templateUrl: './category-reel.component.html',
   styleUrl: './category-reel.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
