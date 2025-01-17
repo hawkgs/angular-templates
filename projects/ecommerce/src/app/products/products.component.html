@@ -6,33 +6,30 @@
         <p class="search-title">Search results for "{{ searchTerm() }}"</p>
       }
     </div>
-    <ec-sort-selector
-      [value]="sortType()"
-      (valueChange)="onSort($event)"
-    ></ec-sort-selector>
+    <ec-sort-selector [value]="sortType()" (valueChange)="onSort($event)" />
   </div>
   <hr />
 </section>
 <section class="sidebar">
-  <ec-product-search (search)="onProductSearch($event)"></ec-product-search>
+  <ec-product-search (search)="onProductSearch($event)" />
   <ec-expandable-cont activateAt="600w">
     <div class="expandable-cont-header" header>Categories & Filter</div>
     <ng-container content>
       <ec-category-picker
         [categoryId]="categoryId()"
         [defaultCategoryName]="DEFAULT_CAT_NAME"
-      ></ec-category-picker>
+      />
       <hr />
       <ec-price-filter
         [default]="DEFAULT_PRICE_RANGE"
         [range]="priceRange()"
         (rangeChange)="onPriceRangeChange($event)"
-      ></ec-price-filter>
+      />
       <ec-sort-selector
         type="vertical"
         [value]="sortType()"
         (valueChange)="onSort($event)"
-      ></ec-sort-selector>
+      />
     </ng-container>
   </ec-expandable-cont>
   <hr class="expandable-cont-hr" />
@@ -40,22 +37,19 @@
 <section class="main">
   <div class="list">
     @for (p of productsList.value(); track p.id; let i = $index) {
-      <ec-product-item
-        [product]="p"
-        [isLcp]="i < STANDARD_ROW_SIZE"
-      ></ec-product-item>
+      <ec-product-item [product]="p" [isLcp]="i < STANDARD_ROW_SIZE" />
     }
     @if (productsList.isLoading() === 'update') {
-      <ec-skeleton-product-item></ec-skeleton-product-item>
-      <ec-skeleton-product-item></ec-skeleton-product-item>
-      <ec-skeleton-product-item></ec-skeleton-product-item>
-      <ec-skeleton-product-item></ec-skeleton-product-item>
+      <ec-skeleton-product-item />
+      <ec-skeleton-product-item />
+      <ec-skeleton-product-item />
+      <ec-skeleton-product-item />
     }
   </div>
   @if (!productsList.value().size && productsList.isLoaded()) {
     <p class="no-results">No results</p>
   }
   @if (!productsList.isComplete()) {
-    <ngx-infinite-scroll (loadNext)="onNextPage($event)"></ngx-infinite-scroll>
+    <ngx-infinite-scroll (loadNext)="onNextPage($event)" />
   }
 </section>

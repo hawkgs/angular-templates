@@ -17,11 +17,11 @@
   }
 </section>
 <section class="preview">
-  <ec-image-gallery [product]="product()"></ec-image-gallery>
+  <ec-image-gallery [product]="product()" />
 </section>
 <section class="details">
-  <ec-price-tag [product]="product()" size="large"></ec-price-tag>
-  <ec-add-to-cart-btn [product]="product()"></ec-add-to-cart-btn>
+  <ec-price-tag [product]="product()" size="large" />
+  <ec-add-to-cart-btn [product]="product()" />
   <hr />
   <p class="description">{{ product().description }}</p>
   @if (product().parameters.size) {

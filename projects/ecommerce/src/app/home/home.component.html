@@ -12,10 +12,10 @@
   <div class="content">
     <h2>Welcome to the Angular Store</h2>
     <h3>An Ecommerce Angular template</h3>
-    <ec-autocomplete-product-search></ec-autocomplete-product-search>
+    <ec-autocomplete-product-search />
   </div>
 </section>
 <div class="spacer"></div>
 @for (category of categories(); track category.id; let i = $index) {
-  <ec-category-reel [category]="category" [isLcp]="i === 0"></ec-category-reel>
+  <ec-category-reel [category]="category" [isLcp]="i === 0" />
 }

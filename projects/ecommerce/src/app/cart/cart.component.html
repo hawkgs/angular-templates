@@ -8,7 +8,7 @@
           [quantity]="cart.quantities().get(product.id) || 1"
           (remove)="onItemRemove(product)"
           (quantityChange)="onItemQuanityUpdate(product, $event)"
-        ></ec-cart-item>
+        />
       }
     </section>
     <section class="checkout">
@@ -45,7 +45,7 @@
 } @else {
   <hr />
   <p class="empty-cart">
-    <ngx-icon name="Cart" size="xlg"></ngx-icon>
+    <ngx-icon name="Cart" size="xlg" />
     Oops! Your cart is empty.
   </p>
 }

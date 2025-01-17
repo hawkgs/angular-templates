@@ -5,9 +5,9 @@
       [maxLength]="env.cardTitleMaxLength"
       (titleBlur)="updateTitle($event)"
       title="Card title input"
-    ></kb-interactive-title>
+    />
     <button (click)="ctrl.close()">
-      <ngx-icon name="Close" size="md"></ngx-icon>
+      <ngx-icon name="Close" size="md" />
     </button>
   </div>
   <div class="labels">
@@ -17,12 +17,12 @@
         (click)="removeLabelFromCard(label.id)"
         [title]="'Remove ' + label.name"
       >
-        <ngx-icon name="Delete" size="sm"></ngx-icon>
+        <ngx-icon name="Delete" size="sm" />
         <span>{{ label.name }}</span>
       </button>
     }
     <button (click)="openLabelManager($event)" class="add-label">
-      <ngx-icon name="Add" size="sm"></ngx-icon>
+      <ngx-icon name="Add" size="sm" />
       <span>Label</span>
     </button>
   </div>
@@ -50,6 +50,6 @@
     }
   </form>
   <button ngx-button btnType="secondary" class="delete" (click)="deleteCard()">
-    <ngx-icon name="Delete" size="md"></ngx-icon>
+    <ngx-icon name="Delete" size="md" />
   </button>
 </div>

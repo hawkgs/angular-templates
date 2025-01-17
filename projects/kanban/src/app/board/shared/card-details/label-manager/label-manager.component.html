@@ -19,7 +19,7 @@
             <span>{{ label.name }}</span>
           </button>
           <button class="edit" (click)="editLabel(label)">
-            <ngx-icon name="Edit" size="md"></ngx-icon>
+            <ngx-icon name="Edit" size="md" />
           </button>
         </div>
       } @empty {
@@ -34,7 +34,7 @@
               {{ label.name }}
             </div>
             <button class="edit" (click)="editLabel(label)">
-              <ngx-icon name="Edit" size="md"></ngx-icon>
+              <ngx-icon name="Edit" size="md" />
             </button>
           </div>
         }
@@ -54,7 +54,7 @@
     <kb-label-form
       submitButtonName="Create"
       (formSubmit)="createLabel($event)"
-    ></kb-label-form>
+    />
     <button ngx-button btnType="secondary" (click)="returnToHome()">
       Cancel
     </button>
@@ -65,7 +65,7 @@
       submitButtonName="Update"
       [label]="editedLabel()!"
       (formSubmit)="updateLabel($event)"
-    ></kb-label-form>
+    />
     <button ngx-button btnType="secondary" (click)="returnToHome()">
       Cancel
     </button>

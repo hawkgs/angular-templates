@@ -31,7 +31,7 @@
     [disabled]="idx() === 0"
     title="Previous image"
   >
-    <ngx-icon name="ChevronRight" size="xxlg"></ngx-icon>
+    <ngx-icon name="ChevronRight" size="xxlg" />
   </button>
   <button
     type="button"
@@ -40,7 +40,7 @@
     [disabled]="idx() === imagesTotal() - 1"
     title="Next image"
   >
-    <ngx-icon name="ChevronRight" size="xxlg"></ngx-icon>
+    <ngx-icon name="ChevronRight" size="xxlg" />
   </button>
 </div>
 <div class="controls">
@@ -50,7 +50,7 @@
     title="Download image"
     (click)="download()"
   >
-    <ngx-icon name="Download"></ngx-icon>
+    <ngx-icon name="Download" />
   </button>
   <button
     class="btn close"
@@ -58,6 +58,6 @@
     title="Close image preview"
     (click)="ctrl.close()"
   >
-    <ngx-icon name="Close"></ngx-icon>
+    <ngx-icon name="Close" />
   </button>
 </div>

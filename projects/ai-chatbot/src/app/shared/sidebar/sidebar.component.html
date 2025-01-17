@@ -1,10 +1,10 @@
 <div class="head">
   <button class="sidebar-toggle" (click)="toggle()" title="Toggle sidebar">
-    <ngx-icon name="Menu" size="xlg"></ngx-icon>
+    <ngx-icon name="Menu" size="xlg" />
   </button>
   <div class="content">
     <a routerLink="/" class="new-chat-btn" title="Create a new chat">
-      <ngx-icon name="Add"></ngx-icon>
+      <ngx-icon name="Add" />
     </a>
     @if (expanded()) {
       <div class="chats fade-in">
@@ -13,15 +13,15 @@
             [chat]="c"
             [isSelected]="selectedChat() === c.id"
             class="fade-in"
-          ></acb-chat-link>
+          />
         }
       </div>
     }
   </div>
 </div>
 <div class="bottom">
-  <ngx-theme-switch [iconOnly]="true"></ngx-theme-switch>
+  <ngx-theme-switch [iconOnly]="true" />
   @if (expanded()) {
-    <acb-footer class="fade-in"></acb-footer>
+    <acb-footer class="fade-in" />
   }
 </div>

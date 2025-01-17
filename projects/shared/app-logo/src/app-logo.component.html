@@ -5,10 +5,10 @@
 
 @if (routerLink()) {
   <a [routerLink]="routerLink()" class="logo" aria-label="Logo - Home page">
-    <ng-container *ngTemplateOutlet="content"></ng-container>
+    <ng-container *ngTemplateOutlet="content" />
   </a>
 } @else {
   <div class="logo" aria-label="Logo">
-    <ng-container *ngTemplateOutlet="content"></ng-container>
+    <ng-container *ngTemplateOutlet="content" />
   </div>
 }

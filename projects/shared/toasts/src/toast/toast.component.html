@@ -4,7 +4,7 @@
   [ngClass]="TYPE_TO_CLASS[toast().config.type]"
 >
   @if (toast().config.type === ToastType.Notification && toast().config.icon) {
-    <ngx-icon [name]="toast().config.icon!" size="lg"></ngx-icon>
+    <ngx-icon [name]="toast().config.icon!" size="lg" />
   }
   <span>{{ toast().name }}</span>
 </button>

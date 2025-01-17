@@ -1,6 +1,6 @@
 <div class="row user">
   <div class="vis" title="User">
-    <ngx-icon name="Face" size="xlg"></ngx-icon>
+    <ngx-icon name="Face" size="xlg" />
   </div>
   <p class="msg" [class.animated]="!query().response">
     {{ query().message }}
@@ -8,7 +8,7 @@
 </div>
 <div class="row bot">
   <div class="vis" title="Chatbot">
-    <ngx-icon name="SmartToy" size="xlg"></ngx-icon>
+    <ngx-icon name="SmartToy" size="xlg" />
   </div>
   @if (query().response) {
     <p
@@ -17,10 +17,6 @@
       [innerHTML]="query().response | safeHtml"
     ></p>
   } @else {
-    <acb-query-skeleton
-      class="msg"
-      [lines]="2"
-      [linesOnly]="true"
-    ></acb-query-skeleton>
+    <acb-query-skeleton class="msg" [lines]="2" [linesOnly]="true" />
   }
 </div>

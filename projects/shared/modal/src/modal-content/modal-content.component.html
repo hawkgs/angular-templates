@@ -1,9 +1,9 @@
 <p class="title">
-  <span><ng-content select="[title]"></ng-content></span>
+  <span><ng-content select="[title]" /></span>
   <button (click)="controller().close()">
-    <ngx-icon name="Close"></ngx-icon>
+    <ngx-icon name="Close" />
   </button>
 </p>
 <div class="content">
-  <ng-content select="[content]"></ng-content>
+  <ng-content select="[content]" />
 </div>

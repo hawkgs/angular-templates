@@ -4,7 +4,7 @@
     formControlName="name"
     [maxLength]="env.labelNameMaxLength"
   />
-  <kb-color-picker formControlName="color"></kb-color-picker>
+  <kb-color-picker formControlName="color" />
   <button ngx-button btnType="primary" [disabled]="form.invalid">
     {{ submitButtonName() }}
   </button>

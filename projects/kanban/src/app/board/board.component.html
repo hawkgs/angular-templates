@@ -16,10 +16,10 @@
             *ngxDraggable="card.id; size: 1; position: card.pos; cols: 1"
             (open)="openCard($event.id)"
             [card]="card"
-          ></kb-card>
+          />
         }
       </ngx-drop-grid>
     </kb-list>
   }
-  <kb-add-list (listCreate)="lists.createList($event)"></kb-add-list>
+  <kb-add-list (listCreate)="lists.createList($event)" />
 </div>

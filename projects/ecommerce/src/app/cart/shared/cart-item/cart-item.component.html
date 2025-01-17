@@ -5,7 +5,7 @@
         [src]="product().images.first()"
         size="xs 400w, sm"
         alt="Product image"
-      ></ec-product-image>
+      />
     </div>
     <span class="name">{{ product().name }}</span>
   </a>
@@ -45,13 +45,13 @@
       (click)="remove.emit()"
       [attr.title]="'Remove ' + product().name + ' from the cart'"
     >
-      <ngx-icon name="Delete" size="md"></ngx-icon>
+      <ngx-icon name="Delete" size="md" />
     </button>
   </div>
 </div>
 <div class="price">
   <p>
-    <ec-price-tag [product]="product()" type="current-price"></ec-price-tag>x
+    <ec-price-tag [product]="product()" type="current-price" />x
     {{ quantity() }}
   </p>
   <p>

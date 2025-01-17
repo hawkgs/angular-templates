@@ -15,7 +15,7 @@ type ButtonType = 'primary' | 'secondary' | 'danger';
 @Component({
   selector: 'button[ngx-button]',
   imports: [],
-  template: '<ng-content></ng-content>',
+  template: '<ng-content />',
   styleUrl: './button.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {

@@ -10,7 +10,7 @@
     [x]="CHART_LEFT_PADDING"
     [y]="CHART_TOP_PADDING"
     [max]="nearestMax()"
-  ></g>
+  />
   <g [attr.transform]="[CHART_LEFT_PADDING, CHART_TOP_PADDING] | translate">
     @for (item of normalizedData(); track $index; let i = $index) {
       <path

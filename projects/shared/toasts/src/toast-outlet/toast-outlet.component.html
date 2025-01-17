@@ -1,10 +1,10 @@
 <div class="outlet default">
   @for (toast of default(); track toast.createdAt) {
-    <ngx-toast [toast]="toast"></ngx-toast>
+    <ngx-toast [toast]="toast" />
   }
 </div>
 <div class="outlet notifications">
   @for (toast of notifications(); track toast.createdAt) {
-    <ngx-toast [toast]="toast"></ngx-toast>
+    <ngx-toast [toast]="toast" />
   }
 </div>

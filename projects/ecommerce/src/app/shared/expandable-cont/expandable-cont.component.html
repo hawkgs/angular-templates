@@ -5,11 +5,11 @@
 >
   <button title="Expand/collapse container" (click)="toggle()">
     <div>
-      <ng-content select="[header]"></ng-content>
+      <ng-content select="[header]" />
     </div>
-    <ngx-icon name="ChevronRight" size="lg"></ngx-icon>
+    <ngx-icon name="ChevronRight" size="lg" />
   </button>
   <div class="content">
-    <ng-content select="[content]"></ng-content>
+    <ng-content select="[content]" />
   </div>
 </div>

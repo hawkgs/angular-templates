@@ -6,7 +6,7 @@
       (click)="moveImage(-1)"
       title="Previous image"
     >
-      <ngx-icon name="ChevronRight" size="xlg"></ngx-icon>
+      <ngx-icon name="ChevronRight" size="xlg" />
     </button>
   }
   <ec-product-image
@@ -15,7 +15,7 @@
     [priority]="true"
     size="xlg"
     aria-label="Selected image"
-  ></ec-product-image>
+  />
   @if (product().images.size > 1) {
     <button
       class="nav-btn next"
@@ -23,7 +23,7 @@
       (click)="moveImage(1)"
       title="Next image"
     >
-      <ngx-icon name="ChevronRight" size="xlg"></ngx-icon>
+      <ngx-icon name="ChevronRight" size="xlg" />
     </button>
   }
 </div>
