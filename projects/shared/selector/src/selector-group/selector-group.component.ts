@@ -28,19 +28,20 @@ export class SelectorGroupComponent implements AfterContentInit {
   }
 
   ngAfterContentInit() {
-    this.selectorItems().forEach((item) => {
+    for (const item of this.selectorItems()) {
       item.groupName.set(this.name());
       item.type.set(this.type());
       item.change.subscribe((selected) => {
         this.value.set(selected);
-        this.selectorItems().forEach((i) =>
-          i.checked.set(i.value() === this.value()),
-        );
+
+        for (const item of this.selectorItems()) {
+          item.checked.set(item.value() === this.value());
+        }
       });
 
       if (item.value() === this.value()) {
         item.checked.set(true);
       }
-    });
+    }
   }
 }

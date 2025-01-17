@@ -68,13 +68,13 @@ export class PieChartComponent
     const sectors: { start: number; end: number }[] = [];
     let start = 0;
 
-    this.normalizedData().forEach((di) => {
+    for (const di of this.normalizedData()) {
       sectors.push({
         start: start * 360,
         end: (start + di.value) * 360,
       });
       start += di.value;
-    });
+    }
 
     return sectors;
   });

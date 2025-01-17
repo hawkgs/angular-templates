@@ -38,14 +38,15 @@ export const mapBoardListsCards = ({
 }: ApiBoardDataResponse): Map<string, Card> => {
   let map = Map<string, Card>();
 
-  lists.forEach((list) =>
-    list.cards.forEach((card, cIdx) => {
+  for (const list of lists) {
+    for (let i = 0; i < list.cards.length; i++) {
+      const card = list.cards[i];
       map = map.set(
         card.id,
-        mapCard({ ...card, pos: cIdx, listId: list.id }, false),
+        mapCard({ ...card, pos: i, listId: list.id }, false),
       );
-    }),
-  );
+    }
+  }
 
   return map;
 };
@@ -55,9 +56,9 @@ export const mapLabels = ({
 }: ApiBoardDataResponse): Map<string, Label> => {
   let map = Map<string, Label>();
 
-  labels.forEach((l) => {
+  for (const l of labels) {
     map = map.set(l.id, mapLabel(l));
-  });
+  }
 
   return map;
 };

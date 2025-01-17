@@ -37,7 +37,7 @@ export class SelectComponent implements AfterContentInit {
   ngAfterContentInit() {
     const valueDuplicates = new Set<string>();
 
-    this.options().forEach((opt) => {
+    for (const opt of this.options()) {
       const value = opt.value();
 
       // Duplicates check
@@ -59,7 +59,7 @@ export class SelectComponent implements AfterContentInit {
         this.selected.set(value);
         this.showOptions.set(false);
       });
-    });
+    }
   }
 
   toggleOptions(e: Event) {

@@ -114,7 +114,7 @@ export class LineChartComponent
     for (let i = 0; i < this.data().colLabels.size; i++) {
       let group = List<DataItem>();
 
-      this.data().rows.forEach((ti) => {
+      for (const ti of this.data().rows) {
         const value = ti.values.get(i);
 
         if (value !== undefined) {
@@ -126,7 +126,7 @@ export class LineChartComponent
             }),
           );
         }
-      });
+      }
 
       list = list.push(group);
     }

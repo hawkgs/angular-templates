@@ -66,9 +66,9 @@ export class CartService {
         batchIds: missingFromState,
       });
 
-      products.forEach((p: Product) => {
+      for (const p of products) {
         this._products.update((m) => m.set(p.id, p));
-      });
+      }
 
       // If there are products that don't exist
       // in the database anymore or are unavailable,
@@ -83,9 +83,9 @@ export class CartService {
         .toArray()
         .filter(([id]) => !existingProductsSet.has(id));
 
-      nonExistentProducts.forEach(([id]) => {
+      for (const [id] of nonExistentProducts) {
         this._cart.update((m) => m.delete(id));
-      });
+      }
     }
   }
 

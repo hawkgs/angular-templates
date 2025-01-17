@@ -201,9 +201,10 @@ export class DropGridComponent implements AfterViewInit {
   @Input()
   set disabled(v: boolean) {
     this._disabled = v;
-    this._draggablesDirectives.forEach((d) => {
+
+    for (const [, d] of this._draggablesDirectives) {
       d.disabled.set(v);
-    });
+    }
   }
 
   /**
@@ -597,7 +598,11 @@ export class DropGridComponent implements AfterViewInit {
       d._anchored.subscribe(() => this.onAnchored()),
     ];
 
-    const unsubscribeFn = () => unsubscribers.forEach((fn) => fn.unsubscribe());
+    const unsubscribeFn = () => {
+      for (const fn of unsubscribers) {
+        fn.unsubscribe();
+      }
+    };
 
     this._draggablesEventsUnsubscribers.set(d.id(), unsubscribeFn);
   }
@@ -641,13 +646,13 @@ export class DropGridComponent implements AfterViewInit {
     const affected: { id: string; pos: number }[] = [];
     let targetPos = -1;
 
-    this._draggablesViewRefs.forEach((vr, id) => {
+    for (const [id, vr] of this._draggablesViewRefs) {
       const pos = this.gridVcr().indexOf(vr);
       if (id === this._draggedId) {
         targetPos = pos;
       }
       affected.push({ id, pos });
-    });
+    }
 
     this.moved.emit({
       id: this._draggedId!,
@@ -771,14 +776,14 @@ export class DropGridComponent implements AfterViewInit {
       directive: DraggableDirective;
     }[] = [];
 
-    this._draggablesViewRefs.forEach((vr, id) =>
+    for (const [id, vr] of this._draggablesViewRefs) {
       ordered.push({
         id: id,
         viewRef: vr,
         idx: this.gridVcr()?.indexOf(vr) as number,
         directive: this._draggablesDirectives.get(id) as DraggableDirective,
-      }),
-    );
+      });
+    }
 
     ordered.sort((a, b) => a.idx - b.idx);
 

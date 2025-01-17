@@ -26,7 +26,7 @@ export function devRenderSpacialGrid(grid: GridCell[]) {
   cont.style.left = '0';
   cont.style.pointerEvents = 'none';
 
-  grid.forEach((c: GridCell) => {
+  for (const c of grid) {
     const cell = document.createElement('div');
     cell.style.position = 'absolute';
     cell.style.border = '2px dashed green';
@@ -38,7 +38,7 @@ export function devRenderSpacialGrid(grid: GridCell[]) {
     cell.innerHTML = c.id;
 
     cont.appendChild(cell);
-  });
+  }
 
   document.body.appendChild(cont);
 }

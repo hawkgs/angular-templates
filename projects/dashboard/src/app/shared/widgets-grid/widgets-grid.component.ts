@@ -111,9 +111,9 @@ export class WidgetsGridComponent {
 
   onWidgetMoved({ affected }: { affected: { id: string; pos: number }[] }) {
     this._widgets.update((widgets) => {
-      affected.forEach(({ id, pos }) => {
+      for (const { id, pos } of affected) {
         widgets = widgets.set(id, widgets.get(id)!.set('position', pos));
-      });
+      }
       return widgets;
     });
   }

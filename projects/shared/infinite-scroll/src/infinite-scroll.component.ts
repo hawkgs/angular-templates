@@ -57,7 +57,9 @@ export class InfiniteScrollComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this._listeners.forEach((l) => l());
+    for (const l of this._listeners) {
+      l();
+    }
   }
 
   onLoadNext() {

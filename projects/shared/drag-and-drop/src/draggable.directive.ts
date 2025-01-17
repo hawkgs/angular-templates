@@ -146,7 +146,9 @@ export class DraggableDirective implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this._listeners.forEach((cb) => cb());
+    for (const cb of this._listeners) {
+      cb();
+    }
 
     if (this._grid) {
       this._grid.destroyDraggable(this);
@@ -376,7 +378,9 @@ export class DraggableDirective implements OnInit, OnDestroy {
 
   /** Remove styles from the target element */
   private _removeStyles(cssProps: string[]) {
-    cssProps.forEach((p) => this._renderer.removeStyle(this._element, p));
+    for (const p of cssProps) {
+      this._renderer.removeStyle(this._element, p);
+    }
   }
 
   private _hasTouchSupport() {
