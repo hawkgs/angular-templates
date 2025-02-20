@@ -1,9 +1,11 @@
-<!-- eslint-disable-next-line -->
-<div
+<dialog
+  #dialog
   class="modal"
   [class.window-ui]="modal().config.modalWindowUi"
+  [class.no-ui]="!modal().config.modalWindowUi"
   [class.animated]="modal().config.animated"
-  (mousedown)="onModalMousedown()"
+  [class.invisible]="invisible()"
+  (mousedown)="onModalMousedown($event)"
 >
   <ng-container #content />
-</div>
+</dialog>

@@ -3,11 +3,12 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  HostListener,
+  ElementRef,
   InjectionToken,
   Injector,
   StaticProvider,
   ViewContainerRef,
+  afterNextRender,
   inject,
   input,
   viewChild,
@@ -28,9 +29,13 @@ export class ModalComponent<D, R> implements AfterViewInit {
   private _cdRef = inject(ChangeDetectorRef);
 
   modal = input.required<Modal<D, R>>();
+  invisible = input<boolean>(false);
   content = viewChild.required('content', { read: ViewContainerRef });
+  dialog = viewChild.required<ElementRef>('dialog');
 
-  private _clickFlag = false;
+  constructor() {
+    afterNextRender({ write: () => this.dialog().nativeElement.showModal() });
+  }
 
   /**
    * Create the modal content component and insert it
@@ -50,18 +55,22 @@ export class ModalComponent<D, R> implements AfterViewInit {
   }
 
   /**
-   * Close the modal, if the overlay is clicked.
+   * Close the modal, if the backdrop is clicked.
    */
-  @HostListener('mousedown')
-  onHostMousedown() {
-    if (!this._clickFlag) {
+  onModalMousedown({ clientX, clientY }: MouseEvent) {
+    // Unfortunately, this is the only way to implement
+    // "close on backdrop click" while using HTML dialog at this stage.
+    const { top, left, bottom, right } = (
+      this.dialog().nativeElement as Element
+    ).getBoundingClientRect();
+
+    const insideX = left <= clientX && clientX <= right;
+    const insideY = top <= clientY && clientY <= bottom;
+    const outside = !(insideX && insideY);
+
+    if (outside) {
       this.modal().controller.close();
     }
-    this._clickFlag = false;
-  }
-
-  onModalMousedown() {
-    this._clickFlag = true;
   }
 
   /**

@@ -1,6 +1,3 @@
 @for (m of modals(); track m.id; let i = $index) {
-  <ngx-modal
-    [modal]="m"
-    [style.visibility]="i === modals().size - 1 ? 'visible' : 'hidden'"
-  />
+  <ngx-modal [modal]="m" [invisible]="i < modals().size - 1" />
 }
