@@ -5,10 +5,7 @@
   z-index: 999999;
   background-color: rgba(0, 0, 0, 0.75);
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   animation: blur-in 500ms ease;
   animation-fill-mode: forwards;
   animation-iteration-count: 1;

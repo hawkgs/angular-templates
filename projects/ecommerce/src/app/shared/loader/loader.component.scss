@@ -2,10 +2,7 @@
   display: block;
   // background: rgba(0, 0, 0, 0.5);
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   animation: fade-in 300ms ease;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
