@@ -24,16 +24,10 @@
     "ai-text-editor:build": "ng build ai-text-editor",
     "ai-text-editor:test": "ng test ai-text-editor",
     "ai-text-editor:serve:ssr": "node dist/ai-text-editor/server/server.mjs",
-
-
-
     "kanban": "ng serve kanban",
     "kanban:build": "ng build kanban",
     "kanban:test": "ng test kanban",
     "kanban:serve:ssr": "node dist/kanban/server/server.mjs",
-
-
-
     "ai-chatbot": "ng serve ai-chatbot",
     "ai-chatbot:build": "ng build ai-chatbot",
     "ai-chatbot:test": "ng test ai-chatbot",
