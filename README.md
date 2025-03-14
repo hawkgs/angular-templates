@@ -28,9 +28,6 @@ Then, you can simply choose a template that you want to run:
 npm run <PROJECT>
 ```
 
-> [!NOTE]
-> Certain templates have HMR disabled (check `angular.json` `hmr` option) due to their style-critical nature.
-
 ### AI-powered templates
 
 Some of the templates are using Gemini Developer API, i.e. those prefixed with `ai`. By default, they rely on a mocked output. However, if you want to test them directly with the real API, you should start `api/gemini.js` (`gemini:start-api`) and update the project's `app.config.ts` accordingly (there are instructions in the code). Keep in mind that you have to set your API key as the `API_KEY` environment variable prior to that.
