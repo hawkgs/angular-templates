@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { Map, Set } from 'immutable';
 import { Product } from '../../models';
-import { LocalStorage } from '../../../../shared/services/src/local-storage.service';
+import { LocalStorage } from '@ngx-templates/shared/services';
 import { ProductsApi } from '../api/products-api.service';
 import { maxProductQuantity } from '../shared/utils/max-quantity';
 
