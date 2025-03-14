@@ -1,1 +1,1 @@
-export { IconComponent, IconName, IconSize } from './src/icon.component';
+export { IconComponent, type IconName, type IconSize } from './src/icon.component';

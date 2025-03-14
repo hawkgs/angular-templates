@@ -5,8 +5,8 @@ import { DropGridGroupDirective } from './src/drop-grid-group.directive';
 export { DraggableDirective } from './src/draggable.directive';
 export {
   DropGridComponent,
-  DragEvent,
-  MovedEvent,
+  type DragEvent,
+  type MovedEvent,
 } from './src/drop-grid.component';
 export { DropGridGroupDirective } from './src/drop-grid-group.directive';
 
