@@ -83,7 +83,7 @@ export class LineChartComponent
       return 0;
     }
 
-    return getNearestCeiledMax(max.values.first());
+    return getNearestCeiledMax(max.values.first()!);
   });
 
   chartWidth = computed(

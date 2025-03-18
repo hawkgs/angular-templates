@@ -52,7 +52,7 @@
     "@google/generative-ai": "^0.17.2",
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "immutable": "^4.3.7",
+    "immutable": "^5.0.3",
     "rxjs": "~7.8.0",
     "showdown": "^2.1.0",
     "tslib": "^2.3.0",
