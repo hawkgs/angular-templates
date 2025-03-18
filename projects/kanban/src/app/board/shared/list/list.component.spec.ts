@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideWindow } from '@ngx-templates/shared/services';
 
 import { ListComponent } from './list.component';
 import { CardsService } from '../../data-access/cards.service';
 import { fetchApiMockAndStateProvider } from '../../../shared/utils/fetch-mock-provider.test-util';
 import { ListsService } from '../../data-access/lists.service';
-import { provideWindow } from '../../../../../../../dist/shared/services';
 import { BoardList } from '../../../../models';
 
 describe('ListComponent', () => {
