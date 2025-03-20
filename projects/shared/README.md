@@ -1,3 +1,3 @@
-# shared
+# @ngx-templates/shared
 
-Contains a set of reusable components and services common for all templates.
+An Angular library that contains a set of reusable components and services used by [`angular-templates`](https://github.com/hawkgs/angular-templates).
