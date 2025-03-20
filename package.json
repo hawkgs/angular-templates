@@ -35,7 +35,7 @@
     "shared:build": "ng build shared",
     "shared:watch": "ng build shared --watch",
     "shared:test": "ng test shared",
-    "shared:publish": "cd ./dist/shared && npm publish --access public",
+    "shared:publish": "npm run shared:build && cd ./dist/shared && npm publish --access public",
     "gemini:start-api": "node ./api/gemini.js"
   },
   "private": true,
