@@ -1,6 +1,6 @@
 {
   "name": "@ngx-templates/shared",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "An Angular library that contains a set of reusable components and services used by hawkgs/angular-templates.",
   "homepage": "https://github.com/hawkgs/angular-templates/tree/main/projects/shared#readme",
   "bugs": {

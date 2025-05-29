@@ -5,10 +5,10 @@ import {
   Renderer2,
   effect,
   inject,
+  DOCUMENT,
 } from '@angular/core';
 import { ModalService } from '../modal.service';
 import { ModalComponent } from '../modal/modal.component';
-import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'ngx-modal-outlet',

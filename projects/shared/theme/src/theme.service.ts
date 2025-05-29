@@ -1,4 +1,3 @@
-import { DOCUMENT } from '@angular/common';
 import {
   Injectable,
   Renderer2,
@@ -6,6 +5,7 @@ import {
   Signal,
   inject,
   signal,
+  DOCUMENT,
 } from '@angular/core';
 import { LocalStorage } from '@ngx-templates/shared/services';
 

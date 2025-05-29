@@ -8,12 +8,12 @@ import {
   input,
   model,
   signal,
+  DOCUMENT,
 } from '@angular/core';
 import { IconComponent } from '@ngx-templates/shared/icon';
 import { Map } from 'immutable';
 
 import { SelectOptionComponent } from '../select-option/select-option.component';
-import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'ngx-select',

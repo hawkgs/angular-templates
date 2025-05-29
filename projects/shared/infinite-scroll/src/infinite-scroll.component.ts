@@ -9,10 +9,11 @@ import {
   inject,
   input,
   output,
+  DOCUMENT,
 } from '@angular/core';
 import { WINDOW } from '@ngx-templates/shared/services';
 import { IconComponent } from '@ngx-templates/shared/icon';
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 
 // This is a scroll offset value that
 // takes into account the relative size

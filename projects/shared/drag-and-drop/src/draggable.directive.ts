@@ -1,4 +1,4 @@
-import { DOCUMENT } from '@angular/common';
+/* eslint-disable @angular-eslint/no-input-rename */
 import {
   Directive,
   NgZone,
@@ -12,6 +12,7 @@ import {
   input,
   output,
   signal,
+  DOCUMENT,
 } from '@angular/core';
 import { WINDOW, provideWindow } from '@ngx-templates/shared/services';
 import { DROP_GRID } from './drop-grid.component';

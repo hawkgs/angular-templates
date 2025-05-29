@@ -6,7 +6,11 @@ import { provideWindow } from '@ngx-templates/shared/services';
 describe('DraggableDirective', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [TemplateRef, Renderer2, provideWindow()],
+      providers: [
+        Renderer2,
+        provideWindow(),
+        { provide: TemplateRef, useValue: {} },
+      ],
     }).compileComponents();
   });
 
