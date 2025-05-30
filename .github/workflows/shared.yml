@@ -1,21 +1,19 @@
-name: Build and test Ecommerce
+name: Build and test Shared
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'projects/ecommerce/**'
       - 'projects/shared/**'
   pull_request:
     branches:
       - main
     paths:
-      - 'projects/ecommerce/**'
       - 'projects/shared/**'
 
 jobs:
-  build-and-test-ecommerce:
+  build-and-test-shared:
     runs-on: ubuntu-latest
 
     steps:
@@ -43,8 +41,5 @@ jobs:
       - name: Build Shared
         run: npm run shared:build
 
-      - name: Build Ecommerce
-        run: npm run ecommerce:build
-
-      - name: Test Ecommerce
-        run: npx ng test ecommerce --watch=false --browsers=ChromeHeadless
+      - name: Test Shared
+        run: npx ng test shared --watch=false --browsers=ChromeHeadless
