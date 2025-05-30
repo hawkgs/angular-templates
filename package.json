@@ -36,7 +36,9 @@
     "shared:watch": "ng build shared --watch",
     "shared:test": "ng test shared",
     "shared:publish": "npm run shared:build && cd ./dist/shared && npm publish --access public",
-    "gemini:start-api": "node ./api/gemini.js"
+    "gemini:start-api": "node ./api/gemini.js",
+    "build": "./scripts/build-all.sh",
+    "test": "./scripts/test-all.sh"
   },
   "private": true,
   "dependencies": {
