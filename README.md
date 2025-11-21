@@ -2,6 +2,8 @@
 
 A set of simple Angular templates for popular and common web apps.
 
+_Available as part of [firebase-framework-tools](https://github.com/FirebaseExtended/firebase-framework-tools/tree/main/starters/angular)_.
+
 ## Templates
 
 - **AI Chatbot** – Simple chatbot app that supports multiple chats
