@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # All projects
-projects=('ecommerce' 'dashboard' 'image-gallery' 'ai-text-editor' 'kanban' 'ai-chatbot' 'shared')
+projects=('shared' 'ecommerce' 'dashboard' 'image-gallery' 'ai-text-editor' 'kanban' 'ai-chatbot')
 
 # Runs a command for all projects
 run_command() {
